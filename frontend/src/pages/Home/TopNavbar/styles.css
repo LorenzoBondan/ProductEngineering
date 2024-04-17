@@ -1,0 +1,50 @@
+.topnavbar-container{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    background-color: transparent;
+    padding: 20px;
+    top: 100;
+    left: 0;
+    right: 0;
+}
+
+.topnavbar-container span{
+    color: #fff;
+    margin-bottom: 0;
+    font-size: 10px;
+}
+
+.login-link-register{
+    margin-right: 10px;
+    color: #FA8586 !important;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+@media(min-width:576px){
+    .topnavbar-container{
+        top: 200;
+        left: 0;
+        right: 0;
+    }
+
+    .topnavbar-container span{
+        font-size: 20px;
+    }
+    
+    .login-link-register{
+        margin-right: 20px;
+        font-size: 120%;
+    }
+}
+
+@media(min-width:1200px){
+    .topnavbar-container{
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+}

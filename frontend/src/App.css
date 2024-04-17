@@ -1,0 +1,129 @@
+@font-face {
+  font-family: Instagram Sans;
+  src: url('./assets/fonts/InstagramSans-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: Instagram Sans;
+  src: url('./assets/fonts/InstagramSans-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Posterama;
+  src: url('./assets/fonts/Posterama.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Posterama Bold;
+  src: url('./assets/fonts/Posterama-Bold.ttf');
+  font-weight: 400;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --color-bg-primary: #e8e8e8;
+  --color-bg-secondary: #ffe500;
+  --color-bg-tertiary: #636363;
+  --color-bg-quaternary: #0caf1d;
+  --color-bg-notification: #f00;
+
+  --color-card-bg: #fff;
+  --color-card-border: #d9d9d9;
+
+  --color-btn-primary: #EA0404;
+  --color-btn-secondary: #F8ABAB;
+  --color-btn-inverse: #fff;
+
+  --color-font-primary: #565656;
+  --color-font-secondary: #0caf1d;
+  --color-font-tertiary: #fff;
+  --color-font-placeholder: #d9d9d9;
+
+  --color-error: #f33;
+}
+
+*, *::before, *::after{
+  font-family: 'Instagram Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* títulos principais do projeto estão em negrito */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-bottom: 0;
+  text-decoration: none !important;
+}
+
+/* textos -> sem o sublinhado */
+a, a:hover{
+  text-decoration: none !important;
+  color: unset !important;
+}
+
+ul {
+  list-style-type: none; /* sem as bolinhas pretas no meio */
+  margin: 0;
+  padding: 0;
+}
+
+.base-card{
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .25);
+  background-color: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(15px);
+}
+
+.base-input {
+  border-radius: 10px !important;
+  padding-left: 12px;
+  font-size: 1em;
+  letter-spacing: -0.015em;
+  height: 40px;
+  border: #9E9E9E 1px solid;
+  margin-bottom: 20px;
+  height: 48px;
+  border: 2px solid #eee !important;
+}
+
+.base-input::placeholder {
+  color: #9E9E9E !important;
+}
+
+.flex-direction-row{
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-overlay{
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content{
+  width: 90%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+@media(min-width:1200px){
+  .flex-direction-row{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+}

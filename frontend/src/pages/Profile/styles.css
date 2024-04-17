@@ -1,0 +1,266 @@
+.profile-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+.profile-user-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-user-info img{
+    border-radius: 20px;
+    height: 280px;
+    width: 280px;
+    box-shadow: 2px 2px 2px silver;
+    margin-bottom: 20px;
+}
+
+.profile-user-info h2{
+    width: 100%;
+    padding-top: 10px;
+    border-top: 1px solid #eaeaea;
+    text-align: center;
+    color: black;
+    font-family: "Be Vietnam Pro", sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+}
+
+.profile-user-badge{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    border: 1px solid #eaeaea;
+}
+
+.profile-user-badge p{
+    margin-bottom: 0;
+}
+
+.profile-badge-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 33%;
+}
+
+.profile-badge-item h5{
+    color: #4a4a4a;
+    font-weight: 700;
+}
+
+.profile-badge-item p{
+    color: #bababa;
+}
+
+.profile-user-edit{
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 15px;
+    border-top: 1px solid #eaeaea;
+}
+
+.profile-user-edit a{
+    position: relative;
+    padding: 25px 30px;
+    color: #8e5e26;
+    transition: 0.5s;
+    overflow: hidden;
+    width: 100%;
+    cursor: pointer;
+}
+
+.profile-user-edit a h6{
+    font-weight: 400;
+    font-size: 20px;
+    font-family: 'Posterama', sans-serif;
+    text-align: center;
+}
+
+.profile-user-edit a span{
+    position: absolute;
+    display: block;
+}
+.profile-user-edit a span:nth-child(1){
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,transparent,#8e5e26);
+    animation: animate1 3s linear infinite;
+}
+@keyframes animate1{
+    0%{
+        left: -100%;
+    }
+    50%,100%{
+        left: 100%;
+    }
+}
+.profile-user-edit a span:nth-child(2){
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg,transparent,#8e5e26);
+    animation: animate2 3s linear infinite;
+    animation-delay: 0.75s;
+}
+@keyframes animate2{
+    0%{
+        top: -100%;
+    }
+    50%,100%{
+        top: 100%;
+    }
+}
+.profile-user-edit a span:nth-child(3){
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg,transparent,#8e5e26);
+    animation: animate3 3s linear infinite;
+    animation-delay: 1.50s;
+}
+@keyframes animate3{
+    0%{
+        right: -100%;
+    }
+    50%,100%{
+        right: 100%;
+    }
+}
+
+.profile-user-edit a span:nth-child(4){
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg,transparent,#8e5e26);
+    animation: animate4 3s linear infinite;
+    animation-delay: 2.25s;
+}
+@keyframes animate4{
+    0%{
+        bottom: -100%;
+    }
+    50%,100%{
+        bottom: 100%;
+    }
+}
+
+/* my recipes */
+
+.profile-user-recipes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.profile-my-recipes, .profile-favorited-recipes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+.profile-my-recipes h3, .profile-favorited-recipes h3{
+    width: 100%;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eaeaea;
+    text-align: left;
+    color: black;
+    font-family: 'Posterama', sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-user-recipes h6{
+    margin-bottom: 0;
+    margin-left: 5px;
+    color: #8e5e26;
+}
+
+.my-recipes-row{
+    width: 100%;
+    height: 488px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+@media(min-width:576px){
+    .profile-user-info{
+        padding: 20px;
+    }
+
+    .profile-user-recipes{
+        padding: 0 20px;
+    }
+
+    .profile-my-recipes, .profile-favorited-recipes{
+        padding: 20px;
+        width: 500px;
+    }
+}
+
+@media(min-width:992px){
+    .profile-my-recipes, .profile-favorited-recipes{
+        width: 700px;
+    }
+}
+
+@media(min-width:1200px){
+    .profile-container{
+        margin-left: 85px;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .profile-user-info{
+        margin-bottom: 0px;
+    }
+
+    .profile-user-recipes{
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .profile-my-recipes, .profile-favorited-recipes{
+        justify-content: flex-start;
+    }
+}
+

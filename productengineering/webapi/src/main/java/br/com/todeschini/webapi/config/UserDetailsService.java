@@ -1,0 +1,38 @@
+package br.com.todeschini.webapi.config;
+
+import br.com.todeschini.domain.projections.UserDetailsProjection;
+import br.com.todeschini.persistence.auth.user.UserRepository;
+import br.com.todeschini.persistence.entities.auth.Role;
+import br.com.todeschini.persistence.entities.auth.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+
+    @Autowired
+    private UserRepository repository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
+        if (result.size() == 0) {
+            throw new UsernameNotFoundException("Email not found");
+        }
+
+        User user = new User();
+        user.setEmail(result.get(0).getUsername());
+        user.setPassword(result.get(0).getPassword());
+        for (UserDetailsProjection projection : result) {
+            user.getRoles().add(new Role(projection.getRoleId(), projection.getAuthority()));
+        }
+
+        return user;
+    }
+
+}

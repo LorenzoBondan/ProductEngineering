@@ -1,0 +1,64 @@
+.user-crud-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.user-crud-card-top-container{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-crud-card-top-container img{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid #8E5E26;
+}
+
+.user-crud-card-top-container h3{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+}
+
+.user-crud-card-top-container p{
+    font-size: 14px;
+    text-align: center;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+
+.user-crud-card-buttons-container{
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.user-crud-card-buttons-container button{
+    background-color: #8E5E26;
+}
+
+.user-crud-card-button{
+    width: 90px;
+    height: 30px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+}
+
+.delete-button{
+    background-color: unset !important;
+}
