@@ -322,7 +322,7 @@ public class EntityService {
     }
 
     @Transactional
-    public <T> void recuperarDaLixeira(Long id, Boolean retrieveDependencies) { // método para reativar o item da lixeira, bem como seus dependentes (listas)
+    public <T> void retrieve(Long id, Boolean retrieveDependencies) { // método para reativar o item da lixeira, bem como seus dependentes (listas)
         if(trashRepository.existsById(id)){
 
             Trash trash = trashRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));

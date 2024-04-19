@@ -44,7 +44,7 @@ public class BaseControllerIT<D> {
 
     protected String baseUrl;
 
-    protected static final Long existingId = 1L, nonExistingId = 99999999L;
+    protected static final Long existingId = 1L, nonExistingId = 999999999L;
     protected String statusListBody, adminAccessToken, readOnlyAccessToken;
     protected D factoryObject, duplicatedObject, nonExistingObject;
     protected final List<D> objectList = new ArrayList<>();

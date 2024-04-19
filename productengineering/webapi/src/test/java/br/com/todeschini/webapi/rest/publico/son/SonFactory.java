@@ -7,7 +7,7 @@ public class SonFactory {
 
     public static DSon createDSon() {
         DSon son = new DSon();
-        son.setCode(1L);
+        son.setCode(111111111L);
         son.setDescription("Son");
         son.setMeasure1(1);
         son.setMeasure2(1);
@@ -20,7 +20,7 @@ public class SonFactory {
 
     public static DSon createDuplicatedDSon() {
         DSon son = new DSon();
-        son.setCode(2L);
+        son.setCode(2111111111L);
         son.setDescription("Son");
         son.setMeasure1(1);
         son.setMeasure2(1);

@@ -8,7 +8,7 @@ public class PolyesterFactory {
 
     public static DPolyester createDPolyester() {
         DPolyester Polyester = new DPolyester();
-        Polyester.setCode(1L);
+        Polyester.setCode(1111111L);
         Polyester.setDescription("Polyester");
         Polyester.setFamily("abcd");
         Polyester.setImplementation(LocalDate.of(3000,1,1));
@@ -18,7 +18,7 @@ public class PolyesterFactory {
 
     public static DPolyester createDuplicatedDPolyester() {
         DPolyester Polyester = new DPolyester();
-        Polyester.setCode(2L);
+        Polyester.setCode(2222222L);
         Polyester.setDescription("Polyester");
         Polyester.setFamily("abcd");
         Polyester.setImplementation(LocalDate.of(3000,1,1));

@@ -6,7 +6,7 @@ public class MoldingFactory {
 
     public static DMolding createDMolding() {
         DMolding Molding = new DMolding();
-        Molding.setCode(1L);
+        Molding.setCode(1111111L);
         Molding.setDescription("Molding");
         Molding.setMeasure1(1);
         Molding.setMeasure2(1);
@@ -17,7 +17,7 @@ public class MoldingFactory {
 
     public static DMolding createDuplicatedDMolding() {
         DMolding Molding = new DMolding();
-        Molding.setCode(2L);
+        Molding.setCode(2222222L);
         Molding.setDescription("Molding");
         Molding.setMeasure1(1);
         Molding.setMeasure2(1);

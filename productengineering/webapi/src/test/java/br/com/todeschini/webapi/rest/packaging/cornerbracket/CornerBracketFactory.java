@@ -8,7 +8,7 @@ public class CornerBracketFactory {
 
     public static DCornerBracket createDCornerBracket() {
         DCornerBracket cornerBracket = new DCornerBracket();
-        cornerBracket.setCode(1L);
+        cornerBracket.setCode(1111111L);
         cornerBracket.setDescription("CornerBracket");
         cornerBracket.setFamily("abcd");
         cornerBracket.setImplementation(LocalDate.of(3000,1,1));
@@ -18,7 +18,7 @@ public class CornerBracketFactory {
 
     public static DCornerBracket createDuplicatedDCornerBracket() {
         DCornerBracket cornerBracket = new DCornerBracket();
-        cornerBracket.setCode(2L);
+        cornerBracket.setCode(2222222L);
         cornerBracket.setDescription("CornerBracket");
         cornerBracket.setFamily("abcd");
         cornerBracket.setImplementation(LocalDate.of(3000,1,1));

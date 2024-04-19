@@ -6,7 +6,7 @@ public class AttachmentFactory {
 
     public static DAttachment createDAttachment() {
         DAttachment attachment = new DAttachment();
-        attachment.setCode(1L);
+        attachment.setCode(1111111L);
         attachment.setDescription("Attachment");
         attachment.setMeasure1(1);
         attachment.setMeasure2(1);
@@ -17,7 +17,7 @@ public class AttachmentFactory {
 
     public static DAttachment createDuplicatedDAttachment() {
         DAttachment attachment = new DAttachment();
-        attachment.setCode(2L);
+        attachment.setCode(21111111L);
         attachment.setDescription("Attachment");
         attachment.setMeasure1(1);
         attachment.setMeasure2(1);

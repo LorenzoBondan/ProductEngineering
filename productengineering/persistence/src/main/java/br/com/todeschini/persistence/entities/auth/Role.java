@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

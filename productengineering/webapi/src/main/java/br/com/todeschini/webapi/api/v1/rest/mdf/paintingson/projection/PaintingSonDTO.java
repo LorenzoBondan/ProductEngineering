@@ -1,10 +1,7 @@
 package br.com.todeschini.webapi.api.v1.rest.mdf.paintingson.projection;
 
-import br.com.todeschini.webapi.api.v1.rest.mdf.usedpainting.projection.UsedPaintingDTO;
 import br.com.todeschini.webapi.api.v1.rest.publico.color.projection.ColorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
 
 public interface PaintingSonDTO {
 
@@ -38,6 +35,6 @@ public interface PaintingSonDTO {
     Long getFatherCode();
     @JsonProperty(value = "backCode", index = 15)
     Long getBackCode();
-    //@JsonProperty(value = "paintingIds", index = 16)
-    //List<Long> getPaintingIds();
+    @JsonProperty(value = "guideId", index = 16)
+    Long getGuideId();
 }

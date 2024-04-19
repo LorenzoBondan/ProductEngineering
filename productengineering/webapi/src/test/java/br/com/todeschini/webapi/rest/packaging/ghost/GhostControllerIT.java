@@ -7,6 +7,7 @@ import br.com.todeschini.persistence.packaging.ghost.CrudGhostImpl;
 import br.com.todeschini.persistence.packaging.ghost.GhostRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
+import br.com.todeschini.webapi.rest.publico.son.SonFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -147,6 +148,18 @@ public class GhostControllerIT extends BaseControllerIT<DGhost> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = GhostFactory.createDGhost();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = GhostFactory.createDGhost();
+        factoryObject.setCode("1");
+        validate(factoryObject);
+
+        factoryObject = GhostFactory.createDGhost();
+        factoryObject.setCode("1111111111111111111L");
+        validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
         factoryObject.setDescription(null);

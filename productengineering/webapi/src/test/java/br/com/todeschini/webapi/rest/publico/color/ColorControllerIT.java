@@ -115,6 +115,22 @@ public class ColorControllerIT extends BaseControllerIT<DColor> {
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
         factoryObject = ColorFactory.createDColor();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = ColorFactory.createDColor();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = ColorFactory.createDColor();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = ColorFactory.createDColor();
+        factoryObject.setCode(1111111111L);
+        validate(factoryObject);
+
+        factoryObject = ColorFactory.createDColor();
         factoryObject.setName(null);
         validate(factoryObject);
 

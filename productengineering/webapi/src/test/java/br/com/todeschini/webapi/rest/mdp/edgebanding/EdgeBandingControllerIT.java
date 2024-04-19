@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.mdp.edgebanding.EdgeBandingRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -115,6 +117,22 @@ public class EdgeBandingControllerIT extends BaseControllerIT<DEdgeBanding> {
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+        factoryObject = EdgeBandingFactory.createDEdgeBanding();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = EdgeBandingFactory.createDEdgeBanding();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = EdgeBandingFactory.createDEdgeBanding();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = EdgeBandingFactory.createDEdgeBanding();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = EdgeBandingFactory.createDEdgeBanding();
         factoryObject.setDescription(null);

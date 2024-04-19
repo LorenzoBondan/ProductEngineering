@@ -29,6 +29,8 @@ public class DBaseMaterial {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Código", new ObjetoNaoNuloValidator()), this.code)
                 .add(new NamedValidator<>("Código", new NumeroMaiorQueZeroValidator()), this.code)
+                .add(new NamedValidator<>("Código", new LongTamanhoMinimoValidator(7)), this.code)
+                .add(new NamedValidator<>("Código", new LongTamanhoMaximoValidator(10)), this.code)
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)

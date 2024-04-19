@@ -8,7 +8,7 @@ public class PaintingBorderBackgroundFactory {
 
     public static DPaintingBorderBackground createDPaintingBorderBackground() {
         DPaintingBorderBackground paintingBorderBackground = new DPaintingBorderBackground();
-        paintingBorderBackground.setCode(1L);
+        paintingBorderBackground.setCode(1111111L);
         paintingBorderBackground.setDescription("Back");
         paintingBorderBackground.setFamily("abcd");
         paintingBorderBackground.setImplementation(LocalDate.of(3000,1,1));
@@ -18,7 +18,7 @@ public class PaintingBorderBackgroundFactory {
 
     public static DPaintingBorderBackground createDuplicatedDPaintingBorderBackground() {
         DPaintingBorderBackground paintingBorderBackground = new DPaintingBorderBackground();
-        paintingBorderBackground.setCode(2L);
+        paintingBorderBackground.setCode(2222222L);
         paintingBorderBackground.setDescription("Back");
         paintingBorderBackground.setFamily("abcd");
         paintingBorderBackground.setImplementation(LocalDate.of(3000,1,1));

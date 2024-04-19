@@ -6,6 +6,9 @@ import br.com.todeschini.persistence.publico.son.SonRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.publico.attachment.AttachmentFactory;
+import br.com.todeschini.webapi.rest.publico.father.FatherFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -114,6 +117,22 @@ public class SonControllerIT extends BaseControllerIT<DSon> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = SonFactory.createDSon();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = SonFactory.createDSon();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = SonFactory.createDSon();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = SonFactory.createDSon();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = SonFactory.createDSon();
         factoryObject.setDescription(null);

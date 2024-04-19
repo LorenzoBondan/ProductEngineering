@@ -14,11 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,6 +81,7 @@ public class AuthorizationTests {
                 "edgeBandings",
                 "glues",
                 "sheets",
+                "mdpSons",
                 "usedSheets",
                 "usedGlues",
                 "usedEdgeBandings",
@@ -104,16 +107,16 @@ public class AuthorizationTests {
                 );
 
         // Endpoints e métodos para operações de leitura
-        List<EndpointMethod> readEndpoints = new java.util.ArrayList<>(entities.stream()
+        List<EndpointMethod> readEndpoints = entities.stream()
                 .flatMap(entity -> Stream.of(
                         new EndpointMethod("/" + entity + "?name=", HttpMethod.GET),
-                        new EndpointMethod("/" + entity + "/activeAndCurrentOne/1", HttpMethod.GET),
-                        new EndpointMethod("/" + entity + "/1", HttpMethod.GET)
-                ))
-                .collect(Collectors.toList()));
+                        new EndpointMethod("/" + entity + "/activeAndCurrentOne?id=", HttpMethod.GET),
+                        new EndpointMethod("/" + entity + "/" + anyLong(), HttpMethod.GET)
+                )).collect(Collectors.toList());
 
         // Endpoints e métodos para operações de escrita
-        List<EndpointMethod> writeEndpoints = new java.util.ArrayList<>(entities.stream()
+        /*
+        List<EndpointMethod> adminEndPoints = new java.util.ArrayList<>(entities.stream()
                 .flatMap(entity -> Stream.of(
                         new EndpointMethod("/" + entity, HttpMethod.POST),
                         new EndpointMethod("/" + entity, HttpMethod.PUT),
@@ -122,8 +125,18 @@ public class AuthorizationTests {
                 ))
                 .collect(Collectors.toList()));
 
-        // Adicionar mais rotas fora do CRUD, se necessário
-        // writeEndpoints.add(new EndpointMethod("/exemplo/ex", HttpMethod.POST));
+         */
+        List<EndpointMethod> adminEndPoints = new ArrayList<>();
+        adminEndPoints.add(new EndpointMethod("/roles?authority=", HttpMethod.GET));
+        adminEndPoints.add(new EndpointMethod("/roles", HttpMethod.POST));
+        adminEndPoints.add(new EndpointMethod("/roles/" + anyLong(), HttpMethod.PUT));
+        adminEndPoints.add(new EndpointMethod("/roles/" + anyLong(), HttpMethod.DELETE));
+
+        adminEndPoints.add(new EndpointMethod("/users", HttpMethod.POST));
+        adminEndPoints.add(new EndpointMethod("/users/" + anyLong(), HttpMethod.DELETE));
+
+        adminEndPoints.add(new EndpointMethod("/trash?username=" + anyString() + "&startDate=" + anyString() + "&endDate=" + anyString() + "&table=" + anyString(), HttpMethod.GET));
+        adminEndPoints.add(new EndpointMethod("/trash/recover/" + anyLong() + "?recuperarDependencias=" + anyBoolean(), HttpMethod.GET));
 
         // Testar autorização para operações de leitura com token inválido
         for (EndpointMethod endpoint : readEndpoints) {
@@ -131,16 +144,14 @@ public class AuthorizationTests {
         }
 
         // Testar autorização para operações de escrita com token inválido
-        for (EndpointMethod endpoint : writeEndpoints) {
+        for (EndpointMethod endpoint : adminEndPoints) {
             testUnauthorizedAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), invalidAccessToken);
         }
 
-        /*
         // Testar autorização para operações de escrita com token de leitura
-        for (EndpointMethod endpoint : writeEndpoints) {
+        for (EndpointMethod endpoint : adminEndPoints) {
             testForbiddenAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), readOnlyAccessToken);
         }
-        */
     }
 
     private void testUnauthorizedAccessForMethod(String endpoint, HttpMethod method, String accessToken) throws Exception {

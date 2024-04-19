@@ -35,6 +35,7 @@ public class DFather extends DItem {
     public void validate(){
         super.validate();
         new ValidationBuilder()
+                .add(new NamedValidator<>("Código", new LongTamanhoMinimoValidator(9)), this.getCode())
                 .add(new NamedValidator<>("Cor", new ObjetoNaoNuloValidator()), this.color)
                 .validate();
     }

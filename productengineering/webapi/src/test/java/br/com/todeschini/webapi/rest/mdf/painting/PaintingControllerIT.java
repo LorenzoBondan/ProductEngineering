@@ -1,11 +1,14 @@
 package br.com.todeschini.webapi.rest.mdf.painting;
 
 import br.com.todeschini.domain.business.mdf.painting.DPainting;
+import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
 import br.com.todeschini.persistence.mdf.painting.CrudPaintingImpl;
 import br.com.todeschini.persistence.mdf.painting.PaintingRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.mdf.back.BackFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +20,7 @@ import org.springframework.http.HttpMethod;
 import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,8 +38,11 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
     void setUp() throws Exception {
         setConfiguration("/paintings");
 
+        Long duplicatedId = 2L;
+        String duplicatedDescription = "duplicatedDescription";
+
         factoryObject = PaintingFactory.createDPainting();
-        duplicatedObject = PaintingFactory.createDuplicatedDPainting();
+        duplicatedObject = PaintingFactory.createDuplicatedDPainting(duplicatedDescription, duplicatedId);
         nonExistingObject = PaintingFactory.createNonExistingDPainting(nonExistingId);
 
         setCrudBehavior(factoryObject, nonExistingObject, crud);
@@ -43,6 +50,9 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
         // findAll
         when(repository.findByStatusInAndDescriptionContainingIgnoreCase(anyList(), anyString(), any(), any()))
                 .thenReturn(Page.empty());
+
+        // custom duplicated
+        doThrow(DuplicatedResourceException.class).when(crud).findByDescriptionAndPaintingType(duplicatedDescription, duplicatedId);
     }
 
     @Test
@@ -115,6 +125,22 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+        factoryObject = PaintingFactory.createDPainting();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = PaintingFactory.createDPainting();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = PaintingFactory.createDPainting();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = PaintingFactory.createDPainting();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
         factoryObject.setDescription(null);

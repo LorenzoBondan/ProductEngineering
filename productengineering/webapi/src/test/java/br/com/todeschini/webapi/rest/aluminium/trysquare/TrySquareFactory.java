@@ -6,7 +6,7 @@ public class TrySquareFactory {
 
     public static DTrySquare createDTrySquare() {
         DTrySquare TrySquare = new DTrySquare();
-        TrySquare.setCode(1L);
+        TrySquare.setCode(1111111L);
         TrySquare.setDescription("TrySquare");
         TrySquare.setMeasure1(1);
         TrySquare.setMeasure2(1);
@@ -17,7 +17,7 @@ public class TrySquareFactory {
 
     public static DTrySquare createDuplicatedDTrySquare() {
         DTrySquare TrySquare = new DTrySquare();
-        TrySquare.setCode(2L);
+        TrySquare.setCode(2222222L);
         TrySquare.setDescription("TrySquare");
         TrySquare.setMeasure1(1);
         TrySquare.setMeasure2(1);

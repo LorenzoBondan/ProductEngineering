@@ -8,7 +8,7 @@ public class PaintingSonFactory {
 
     public static DPaintingSon createDPaintingSon() {
         DPaintingSon PaintingSon = new DPaintingSon();
-        PaintingSon.setCode(1L);
+        PaintingSon.setCode(111111111L);
         PaintingSon.setDescription("PaintingSon");
         PaintingSon.setMeasure1(1);
         PaintingSon.setMeasure2(1);
@@ -28,7 +28,7 @@ public class PaintingSonFactory {
 
     public static DPaintingSon createDuplicatedDPaintingSon() {
         DPaintingSon PaintingSon = new DPaintingSon();
-        PaintingSon.setCode(2L);
+        PaintingSon.setCode(222222222L);
         PaintingSon.setDescription("PaintingSon");
         PaintingSon.setMeasure1(1);
         PaintingSon.setMeasure2(1);

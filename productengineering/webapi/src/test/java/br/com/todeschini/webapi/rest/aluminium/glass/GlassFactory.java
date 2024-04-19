@@ -7,7 +7,7 @@ public class GlassFactory {
 
     public static DGlass createDGlass() {
         DGlass Glass = new DGlass();
-        Glass.setCode(1L);
+        Glass.setCode(1111111L);
         Glass.setDescription("Glass");
         Glass.setMeasure1(1);
         Glass.setMeasure2(1);
@@ -19,7 +19,7 @@ public class GlassFactory {
 
     public static DGlass createDuplicatedDGlass() {
         DGlass Glass = new DGlass();
-        Glass.setCode(2L);
+        Glass.setCode(2222222L);
         Glass.setDescription("Glass");
         Glass.setMeasure1(1);
         Glass.setMeasure2(1);

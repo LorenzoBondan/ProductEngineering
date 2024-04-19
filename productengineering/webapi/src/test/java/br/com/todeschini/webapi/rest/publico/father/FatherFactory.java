@@ -7,7 +7,7 @@ public class FatherFactory {
 
     public static DFather createDFather() {
         DFather father = new DFather();
-        father.setCode(1L);
+        father.setCode(111111111L);
         father.setDescription("Father");
         father.setMeasure1(1);
         father.setMeasure2(1);
@@ -19,7 +19,7 @@ public class FatherFactory {
 
     public static DFather createDuplicatedDFather() {
         DFather father = new DFather();
-        father.setCode(2L);
+        father.setCode(2111111111L);
         father.setDescription("Father");
         father.setMeasure1(1);
         father.setMeasure2(1);

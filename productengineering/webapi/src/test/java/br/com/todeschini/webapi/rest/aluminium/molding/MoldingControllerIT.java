@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.aluminium.molding.MoldingRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -114,6 +116,22 @@ public class MoldingControllerIT extends BaseControllerIT<DMolding> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = MoldingFactory.createDMolding();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = MoldingFactory.createDMolding();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = MoldingFactory.createDMolding();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = MoldingFactory.createDMolding();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = MoldingFactory.createDMolding();
         factoryObject.setDescription(null);

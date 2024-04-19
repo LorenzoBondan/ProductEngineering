@@ -2,6 +2,8 @@ package br.com.todeschini.persistence.configurator.structs.mdfitem;
 
 import br.com.todeschini.domain.business.configurator.structs.mdfitem.DMDFItem;
 import br.com.todeschini.domain.business.configurator.structs.mdfitem.spi.MDFItemMethods;
+import br.com.todeschini.domain.exceptions.DatabaseException;
+import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.mdf.*;
 import br.com.todeschini.persistence.entities.mdp.Sheet;
 import br.com.todeschini.persistence.mdf.back.BackRepository;
@@ -15,10 +17,14 @@ import br.com.todeschini.persistence.mdf.usedpainting.UsedPaintingRepository;
 import br.com.todeschini.persistence.mdf.usedpaintingborderbackground.UsedPaintingBorderBackgroundRepository;
 import br.com.todeschini.persistence.mdf.usedpolyester.UsedPolyesterRepository;
 import br.com.todeschini.persistence.mdp.sheet.SheetRepository;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NonUniqueResultException;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MDFItemMethodsImpl implements MDFItemMethods {
@@ -135,18 +141,30 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
     }
 
     private void createAndLinkUsedPainting(PaintingSon paintingSon, PaintingType paintingType, Boolean highShine) {
-        Painting painting = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), paintingType.getId());
-        UsedPainting usedPainting1 = createUsedPainting(painting, paintingSon);
-        paintingSon.getPaintings().add(usedPainting1);
-        if(paintingSon.getFaces() == 2) {
-            if(highShine) {
-                Painting painting2 = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), 1L);
-                UsedPainting usedPainting2 = createUsedPainting(painting2, paintingSon);
-                paintingSon.getPaintings().add(usedPainting2);
-            } else {
-                UsedPainting usedPainting3 = createUsedPainting(painting, paintingSon);
-                paintingSon.getPaintings().add(usedPainting3);
+        Collection<Painting> paintings = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), paintingType.getId());
+        if(paintings.size() == 1){
+            Painting painting = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), paintingType.getId()).iterator().next();
+            UsedPainting usedPainting1 = createUsedPainting(painting, paintingSon);
+            paintingSon.getPaintings().add(usedPainting1);
+            if(paintingSon.getFaces() == 2) {
+                if(highShine) {
+                    Painting painting2 = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), 1L).iterator().next();
+                    UsedPainting usedPainting2 = createUsedPainting(painting2, paintingSon);
+                    paintingSon.getPaintings().add(usedPainting2);
+                } else {
+                    UsedPainting usedPainting3 = createUsedPainting(painting, paintingSon);
+                    paintingSon.getPaintings().add(usedPainting3);
+                }
             }
+        } else if(paintings.size() > 1){
+            String paintingDetails = paintings.stream()
+                    .map(p -> "Descrição: " + p.getDescription() + ", Tipo de pintura: " + p.getPaintingType().getDescription())
+                    .collect(Collectors.joining(" | "));
+            throw new DatabaseException("Foram encontrados mais de um registro para a Pintura contendo a descrição '" +
+                    paintingSon.getColor().getName() + "' e o tipo de pintura '" + paintingType.getDescription() +
+                    "'. Detalhes das pinturas encontradas: " + paintingDetails);
+        } else{
+            throw new ResourceNotFoundException("Não foram encontradas Pinturas para a combinação de '" + paintingSon.getColor().getName() + "' e '" + paintingType.getDescription() + "'");
         }
     }
 

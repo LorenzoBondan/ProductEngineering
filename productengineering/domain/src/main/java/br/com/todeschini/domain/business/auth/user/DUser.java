@@ -43,6 +43,7 @@ public class DUser {
                 .add(new NamedValidator<>("Email", new EmailValidator()), this.email)
                 .add(new NamedValidator<>("ImgUrl", new NaoBrancoValidator()), this.imgUrl)
                 .add(new NamedValidator<>("ImgUrl", new TamanhoMinimoValidator(3)), this.imgUrl)
+                .add(new NamedValidator<>("Papéis", new ObjetoNaoNuloValidator()), this.roles)
                 .validate();
     }
 }

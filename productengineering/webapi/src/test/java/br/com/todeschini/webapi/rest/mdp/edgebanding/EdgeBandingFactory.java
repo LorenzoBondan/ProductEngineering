@@ -9,7 +9,7 @@ public class EdgeBandingFactory {
 
     public static DEdgeBanding createDEdgeBanding() {
         DEdgeBanding edgeBanding = new DEdgeBanding();
-        edgeBanding.setCode(1L);
+        edgeBanding.setCode(1111111L);
         edgeBanding.setDescription("EdgeBanding");
         edgeBanding.setFamily("abcd");
         edgeBanding.setImplementation(LocalDate.of(3000,1,1));
@@ -22,7 +22,7 @@ public class EdgeBandingFactory {
 
     public static DEdgeBanding createDuplicatedDEdgeBanding() {
         DEdgeBanding edgeBanding = new DEdgeBanding();
-        edgeBanding.setCode(2L);
+        edgeBanding.setCode(2222222L);
         edgeBanding.setDescription("EdgeBanding");
         edgeBanding.setFamily("abcd");
         edgeBanding.setImplementation(LocalDate.of(3000,1,1));

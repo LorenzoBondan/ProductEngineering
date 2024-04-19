@@ -8,7 +8,7 @@ public class AluminiumSonFactory {
 
     public static DAluminiumSon createDAluminiumSon() {
         DAluminiumSon son = new DAluminiumSon();
-        son.setCode(1L);
+        son.setCode(111111111L);
         son.setDescription("Son");
         son.setMeasure1(1);
         son.setMeasure2(1);
@@ -22,7 +22,7 @@ public class AluminiumSonFactory {
 
     public static DAluminiumSon createDuplicatedDAluminiumSon() {
         DAluminiumSon son = new DAluminiumSon();
-        son.setCode(2L);
+        son.setCode(222222222L);
         son.setDescription("Son");
         son.setMeasure1(1);
         son.setMeasure2(1);

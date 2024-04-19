@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.mdf.paintingborderbackground.CrudPaintingBo
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -115,6 +117,22 @@ public class PaintingBorderBackgroundControllerIT extends BaseControllerIT<DPain
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+        factoryObject = PaintingBorderBackgroundFactory.createDPaintingBorderBackground();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = PaintingBorderBackgroundFactory.createDPaintingBorderBackground();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = PaintingBorderBackgroundFactory.createDPaintingBorderBackground();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = PaintingBorderBackgroundFactory.createDPaintingBorderBackground();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = PaintingBorderBackgroundFactory.createDPaintingBorderBackground();
         factoryObject.setDescription(null);

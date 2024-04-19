@@ -1,4 +1,4 @@
-package br.com.todeschini.webapi.api.v1.rest.auth.projection;
+package br.com.todeschini.webapi.api.v1.rest.auth.role.projection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

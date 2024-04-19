@@ -9,7 +9,7 @@ public class GlueFactory {
 
     public static DGlue createDGlue() {
         DGlue glue = new DGlue();
-        glue.setCode(1L);
+        glue.setCode(1111111L);
         glue.setDescription("Glue");
         glue.setFamily("abcd");
         glue.setImplementation(LocalDate.of(3000,1,1));
@@ -21,7 +21,7 @@ public class GlueFactory {
 
     public static DGlue createDuplicatedDGlue() {
         DGlue glue = new DGlue();
-        glue.setCode(2L);
+        glue.setCode(2222222L);
         glue.setDescription("Glue");
         glue.setFamily("abcd");
         glue.setImplementation(LocalDate.of(3000,1,1));

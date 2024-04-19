@@ -24,7 +24,7 @@ public class TrashController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<?> pesquisarTodosPorUsuarioEPeriodoDeDatasETabela(
+    public ResponseEntity<?> findByUserAndDateRangeAndTable(
             @RequestParam(value = "username", required = false, defaultValue = "") String username,
             @RequestParam(value = "startDate", required = false, defaultValue = "0001-01-01T00:00:00Z") LocalDateTime startDate,
             @RequestParam(value = "endDate", required = false, defaultValue = "9999-12-31T23:59:59Z") LocalDateTime endDate,
@@ -35,9 +35,9 @@ public class TrashController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping(value = "/recover/{id}")
-    public ResponseEntity<?> recover(@PathVariable("id") Long id, @RequestParam("recuperarDependencias") Boolean recuperarDependencias){
-        entityService.recuperarDaLixeira(id, recuperarDependencias);
+    @GetMapping(value = "/retrieve/{id}")
+    public ResponseEntity<?> retrieve(@PathVariable("id") Long id, @RequestParam("retrieveDependencies") Boolean retrieveDependencies){
+        entityService.retrieve(id, retrieveDependencies);
         return ResponseEntity.ok().build();
     }
 }

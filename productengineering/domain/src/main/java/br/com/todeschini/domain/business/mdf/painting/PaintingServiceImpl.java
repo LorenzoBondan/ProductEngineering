@@ -2,7 +2,7 @@ package br.com.todeschini.domain.business.mdf.painting;
 
 import br.com.todeschini.domain.business.mdf.painting.api.PaintingService;
 import br.com.todeschini.domain.business.mdf.painting.spi.CrudPainting;
-import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
+import br.com.todeschini.domain.exceptions.UniqueConstraintViolationException;
 import br.com.todeschini.domain.metadata.DomainService;
 
 import java.util.List;
@@ -52,10 +52,11 @@ public class PaintingServiceImpl implements PaintingService {
     }
 
     private void validateDuplicatedResource(DPainting domain){
-        if(crudPainting.findByDescription(domain.getDescription())
+        if(crudPainting.findByDescriptionAndPaintingType(domain.getDescription(), domain.getPaintingType().getId())
                 .stream()
                 .anyMatch(t -> !t.getCode().equals(Optional.ofNullable(domain.getCode()).orElse(-1L)))){
-            throw new DuplicatedResourceException("Verifique o campo descrição.");
+            String detailedMessage = "Registro duplicado para a combinação de Descrição e Tipo de Pintura.";
+            throw new UniqueConstraintViolationException("chk_painting_type_uk", detailedMessage);
         }
     }
 }

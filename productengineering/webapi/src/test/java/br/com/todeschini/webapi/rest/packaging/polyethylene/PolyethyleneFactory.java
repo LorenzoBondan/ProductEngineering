@@ -8,7 +8,7 @@ public class PolyethyleneFactory {
 
     public static DPolyethylene createDPolyethylene() {
         DPolyethylene polyethylene = new DPolyethylene();
-        polyethylene.setCode(1L);
+        polyethylene.setCode(1111111L);
         polyethylene.setDescription("Polyethylene");
         polyethylene.setFamily("abcd");
         polyethylene.setImplementation(LocalDate.of(3000,1,1));
@@ -18,7 +18,7 @@ public class PolyethyleneFactory {
 
     public static DPolyethylene createDuplicatedDPolyethylene() {
         DPolyethylene polyethylene = new DPolyethylene();
-        polyethylene.setCode(2L);
+        polyethylene.setCode(2222222L);
         polyethylene.setDescription("Polyethylene");
         polyethylene.setFamily("abcd");
         polyethylene.setImplementation(LocalDate.of(3000,1,1));

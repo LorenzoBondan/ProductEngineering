@@ -28,8 +28,8 @@ public class CrudPaintingImpl implements CrudPainting {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<? extends DPainting> findByDescription(String description) {
-        return repository.findByDescription(description).stream().map(adapter::toDomain).toList();
+    public Collection<? extends DPainting> findByDescriptionAndPaintingType(String description, Long paintingTypeId) {
+        return repository.findByDescriptionAndPaintingType(description, paintingTypeId).stream().map(adapter::toDomain).toList();
     }
 
     @Override

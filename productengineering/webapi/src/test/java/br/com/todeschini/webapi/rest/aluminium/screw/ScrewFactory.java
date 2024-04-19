@@ -6,7 +6,7 @@ public class ScrewFactory {
 
     public static DScrew createDScrew() {
         DScrew Screw = new DScrew();
-        Screw.setCode(1L);
+        Screw.setCode(1111111L);
         Screw.setDescription("Screw");
         Screw.setMeasure1(1);
         Screw.setMeasure2(1);
@@ -17,7 +17,7 @@ public class ScrewFactory {
 
     public static DScrew createDuplicatedDScrew() {
         DScrew Screw = new DScrew();
-        Screw.setCode(2L);
+        Screw.setCode(2222222L);
         Screw.setDescription("Screw");
         Screw.setMeasure1(1);
         Screw.setMeasure2(1);

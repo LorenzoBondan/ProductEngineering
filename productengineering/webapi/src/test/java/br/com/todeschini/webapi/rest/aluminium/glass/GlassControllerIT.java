@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.aluminium.glass.GlassRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -114,6 +116,22 @@ public class GlassControllerIT extends BaseControllerIT<DGlass> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = GlassFactory.createDGlass();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = GlassFactory.createDGlass();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = GlassFactory.createDGlass();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = GlassFactory.createDGlass();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = GlassFactory.createDGlass();
         factoryObject.setDescription(null);

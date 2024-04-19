@@ -9,7 +9,7 @@ public class PaintingFactory {
 
     public static DPainting createDPainting() {
         DPainting Painting = new DPainting();
-        Painting.setCode(1L);
+        Painting.setCode(1111111L);
         Painting.setDescription("Painting");
         Painting.setFamily("abcd");
         Painting.setImplementation(LocalDate.of(3000,1,1));
@@ -18,14 +18,14 @@ public class PaintingFactory {
         return Painting;
     }
 
-    public static DPainting createDuplicatedDPainting() {
+    public static DPainting createDuplicatedDPainting(String duplicatedDescription, Long duplicatedId) {
         DPainting Painting = new DPainting();
-        Painting.setCode(2L);
-        Painting.setDescription("Painting");
+        Painting.setCode(2222222L);
+        Painting.setDescription(duplicatedDescription);
         Painting.setFamily("abcd");
         Painting.setImplementation(LocalDate.of(3000,1,1));
         Painting.setLostPercentage(1.0);
-        Painting.setPaintingType(new DPaintingType(1L));
+        Painting.setPaintingType(new DPaintingType(duplicatedId));
         return Painting;
     }
 

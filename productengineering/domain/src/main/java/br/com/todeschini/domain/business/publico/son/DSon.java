@@ -29,6 +29,7 @@ public class DSon extends DItem {
     public void validate(){
         super.validate();
         new ValidationBuilder()
+                .add(new NamedValidator<>("Código", new LongTamanhoMinimoValidator(9)), this.getCode())
                 .add(new NamedValidator<>("Cor", new ObjetoNaoNuloValidator()), this.color)
                 .add(new NamedValidator<>("Código Pai", new ObjetoNaoNuloValidator()), this.fatherCode)
                 .add(new NamedValidator<>("Código Pai", new NumeroMaiorQueZeroValidator()), this.fatherCode)

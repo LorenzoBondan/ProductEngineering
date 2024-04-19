@@ -4,6 +4,7 @@ import br.com.todeschini.domain.business.basedomains.DBaseMaterial;
 import br.com.todeschini.domain.business.mdf.usedbacksheet.DUsedBackSheet;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
+import br.com.todeschini.domain.validation.impl.LongTamanhoMinimoValidator;
 import br.com.todeschini.domain.validation.impl.NumeroMaiorQueZeroValidator;
 import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class DBack extends DBaseMaterial {
     public void validate(){
         super.validate();
         new ValidationBuilder()
+                .add(new NamedValidator<>("Código", new LongTamanhoMinimoValidator(8)), this.getCode())
                 .add(new NamedValidator<>("Sufixo", new ObjetoNaoNuloValidator()), this.suffix)
                 .add(new NamedValidator<>("Sufixo", new NumeroMaiorQueZeroValidator()), this.suffix)
                 .add(new NamedValidator<>("Espessura", new ObjetoNaoNuloValidator()), this.thickness)

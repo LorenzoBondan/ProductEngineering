@@ -5,7 +5,6 @@ import br.com.todeschini.persistence.publico.father.CrudFatherImpl;
 import br.com.todeschini.persistence.publico.father.FatherRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -114,6 +115,22 @@ public class FatherControllerIT extends BaseControllerIT<DFather> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = FatherFactory.createDFather();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = FatherFactory.createDFather();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = FatherFactory.createDFather();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = FatherFactory.createDFather();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
         factoryObject.setDescription(null);

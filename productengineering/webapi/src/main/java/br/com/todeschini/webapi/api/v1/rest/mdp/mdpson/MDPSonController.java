@@ -1,11 +1,8 @@
 package br.com.todeschini.webapi.api.v1.rest.mdp.mdpson;
 
-import br.com.todeschini.domain.business.configurator.generators.guidegenerator.DGuideGenerator;
-import br.com.todeschini.domain.business.configurator.generators.guidegenerator.api.GuideGeneratorService;
 import br.com.todeschini.domain.business.mdp.mdpson.DMDPSon;
 import br.com.todeschini.domain.business.mdp.mdpson.api.MDPSonService;
 import br.com.todeschini.persistence.entities.enums.Status;
-import br.com.todeschini.persistence.entities.mdp.MDPSon;
 import br.com.todeschini.persistence.mdp.mdpson.MDPSonRepository;
 import br.com.todeschini.webapi.api.v1.rest.mdp.mdpson.projection.MDPSonDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "MDPSons")
@@ -29,12 +25,10 @@ public class MDPSonController {
 
     private final MDPSonService service;
     private final MDPSonRepository repository;
-    private final GuideGeneratorService guideGeneratorService;
 
-    public MDPSonController(MDPSonService service, MDPSonRepository repository, GuideGeneratorService guideGeneratorService) {
+    public MDPSonController(MDPSonService service, MDPSonRepository repository) {
         this.service = service;
         this.repository = repository;
-        this.guideGeneratorService = guideGeneratorService;
     }
 
     @ApiResponses(value = {
@@ -74,15 +68,6 @@ public class MDPSonController {
     public ResponseEntity<DMDPSon> findById(@PathVariable Long id){
         DMDPSon dto = service.find(id);
         return ResponseEntity.ok().body(dto);
-    }
-
-    @GetMapping(value = "/teste")
-    public ResponseEntity<DMDPSon> teste(){
-        MDPSon mdpSon = repository.findById(770000307L).get();
-        List<Long> machinesIds = List.of(1L);
-        DGuideGenerator guideGenerator = new DGuideGenerator(mdpSon, machinesIds, LocalDate.of(1000,1,1), LocalDate.of(3000,1,1));
-        guideGeneratorService.generateGuideSon(guideGenerator);
-        return ResponseEntity.ok().build();
     }
 
     @ApiResponses(value = {

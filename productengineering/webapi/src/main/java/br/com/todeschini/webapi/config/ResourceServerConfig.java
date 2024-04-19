@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -29,13 +28,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private JwtTokenStore tokenStore;
 	
-	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
-	
-	private static final String[] CLIENT_OR_ADMIN = { "/colors/**", "/materials/**", "/breeds/**", "/clients/**", "/contacts/**", "/pets/**"   };
-	
-	private static final String[] REGISTER = {"/users/**"};
-	
-	private static final String[] ADMIN = { "/users/**" };
+	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**" };
 	
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -51,16 +44,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	    http
 	        .authorizeRequests()
 	            .antMatchers(PUBLIC).permitAll()
-	            .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
-	            .antMatchers(HttpMethod.PUT, CLIENT_OR_ADMIN).permitAll()
-	            .antMatchers(HttpMethod.POST, REGISTER).permitAll()
-	            .antMatchers(HttpMethod.GET, REGISTER).permitAll() // User info
-	            .antMatchers(HttpMethod.PUT, REGISTER).permitAll() // User info
-	            .antMatchers(HttpMethod.DELETE, CLIENT_OR_ADMIN).permitAll()
-	            .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("CLIENT", "ADMIN")
-	            .antMatchers(ADMIN).hasRole("ADMIN")
-	            .antMatchers(HttpMethod.GET, ADMIN).permitAll()
-	            .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 	            .anyRequest().authenticated()
 	            .and()
 	        .httpBasic()

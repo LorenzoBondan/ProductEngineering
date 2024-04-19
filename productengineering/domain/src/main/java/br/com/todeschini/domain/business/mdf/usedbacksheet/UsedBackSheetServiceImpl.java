@@ -56,7 +56,7 @@ public class UsedBackSheetServiceImpl implements UsedBackSheetService {
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
             String detailedMessage = "Registro duplicado para a combinação de Fundo e Chapa.";
-            throw new UniqueConstraintViolationException("chk_used_BackSheet_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("chk_used_back_sheet_uk", detailedMessage);
         }
     }
 }

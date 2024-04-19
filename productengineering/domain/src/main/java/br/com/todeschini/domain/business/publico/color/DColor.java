@@ -2,10 +2,7 @@ package br.com.todeschini.domain.business.publico.color;
 
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
-import br.com.todeschini.domain.validation.impl.NaoBrancoValidator;
-import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
-import br.com.todeschini.domain.validation.impl.TamanhoMaximoValidator;
-import br.com.todeschini.domain.validation.impl.TamanhoMinimoValidator;
+import br.com.todeschini.domain.validation.impl.*;
 import lombok.*;
 
 @Getter
@@ -26,6 +23,10 @@ public class DColor {
 
     public void validate(){
         new ValidationBuilder()
+                .add(new NamedValidator<>("Código", new ObjetoNaoNuloValidator()), this.code)
+                .add(new NamedValidator<>("Código", new NumeroMaiorQueZeroValidator()), this.code)
+                .add(new NamedValidator<>("Código", new LongTamanhoMinimoValidator(3)), this.code)
+                .add(new NamedValidator<>("Código", new LongTamanhoMaximoValidator(9)), this.code)
                 .add(new NamedValidator<>("Name", new ObjetoNaoNuloValidator()), this.name)
                 .add(new NamedValidator<>("Name", new NaoBrancoValidator()), this.name)
                 .add(new NamedValidator<>("Name", new TamanhoMinimoValidator(3)), this.name)

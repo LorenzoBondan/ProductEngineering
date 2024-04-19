@@ -8,7 +8,7 @@ public class PlasticFactory {
 
     public static DPlastic createDPlastic() {
         DPlastic plastic = new DPlastic();
-        plastic.setCode(1L);
+        plastic.setCode(1111111L);
         plastic.setDescription("Plastic");
         plastic.setFamily("abcd");
         plastic.setImplementation(LocalDate.of(3000,1,1));
@@ -20,7 +20,7 @@ public class PlasticFactory {
 
     public static DPlastic createDuplicatedDPlastic() {
         DPlastic plastic = new DPlastic();
-        plastic.setCode(2L);
+        plastic.setCode(2222222L);
         plastic.setDescription("Plastic");
         plastic.setFamily("abcd");
         plastic.setImplementation(LocalDate.of(3000,1,1));

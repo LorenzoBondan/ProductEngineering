@@ -6,14 +6,14 @@ public class ColorFactory {
 
     public static DColor createDColor() {
         DColor color = new DColor();
-        color.setCode(1L);
+        color.setCode(111L);
         color.setName("Color");
         return color;
     }
 
     public static DColor createDuplicatedDColor() {
         DColor color = new DColor();
-        color.setCode(2L);
+        color.setCode(222L);
         color.setName("Color");
         return color;
     }

@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.publico.attachment.CrudAttachmentImpl;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.publico.father.FatherFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -114,6 +116,22 @@ public class AttachmentControllerIT extends BaseControllerIT<DAttachment> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = AttachmentFactory.createDAttachment();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = AttachmentFactory.createDAttachment();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = AttachmentFactory.createDAttachment();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = AttachmentFactory.createDAttachment();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
         factoryObject.setDescription(null);

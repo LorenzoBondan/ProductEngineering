@@ -19,4 +19,6 @@ public interface FatherDTO {
     String getMeasurementUnit();
     @JsonProperty(value = "color", index = 7)
     ColorDTO getColor();
+    @JsonProperty(value = "ghostCode", index = 8)
+    String getGhostCode();
 }

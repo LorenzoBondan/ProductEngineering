@@ -6,7 +6,7 @@ public class DrawerPullFactory {
 
     public static DDrawerPull createDDrawerPull() {
         DDrawerPull DrawerPull = new DDrawerPull();
-        DrawerPull.setCode(1L);
+        DrawerPull.setCode(1111111L);
         DrawerPull.setDescription("DrawerPull");
         DrawerPull.setMeasure1(1);
         DrawerPull.setMeasure2(1);
@@ -17,7 +17,7 @@ public class DrawerPullFactory {
 
     public static DDrawerPull createDuplicatedDDrawerPull() {
         DDrawerPull DrawerPull = new DDrawerPull();
-        DrawerPull.setCode(2L);
+        DrawerPull.setCode(2222222L);
         DrawerPull.setDescription("DrawerPull");
         DrawerPull.setMeasure1(1);
         DrawerPull.setMeasure2(1);

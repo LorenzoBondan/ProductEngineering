@@ -1,11 +1,11 @@
-package br.com.todeschini.webapi.api.v1.rest.auth;
+package br.com.todeschini.webapi.api.v1.rest.auth.user;
 
 import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
 import br.com.todeschini.domain.business.auth.user.DUser;
 import br.com.todeschini.domain.business.auth.user.api.UserService;
 import br.com.todeschini.persistence.auth.user.UserRepository;
 import br.com.todeschini.persistence.entities.enums.Status;
-import br.com.todeschini.webapi.api.v1.rest.auth.projection.UserDTO;
+import br.com.todeschini.webapi.api.v1.rest.auth.user.projection.UserDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,7 +54,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/activeAndCurrentOne")
     public ResponseEntity<List<DUser>> findAllActiveAndCurrentOne(@RequestParam(value = "id", required = false) Long id){
         List<DUser> list = service.findAllActiveAndCurrentOne(id);

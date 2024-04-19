@@ -21,9 +21,10 @@ public interface PaintingRepository extends JpaRepository<Painting, Long> {
             WHERE p.description LIKE '%' || :colorName || '%'
             AND p.painting_type_id = :paintingTypeId
             """)
-    Painting findPaintingByColorAndTypeId(@Param("colorName") String colorName, @Param("paintingTypeId") Long paintingTypeId);
+    Collection<Painting> findPaintingByColorAndTypeId(@Param("colorName") String colorName, @Param("paintingTypeId") Long paintingTypeId);
 
-    Collection<Painting> findByDescription(String description); // usado para verificar registro duplicado
+    @Query("SELECT c FROM Painting c WHERE c.description LIKE :description AND c.paintingType.id = :paintingTypeId")
+    Collection<Painting> findByDescriptionAndPaintingType(String description, Long paintingTypeId); // usado para verificar registro duplicado
 
     @Query("SELECT c FROM Painting c WHERE c.status = 'ACTIVE' OR (:id IS NOT NULL AND c.code = :id)")
     List<Painting> findAllActiveAndCurrentOne(@Param("id") Long id);

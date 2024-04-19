@@ -9,7 +9,7 @@ public class SheetFactory {
 
     public static DSheet createDSheet() {
         DSheet sheet = new DSheet();
-        sheet.setCode(1L);
+        sheet.setCode(1111111L);
         sheet.setDescription("Sheet");
         sheet.setFamily("abcd");
         sheet.setImplementation(LocalDate.of(3000,1,1));
@@ -23,7 +23,7 @@ public class SheetFactory {
 
     public static DSheet createDuplicatedDSheet() {
         DSheet sheet = new DSheet();
-        sheet.setCode(2L);
+        sheet.setCode(2222222L);
         sheet.setDescription("Sheet");
         sheet.setFamily("abcd");
         sheet.setImplementation(LocalDate.of(3000,1,1));

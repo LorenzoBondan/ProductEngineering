@@ -1,17 +1,15 @@
 package br.com.todeschini.webapi.api.v1.rest.packaging.usedpolyethylene.projection;
 
-import br.com.todeschini.webapi.api.v1.rest.packaging.ghost.projection.GhostDTO;
-import br.com.todeschini.webapi.api.v1.rest.packaging.polyethylene.projection.PolyethyleneDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public interface UsedPolyethyleneDTO {
 
     @JsonProperty(value = "id", index = 1)
     Long getId();
-    @JsonProperty(value = "polyethylene", index = 2)
-    PolyethyleneDTO getPolyethylene();
-    @JsonProperty(value = "ghost", index = 3)
-    GhostDTO getGhost();
+    @JsonProperty(value = "polyethyleneCode", index = 2)
+    Long getPolyethyleneCode();
+    @JsonProperty(value = "ghostCode", index = 3)
+    String getGhostCode();
     @JsonProperty(value = "netQuantity", index = 4)
     Double getNetQuantity();
     @JsonProperty(value = "grossQuantity", index = 5)

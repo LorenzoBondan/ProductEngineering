@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.publico.item.ItemRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.publico.son.SonFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -114,6 +116,18 @@ public class ItemControllerIT extends BaseControllerIT<DItem> {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         Integer negative = -1;
+
+        factoryObject = ItemFactory.createDItem();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = ItemFactory.createDItem();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = ItemFactory.createDItem();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = ItemFactory.createDItem();
         factoryObject.setDescription(null);

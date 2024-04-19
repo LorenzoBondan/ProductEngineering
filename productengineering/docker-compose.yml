@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  backend:
+    image: productengineering:v1
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_URL=jdbc:postgresql://host.docker.internal:5432/productengineering

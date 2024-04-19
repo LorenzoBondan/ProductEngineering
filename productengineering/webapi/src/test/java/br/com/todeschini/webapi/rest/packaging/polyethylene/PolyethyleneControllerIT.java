@@ -6,6 +6,8 @@ import br.com.todeschini.persistence.packaging.polyethylene.PolyethyleneReposito
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
+
+import br.com.todeschini.webapi.rest.publico.son.SonFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -115,6 +117,22 @@ public class PolyethyleneControllerIT extends BaseControllerIT<DPolyethylene> {
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
         String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+        factoryObject = PolyethyleneFactory.createDPolyethylene();
+        factoryObject.setCode(null);
+        validate(factoryObject);
+
+        factoryObject = PolyethyleneFactory.createDPolyethylene();
+        factoryObject.setCode(-1L);
+        validate(factoryObject);
+
+        factoryObject = PolyethyleneFactory.createDPolyethylene();
+        factoryObject.setCode(1L);
+        validate(factoryObject);
+
+        factoryObject = PolyethyleneFactory.createDPolyethylene();
+        factoryObject.setCode(1111111111111111111L);
+        validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
         factoryObject.setDescription(null);

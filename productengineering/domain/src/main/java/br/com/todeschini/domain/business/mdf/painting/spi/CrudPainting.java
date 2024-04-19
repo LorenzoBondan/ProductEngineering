@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudPainting extends SimpleCrud<DPainting, Long> {
 
-    Collection<? extends DPainting> findByDescription (String description);
+    Collection<? extends DPainting> findByDescriptionAndPaintingType (String description, Long paintingTypeId);
 }

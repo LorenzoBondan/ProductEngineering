@@ -21,4 +21,6 @@ public interface MDPSonDTO {
     ColorDTO getColor();
     @JsonProperty(value = "fatherCode", index = 8)
     Long getFatherCode();
+    @JsonProperty(value = "guideId", index = 9)
+    Long getGuideId();
 }
