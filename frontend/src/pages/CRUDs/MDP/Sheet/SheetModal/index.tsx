@@ -5,8 +5,9 @@ import FlatPicker from 'react-flatpickr';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as sheetService from 'services/MDP/sheetService';
+import * as colorService from 'services/public/colorService';
+import * as materialService from 'services/public/materialService';
 import { DColor, DMaterial, DSheet } from 'models/entities';
-import { requestBackend } from 'util/requests';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
@@ -29,6 +30,8 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
   const materialsNames = selectMaterials?.map(material => material.name);
   const [dateTime, setDateTime] = useState<Date | null>(null);
 
+  // load inputs
+
   useEffect(() => {
     if(isEditing && sheet){
         sheetService.findById(sheet.code)
@@ -50,16 +53,29 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
     }
   }, [isEditing, sheet, setValue]);
 
-  useEffect(() => {
-    requestBackend({ url: '/colors', params: { name: '' }, withCredentials: true })
-      .then(response => setSelectColors(response.data.content));
+  // populate comboboxes
 
-    requestBackend({ url: '/materials', params: { name: '' }, withCredentials: true })
-      .then(response => {
-        const materials = response.data.content;
-        setSelectMaterials(materials);
-      });
-  }, []);
+  useEffect(() => {
+
+    if(sheet?.color){
+        colorService.findAllActiveAndCurrentOne(sheet?.color.code)
+            .then(response => setSelectColors(response.data));
+    } else{
+        colorService.findAll('')
+            .then(response => setSelectColors(response.data.content));
+    }
+
+    if(sheet?.materialId){
+        materialService.findAllActiveAndCurrentOne(sheet.materialId)
+            .then(response => setSelectMaterials(response.data));
+    } else {
+        materialService.findAll('')
+            .then(response => setSelectMaterials(response.data.content));
+    }
+
+  }, [sheet?.color, sheet?.materialId]);
+
+  // insert / update method
 
   const insertOrUpdate = (formData: DSheet) => {
     if (dateTime !== null) {

@@ -206,6 +206,12 @@ ul {
   padding-left: 20px;
 }
 
+.crud-table tbody td svg{
+  height: 20px;
+  width: 20px;
+  margin-left: 12px;
+}
+
 .crud-table tbody td svg:hover{
   cursor: pointer;
 }

@@ -14,6 +14,8 @@ type ControlComponentsData = {
 
 const List = () => {
 
+    // filter 
+
     const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { description: '' }});
 
     const handlePageChange = (pageNumber : number) => {
@@ -23,6 +25,8 @@ const List = () => {
     const handleSubmitFilter = (data : DescriptionFilterData) => {
         setControlComponentsData({activePage: 0, filterData: data});
     }
+
+    // findAll
 
     const [page, setPage] = useState<SpringPage<DSheet>>();
 
@@ -76,6 +80,7 @@ const List = () => {
                                 <th>Material</th>
                                 <th>Cor</th>
                                 <th>Editar</th>
+                                <th>Inativar</th>
                                 <th>Excluir</th>
                             </tr>
                         </thead>

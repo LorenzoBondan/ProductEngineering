@@ -2,9 +2,11 @@ import { DMaterial, DSheet } from "models/entities";
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as DeleteSvg} from "assets/images/delete.svg";
 import { useEffect, useState } from "react";
-import { requestBackend } from "util/requests";
 import * as sheetService from 'services/MDP/sheetService';
+import * as materialService from 'services/public/materialService';
 import SheetModal from "../SheetModal";
+import { toast } from "react-toastify";
+import { RiShutDownLine } from "react-icons/ri";
 
 type Props = {
     sheet: DSheet;
@@ -12,6 +14,20 @@ type Props = {
 }
 
 const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
+
+    // inactivate and delete methods 
+
+    const inactivateObject = (objectId : number) => {
+        if(!window.confirm("Tem certeza que deseja inativar esse item?")){
+          return;
+        }
+
+        sheetService.inactivate(objectId)
+            .then(() => {
+                onDeleteOrEdit();
+                toast.success("Inativado com sucesso!");
+            });
+    }
 
     const deleteObject = (objectId : number) => {
         if(!window.confirm("Tem certeza que deseja excluir esse item?")){
@@ -21,6 +37,7 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
         sheetService.deleteById(objectId)
             .then(() => {
                 onDeleteOrEdit();
+                toast.success("Excluído com sucesso!");
             });
     }
 
@@ -37,10 +54,11 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
     }
 
     // materialId
+
     const [material, setMaterial] = useState<DMaterial>();
 
     const getMaterial = (id: number) => {
-        requestBackend({url: `/materials/${id}`, withCredentials: true})
+        materialService.findById(id)
             .then(response => {
                 setMaterial(response.data)
         })
@@ -62,6 +80,7 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
             {sheet.materialId ? <td>{material?.name}</td> : <td>-</td>}
             {sheet.color ? <td>{sheet.color.name}</td> : <td>-</td>}
             <td><EditSvg onClick={() => openModal()}/></td>
+            <td><RiShutDownLine onClick={() => inactivateObject(sheet.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(sheet.code)}/></td>
 
             <SheetModal sheet={sheet} isOpen={modalIsOpen} isEditing={true} onClose={closeModal} onDeleteOrEdit={() => onDeleteOrEdit()} />

@@ -1,13 +1,13 @@
 import { AxiosRequestConfig } from "axios";
-import { DSheet } from "models/entities";
+import { DColor } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(description: string, page?: number, size?: number, sort = "code") {
+export function findAll(name: string, page?: number, size?: number, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/sheets",
+        url: "/colors",
         params: {
-            description,
+            name,
             page,
             size,
             sort 
@@ -21,7 +21,7 @@ export function findAll(description: string, page?: number, size?: number, sort 
 export function findAllActiveAndCurrentOne(id: number) {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/sheets/activeAndCurrentOne",
+        url: "/colors/activeAndCurrentOne",
         params: {
             id
         },
@@ -32,13 +32,13 @@ export function findAllActiveAndCurrentOne(id: number) {
 }
 
 export function findById(id: number) {
-    return requestBackend({ url: `/sheets/${id}`, withCredentials: true });
+    return requestBackend({ url: `/colors/${id}`, withCredentials: true });
 }
 
-export function insert(obj: DSheet) {
+export function insert(obj: DColor) {
     const config: AxiosRequestConfig = {
         method: "POST",
-        url: "/sheets",
+        url: "/colors",
         withCredentials: true,
         data: obj
     }
@@ -46,10 +46,10 @@ export function insert(obj: DSheet) {
     return requestBackend(config);
 }
 
-export function update(obj: DSheet) {
+export function update(obj: DColor) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/sheets/${obj.code}`,
+        url: `/colors/${obj.code}`,
         withCredentials: true,
         data: obj
     }
@@ -60,7 +60,7 @@ export function update(obj: DSheet) {
 export function inactivate(id: number) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/sheets/inactivate/${id}`,
+        url: `/colors/inactivate/${id}`,
         withCredentials: true
     }
 
@@ -70,7 +70,7 @@ export function inactivate(id: number) {
 export function deleteById(id: number) {
     const config : AxiosRequestConfig = {
         method: "DELETE",
-        url: `/sheets/${id}`,
+        url: `/colors/${id}`,
         withCredentials: true
     }
 
