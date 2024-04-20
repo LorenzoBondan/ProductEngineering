@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { requestBackend } from 'util/requests';
 
 import { toast } from 'react-toastify';
-import { ColorDTO, SheetDTO } from 'models/entities';
+import { DColor, DSheet } from 'models/entities';
 
 type UrlParams = {
     sheetId: string;
@@ -18,13 +18,13 @@ const Form = () => {
 
     const isEditing = sheetId !== 'create';
 
-    const { register, handleSubmit, formState: {errors}, setValue, control } = useForm<SheetDTO>();
+    const { register, handleSubmit, formState: {errors}, setValue, control } = useForm<DSheet>();
 
     useEffect(() => {
         if(isEditing){
             requestBackend({url:`/sheets/${sheetId}`, withCredentials:true})
                 .then((response) => {
-                    const sheet = response.data as SheetDTO;
+                    const sheet = response.data as DSheet;
 
                     setValue('description', sheet.description);
                     setValue('family', sheet.family);
@@ -41,7 +41,7 @@ const Form = () => {
 
     const history = useHistory();
 
-    const [selectColors, setSelectColors] = useState<ColorDTO[]>();
+    const [selectColors, setSelectColors] = useState<DColor[]>();
 
     useEffect(() => {
         requestBackend({url: '/colors', params: {name: ""}, withCredentials: true})
@@ -50,7 +50,7 @@ const Form = () => {
         })
     }, []);
 
-    const onSubmit = (formData : SheetDTO) => {
+    const onSubmit = (formData : DSheet) => {
 
         const params : AxiosRequestConfig = {
             method: isEditing? "PUT" : "POST",
@@ -121,8 +121,8 @@ const Form = () => {
                                             options={selectColors}
                                             classNamePrefix="Sheets-crud-select"
                                             placeholder="Cor"
-                                            getOptionLabel={(color: ColorDTO) => color.name}
-                                            getOptionValue={(color: ColorDTO) => color.code.toString()}
+                                            getOptionLabel={(color: DColor) => color.name}
+                                            getOptionValue={(color: DColor) => color.code.toString()}
                                         />    
                                     )}
                                 />

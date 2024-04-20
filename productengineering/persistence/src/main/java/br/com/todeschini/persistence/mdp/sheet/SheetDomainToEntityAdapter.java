@@ -2,6 +2,8 @@ package br.com.todeschini.persistence.mdp.sheet;
 
 import br.com.todeschini.domain.business.mdp.sheet.DSheet;
 import br.com.todeschini.persistence.entities.mdp.Sheet;
+import br.com.todeschini.persistence.publico.color.ColorDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.color.ColorRepository;
 import br.com.todeschini.persistence.publico.material.MaterialRepository;
 import br.com.todeschini.persistence.util.Convertable;
 import org.springframework.stereotype.Component;
@@ -9,9 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
 
+    private final ColorRepository colorRepository;
+    private final ColorDomainToEntityAdapter colorAdapter;
     private final MaterialRepository materialRepository;
 
-    public SheetDomainToEntityAdapter(MaterialRepository materialRepository) {
+    public SheetDomainToEntityAdapter(ColorRepository colorRepository, ColorDomainToEntityAdapter colorAdapter, MaterialRepository materialRepository) {
+        this.colorRepository = colorRepository;
+        this.colorAdapter = colorAdapter;
         this.materialRepository = materialRepository;
     }
 
@@ -26,6 +32,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
         entity.setThickness(domain.getThickness());
         entity.setFaces(domain.getFaces());
         entity.setThickness(domain.getThickness());
+        entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         entity.setMaterial(materialRepository.findById(domain.getMaterialId()).get());
         return entity;
     }
@@ -41,6 +48,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
         domain.setThickness(entity.getThickness());
         domain.setFaces(entity.getFaces());
         domain.setThickness(entity.getThickness());
+        domain.setColor(colorAdapter.toDomain(entity.getColor()));
         domain.setMaterialId(entity.getMaterial().getId());
         return domain;
     }

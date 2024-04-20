@@ -1,19 +1,19 @@
 import { useForm } from 'react-hook-form';
 import {ReactComponent as SearchIcon} from 'assets/images/search-icon.svg';
 
-export type SheetFilterData = {
+export type DescriptionFilterData = {
     description : string;
 }
 
 type Props = {
-    onSubmitFilter : (data: SheetFilterData) => void;
+    onSubmitFilter : (data: DescriptionFilterData) => void;
 }
 
-const SheetFilter = ( {onSubmitFilter} : Props ) => {
+const DescriptionFilter = ( {onSubmitFilter} : Props ) => {
 
-    const { register, handleSubmit, setValue } = useForm<SheetFilterData>();
+    const { register, handleSubmit, setValue } = useForm<DescriptionFilterData>();
 
-    const onSubmit = (formData : SheetFilterData) => {
+    const onSubmit = (formData : DescriptionFilterData) => {
         onSubmitFilter(formData);
     };
 
@@ -29,7 +29,7 @@ const SheetFilter = ( {onSubmitFilter} : Props ) => {
                         {...register("description")}
                         type="text"
                         className={`form-control text-dark`}
-                        placeholder="Descrição da chapa"
+                        placeholder="Descrição"
                         name="description"
                     />
                     <button className='base-filter-button-search-icon'>
@@ -46,4 +46,4 @@ const SheetFilter = ( {onSubmitFilter} : Props ) => {
     );
 }
 
-export default SheetFilter;
+export default DescriptionFilter;

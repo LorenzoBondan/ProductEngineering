@@ -1,16 +1,15 @@
-import SheetFilter, { SheetFilterData } from "Components/Filters/SheetFilter";
-import { AxiosRequestConfig } from "axios";
-import { SheetDTO } from "models/entities";
+import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
+import { DSheet } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { Link } from "react-router-dom";
 import { SpringPage } from "types";
-import { requestBackend } from "util/requests";
 import SheetRow from "../SheetRow";
+import * as sheetService from 'services/MDP/sheetService';
 
 type ControlComponentsData = {
     activePage: number;
-    filterData: SheetFilterData;
+    filterData: DescriptionFilterData;
 }
 
 const List = () => {
@@ -21,34 +20,23 @@ const List = () => {
         setControlComponentsData({activePage: pageNumber, filterData: controlComponentsData.filterData});
     }
 
-    const [page, setPage] = useState<SpringPage<SheetDTO>>();
+    const handleSubmitFilter = (data : DescriptionFilterData) => {
+        setControlComponentsData({activePage: 0, filterData: data});
+    }
+
+    const [page, setPage] = useState<SpringPage<DSheet>>();
 
     const getSheets = useCallback(() => {
-        const params : AxiosRequestConfig = {
-            method:"GET",
-            url: "/sheets",
-            params: {
-            page: controlComponentsData.activePage,
-            size: 12,
-            description: controlComponentsData.filterData.description
-            },
-            withCredentials: true
-        }
-      
-        requestBackend(params) 
+        sheetService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
             .then(response => {
-            setPage(response.data);
-            window.scrollTo(0, 0);
-        })
+                setPage(response.data);
+                window.scrollTo(0, 0);
+            });
     }, [controlComponentsData])
 
     useEffect(() => {
         getSheets();
     }, [getSheets]);
-
-    const handleSubmitFilter = (data : SheetFilterData) => {
-        setControlComponentsData({activePage: 0, filterData: data});
-    }
 
     return(
         <div className='crud-container'>
@@ -61,7 +49,7 @@ const List = () => {
                     </Link>
                 </div>
                 <div className='search-bar-container'>
-                    <SheetFilter onSubmitFilter={handleSubmitFilter} />
+                    <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
                 </div>
                 <div className='crud-table-container'>
                     <table className='crud-table'>
@@ -84,7 +72,7 @@ const List = () => {
                             {page?.content
                                 .sort( (a,b) => a.description > b.description ? 1 : -1)
                                 .map((item) => (
-                                    <SheetRow sheet={item} key={item.code}/>
+                                    <SheetRow sheet={item} onDeleteOrEdit={getSheets} key={item.code}/>
                                 ))
                             }
                         </tbody>

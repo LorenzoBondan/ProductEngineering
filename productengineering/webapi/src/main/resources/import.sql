@@ -13,15 +13,16 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 1);
 INSERT INTO tb_color (code, name, status) VALUES (307, 'MINERALE', 'ACTIVE');
 INSERT INTO tb_color (code, name, status) VALUES (302, 'PRISMA', 'ACTIVE');
 INSERT INTO tb_color (code, name, status) VALUES (308, 'STONE', 'ACTIVE');
+INSERT INTO tb_color (code, name, status) VALUES (999, 'WHITE', 'ACTIVE');
 
 INSERT INTO tb_material (name, status) VALUES ('MDP', 'ACTIVE');
 INSERT INTO tb_material (name, status) VALUES ('MDF', 'ACTIVE');
 
-INSERT INTO tb_sheet (code, description, thickness, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (1022602, 'MDP BP 18MM - MINERALE/CZ COBALTO 2F', 18.0, null, 2, 13, 307, 1L, 'ACTIVE');
-INSERT INTO tb_sheet (code, description, thickness, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (1022610, 'MDP BP 18MM - PRISMA 2F', 18.0, null, 2, 13, 302, 1L, 'ACTIVE');
-INSERT INTO tb_sheet (code, description, thickness, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (1022618, 'MDP BP 18MM - STONE/CHUMBO 2F', 18.0, null, 2, 13, 308, 1L, 'ACTIVE');
-INSERT INTO tb_sheet (code, description, thickness, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (10, 'MDF BP 18 MM 2F', 18, null, 2, 10 , null, 2L, 'ACTIVE');
-INSERT INTO tb_sheet (code, description, thickness, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (11, 'MDF BP 18 MM 1F', 18, null, 1, 10 , null, 2L, 'ACTIVE');
+INSERT INTO tb_sheet (code, description, thickness, family, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (1022602, 'MDP BP 18MM - MINERALE/CZ COBALTO 2F', 18.0, '18MDPCHA', null, 2, 13, 307, 1L, 'ACTIVE');
+INSERT INTO tb_sheet (code, description, thickness, family, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (1022610, 'MDP BP 18MM - PRISMA 2F', 18.0, '18MDPCHA', null, 2, 13, 302, 1L, 'ACTIVE');
+INSERT INTO tb_sheet (code, description, thickness, family, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (1022618, 'MDP BP 18MM - STONE/CHUMBO 2F', 18.0, '18MDPCHA', null, 2, 13, 308, 1L, 'ACTIVE');
+INSERT INTO tb_sheet (code, description, thickness, family, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (10, 'MDF BP 18 MM 2F', 18, '18MDFCHA', null, 2, 10 , 999, 2L, 'ACTIVE');
+INSERT INTO tb_sheet (code, description, thickness, family, implementation, faces, lost_percentage, color_id, material_id, status) VALUES (11, 'MDF BP 18 MM 1F', 18, '18MDFCHA', null, 1, 10 , 999, 2L, 'ACTIVE');
 
 INSERT INTO tb_edge_banding (code, description, height, thickness, family, implementation, lost_percentage, color_id, status) VALUES (1022604, 'FITA BORDA PS 2107 - MINERALE/CZ COBALTO', 21, 7, '11FITABO', null, 8.6, 307, 'ACTIVE');
 INSERT INTO tb_edge_banding (code, description, height, thickness, family, implementation, lost_percentage, color_id, status) VALUES (1022613, 'FITA BORDA PS 2107 - PRISMA', 21, 7, '11FITABO', null, 8.6, 302, 'ACTIVE');

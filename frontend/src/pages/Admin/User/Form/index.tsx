@@ -4,8 +4,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { requestBackend } from 'util/requests';
-import { Role, User } from 'types';
 import { toast } from 'react-toastify';
+import { DRole, DUser } from 'models/entities';
 
 type UrlParams = {
     userId: string;
@@ -17,13 +17,13 @@ const Form = () => {
 
     const isEditing = userId !== 'create';
 
-    const { register, handleSubmit, formState: {errors}, setValue, control } = useForm<User>();
+    const { register, handleSubmit, formState: {errors}, setValue, control } = useForm<DUser>();
 
     useEffect(() => {
         if(isEditing){
             requestBackend({url:`/users/${userId}`, withCredentials:true})
                 .then((response) => {
-                    const user = response.data as User;
+                    const user = response.data as DUser;
 
                     setValue('name', user.name);
                     setValue('imgUrl', user.imgUrl);
@@ -37,16 +37,16 @@ const Form = () => {
 
     const history = useHistory();
 
-    const [selectRoles, setSelectRoles] = useState<Role[]>();
+    const [selectRoles, setSelectRoles] = useState<DRole[]>();
 
     useEffect(() => {
-        requestBackend({url: '/roles', params: {page: 0, size: 50, }, withCredentials: true})
+        requestBackend({url: '/roles', params: {authority: '' }, withCredentials: true})
             .then(response => {
                 setSelectRoles(response.data.content)
         })
     }, []);
 
-    const onSubmit = (formData : User) => {
+    const onSubmit = (formData : DUser) => {
 
         const params : AxiosRequestConfig = {
             method: isEditing? "PUT" : "POST",
@@ -152,8 +152,8 @@ const Form = () => {
                                             classNamePrefix="users-crud-select"
                                             placeholder="Papéis"
                                             isMulti
-                                            getOptionLabel={(role: Role) => role.authority}
-                                            getOptionValue={(role: Role) => role.id.toString()}
+                                            getOptionLabel={(role: DRole) => role.authority}
+                                            getOptionValue={(role: DRole) => role.id.toString()}
                                         />    
                                     )}
                                 />

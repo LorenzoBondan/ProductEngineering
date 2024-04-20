@@ -10,23 +10,28 @@ export type SpringPage<T> = {
   empty: boolean;
 };
 
-export type BaseUsedMaterialDTO = {
+export type DColor = {
+  code: number;
+  name: string;
+};
+
+export type DBaseUsedMaterial = {
   id: number;
   netQuantity: number;
   grossQuantity: number;
   measurementUnit: string;
 }
 
-export type BaseMaterialDTO = {
+export type DBaseMaterial = {
   code: number;
   description: string;
   family: string;
   implementation: Date;
   lostPercentage: number;
-  color: ColorDTO;
+  color: DColor;
 }
 
-export type BaseUsedAluminiumMaterialDTO = {
+export type DBaseUsedAluminiumMaterial = {
   id: number;
   quantity: number;
   measurementUnit: string;
@@ -35,7 +40,7 @@ export type BaseUsedAluminiumMaterialDTO = {
 
 export type AluminiumConfigurator = {
   items: AluminiumSonConfigurator[];
-  colors: ColorDTO[];
+  colors: DColor[];
   screws: ScrewConfigurator[];
 };
 
@@ -48,7 +53,7 @@ export type AluminiumSonConfigurator = {
 
 export type BPConfigurator = {
   items: BPConfiguratorSon[];
-  colors: ColorDTO[];
+  colors: DColor[];
 };
 
 export type BPConfiguratorSon = {
@@ -60,7 +65,7 @@ export type BPConfiguratorSon = {
 
 export type ModulationConfigurator = {
   items: ModulationSonConfigurator[];
-  colors: ColorDTO[];
+  colors: DColor[];
 };
 
 export type ModulationSonConfigurator = {
@@ -83,25 +88,21 @@ export type SonConfigurator = {
   machinesIds: number[];
 }
 
-export type UserDTO = {
+export type DUser = {
   id: number;
   name: string;
+  password: string;
   email: string;
   imgUrl: string;
-  roles: RoleDTO[];
+  roles: DRole[];
 };
 
-export type RoleDTO = {
+export type DRole = {
   id: number;
   authority: string;
 };
 
-export type ColorDTO = {
-  code: number;
-  name: string;
-};
-
-export type ItemDTO = {
+export type DItem = {
   code: number;
   description: string;
   measure1: number;
@@ -109,93 +110,93 @@ export type ItemDTO = {
   measure3: number;
 };
 
-export type AttachmentDTO = ItemDTO & {
+export type DAttachment = DItem & {
 };
 
-export type MaterialDTO = {
+export type DMaterial = {
   id: number;
   name: string;
 };
 
-export type FatherDTO = ItemDTO & {
-  color: ColorDTO;
-  ghost: GhostDTO;
-  sons: SonDTO[];
-  attachments: AttachmentDTO[];
+export type DFather = DItem & {
+  color: DColor;
+  ghost: DGhost;
+  sons: DSon[];
+  attachments: DAttachment[];
 };
 
-export type SonDTO = ItemDTO & {
+export type DSon = DItem & {
   fatherCode: number;
-  color: ColorDTO;
-  guide: GuideDTO;
+  color: DColor;
+  guide: DGuide;
 }
 
-export type MDPSonDTO = SonDTO & {
-  sheets: SheetDTO[];
-  edgeBandings: EdgeBandingDTO[];
-  glues: GlueDTO[];
+export type DMDPSon = DSon & {
+  sheets: DSheet[];
+  edgeBandings: DEdgeBanding[];
+  glues: DGlue[];
 };
 
-export type AluminiumSonDTO = SonDTO & {
-  aluminiumType: AluminiumTypeDTO;
-  sons: MDPSonDTO[];
-  drawerPull: DrawerPullDTO;
-  trySquares: UsedTrySquareDTO[];
-  screws: UsedScrewDTO[];
-  moldings: UsedMoldingDTO[];
-  glass: GlassDTO;
+export type DAluminiumSon = DSon & {
+  aluminiumType: DAluminiumType;
+  sons: DMDPSon[];
+  drawerPull: DDrawerPull;
+  trySquares: DUsedTrySquare[];
+  screws: DUsedScrew[];
+  moldings: DUsedMolding[];
+  glass: DGlass;
 };
 
-export type AluminiumTypeDTO = {
+export type DAluminiumType = {
   id: number;
   name: string;
   lessQuantity: number;
 };
 
-export type DrawerPullDTO = AttachmentDTO & {
+export type DDrawerPull = DAttachment & {
 };
 
-export type GlassDTO = AttachmentDTO & {
-  color: ColorDTO;
+export type DGlass = DAttachment & {
+  color: DColor;
 };
 
-export type MoldingDTO = AttachmentDTO & {
+export type DMolding = DAttachment & {
 };
 
-export type ScrewDTO = AttachmentDTO & {
+export type DScrew = DAttachment & {
 };
 
-export type TrySquareDTO = AttachmentDTO & {
+export type DTrySquare = DAttachment & {
 };
 
-export type UsedDrawerPullDTO = BaseUsedAluminiumMaterialDTO & {
+export type DUsedDrawerPull = DBaseUsedAluminiumMaterial & {
   drawerPullCode: number;
 }
 
-export type UsedGlassDTO = BaseUsedAluminiumMaterialDTO & {
+export type DUsedGlass = DBaseUsedAluminiumMaterial & {
   glassCode: number;
 }
 
-export type UsedMoldingDTO = BaseUsedAluminiumMaterialDTO & {
+export type DUsedMolding = DBaseUsedAluminiumMaterial & {
   moldingCode: number;
 }
 
-export type UsedScrewDTO = BaseUsedAluminiumMaterialDTO & {
+export type DUsedScrew = DBaseUsedAluminiumMaterial & {
   screwCode: number;
 }
 
-export type UsedTrySquareDTO = BaseUsedAluminiumMaterialDTO & {
+export type DUsedTrySquare = DBaseUsedAluminiumMaterial & {
   trySquareCode: number;
 }
 
-export type GuideDTO = {
+export type DGuide = {
   id: number;
   implementation: Date;
   finalDate: Date;
-  guideMachines: GuideMachineDTO[];
+  guideMachines: DGuideMachine[];
 };
 
-export type GuideMachineDTO = {
+export type DGuideMachine = {
   id: number;
   guideId: number;
   machineId: number;
@@ -204,7 +205,7 @@ export type GuideMachineDTO = {
   measurementUnit: string;
 };
 
-export type MachineDTO = {
+export type DMachine = {
   id: number;
   name: string;
   formula: string[];
@@ -212,140 +213,154 @@ export type MachineDTO = {
   guideMachinesIds: number[];
 };
 
-export type MachineGroupDTO = {
+export type DMachineGroup = {
   id: number;
   name: string;
   machinesIds: number[];
 };
 
-export type BackDTO = BaseMaterialDTO & {
+export type DBack = DBaseMaterial & {
   suffix: number;
   thickness: number;
   measure1: number;
   measure2: number;
-  usedBackSheets: UsedBackSheetDTO[];
+  usedBackSheets: DUsedBackSheet[];
 };
 
-export type PaintingBorderBackgroundDTO = BaseMaterialDTO & {
+export type DPaintingBorderBackground = DBaseMaterial & {
 };
 
-export type PaintingDTO = BaseMaterialDTO & {
-  paintingType: PaintingTypeDTO;
+export type DPainting = DBaseMaterial & {
+  paintingType: DPaintingType;
 };
 
-export type PaintingSonDTO = SonDTO & {
+export type DPaintingSon = DSon & {
   satin: boolean;
   highShine: boolean;
   satinGlass: boolean;
   faces: number;
   special: boolean;
   suffix: number;
-  back: BackDTO;
-  paintings: UsedPaintingDTO[];
-  paintingBorderBackgrounds: UsedPaintingBorderBackgroundDTO[];
-  polyesters: UsedPolyesterDTO[];
+  back: DBack;
+  paintings: DUsedPainting[];
+  paintingBorderBackgrounds: DUsedPaintingBorderBackground[];
+  polyesters: DUsedPolyester[];
 };
 
-export type PaintingTypeDTO = {
+export type DPaintingType = {
   id: number;
   description: string;
 };
 
-export type PolyesterDTO = BaseMaterialDTO & {
+export type DPolyester = DBaseMaterial & {
 };
 
-export type UsedBackSheetDTO = BaseUsedMaterialDTO & {
+export type DUsedBackSheet = DBaseUsedMaterial & {
   sheetCode: number;
   backCode: number;
 };
 
-export type UsedPaintingBorderBackgroundDTO = BaseUsedMaterialDTO & {
+export type DUsedPaintingBorderBackground = DBaseUsedMaterial & {
   paintingBorderBackgroundCode: number;
   paintingSonCode: number;
 };
 
-export type UsedPaintingDTO = BaseUsedMaterialDTO & {
+export type DUsedPainting = DBaseUsedMaterial & {
   paintingCode: number;
   paintingSonCode: number;
 };
 
-export type UsedPolyesterDTO = BaseUsedMaterialDTO & {
+export type DUsedPolyester = DBaseUsedMaterial & {
   polyesterCode: number;
   paintingSonCode: number;
 };
 
-export type EdgeBandingDTO = BaseMaterialDTO & {
+export type DEdgeBanding = DBaseMaterial & {
   height: number;
   thickness: number;
 };
 
-export type GlueDTO = BaseMaterialDTO & {
+export type DGlue = DBaseMaterial & {
   grammage: number;
 };
 
-export type SheetDTO = BaseMaterialDTO & {
+export type DSheet = DBaseMaterial & {
   thickness: number;
   faces: number;
   materialId: number;
 };
 
-export type UsedEdgeBandingDTO = BaseUsedMaterialDTO & {
+export type DUsedEdgeBanding = DBaseUsedMaterial & {
   edgeBandingCode: number;
   mdpSonCode: number;
 };
 
-export type UsedGlueDTO = BaseUsedMaterialDTO &{
+export type DUsedGlue = DBaseUsedMaterial &{
   glueCode: number;
   mdpSonCode: number;
 };
 
-export type UsedSheetDTO = BaseUsedMaterialDTO & {
+export type DUsedSheet = DBaseUsedMaterial & {
   sheetCode: number;
   mdpSonCode: number;
 };
 
-export type CornerBracketDTO = BaseMaterialDTO & {
+export type DCornerBracket = DBaseMaterial & {
 };
 
-export type GhostDTO = {
+export type DGhost = {
   code: number;
   suffix: string;
   description: string;
   measure1: number;
   measure2: number;
   measure3: number;
-  cornerBrackets: UsedCornerBracketDTO[];
-  nonwovenFabrics: UsedNonwovenFabricDTO[];
-  plastics: UsedPlasticDTO[];
-  polyethylenes: UsedPolyethyleneDTO[];
+  cornerBrackets: DUsedCornerBracket[];
+  nonwovenFabrics: DUsedNonwovenFabric[];
+  plastics: DUsedPlastic[];
+  polyethylenes: DUsedPolyethylene[];
 };
 
-export type NonwovenFabricDTO = BaseMaterialDTO & {
+export type DNonwovenFabric = DBaseMaterial & {
 };
 
-export type PlasticDTO = BaseMaterialDTO & {
+export type DPlastic = DBaseMaterial & {
   grammage: number;
 };
 
-export type PolyethyleneDTO = BaseMaterialDTO & {
+export type DPolyethylene = DBaseMaterial & {
 };
 
-export type UsedCornerBracketDTO = BaseUsedMaterialDTO & {
+export type DUsedCornerBracket = DBaseUsedMaterial & {
   cornerBracketCode: number;
   ghostCode: string;
 };
 
-export type UsedNonwovenFabricDTO = BaseUsedMaterialDTO & {
+export type DUsedNonwovenFabric = DBaseUsedMaterial & {
   nonwovenFabricCode: number;
   ghostCode: string;
 };
 
-export type UsedPlasticDTO = BaseUsedMaterialDTO & {
+export type DUsedPlastic = DBaseUsedMaterial & {
   plasticCode: number;
   ghostCode: string;
 };
 
-export type UsedPolyethyleneDTO = BaseUsedMaterialDTO & {
+export type DUsedPolyethylene = DBaseUsedMaterial & {
   polyethyleneCode: number;
   ghostCode: string;
 };
+
+/* DTOS */
+
+export type SheetDTO = {
+  code: number;
+  description: string;
+  family: string;
+  implementation: Date;
+  lostPercentage: number;
+  color: DColor;
+  thickness: number;
+  faces: number;
+  material: DMaterial;
+}

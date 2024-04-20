@@ -5,6 +5,7 @@ import './App.css';
 import './assets/styles/custom.scss';
 import { ToastContainer } from 'react-toastify';
 import Modal from 'react-modal';
+import "flatpickr/dist/themes/material_red.css";
 
 Modal.setAppElement("#root");
 
