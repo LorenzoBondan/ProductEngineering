@@ -167,8 +167,13 @@ const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen
                     <label htmlFor="">% Perda</label>
                     <input 
                         {...register("lostPercentage", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
                         })}
-                        type="number"
+                        type="text" 
+                        inputMode="numeric" 
                         className={`form-control base-input ${errors.lostPercentage ? 'is-invalid' : ''}`}
                         placeholder="% Perda"
                         name="lostPercentage"

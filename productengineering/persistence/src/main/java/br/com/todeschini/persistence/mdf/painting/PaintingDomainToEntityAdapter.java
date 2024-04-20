@@ -4,6 +4,8 @@ import br.com.todeschini.domain.business.mdf.painting.DPainting;
 import br.com.todeschini.persistence.entities.mdf.Painting;
 import br.com.todeschini.persistence.mdf.paintingtype.PaintingTypeDomainToEntityAdapter;
 import br.com.todeschini.persistence.mdf.paintingtype.PaintingTypeRepository;
+import br.com.todeschini.persistence.publico.color.ColorDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.color.ColorRepository;
 import br.com.todeschini.persistence.util.Convertable;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,15 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
 
     private final PaintingTypeRepository paintingTypeRepository;
     private final PaintingTypeDomainToEntityAdapter paintingTypeAdapter;
+    private final ColorRepository colorRepository;
+    private final ColorDomainToEntityAdapter colorAdapter;
 
-    public PaintingDomainToEntityAdapter(PaintingTypeRepository paintingTypeRepository, PaintingTypeDomainToEntityAdapter paintingTypeAdapter) {
+    public PaintingDomainToEntityAdapter(PaintingTypeRepository paintingTypeRepository, PaintingTypeDomainToEntityAdapter paintingTypeAdapter,
+                                         ColorRepository colorRepository, ColorDomainToEntityAdapter colorAdapter) {
         this.paintingTypeRepository = paintingTypeRepository;
         this.paintingTypeAdapter = paintingTypeAdapter;
+        this.colorRepository = colorRepository;
+        this.colorAdapter = colorAdapter;
     }
 
     @Override
@@ -26,6 +33,9 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
+        if(domain.getColor() != null){
+            entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
+        }
         entity.setPaintingType(paintingTypeRepository.findById(domain.getPaintingType().getId()).get());
         return entity;
     }
@@ -38,6 +48,9 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());
+        if(entity.getColor() != null){
+            domain.setColor(colorAdapter.toDomain(entity.getColor()));
+        }
         domain.setPaintingType(paintingTypeAdapter.toDomain(entity.getPaintingType()));
         return domain;
     }

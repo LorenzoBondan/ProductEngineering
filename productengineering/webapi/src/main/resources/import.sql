@@ -13,7 +13,7 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 1);
 INSERT INTO tb_color (code, name, status) VALUES (307, 'MINERALE', 'ACTIVE');
 INSERT INTO tb_color (code, name, status) VALUES (302, 'PRISMA', 'ACTIVE');
 INSERT INTO tb_color (code, name, status) VALUES (308, 'STONE', 'ACTIVE');
-INSERT INTO tb_color (code, name, status) VALUES (999, 'WHITE', 'ACTIVE');
+INSERT INTO tb_color (code, name, status) VALUES (999, 'BRANCA', 'ACTIVE');
 
 INSERT INTO tb_material (name, status) VALUES ('MDP', 'ACTIVE');
 INSERT INTO tb_material (name, status) VALUES ('MDF', 'ACTIVE');
@@ -42,13 +42,13 @@ INSERT INTO tb_painting_type (description, status) VALUES ('Satin', 'ACTIVE');
 INSERT INTO tb_painting_type (description, status) VALUES ('High Shine', 'ACTIVE');
 INSERT INTO tb_painting_type (description, status) VALUES ('Satin Glass', 'ACTIVE');
 
-INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, status) VALUES (201, 'MINERALE', 10, 1, 'ACTIVE');
-INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, status) VALUES (202, 'PRISMA', 10, 1, 'ACTIVE');
-INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, status) VALUES (203, 'STONE', 10, 1, 'ACTIVE');
+INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, color_id, status) VALUES (201, 'MINERALE', 10, 1, 307, 'ACTIVE');
+INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, color_id, status) VALUES (202, 'PRISMA', 10, 1, 302, 'ACTIVE');
+INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, color_id, status) VALUES (203, 'STONE', 10, 1, 308, 'ACTIVE');
 
-INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, status) VALUES (204, 'MINERALE', 10, 2, 'ACTIVE');
-INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, status) VALUES (205, 'PRISMA', 10, 2, 'ACTIVE');
-INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, status) VALUES (206, 'STONE', 10, 2, 'ACTIVE');
+INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, color_id, status) VALUES (204, 'MINERALE', 10, 2, 307, 'ACTIVE');
+INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, color_id, status) VALUES (205, 'PRISMA', 10, 2, 302, 'ACTIVE');
+INSERT INTO tb_painting (code, description, lost_percentage, painting_type_id, color_id, status) VALUES (206, 'STONE', 10, 2, 308, 'ACTIVE');
 
 INSERT INTO tb_painting_border_background (code, description, lost_percentage, status) VALUES (30, 'Standard Painting Border', 10, 'ACTIVE');
 
