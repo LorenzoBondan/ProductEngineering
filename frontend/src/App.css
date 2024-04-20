@@ -120,10 +120,89 @@ ul {
   border-radius: 5px;
 }
 
+/* CRUDs */
+
+.search-bar-container{
+  margin-bottom: 30px;
+}
+
+.crud-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px;
+}
+
+.crud-table-container{
+  margin-bottom: 20px;
+}
+
+/* table */
+
+.crud-table{
+  width: 100%;
+  border-spacing: 0;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.10);
+  border: 1px solid var(--color-card-border);
+  overflow-x: scroll;
+}
+
+.crud-table thead tr {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.crud-table thead th {
+  text-align: left;
+  height: 40px;
+  font-size: 14px;
+  padding-left: 5px;
+  background-color: #fff;
+  font-weight: bold;
+  width: auto;
+  overflow: hidden;
+}
+
+.crud-table tbody td {
+  height: 50px;
+  border-top: 1px solid #A5AFB5;
+  font-size: 1rem;
+  transition: background .3s;
+  padding-left: 5px;
+  color: rgba(0,0,0,0.7);
+  width: auto;
+}
+
+.crud-table tbody td svg:hover{
+  cursor: pointer;
+}
+
+.crud-table tbody tr:hover > td {
+  background-color: rgb(200, 200, 200);
+}
+
+.crud-table tbody tr:nth-child(even) {
+  background-color: rgb(255, 255, 255);
+}
+
+.crud-table tbody tr:nth-child(odd) {
+  background-color: rgba(245,245,245,1);
+}
+
 @media(min-width:1200px){
   .flex-direction-row{
     display: flex;
     flex-direction: row;
     height: 100%;
   }
+
+  .crud-container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    padding: 50px;
+    margin-left: 85px;
+  }
+  
 }

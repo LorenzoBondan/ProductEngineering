@@ -23,9 +23,9 @@ const UserFilter = ( {onSubmitFilter} : Props ) => {
     }
 
     return(
-        <div className="base-card user-filter-container">
-            <form onSubmit={handleSubmit(onSubmit)} className='user-filter-form'>
-                <div className='user-filter-name-container'>
+        <div className="base-card base-filter-container">
+            <form onSubmit={handleSubmit(onSubmit)} className='base-filter-form'>
+                <div className='base-filter-name-container'>
                     <input 
                         {...register("name")}
                         type="text"
@@ -33,13 +33,13 @@ const UserFilter = ( {onSubmitFilter} : Props ) => {
                         placeholder="User's name"
                         name="name"
                     />
-                    <button className='user-filter-button-search-icon'>
+                    <button className='base-filter-button-search-icon'>
                         <SearchIcon/>
                     </button>
                 </div>
-                <div className='user-filter-bottom-container'>
-                    <button onClick={handleFormClear} className='btn btn-outline-secondary btn-user-filter-clear'>
-                        CLEAR <span className='btn-user-filter-word'>FILTER</span>
+                <div className='base-filter-bottom-container'>
+                    <button onClick={handleFormClear} className='btn btn-outline-secondary btn-base-filter-clear'>
+                        LIMPAR <span className='btn-base-filter-word'>FILTRO</span>
                     </button>
                 </div>
             </form>

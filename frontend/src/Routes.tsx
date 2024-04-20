@@ -2,11 +2,12 @@ import Footer from "Components/Footer";
 import Navbar from "Components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
+import Sheets from "pages/CRUDs/MDP/Sheet";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
+import MDPPage from "pages/Home/MainComponents/MDPPage";
 import Profile from "pages/Profile";
 import RecipeDetails from "pages/RecipeDetails";
-import Recipes from "pages/Recipes";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { isAuthenticated } from "util/auth";
 import history from "util/history";
@@ -25,12 +26,12 @@ const Routes = () => {
                         <Redirect from='/' to='/auth/login' exact />
                     )}
                     
-                    <Route path="/home" exact>
+                    <Route path="/home">
                         <Home/>
                     </Route>
 
-                    <Route path="/recipes" exact>
-                        <Recipes/>
+                    <Route path="/mdp" exact>
+                        <MDPPage/>
                     </Route>
 
                     <Route path="/recipes/:recipeId" exact>
@@ -53,6 +54,10 @@ const Routes = () => {
                     <Redirect from="/admin" to="/admin/users" exact />
                     <Route path="/admin">
                         <Admin/>
+                    </Route>
+
+                    <Route path="/sheets">
+                        <Sheets/>
                     </Route>
 
                 </Switch>

@@ -29,9 +29,6 @@ const Form = () => {
                     setValue('imgUrl', user.imgUrl);
                     setValue('password', user.password);
                     setValue('email', user.email);
-                    setValue('favoritesId', user.favoritesId);
-                    setValue('feedbacksId', user.feedbacksId);
-                    setValue('recipes', user.recipes);
                     setValue('roles', user.roles);
                 })
         }
@@ -75,7 +72,7 @@ const Form = () => {
     return(
         <div className="edit-profile-form-container">
             <div className="base-card post-card-form-card">
-                <h1>Edit Profile</h1>
+                {isEditing ? <h1>Edit Profile</h1> : <h1>Add User</h1>}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='row post-crud-inputs-container'>
                         <div className='post-crud-inputs-left-container'>
@@ -88,12 +85,43 @@ const Form = () => {
                                     })}
                                     type="text"
                                     className={`form-control base-input ${errors.name ? 'is-invalid' : ''}`}
-                                    placeholder="Name"
+                                    placeholder="Nome"
                                     name="name"
                                 />
                                 <div className='invalid-feedback d-block'>{errors.name?.message}</div>
                             </div>
+                            <div className='margin-bottom-30'>
+                                <label htmlFor="">Password</label>
+                                <input 
+                                    {...register("password", {
+                                    required: 'Campo obrigatório',
+                                    })}
+                                    type="text"
+                                    className={`form-control base-input ${errors.password ? 'is-invalid' : ''}`}
+                                    placeholder="Senha"
+                                    name="password"
+                                />
+                                <div className='invalid-feedback d-block'>{errors.password?.message}</div>
+                            </div>
                         </div>
+                        {!isEditing && 
+                            <div className='margin-bottom-30'>
+                            <label htmlFor="">Email</label>  
+                                <input 
+                                     {...register("email", {
+                                        pattern: { 
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: 'Insira um Email válido'
+                                            }
+                                        })}
+                                    type="text"
+                                    className={`form-control base-input ${errors.email ? 'is-invalid' : ''}`}
+                                    placeholder="Email"
+                                    name="email"
+                                />
+                                <div className='invalid-feedback d-block'>{errors.email?.message}</div>
+                            </div>
+                        }
                         <div className='margin-bottom-30'>
                             <label htmlFor="">Img Url</label>  
                                 <input 
@@ -106,13 +134,13 @@ const Form = () => {
                                     })}
                                     type="text"
                                     className={`form-control base-input ${errors.imgUrl ? 'is-invalid' : ''}`}
-                                    placeholder="URL of course's image"
+                                    placeholder="URL da imagem"
                                     name="imgUrl"
                                 />
                                 <div className='invalid-feedback d-block'>{errors.imgUrl?.message}</div>
                         </div>
                         <div className='margin-bottom-30'>
-                            <label htmlFor="" style={{color:"white"}}>Roles</label> 
+                            <label htmlFor="" style={{color:"white"}}>Papéis</label> 
                                 <Controller 
                                     name = 'roles'
                                     rules = {{required: true}}
@@ -122,7 +150,7 @@ const Form = () => {
                                             {...field}
                                             options={selectRoles}
                                             classNamePrefix="users-crud-select"
-                                            placeholder="Roles"
+                                            placeholder="Papéis"
                                             isMulti
                                             getOptionLabel={(role: Role) => role.authority}
                                             getOptionValue={(role: Role) => role.id.toString()}
@@ -138,9 +166,9 @@ const Form = () => {
                                 className='btn btn-outline-danger post-crud-buttons'
                                 onClick={handleCancel}
                                 >
-                                CANCEL
+                                CANCELAR
                             </button>
-                            <button className='btn btn-primary text-white post-crud-buttons'>SAVE</button>
+                            <button className='btn btn-primary text-white post-crud-buttons'>SALVAR</button>
                         </div>
                     </div>
                 </form>

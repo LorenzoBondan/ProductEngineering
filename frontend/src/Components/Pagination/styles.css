@@ -22,15 +22,15 @@
 }
 
 .pagination-item.active {
-    background-color: #D68E39;
+    background-color: var(--color-btn-primary);
 }
 
 .pagination-item:hover{
-    color: #8E5E26 !important;
+    color: var(--color-btn-secondary) !important;
 }
 
 .pagination-link-active {
-    background-color: #D68E39;
+    background-color: var(--color-btn-primary);
     color: #fff !important;
 }
 
@@ -40,16 +40,16 @@
 
 .arrow-previous {
     transform: rotate(-180deg);
-    color: #D68E39;
+    color: var(--color-btn-primary);
 }
 
 .arrow-next {
     margin-left: 10px;
-    color: #D68E39;
+    color: var(--color-btn-primary);
 }
 
 .arrow-active{
-    color: #D68E39;
+    color: var(--color-btn-primary);
     margin-left: 10px;
 }
 
@@ -59,5 +59,5 @@
 }
 
 .pagination-arrow-container svg {
-    color: #D68E39;
+    color: var(--color-btn-primary);
 }

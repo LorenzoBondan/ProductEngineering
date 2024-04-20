@@ -1,6 +1,5 @@
 .module-card-container{
     padding: 10px;
-    width: 275;
     display: flex;
     flex-direction: column;
     align-items: center;

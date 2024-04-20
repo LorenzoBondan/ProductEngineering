@@ -1,89 +1,85 @@
-.user-filter-container{
+.base-filter-container{
     margin-bottom: 10px;
     padding: 15px;
 }
 
-.user-filter-name-container{
+.base-filter-name-container{
     display: flex;
     align-items: center;
     border-bottom: 1px solid #E1E1E1;
     margin-bottom: 10px;
 }
 
-.user-filter-name-container input {
+.base-filter-name-container input {
     border: none;
     background-color: white;
     width: 100% !important;
 }
 
-.user-filter-name-container input:active{
+.base-filter-name-container input:active{
     background-color: white;
     color: black !important;
 }
 
-.user-filter-name-container input:focus {
+.base-filter-name-container input:focus {
     box-shadow: none;
 }
 
-.user-filter-name-container input::placeholder{
+.base-filter-name-container input::placeholder{
     color: #9e9e9e;
 }
 
-.user-filter-button-search-icon{
+.base-filter-button-search-icon{
     border: none;
     background-color: unset;
 }
 
-.user-filter-bottom-container{
+.base-filter-bottom-container{
     display: flex;
 }
 
-.btn-user-filter-clear{
+.btn-base-filter-clear{
     border-radius: 10px;
     font-weight: 400;
 }
 
-.btn-user-filter-word{
+.btn-base-filter-word{
     display: none;
 }
 
 @media(min-width:576px){
 
-    .btn-user-filter-word{
+    .btn-base-filter-word{
         display: unset;
     }
 }
 
 @media(min-width:768px){
 
-    .user-filter-container{
+    .base-filter-container{
         flex: 1;
         padding: 10px 15px;
     }
 
-    .user-filter-form{
+    .base-filter-form{
         display: flex;
         justify-content: space-between;
     }
 
-    .user-filter-name-container{
-        width: 30% !important;
+    .base-filter-name-container{
+        width: 80% !important;
         margin-right: 10px;
         margin-bottom: 0;
     }
 
-    .user-filter-category-container{
-        width: 40% !important;
-    }
-
-    .btn-user-filter-word{
+    .btn-base-filter-word{
         display: none;
     }
 }
 
 @media(min-width:992px){
 
-    .btn-user-filter-word{
+    .btn-base-filter-word{
         display: unset;
     }
 }

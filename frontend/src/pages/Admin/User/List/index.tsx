@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { requestBackend } from "util/requests";
 import UserCrudCard from "../UserCrudCard";
 import { SpringPage, User } from "types";
-import UserFilter, { UserFilterData } from "Components/UserFilter";
+import UserFilter, { UserFilterData } from "Components/Filters/UserFilter";
 import Pagination from "Components/Pagination";
 import './styles.css';
 
