@@ -2,6 +2,7 @@ import Footer from "Components/Footer";
 import Navbar from "Components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
+import EdgeBandings from "pages/CRUDs/MDP/EdgeBanding";
 import Sheets from "pages/CRUDs/MDP/Sheet";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
@@ -58,6 +59,10 @@ const Routes = () => {
 
                     <Route path="/sheets">
                         <Sheets/>
+                    </Route>
+
+                    <Route path="/edgeBandings">
+                        <EdgeBandings/>
                     </Route>
 
                 </Switch>

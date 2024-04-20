@@ -1,11 +1,13 @@
 import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
-import { DSheet } from "models/entities";
+import { DEdgeBanding } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
-import SheetRow from "../SheetRow";
-import * as sheetService from 'services/MDP/sheetService';
-import SheetModal from "../SheetModal";
+
+import * as EdgeBandingService from 'services/MDP/edgeBandingService';
+import EdgeBandingRow from "../EdgeBandingRow";
+import EdgeBandingModal from "../EdgeBandingModal";
+
 
 type ControlComponentsData = {
     activePage: number;
@@ -28,10 +30,10 @@ const List = () => {
 
     // findAll
 
-    const [page, setPage] = useState<SpringPage<DSheet>>();
+    const [page, setPage] = useState<SpringPage<DEdgeBanding>>();
 
-    const getSheets = useCallback(() => {
-        sheetService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+    const getEdgeBandings = useCallback(() => {
+        EdgeBandingService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
@@ -39,8 +41,8 @@ const List = () => {
     }, [controlComponentsData])
 
     useEffect(() => {
-        getSheets();
-    }, [getSheets]);
+        getEdgeBandings();
+    }, [getEdgeBandings]);
 
     // modal functions
 
@@ -61,7 +63,7 @@ const List = () => {
                     <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
                         Adicionar nova Chapa
                     </button>
-                    <SheetModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSheets()} />
+                    <EdgeBandingModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getEdgeBandings()} />
                 </div>
                 <div className='search-bar-container'>
                     <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
@@ -76,9 +78,8 @@ const List = () => {
                                 <th>Implementação</th>
                                 <th>% Perda</th>
                                 <th>Cor</th>
+                                <th>Altura</th>
                                 <th>Espessura</th>
-                                <th>Faces</th>
-                                <th>Material</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
@@ -88,7 +89,7 @@ const List = () => {
                             {page?.content
                                 .sort( (a,b) => a.description > b.description ? 1 : -1)
                                 .map((item) => (
-                                    <SheetRow sheet={item} onDeleteOrEdit={getSheets} key={item.code}/>
+                                    <EdgeBandingRow edgeBanding={item} onDeleteOrEdit={getEdgeBandings} key={item.code}/>
                                 ))
                             }
                         </tbody>

@@ -73,12 +73,13 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
             <td>{sheet.code}</td>
             <td>{sheet.description}</td>
             <td>{sheet.family}</td>
-            <td>{sheet.faces}</td>
-            <td>{sheet.thickness}</td>
             {sheet.implementation ? <td>{sheet.implementation.toString()}</td> : <td>-</td>}
             <td>{sheet.lostPercentage}</td>
-            {sheet.materialId ? <td>{material?.name}</td> : <td>-</td>}
             {sheet.color ? <td>{sheet.color.name}</td> : <td>-</td>}
+            <td>{sheet.thickness}</td>
+            <td>{sheet.faces}</td>
+            {sheet.materialId ? <td>{material?.name}</td> : <td>-</td>}
+            
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(sheet.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(sheet.code)}/></td>
