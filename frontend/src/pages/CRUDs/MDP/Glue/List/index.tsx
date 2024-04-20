@@ -1,12 +1,11 @@
 import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
-import { DEdgeBanding } from "models/entities";
+import { DGlue } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
-
-import * as EdgeBandingService from 'services/MDP/edgeBandingService';
-import EdgeBandingRow from "../EdgeBandingRow";
-import EdgeBandingModal from "../EdgeBandingModal";
+import * as GlueService from 'services/MDP/glueService';
+import GlueRow from "../GlueRow";
+import GlueModal from "../GlueModal";
 
 
 type ControlComponentsData = {
@@ -30,10 +29,10 @@ const List = () => {
 
     // findAll
 
-    const [page, setPage] = useState<SpringPage<DEdgeBanding>>();
+    const [page, setPage] = useState<SpringPage<DGlue>>();
 
-    const getEdgeBandings = useCallback(() => {
-        EdgeBandingService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+    const getGlues = useCallback(() => {
+        GlueService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
@@ -41,8 +40,8 @@ const List = () => {
     }, [controlComponentsData])
 
     useEffect(() => {
-        getEdgeBandings();
-    }, [getEdgeBandings]);
+        getGlues();
+    }, [getGlues]);
 
     // modal functions
 
@@ -61,9 +60,9 @@ const List = () => {
             <div className="crud-content-container">
                 <div className="crud-bar-container">
                     <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
-                        Adicionar nova Fita Borda
+                        Adicionar nova Cola
                     </button>
-                    <EdgeBandingModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getEdgeBandings()} />
+                    <GlueModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getGlues()} />
                 </div>
                 <div className='search-bar-container'>
                     <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
@@ -77,9 +76,7 @@ const List = () => {
                                 <th>Família</th>
                                 <th>Implementação</th>
                                 <th>% Perda</th>
-                                <th>Cor</th>
-                                <th>Altura</th>
-                                <th>Espessura</th>
+                                <th>Gramatura</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
@@ -89,7 +86,7 @@ const List = () => {
                             {page?.content
                                 .sort( (a,b) => a.description > b.description ? 1 : -1)
                                 .map((item) => (
-                                    <EdgeBandingRow edgeBanding={item} onDeleteOrEdit={getEdgeBandings} key={item.code}/>
+                                    <GlueRow glue={item} onDeleteOrEdit={getGlues} key={item.code}/>
                                 ))
                             }
                         </tbody>

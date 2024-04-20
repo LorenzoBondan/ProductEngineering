@@ -118,6 +118,7 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
                         required: 'Campo obrigatório', minLength: 7
                         })}
                         type="number"
+                        inputMode="numeric"
                         className={`form-control base-input ${errors.code ? 'is-invalid' : ''}`}
                         placeholder="Código"
                         name="code"
@@ -156,6 +157,7 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
                         {...register("faces", {
                         })}
                         type="number"
+                        inputMode="numeric"
                         className={`form-control base-input ${errors.faces ? 'is-invalid' : ''}`}
                         placeholder="Faces"
                         name="faces"
@@ -168,6 +170,7 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
                         {...register("thickness", {
                         })}
                         type="number"
+                        inputMode="numeric"
                         className={`form-control base-input ${errors.thickness ? 'is-invalid' : ''}`}
                         placeholder="Espessura"
                         name="thickness"
@@ -176,12 +179,17 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
                 </div>
             </div>
             <div className="col-lg-6 crud-modal-half-container">
-                <div className='margin-bottom-10'>
+            <div className='margin-bottom-10'>
                     <label htmlFor="">% Perda</label>
                     <input 
                         {...register("lostPercentage", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
                         })}
-                        type="number"
+                        type="text" 
+                        inputMode="numeric" 
                         className={`form-control base-input ${errors.lostPercentage ? 'is-invalid' : ''}`}
                         placeholder="% Perda"
                         name="lostPercentage"

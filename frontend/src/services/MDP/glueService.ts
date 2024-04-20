@@ -1,0 +1,78 @@
+import { AxiosRequestConfig } from "axios";
+import { DGlue } from "models/entities";
+import { requestBackend } from "util/requests";
+
+export function findAll(description: string, page?: number, size?: number, sort = "code") {
+    const config : AxiosRequestConfig = {
+        method: "GET",
+        url: "/glues",
+        params: {
+            description,
+            page,
+            size,
+            sort 
+        },
+        withCredentials: true
+    }
+
+    return requestBackend(config);
+}
+
+export function findAllActiveAndCurrentOne(id: number) {
+    const config : AxiosRequestConfig = {
+        method: "GET",
+        url: "/glues/activeAndCurrentOne",
+        params: {
+            id
+        },
+        withCredentials: true
+    }
+
+    return requestBackend(config);
+}
+
+export function findById(id: number) {
+    return requestBackend({ url: `/glues/${id}`, withCredentials: true });
+}
+
+export function insert(obj: DGlue) {
+    const config: AxiosRequestConfig = {
+        method: "POST",
+        url: "/glues",
+        withCredentials: true,
+        data: obj
+    }
+
+    return requestBackend(config);
+}
+
+export function update(obj: DGlue) {
+    const config: AxiosRequestConfig = {
+        method: "PUT",
+        url: `/glues/${obj.code}`,
+        withCredentials: true,
+        data: obj
+    }
+
+    return requestBackend(config);
+}
+
+export function inactivate(id: number) {
+    const config: AxiosRequestConfig = {
+        method: "PUT",
+        url: `/glues/inactivate/${id}`,
+        withCredentials: true
+    }
+
+    return requestBackend(config);
+}
+
+export function deleteById(id: number) {
+    const config : AxiosRequestConfig = {
+        method: "DELETE",
+        url: `/glues/${id}`,
+        withCredentials: true
+    }
+
+    return requestBackend(config);
+}

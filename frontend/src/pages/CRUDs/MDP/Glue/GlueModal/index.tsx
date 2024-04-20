@@ -1,17 +1,15 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import FlatPicker from 'react-flatpickr';
-import Select from 'react-select';
 import { toast } from 'react-toastify';
-import * as edgeBandingService from 'services/MDP/edgeBandingService';
-import * as colorService from 'services/public/colorService';
-import { DColor, DEdgeBanding } from 'models/entities';
+import * as glueService from 'services/MDP/glueService';
+import { DGlue } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
-type EdgeBandingModalProps = {
-    edgeBanding?: DEdgeBanding;
+type GlueModalProps = {
+    glue?: DGlue;
     isOpen: boolean;
     isEditing: boolean;
     onClose: () => void;
@@ -19,58 +17,42 @@ type EdgeBandingModalProps = {
     children?: ReactNode;
 }
 
-const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen, isEditing, onClose, onDeleteOrEdit }) => {
+const GlueModal: React.FC<GlueModalProps> = ({ glue, isOpen, isEditing, onClose, onDeleteOrEdit }) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<DEdgeBanding>();
-  const [selectColors, setSelectColors] = useState<DColor[]>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DGlue>();
   const [dateTime, setDateTime] = useState<Date | null>(null);
 
   // load inputs
 
   useEffect(() => {
-    if(isEditing && edgeBanding){
-        edgeBandingService.findById(edgeBanding.code)
+    if(isEditing && glue){
+        glueService.findById(glue.code)
         .then((response) => {
-            const fetchedEdgeBanding = response.data as DEdgeBanding;
+            const fetchedGlue = response.data as DGlue;
 
-            setValue('code', fetchedEdgeBanding.code);
-            setValue('description', fetchedEdgeBanding.description);
-            setValue('family', fetchedEdgeBanding.family);
-            setValue('implementation', fetchedEdgeBanding.implementation);
-            setValue('lostPercentage', fetchedEdgeBanding.lostPercentage);
-            setValue('color', fetchedEdgeBanding.color);
-            setValue('height', fetchedEdgeBanding.height);
-            setValue('thickness', fetchedEdgeBanding.thickness);
+            setValue('code', fetchedGlue.code);
+            setValue('description', fetchedGlue.description);
+            setValue('family', fetchedGlue.family);
+            setValue('implementation', fetchedGlue.implementation);
+            setValue('lostPercentage', fetchedGlue.lostPercentage);
+            setValue('grammage', fetchedGlue.grammage);
 
-            setDateTime(fetchedEdgeBanding.implementation ? new Date(fetchedEdgeBanding.implementation) : null);
+            setDateTime(fetchedGlue.implementation ? new Date(fetchedGlue.implementation) : null);
         });
     }
-  }, [isEditing, edgeBanding, setValue]);
-
-  // populate comboboxes
-
-  useEffect(() => {
-
-    if(edgeBanding?.color){
-        colorService.findAllActiveAndCurrentOne(edgeBanding?.color.code)
-            .then(response => setSelectColors(response.data));
-    } else{
-        colorService.findAll('')
-            .then(response => setSelectColors(response.data.content));
-    }
-
-  }, [edgeBanding?.color]);
+  }, [isEditing, glue, setValue]);
 
   // insert / update method
 
-  const insertOrUpdate = (formData: DEdgeBanding) => {
+  const insertOrUpdate = (formData: DGlue) => {
+
     if (dateTime !== null) {
       formData.implementation = dateTime;
     }
   
-    const serviceFunction = isEditing ? edgeBandingService.update : edgeBandingService.insert;
-    const successMessage = isEditing ? 'Fita Borda editada!' : 'Fita Borda Inserida!';
+    const serviceFunction = isEditing ? glueService.update : glueService.insert;
+    const successMessage = isEditing ? 'Cola editada!' : 'Cola inserida!';
   
     serviceFunction(formData)
       .then(response => {
@@ -139,30 +121,21 @@ const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen
                     {errors.family && <div className='invalid-feedback d-block'>{errors.family.message}</div>}
                 </div>
                 <div className='margin-bottom-10'>
-                    <label htmlFor="">Altura</label>
+                    <label htmlFor="">Gramatura</label>
                     <input 
-                        {...register("height", {
+                        {...register("grammage", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,3})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
                         })}
-                        type="number"
-                        inputMode="numeric"
-                        className={`form-control base-input ${errors.height ? 'is-invalid' : ''}`}
-                        placeholder="Altura"
-                        name="height"
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.grammage ? 'is-invalid' : ''}`}
+                        placeholder="Gramatura"
+                        name="grammage"
                     />
-                    {errors.height && <div className='invalid-feedback d-block'>{errors.height.message}</div>}
-                </div>
-                <div className='margin-bottom-10'>
-                    <label htmlFor="">Espessura</label>
-                    <input 
-                        {...register("thickness", {
-                        })}
-                        type="number"
-                        inputMode="numeric"
-                        className={`form-control base-input ${errors.thickness ? 'is-invalid' : ''}`}
-                        placeholder="Espessura"
-                        name="thickness"
-                    />
-                    {errors.thickness && <div className='invalid-feedback d-block'>{errors.thickness.message}</div>}
+                    {errors.grammage && <div className='invalid-feedback d-block'>{errors.grammage.message}</div>}
                 </div>
             </div>
             <div className="col-lg-6 crud-modal-half-container">
@@ -195,29 +168,7 @@ const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen
                         className="base-input time-input"
                         name="implementation"
                     />
-                </div>
-                <div className='margin-bottom-10'>
-                    <label htmlFor="">Cor</label> 
-                    <Controller 
-                        name = 'color'
-                        rules = {{required: true}}
-                        control = {control}
-                        render = {( {field} ) => (
-                            <Select 
-                                {...field}
-                                options={selectColors}
-                                classNamePrefix="margin-bottom-20"
-                                className="margin-bottom-20"
-                                placeholder="Cor"
-                                getOptionLabel={(color: DColor) => color.name}
-                                getOptionValue={(color: DColor) => color.code.toString()}
-                            />    
-                        )}
-                    />
-                    {errors.color && (
-                        <div className='invalid-feedback d-block'>Campo obrigatório</div>
-                    )}
-                </div>                 
+                </div>        
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>
@@ -230,4 +181,4 @@ const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen
   );
 };
 
-export default EdgeBandingModal;
+export default GlueModal;

@@ -3,6 +3,7 @@ import Navbar from "Components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
 import EdgeBandings from "pages/CRUDs/MDP/EdgeBanding";
+import Glues from "pages/CRUDs/MDP/Glue";
 import Sheets from "pages/CRUDs/MDP/Sheet";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
@@ -63,6 +64,10 @@ const Routes = () => {
 
                     <Route path="/edgeBandings">
                         <EdgeBandings/>
+                    </Route>
+
+                    <Route path="/glues">
+                        <Glues/>
                     </Route>
 
                 </Switch>
