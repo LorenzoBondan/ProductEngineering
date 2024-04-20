@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import { Controller, useForm } from "react-hook-form";
 import FlatPicker from 'react-flatpickr';
 import Select from 'react-select';
-import { BiEdit } from 'react-icons/bi';
 import { toast } from 'react-toastify';
 import * as sheetService from 'services/MDP/sheetService';
 import { DColor, DMaterial, DSheet } from 'models/entities';
