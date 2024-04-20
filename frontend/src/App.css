@@ -224,11 +224,31 @@ ul {
 
 /* crud modal */
 
+.crud-modal-title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.crud-modal-title svg{
+  height: 25px;
+  width: auto;
+  margin-right: 10px;
+}
+
+.crud-modal-title h2{
+  margin-bottom: 0;
+}
+
 .crud-modal-inputs-container{
   padding: 10px;
   display: flex;
   flex-direction: row;
-
 }
 
 .crud-modal-buttons-container{

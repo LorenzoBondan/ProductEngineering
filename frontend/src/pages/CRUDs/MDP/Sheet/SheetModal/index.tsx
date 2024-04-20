@@ -8,16 +8,19 @@ import { toast } from 'react-toastify';
 import * as sheetService from 'services/MDP/sheetService';
 import { DColor, DMaterial, DSheet } from 'models/entities';
 import { requestBackend } from 'util/requests';
+import {ReactComponent as EditSvg} from "assets/images/edit.svg";
+import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
 type SheetModalProps = {
-    sheet: DSheet;
+    sheet?: DSheet;
     isOpen: boolean;
+    isEditing: boolean;
     onClose: () => void;
     onDeleteOrEdit: () => void;
     children?: ReactNode;
 }
 
-const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, onClose, onDeleteOrEdit }) => {
+const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClose, onDeleteOrEdit }) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<DSheet>();
@@ -28,23 +31,25 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, onClose, onDelet
   const [dateTime, setDateTime] = useState<Date | null>(null);
 
   useEffect(() => {
-    sheetService.findById(sheet.code)
-      .then((response) => {
-        const fetchedSheet = response.data as DSheet;
+    if(isEditing && sheet){
+        sheetService.findById(sheet.code)
+        .then((response) => {
+            const fetchedSheet = response.data as DSheet;
 
-        setValue('code', fetchedSheet.code);
-        setValue('description', fetchedSheet.description);
-        setValue('family', fetchedSheet.family);
-        setValue('implementation', fetchedSheet.implementation);
-        setValue('lostPercentage', fetchedSheet.lostPercentage);
-        setValue('color', fetchedSheet.color);
-        setValue('thickness', fetchedSheet.thickness);
-        setValue('faces', fetchedSheet.faces);
-        setValue('materialId', fetchedSheet.materialId);
+            setValue('code', fetchedSheet.code);
+            setValue('description', fetchedSheet.description);
+            setValue('family', fetchedSheet.family);
+            setValue('implementation', fetchedSheet.implementation);
+            setValue('lostPercentage', fetchedSheet.lostPercentage);
+            setValue('color', fetchedSheet.color);
+            setValue('thickness', fetchedSheet.thickness);
+            setValue('faces', fetchedSheet.faces);
+            setValue('materialId', fetchedSheet.materialId);
 
-        setDateTime(fetchedSheet.implementation ? new Date(fetchedSheet.implementation) : null);
-      });
-  }, [sheet, setValue]);
+            setDateTime(fetchedSheet.implementation ? new Date(fetchedSheet.implementation) : null);
+        });
+    }
+  }, [isEditing, sheet, setValue]);
 
   useEffect(() => {
     requestBackend({ url: '/colors', params: { name: '' }, withCredentials: true })
@@ -57,15 +62,19 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, onClose, onDelet
       });
   }, []);
 
-  const update = (formData: DSheet) => {
+  const insertOrUpdate = (formData: DSheet) => {
     if (dateTime !== null) {
       formData.implementation = dateTime;
     }
-    sheetService.update(formData)
+  
+    const serviceFunction = isEditing ? sheetService.update : sheetService.insert;
+    const successMessage = isEditing ? 'Chapa editada!' : 'Chapa Inserida!';
+  
+    serviceFunction(formData)
       .then(response => {
         console.log(response.data);
         setErrorMessage('');
-        toast.success('Chapa editada!');
+        toast.success(successMessage);
         onClose();
         onDeleteOrEdit();
       })
@@ -83,15 +92,29 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, onClose, onDelet
       overlayClassName="modal-overlay"
       className="modal-content"
     >
-      <form onSubmit={handleSubmit(update)} className="crud-modal-form">
-        <h1><BiEdit /> Editar</h1>
+      <form onSubmit={handleSubmit(insertOrUpdate)} className="crud-modal-form">
+        {isEditing ? <div className='crud-modal-title'><EditSvg/><h2>Editar</h2></div> : <div className='crud-modal-title'><AddSvg/><h2>Adicionar</h2></div>}
         <div className="row crud-modal-inputs-container">
             <div className="col-lg-6 crud-modal-half-container">
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Código</label>
+                    <input 
+                        {...register("code", {
+                        required: 'Campo obrigatório', minLength: 7
+                        })}
+                        type="number"
+                        className={`form-control base-input ${errors.code ? 'is-invalid' : ''}`}
+                        placeholder="Código"
+                        name="code"
+                        disabled={isEditing}
+                    />
+                    <div className='invalid-feedback d-block'>{errors.code?.message}</div>
+                </div> 
                 <div className='margin-bottom-10'>
                     <label htmlFor="">Descrição</label>
                     <input 
                         {...register("description", {
-                        required: 'Campo obrigatório', minLength: 2
+                        required: 'Campo obrigatório', minLength: 3
                         })}
                         type="text"
                         className={`form-control base-input ${errors.description ? 'is-invalid' : ''}`}
@@ -151,7 +174,7 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, onClose, onDelet
                     {errors.lostPercentage && <div className='invalid-feedback d-block'>{errors.lostPercentage.message}</div>}
                 </div>
                 <div className='margin-bottom-10'>
-                    <label>Date</label>
+                    <label>Implementação</label>
                     <FlatPicker
                         value={dateTime || undefined}
                         onChange={(date) => setDateTime(date[0])}

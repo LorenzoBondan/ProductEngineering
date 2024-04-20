@@ -64,7 +64,7 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><DeleteSvg onClick={() => deleteObject(sheet.code)}/></td>
 
-            <SheetModal sheet={sheet} isOpen={modalIsOpen} onClose={closeModal} onDeleteOrEdit={() => onDeleteOrEdit()} />
+            <SheetModal sheet={sheet} isOpen={modalIsOpen} isEditing={true} onClose={closeModal} onDeleteOrEdit={() => onDeleteOrEdit()} />
         </tr>
     );
 }

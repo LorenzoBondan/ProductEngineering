@@ -2,10 +2,10 @@ import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/Des
 import { DSheet } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
-import { Link } from "react-router-dom";
 import { SpringPage } from "types";
 import SheetRow from "../SheetRow";
 import * as sheetService from 'services/MDP/sheetService';
+import SheetModal from "../SheetModal";
 
 type ControlComponentsData = {
     activePage: number;
@@ -38,15 +38,26 @@ const List = () => {
         getSheets();
     }, [getSheets]);
 
+    // modal functions
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    const openModal = () => {
+        setIsOpen(true);
+    }
+    
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
     return(
         <div className='crud-container'>
             <div className="crud-content-container">
                 <div className="crud-bar-container">
-                    <Link to="/sheets/create">
-                        <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}}>
-                            Adicionar nova Chapa
-                        </button>
-                    </Link>
+                    <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
+                        Adicionar nova Chapa
+                    </button>
+                    <SheetModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSheets()} />
                 </div>
                 <div className='search-bar-container'>
                     <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
