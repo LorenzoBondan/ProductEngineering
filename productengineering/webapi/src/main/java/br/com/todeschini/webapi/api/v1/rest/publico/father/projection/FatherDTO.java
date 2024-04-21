@@ -3,6 +3,8 @@ package br.com.todeschini.webapi.api.v1.rest.publico.father.projection;
 import br.com.todeschini.webapi.api.v1.rest.publico.color.projection.ColorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public interface FatherDTO {
 
     @JsonProperty(value = "code", index = 1)
@@ -21,4 +23,6 @@ public interface FatherDTO {
     ColorDTO getColor();
     @JsonProperty(value = "ghostCode", index = 8)
     String getGhostCode();
+    @JsonProperty(value = "implementation", index = 9)
+    LocalDate getImplementation();
 }

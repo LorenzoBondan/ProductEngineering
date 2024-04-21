@@ -5,6 +5,8 @@ import br.com.todeschini.domain.validation.ValidationBuilder;
 import br.com.todeschini.domain.validation.impl.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +22,7 @@ public class DItem {
     private Integer measure2;
     private Integer measure3;
     private String measurementUnit;
+    private LocalDate implementation;
 
     public DItem(Long code){
         this.code = code;
@@ -37,6 +40,7 @@ public class DItem {
                 .add(new NamedValidator<>("Medida 1", new NumeroMaiorQueZeroValidator()), this.measure1)
                 .add(new NamedValidator<>("Medida 2", new NumeroMaiorQueZeroValidator()), this.measure2)
                 .add(new NamedValidator<>("Medida 3", new NumeroMaiorQueZeroValidator()), this.measure3)
+                .add(new NamedValidator<>("Implementação", new DataFuturaValidator()), this.implementation)
                 .validate();
     }
 }

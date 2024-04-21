@@ -49,6 +49,7 @@ public class FatherDomainToEntityAdapter implements Convertable<Father, DFather>
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
+        entity.setImplementation(domain.getImplementation());
         //entity.setMeasurementUnit(domain.getMeasurementUnit());
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         if(domain.getGhost() != null){
@@ -67,6 +68,7 @@ public class FatherDomainToEntityAdapter implements Convertable<Father, DFather>
         domain.setMeasure1(entity.getMeasure1());
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());
+        domain.setImplementation(entity.getImplementation());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         if(entity.getGhost() != null){

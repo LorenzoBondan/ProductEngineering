@@ -57,6 +57,7 @@ public class MDPSonDomainToEntityAdapter implements Convertable<MDPSon, DMDPSon>
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
+        entity.setImplementation(domain.getImplementation());
         //entity.setMeasurementUnit(domain.getMeasurementUnit());
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         if(domain.getFatherCode() != null){
@@ -82,6 +83,7 @@ public class MDPSonDomainToEntityAdapter implements Convertable<MDPSon, DMDPSon>
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
+        domain.setImplementation(entity.getImplementation());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         if(entity.getFather() != null){
             domain.setFatherCode(entity.getFather().getCode());

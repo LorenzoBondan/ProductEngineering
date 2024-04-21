@@ -3,6 +3,8 @@ package br.com.todeschini.webapi.api.v1.rest.mdp.mdpson.projection;
 import br.com.todeschini.webapi.api.v1.rest.publico.color.projection.ColorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public interface MDPSonDTO {
 
     @JsonProperty(value = "code", index = 1)
@@ -23,4 +25,6 @@ public interface MDPSonDTO {
     Long getFatherCode();
     @JsonProperty(value = "guideId", index = 9)
     Long getGuideId();
+    @JsonProperty(value = "implementation", index = 10)
+    LocalDate getImplementation();
 }

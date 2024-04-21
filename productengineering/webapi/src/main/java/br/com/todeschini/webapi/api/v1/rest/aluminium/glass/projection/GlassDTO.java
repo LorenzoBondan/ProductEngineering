@@ -3,6 +3,8 @@ package br.com.todeschini.webapi.api.v1.rest.aluminium.glass.projection;
 import br.com.todeschini.webapi.api.v1.rest.publico.color.projection.ColorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public interface GlassDTO {
 
     @JsonProperty(value = "code", index = 1)
@@ -19,4 +21,6 @@ public interface GlassDTO {
     String getMeasurementUnit();
     @JsonProperty(value = "color", index = 7)
     ColorDTO getColor();
+    @JsonProperty(value = "implementation", index = 8)
+    LocalDate getImplementation();
 }

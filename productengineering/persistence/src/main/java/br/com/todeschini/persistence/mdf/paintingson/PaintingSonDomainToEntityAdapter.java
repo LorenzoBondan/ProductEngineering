@@ -70,6 +70,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
         //entity.setMeasurementUnit(domain.getMeasurementUnit());
+        entity.setImplementation(domain.getImplementation());
         entity.setSatin(domain.getSatin());
         entity.setSatinGlass(domain.getSatinGlass());
         entity.setHighShine(domain.getHighShine());
@@ -103,6 +104,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
+        domain.setImplementation(entity.getImplementation());
         domain.setSatin(entity.getSatin());
         domain.setSatinGlass(entity.getSatinGlass());
         domain.setHighShine(entity.getHighShine());

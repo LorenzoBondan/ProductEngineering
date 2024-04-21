@@ -3,6 +3,8 @@ package br.com.todeschini.webapi.api.v1.rest.mdf.paintingson.projection;
 import br.com.todeschini.webapi.api.v1.rest.publico.color.projection.ColorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public interface PaintingSonDTO {
 
     @JsonProperty(value = "code", index = 1)
@@ -37,4 +39,6 @@ public interface PaintingSonDTO {
     Long getBackCode();
     @JsonProperty(value = "guideId", index = 16)
     Long getGuideId();
+    @JsonProperty(value = "implementation", index = 17)
+    LocalDate getImplementation();
 }

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
@@ -28,6 +29,7 @@ public class Item extends AuditInfo implements Serializable {
     private Integer measure2;
     private Integer measure3;
     private String measurementUnit = "UN";
+    private LocalDate implementation;
 
     public Item(Long code, String description, Integer measure1, Integer measure2, Integer measure3) {
         this.code = code;

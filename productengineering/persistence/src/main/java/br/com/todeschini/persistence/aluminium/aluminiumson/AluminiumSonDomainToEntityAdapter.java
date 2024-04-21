@@ -87,6 +87,7 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
+        entity.setImplementation(domain.getImplementation());
         //entity.setMeasurementUnit(domain.getMeasurementUnit());
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).orElseThrow(() -> new ResourceNotFoundException("Cor não encontrada")));
         entity.setFather(new Father(domain.getFatherCode()));
@@ -124,6 +125,7 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
         domain.setMeasure1(entity.getMeasure1());
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());
+        domain.setImplementation(entity.getImplementation());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         domain.setFatherCode(entity.getFather().getCode());

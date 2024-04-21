@@ -3,6 +3,8 @@ package br.com.todeschini.webapi.api.v1.rest.aluminium.aluminiumson.projection;
 import br.com.todeschini.webapi.api.v1.rest.publico.color.projection.ColorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public interface AluminiumSonDTO {
 
     @JsonProperty(value = "code", index = 1)
@@ -21,4 +23,6 @@ public interface AluminiumSonDTO {
     ColorDTO getColor();
     @JsonProperty(value = "fatherCode", index = 8)
     Long getFatherCode();
+    @JsonProperty(value = "implementation", index = 9)
+    LocalDate getImplementation();
 }

@@ -2,6 +2,8 @@ package br.com.todeschini.webapi.api.v1.rest.aluminium.screw.projection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public interface ScrewDTO {
 
     @JsonProperty(value = "code", index = 1)
@@ -16,4 +18,6 @@ public interface ScrewDTO {
     Integer getMeasure3();
     @JsonProperty(value = "measurementUnit", index = 6)
     String getMeasurementUnit();
+    @JsonProperty(value = "implementation", index = 7)
+    LocalDate getImplementation();
 }

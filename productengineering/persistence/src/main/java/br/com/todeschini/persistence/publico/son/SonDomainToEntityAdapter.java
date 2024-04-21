@@ -34,6 +34,7 @@ public class SonDomainToEntityAdapter implements Convertable<Son, DSon> {
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
+        entity.setImplementation(domain.getImplementation());
         //entity.setMeasurementUnit(domain.getMeasurementUnit());
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         entity.setFather(new Father(domain.getFatherCode()));
@@ -52,6 +53,7 @@ public class SonDomainToEntityAdapter implements Convertable<Son, DSon> {
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
+        domain.setImplementation(entity.getImplementation());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         domain.setFatherCode(entity.getFather().getCode());
         if(entity.getGuide() != null){
