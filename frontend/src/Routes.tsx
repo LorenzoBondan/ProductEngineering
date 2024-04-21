@@ -4,6 +4,7 @@ import Admin from "pages/Admin";
 import Auth from "pages/Auth";
 import DrawerPulls from "pages/CRUDs/Aluminium/DrawerPull";
 import Glasses from "pages/CRUDs/Aluminium/Glass";
+import TrySquares from "pages/CRUDs/Aluminium/TrySquare";
 import Paintings from "pages/CRUDs/MDF/Painting";
 import PaintingBorderBackgrounds from "pages/CRUDs/MDF/PaintingBorderBackground";
 import Polyesters from "pages/CRUDs/MDF/Polyester";
@@ -93,6 +94,10 @@ const Routes = () => {
                     
                     <Route path="/glasses">
                         <Glasses/>
+                    </Route>
+                                        
+                    <Route path="/trySquares">
+                        <TrySquares/>
                     </Route>
 
                 </Switch>
