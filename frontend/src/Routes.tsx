@@ -4,6 +4,7 @@ import Admin from "pages/Admin";
 import Auth from "pages/Auth";
 import Paintings from "pages/CRUDs/MDF/Painting";
 import PaintingBorderBackgrounds from "pages/CRUDs/MDF/PaintingBorderBackground";
+import Polyesters from "pages/CRUDs/MDF/Polyester";
 import EdgeBandings from "pages/CRUDs/MDP/EdgeBanding";
 import Glues from "pages/CRUDs/MDP/Glue";
 import Sheets from "pages/CRUDs/MDP/Sheet";
@@ -78,6 +79,10 @@ const Routes = () => {
 
                     <Route path="/paintingBorderBackgrounds">
                         <PaintingBorderBackgrounds/>
+                    </Route>
+                    
+                    <Route path="/polyesters">
+                        <Polyesters/>
                     </Route>
 
                 </Switch>

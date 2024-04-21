@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from "axios";
-import { DPaintingType } from "models/entities";
+import { DPolyester } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(description: string, page?: number, size?: number, status?: string, sort = "id") {
+export function findAll(description: string, page?: number, size?: number, status?: string, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/paintingTypes",
+        url: "/polyesters",
         params: {
             description,
             page,
@@ -23,7 +23,7 @@ export function findAll(description: string, page?: number, size?: number, statu
 export function findAllActiveAndCurrentOne(id: number) {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/paintingTypes/activeAndCurrentOne",
+        url: "/polyesters/activeAndCurrentOne",
         params: {
             id
         },
@@ -34,13 +34,13 @@ export function findAllActiveAndCurrentOne(id: number) {
 }
 
 export function findById(id: number) {
-    return requestBackend({ url: `/paintingTypes/${id}`, withCredentials: true });
+    return requestBackend({ url: `/polyesters/${id}`, withCredentials: true });
 }
 
-export function insert(obj: DPaintingType) {
+export function insert(obj: DPolyester) {
     const config: AxiosRequestConfig = {
         method: "POST",
-        url: "/paintingTypes",
+        url: "/polyesters",
         withCredentials: true,
         data: obj
     }
@@ -48,10 +48,10 @@ export function insert(obj: DPaintingType) {
     return requestBackend(config);
 }
 
-export function update(obj: DPaintingType) {
+export function update(obj: DPolyester) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/paintingTypes/${obj.id}`,
+        url: `/polyesters/${obj.code}`,
         withCredentials: true,
         data: obj
     }
@@ -62,7 +62,7 @@ export function update(obj: DPaintingType) {
 export function inactivate(id: number) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/paintingTypes/inactivate/${id}`,
+        url: `/polyesters/inactivate/${id}`,
         withCredentials: true
     }
 
@@ -72,7 +72,7 @@ export function inactivate(id: number) {
 export function deleteById(id: number) {
     const config : AxiosRequestConfig = {
         method: "DELETE",
-        url: `/paintingTypes/${id}`,
+        url: `/polyesters/${id}`,
         withCredentials: true
     }
 

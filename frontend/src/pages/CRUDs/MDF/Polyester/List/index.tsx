@@ -1,11 +1,11 @@
 import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
-import { DPainting } from "models/entities";
+import { DPolyester } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
-import PaintingRow from "../PaintingRow";
-import * as paintingService from 'services/MDF/paintingService';
-import PaintingModal from "../PaintingModal";
+import PolyesterRow from "../PolyesterRow";
+import * as polyesterService from 'services/MDF/polyesterService';
+import PolyesterModal from "../PolyesterModal";
 
 type ControlComponentsData = {
     activePage: number;
@@ -28,11 +28,11 @@ const List = () => {
 
     // findAll
 
-    const [page, setPage] = useState<SpringPage<DPainting>>();
+    const [page, setPage] = useState<SpringPage<DPolyester>>();
 
-    const getPaintings = useCallback(() => {
+    const getPolyesters = useCallback(() => {
 
-        paintingService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
+        polyesterService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
@@ -40,8 +40,8 @@ const List = () => {
     }, [controlComponentsData])
 
     useEffect(() => {
-        getPaintings();
-    }, [getPaintings]);
+        getPolyesters();
+    }, [getPolyesters]);
 
     // modal functions
 
@@ -60,9 +60,9 @@ const List = () => {
             <div className="crud-content-container">
                 <div className="crud-bar-container">
                     <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
-                        Adicionar nova Pintura
+                        Adicionar novo Poliéster
                     </button>
-                    <PaintingModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getPaintings()} />
+                    <PolyesterModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getPolyesters()} />
                 </div>
                 <div className='search-bar-container'>
                     <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
@@ -77,8 +77,6 @@ const List = () => {
                                 <th>Família</th>
                                 <th>Implementação</th>
                                 <th>% Perda</th>
-                                <th>Cor</th>
-                                <th>Tipo de Pintura</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
@@ -86,7 +84,7 @@ const List = () => {
                         </thead>
                         <tbody>
                             {page?.content.map((item) => (
-                                <PaintingRow painting={item} onDeleteOrEdit={getPaintings} key={item.code}/>
+                                <PolyesterRow polyester={item} onDeleteOrEdit={getPolyesters} key={item.code}/>
                             ))}
                         </tbody>
                     </table>
