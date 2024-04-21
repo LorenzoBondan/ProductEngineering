@@ -2,6 +2,7 @@ import Footer from "Components/Footer";
 import Navbar from "Components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
+import Paintings from "pages/CRUDs/MDF/Painting";
 import EdgeBandings from "pages/CRUDs/MDP/EdgeBanding";
 import Glues from "pages/CRUDs/MDP/Glue";
 import Sheets from "pages/CRUDs/MDP/Sheet";
@@ -68,6 +69,10 @@ const Routes = () => {
 
                     <Route path="/glues">
                         <Glues/>
+                    </Route>
+
+                    <Route path="/paintings">
+                        <Paintings/>
                     </Route>
 
                 </Switch>

@@ -16,15 +16,8 @@ import java.util.List;
 @QueryService
 public interface PaintingRepository extends JpaRepository<Painting, Long> {
 
-    @Query(nativeQuery = true, value = """
-            SELECT * FROM tb_painting p
-            WHERE p.description LIKE '%' || :colorName || '%'
-            AND p.painting_type_id = :paintingTypeId
-            """)
-    Collection<Painting> findPaintingByColorAndTypeId(@Param("colorName") String colorName, @Param("paintingTypeId") Long paintingTypeId);
-
-    @Query("SELECT c FROM Painting c WHERE c.description LIKE :description AND c.paintingType.id = :paintingTypeId")
-    Collection<Painting> findByDescriptionAndPaintingType(String description, Long paintingTypeId); // usado para verificar registro duplicado
+    @Query("SELECT c FROM Painting c WHERE c.color.code = :colorId AND c.paintingType.id = :paintingTypeId")
+    Collection<Painting> findByColorAndPaintingType(Long colorId, Long paintingTypeId); // usado para verificar registro duplicado
 
     @Query("SELECT c FROM Painting c WHERE c.status = 'ACTIVE' OR (:id IS NOT NULL AND c.code = :id)")
     List<Painting> findAllActiveAndCurrentOne(@Param("id") Long id);

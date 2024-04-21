@@ -52,10 +52,10 @@ public class PaintingServiceImpl implements PaintingService {
     }
 
     private void validateDuplicatedResource(DPainting domain){
-        if(crudPainting.findByDescriptionAndPaintingType(domain.getDescription(), domain.getPaintingType().getId())
+        if(crudPainting.findByColorAndPaintingType(domain.getColor().getCode(), domain.getPaintingType().getId())
                 .stream()
                 .anyMatch(t -> !t.getCode().equals(Optional.ofNullable(domain.getCode()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Descrição e Tipo de Pintura.";
+            String detailedMessage = "Registro duplicado para a combinação de Cor e Tipo de Pintura.";
             throw new UniqueConstraintViolationException("chk_painting_type_uk", detailedMessage);
         }
     }

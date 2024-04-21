@@ -1,18 +1,18 @@
-import { DEdgeBanding } from "models/entities";
+import { DPainting } from "models/entities";
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as DeleteSvg} from "assets/images/delete.svg";
 import { useState } from "react";
-import * as EdgeBandingService from 'services/MDP/edgeBandingService';
-import EdgeBandingModal from "../EdgeBandingModal";
+import * as paintingService from 'services/MDF/paintingService';
+import PaintingModal from "../PaintingModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
 
 type Props = {
-    edgeBanding: DEdgeBanding;
+    painting: DPainting;
     onDeleteOrEdit: Function;
 }
 
-const EdgeBandingRow = ({edgeBanding, onDeleteOrEdit} : Props) => {
+const PaintingRow = ({painting, onDeleteOrEdit} : Props) => {
 
     // inactivate and delete methods 
 
@@ -21,7 +21,7 @@ const EdgeBandingRow = ({edgeBanding, onDeleteOrEdit} : Props) => {
           return;
         }
 
-        EdgeBandingService.inactivate(objectId)
+        paintingService.inactivate(objectId)
             .then(() => {
                 onDeleteOrEdit();
                 toast.success("Situação alterada com sucesso!");
@@ -33,7 +33,7 @@ const EdgeBandingRow = ({edgeBanding, onDeleteOrEdit} : Props) => {
           return;
         }
 
-        EdgeBandingService.deleteById(objectId)
+        paintingService.deleteById(objectId)
             .then(() => {
                 onDeleteOrEdit();
                 toast.success("Excluído com sucesso!");
@@ -54,22 +54,21 @@ const EdgeBandingRow = ({edgeBanding, onDeleteOrEdit} : Props) => {
 
     return(
         <tr>
-            <td>{edgeBanding.code}</td>
-            <td>{edgeBanding.description}</td>
-            <td>{edgeBanding.family}</td>
-            {edgeBanding.implementation ? <td>{edgeBanding.implementation.toString()}</td> : <td>-</td>}
-            <td>{edgeBanding.lostPercentage}</td>
-            {edgeBanding.color ? <td>{edgeBanding.color.name}</td> : <td>-</td>}
-            <td>{edgeBanding.height}</td>
-            <td>{edgeBanding.thickness}</td>
-
+            <td>{painting.code}</td>
+            <td>{painting.description}</td>
+            <td>{painting.family}</td>
+            {painting.implementation ? <td>{painting.implementation.toString()}</td> : <td>-</td>}
+            <td>{painting.lostPercentage}</td>
+            {painting.color ? <td>{painting.color.name}</td> : <td>-</td>}
+            <td>{painting.paintingType.description}</td>
+            
             <td><EditSvg onClick={() => openModal()}/></td>
-            <td><RiShutDownLine onClick={() => inactivateObject(edgeBanding.code)}/></td>
-            <td><DeleteSvg onClick={() => deleteObject(edgeBanding.code)}/></td>
+            <td><RiShutDownLine onClick={() => inactivateObject(painting.code)}/></td>
+            <td><DeleteSvg onClick={() => deleteObject(painting.code)}/></td>
 
-            <EdgeBandingModal edgeBanding={edgeBanding} isOpen={modalIsOpen} isEditing={true} onClose={closeModal} onDeleteOrEdit={() => onDeleteOrEdit()} />
+            <PaintingModal painting={painting} isOpen={modalIsOpen} isEditing={true} onClose={closeModal} onDeleteOrEdit={() => onDeleteOrEdit()} />
         </tr>
     );
 }
 
-export default EdgeBandingRow;
+export default PaintingRow;

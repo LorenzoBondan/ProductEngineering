@@ -18,14 +18,14 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
     // inactivate and delete methods 
 
     const inactivateObject = (objectId : number) => {
-        if(!window.confirm("Tem certeza que deseja inativar esse item?")){
+        if(!window.confirm("Tem certeza que deseja mudar a situação esse item?")){
           return;
         }
 
         sheetService.inactivate(objectId)
             .then(() => {
                 onDeleteOrEdit();
-                toast.success("Inativado com sucesso!");
+                toast.success("Situação alterada com sucesso!");
             });
     }
 

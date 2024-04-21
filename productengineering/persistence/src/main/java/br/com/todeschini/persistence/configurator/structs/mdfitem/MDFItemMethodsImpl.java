@@ -141,14 +141,14 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
     }
 
     private void createAndLinkUsedPainting(PaintingSon paintingSon, PaintingType paintingType, Boolean highShine) {
-        Collection<Painting> paintings = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), paintingType.getId());
+        Collection<Painting> paintings = paintingRepository.findByColorAndPaintingType(paintingSon.getColor().getCode(), paintingType.getId());
         if(paintings.size() == 1){
-            Painting painting = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), paintingType.getId()).iterator().next();
+            Painting painting = paintingRepository.findByColorAndPaintingType(paintingSon.getColor().getCode(), paintingType.getId()).iterator().next();
             UsedPainting usedPainting1 = createUsedPainting(painting, paintingSon);
             paintingSon.getPaintings().add(usedPainting1);
             if(paintingSon.getFaces() == 2) {
                 if(highShine) {
-                    Painting painting2 = paintingRepository.findPaintingByColorAndTypeId(paintingSon.getColor().getName(), 1L).iterator().next();
+                    Painting painting2 = paintingRepository.findByColorAndPaintingType(paintingSon.getColor().getCode(), 1L).iterator().next();
                     UsedPainting usedPainting2 = createUsedPainting(painting2, paintingSon);
                     paintingSon.getPaintings().add(usedPainting2);
                 } else {
