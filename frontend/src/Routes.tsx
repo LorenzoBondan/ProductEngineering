@@ -3,6 +3,7 @@ import Navbar from "Components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
 import Paintings from "pages/CRUDs/MDF/Painting";
+import PaintingBorderBackgrounds from "pages/CRUDs/MDF/PaintingBorderBackground";
 import EdgeBandings from "pages/CRUDs/MDP/EdgeBanding";
 import Glues from "pages/CRUDs/MDP/Glue";
 import Sheets from "pages/CRUDs/MDP/Sheet";
@@ -73,6 +74,10 @@ const Routes = () => {
 
                     <Route path="/paintings">
                         <Paintings/>
+                    </Route>
+
+                    <Route path="/paintingBorderBackgrounds">
+                        <PaintingBorderBackgrounds/>
                     </Route>
 
                 </Switch>

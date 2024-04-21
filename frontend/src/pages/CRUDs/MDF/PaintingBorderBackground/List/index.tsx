@@ -1,11 +1,12 @@
 import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
-import { DSheet } from "models/entities";
+import { DPaintingBorderBackground } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
-import SheetRow from "../SheetRow";
-import * as sheetService from 'services/MDP/sheetService';
-import SheetModal from "../SheetModal";
+import * as paintingBorderBackgroundService from 'services/MDF/paintingBorderBackgroundService';
+import PaintingBorderBackgroundRow from "../PaintingBorderBackgroundRow";
+import PaintingBorderBackgroundModal from "../PaintingBorderBackgroundModal";
+
 
 type ControlComponentsData = {
     activePage: number;
@@ -28,11 +29,10 @@ const List = () => {
 
     // findAll
 
-    const [page, setPage] = useState<SpringPage<DSheet>>();
+    const [page, setPage] = useState<SpringPage<DPaintingBorderBackground>>();
 
-    const getSheets = useCallback(() => {
-
-        sheetService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
+    const getpaintingBorderBackgrounds = useCallback(() => {
+        paintingBorderBackgroundService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
@@ -40,8 +40,8 @@ const List = () => {
     }, [controlComponentsData])
 
     useEffect(() => {
-        getSheets();
-    }, [getSheets]);
+        getpaintingBorderBackgrounds();
+    }, [getpaintingBorderBackgrounds]);
 
     // modal functions
 
@@ -60,13 +60,12 @@ const List = () => {
             <div className="crud-content-container">
                 <div className="crud-bar-container">
                     <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
-                        Adicionar nova Chapa
+                        Adicionar nova Pintura de Borda de Fundo
                     </button>
-                    <SheetModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSheets()} />
+                    <PaintingBorderBackgroundModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getpaintingBorderBackgrounds()} />
                 </div>
                 <div className='search-bar-container'>
                     <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
-
                 </div>
                 <div className='crud-table-container'>
                     <table className='crud-table'>
@@ -77,10 +76,6 @@ const List = () => {
                                 <th>Família</th>
                                 <th>Implementação</th>
                                 <th>% Perda</th>
-                                <th>Cor</th>
-                                <th>Espessura</th>
-                                <th>Faces</th>
-                                <th>Material</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
@@ -88,7 +83,7 @@ const List = () => {
                         </thead>
                         <tbody>
                             {page?.content.map((item) => (
-                                <SheetRow sheet={item} onDeleteOrEdit={getSheets} key={item.code}/>
+                                <PaintingBorderBackgroundRow paintingBorderBackground={item} onDeleteOrEdit={getpaintingBorderBackgrounds} key={item.code}/>
                             ))}
                         </tbody>
                     </table>

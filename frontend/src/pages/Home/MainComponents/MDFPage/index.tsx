@@ -11,7 +11,7 @@ const MDFPage = () => {
                     </Link>
                 </div>
                 <div className="base-container-item">
-                    <Link to="/paintingborderbackgrounds">
+                    <Link to="/paintingBorderBackgrounds">
                         <ItemCard title='Pinturas de Borda de Fundo'/>
                     </Link>
                 </div>

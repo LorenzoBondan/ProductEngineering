@@ -86,12 +86,9 @@ const List = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {page?.content
-                                .sort( (a,b) => a.description > b.description ? 1 : -1)
-                                .map((item) => (
-                                    <EdgeBandingRow edgeBanding={item} onDeleteOrEdit={getEdgeBandings} key={item.code}/>
-                                ))
-                            }
+                            {page?.content.map((item) => (
+                                <EdgeBandingRow edgeBanding={item} onDeleteOrEdit={getEdgeBandings} key={item.code}/>
+                            ))}
                         </tbody>
                     </table>
                 </div>

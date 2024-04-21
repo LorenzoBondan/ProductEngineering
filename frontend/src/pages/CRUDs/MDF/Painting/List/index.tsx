@@ -85,12 +85,9 @@ const List = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {page?.content
-                                .sort( (a,b) => a.description > b.description ? 1 : -1)
-                                .map((item) => (
-                                    <PaintingRow painting={item} onDeleteOrEdit={getPaintings} key={item.code}/>
-                                ))
-                            }
+                            {page?.content.map((item) => (
+                                <PaintingRow painting={item} onDeleteOrEdit={getPaintings} key={item.code}/>
+                            ))}
                         </tbody>
                     </table>
                 </div>
