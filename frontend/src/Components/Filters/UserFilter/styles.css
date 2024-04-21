@@ -36,6 +36,8 @@
 
 .base-filter-bottom-container{
     display: flex;
+    width: 20%;
+    justify-content: space-between;
 }
 
 .btn-base-filter-clear{
@@ -45,6 +47,11 @@
 
 .btn-base-filter-word{
     display: none;
+}
+
+.status-filter{
+    margin-bottom: 0 !important;
+    width: 120px !important;
 }
 
 @media(min-width:576px){

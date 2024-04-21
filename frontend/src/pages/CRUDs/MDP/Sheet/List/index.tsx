@@ -16,7 +16,7 @@ const List = () => {
 
     // filter 
 
-    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { description: '' }});
+    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { description: '', status: undefined }});
 
     const handlePageChange = (pageNumber : number) => {
         setControlComponentsData({activePage: pageNumber, filterData: controlComponentsData.filterData});
@@ -31,7 +31,8 @@ const List = () => {
     const [page, setPage] = useState<SpringPage<DSheet>>();
 
     const getSheets = useCallback(() => {
-        sheetService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+
+        sheetService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
@@ -65,6 +66,7 @@ const List = () => {
                 </div>
                 <div className='search-bar-container'>
                     <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
+
                 </div>
                 <div className='crud-table-container'>
                     <table className='crud-table'>

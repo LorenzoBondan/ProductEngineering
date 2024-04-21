@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import { DColor } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(name: string, page?: number, size?: number, sort = "code") {
+export function findAll(name: string, page?: number, size?: number, status?: string, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
         url: "/colors",
@@ -10,7 +10,8 @@ export function findAll(name: string, page?: number, size?: number, sort = "code
             name,
             page,
             size,
-            sort 
+            sort,
+            status
         },
         withCredentials: true
     }

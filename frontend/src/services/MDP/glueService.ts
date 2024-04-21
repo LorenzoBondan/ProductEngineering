@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import { DGlue } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(description: string, page?: number, size?: number, sort = "code") {
+export function findAll(description: string, page?: number, size?: number, status?: string, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
         url: "/glues",
@@ -10,7 +10,8 @@ export function findAll(description: string, page?: number, size?: number, sort 
             description,
             page,
             size,
-            sort 
+            sort,
+            status: status
         },
         withCredentials: true
     }

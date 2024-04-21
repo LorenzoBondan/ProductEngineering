@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
 
-import * as EdgeBandingService from 'services/MDP/edgeBandingService';
+import * as edgeBandingService from 'services/MDP/edgeBandingService';
 import EdgeBandingRow from "../EdgeBandingRow";
 import EdgeBandingModal from "../EdgeBandingModal";
 
@@ -18,7 +18,7 @@ const List = () => {
 
     // filter 
 
-    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { description: '' }});
+    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { description: '', status: undefined }});
 
     const handlePageChange = (pageNumber : number) => {
         setControlComponentsData({activePage: pageNumber, filterData: controlComponentsData.filterData});
@@ -33,7 +33,7 @@ const List = () => {
     const [page, setPage] = useState<SpringPage<DEdgeBanding>>();
 
     const getEdgeBandings = useCallback(() => {
-        EdgeBandingService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+        edgeBandingService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
