@@ -13,6 +13,7 @@ import Polyesters from "pages/CRUDs/MDF/Polyester";
 import EdgeBandings from "pages/CRUDs/MDP/EdgeBanding";
 import Glues from "pages/CRUDs/MDP/Glue";
 import Sheets from "pages/CRUDs/MDP/Sheet";
+import CornerBrackets from "pages/CRUDs/Packaging/CornerBracket";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
@@ -108,6 +109,10 @@ const Routes = () => {
 
                     <Route path="/screws">
                         <Screws/>
+                    </Route>
+                    
+                    <Route path="/cornerBrackets">
+                        <CornerBrackets/>
                     </Route>
 
                 </Switch>
