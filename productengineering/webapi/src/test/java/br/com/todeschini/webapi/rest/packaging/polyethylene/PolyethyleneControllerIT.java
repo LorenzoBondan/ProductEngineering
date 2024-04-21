@@ -1,13 +1,12 @@
 package br.com.todeschini.webapi.rest.packaging.polyethylene;
 
-import br.com.todeschini.domain.business.packaging.polythylene.DPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.DPolyethylene;
 import br.com.todeschini.persistence.packaging.polyethylene.CrudPolyethyleneImpl;
 import br.com.todeschini.persistence.packaging.polyethylene.PolyethyleneRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
 import javax.transaction.Transactional;
 
-import br.com.todeschini.webapi.rest.publico.son.SonFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

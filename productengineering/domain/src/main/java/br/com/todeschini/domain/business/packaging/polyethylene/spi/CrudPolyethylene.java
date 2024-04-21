@@ -1,7 +1,7 @@
-package br.com.todeschini.domain.business.packaging.polythylene.spi;
+package br.com.todeschini.domain.business.packaging.polyethylene.spi;
 
 import br.com.todeschini.domain.SimpleCrud;
-import br.com.todeschini.domain.business.packaging.polythylene.DPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.DPolyethylene;
 
 import java.util.Collection;
 

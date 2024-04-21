@@ -1,7 +1,7 @@
 package br.com.todeschini.webapi.rest.packaging.polyethylene;
 
-import br.com.todeschini.domain.business.packaging.polythylene.DPolyethylene;
-import br.com.todeschini.domain.business.packaging.polythylene.api.PolyethyleneService;
+import br.com.todeschini.domain.business.packaging.polyethylene.DPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.api.PolyethyleneService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.Status;
 import br.com.todeschini.persistence.packaging.polyethylene.PolyethyleneRepository;

@@ -1,4 +1,4 @@
-package br.com.todeschini.domain.business.packaging.polythylene;
+package br.com.todeschini.domain.business.packaging.polyethylene;
 
 import br.com.todeschini.domain.business.basedomains.DBaseMaterial;
 import lombok.Getter;

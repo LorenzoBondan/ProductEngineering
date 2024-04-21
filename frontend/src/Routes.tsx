@@ -16,6 +16,7 @@ import Sheets from "pages/CRUDs/MDP/Sheet";
 import CornerBrackets from "pages/CRUDs/Packaging/CornerBracket";
 import NonwovenFabrics from "pages/CRUDs/Packaging/NonwovenFabric";
 import Plastics from "pages/CRUDs/Packaging/Plastic";
+import Polyethylenes from "pages/CRUDs/Packaging/Polyethylene";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
@@ -123,6 +124,10 @@ const Routes = () => {
 
                     <Route path="/plastics">
                         <Plastics/>
+                    </Route>
+
+                    <Route path="/polyethylenes">
+                        <Polyethylenes/>
                     </Route>
 
                 </Switch>

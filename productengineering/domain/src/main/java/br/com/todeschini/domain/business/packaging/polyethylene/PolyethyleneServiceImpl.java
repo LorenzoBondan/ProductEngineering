@@ -1,7 +1,7 @@
-package br.com.todeschini.domain.business.packaging.polythylene;
+package br.com.todeschini.domain.business.packaging.polyethylene;
 
-import br.com.todeschini.domain.business.packaging.polythylene.api.PolyethyleneService;
-import br.com.todeschini.domain.business.packaging.polythylene.spi.CrudPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.api.PolyethyleneService;
+import br.com.todeschini.domain.business.packaging.polyethylene.spi.CrudPolyethylene;
 import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
 import br.com.todeschini.domain.metadata.DomainService;
 

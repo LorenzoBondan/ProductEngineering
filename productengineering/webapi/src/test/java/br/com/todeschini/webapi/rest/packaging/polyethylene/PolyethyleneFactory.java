@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.packaging.polyethylene;
 
-import br.com.todeschini.domain.business.packaging.polythylene.DPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.DPolyethylene;
 
 import java.time.LocalDate;
 

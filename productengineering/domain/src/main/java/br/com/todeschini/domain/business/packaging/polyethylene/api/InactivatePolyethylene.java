@@ -1,4 +1,4 @@
-package br.com.todeschini.domain.business.packaging.polythylene.api;
+package br.com.todeschini.domain.business.packaging.polyethylene.api;
 
 public interface InactivatePolyethylene {
 

@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.packaging.polyethylene;
 
-import br.com.todeschini.domain.business.packaging.polythylene.DPolyethylene;
-import br.com.todeschini.domain.business.packaging.polythylene.spi.CrudPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.DPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.spi.CrudPolyethylene;
 import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.Status;

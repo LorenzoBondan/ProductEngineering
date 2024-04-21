@@ -1,6 +1,6 @@
-package br.com.todeschini.domain.business.packaging.polythylene.api;
+package br.com.todeschini.domain.business.packaging.polyethylene.api;
 
-import br.com.todeschini.domain.business.packaging.polythylene.DPolyethylene;
+import br.com.todeschini.domain.business.packaging.polyethylene.DPolyethylene;
 
 import java.util.List;
 
