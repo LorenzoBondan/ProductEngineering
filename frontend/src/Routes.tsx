@@ -15,6 +15,7 @@ import Glues from "pages/CRUDs/MDP/Glue";
 import Sheets from "pages/CRUDs/MDP/Sheet";
 import CornerBrackets from "pages/CRUDs/Packaging/CornerBracket";
 import NonwovenFabrics from "pages/CRUDs/Packaging/NonwovenFabric";
+import Plastics from "pages/CRUDs/Packaging/Plastic";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
@@ -118,6 +119,10 @@ const Routes = () => {
 
                     <Route path="/nonwovenFabrics">
                         <NonwovenFabrics/>
+                    </Route>
+
+                    <Route path="/plastics">
+                        <Plastics/>
                     </Route>
 
                 </Switch>
