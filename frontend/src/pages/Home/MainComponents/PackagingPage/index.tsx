@@ -6,12 +6,12 @@ const PackagingPage = () => {
         <div className='base-page'>
             <div className='base-container'>
                 <div className="base-container-item">
-                    <Link to="/cornerbrackets">
+                    <Link to="/cornerBrackets">
                         <ItemCard title='Cantoneiras'/>
                     </Link>
                 </div>
                 <div className="base-container-item">
-                    <Link to="/nonwovenfabrics">
+                    <Link to="/nonwovenFabrics">
                         <ItemCard title='TNTs'/>
                     </Link>
                 </div>

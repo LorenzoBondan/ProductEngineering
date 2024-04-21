@@ -49,7 +49,7 @@ const Login = () => {
 
             history.replace(from);
 
-            toast.success("Welcome!");
+            toast.success("Bem-vindo(a)!");
         })
         .catch(error => {
             setHasError(true);
@@ -62,7 +62,7 @@ const Login = () => {
                 <h2>LOGIN</h2>
                 { hasError && (
                     <div className="alert alert-danger">
-                       Error when trying to login
+                       Erro ao tentar logar
                     </div>
                 )}
                 <form onSubmit={handleSubmit(onSubmit)}>
