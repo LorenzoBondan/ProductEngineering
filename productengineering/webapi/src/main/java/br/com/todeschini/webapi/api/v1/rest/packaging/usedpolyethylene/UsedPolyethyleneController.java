@@ -16,7 +16,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "UsedPolyethylenes")
 @RestController
@@ -38,9 +40,13 @@ public class UsedPolyethyleneController {
     })
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping
-    public ResponseEntity<?> findByStatusIn(@RequestBody(required = false) List<Status> statusList,
+    public ResponseEntity<?> findByStatusIn(@RequestParam(value = "status", required = false) String statusParam,
                                             Pageable pageable){
-        statusList = (statusList == null) ? List.of(Status.ACTIVE) : statusList;
+        List<Status> statusList = (statusParam != null) ?
+                Arrays.stream(statusParam.split(","))
+                        .map(Status::valueOf)
+                        .collect(Collectors.toList()) :
+                List.of(Status.ACTIVE);
         return ResponseEntity.ok().body(repository.findByStatusIn(statusList, pageable, UsedPolyethyleneDTO.class));
     }
 

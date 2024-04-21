@@ -16,7 +16,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "PaintingSons")
 @RestController
@@ -38,10 +40,14 @@ public class PaintingSonController {
     })
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping
-    public ResponseEntity<?> findByStatusInAndDescriptionContainingIgnoreCase(@RequestBody(required = false) List<Status> statusList,
-                                                                                  @RequestParam(value = "description", required = false) String description,
-                                                                                  Pageable pageable){
-        statusList = (statusList == null) ? List.of(Status.ACTIVE) : statusList;
+    public ResponseEntity<?> findByStatusInAndDescriptionContainingIgnoreCase(@RequestParam(value = "status", required = false) String statusParam,
+                                                                              @RequestParam(value = "description", required = false) String description,
+                                                                              Pageable pageable){
+        List<Status> statusList = (statusParam != null) ?
+                Arrays.stream(statusParam.split(","))
+                        .map(Status::valueOf)
+                        .collect(Collectors.toList()) :
+                List.of(Status.ACTIVE);
         return ResponseEntity.ok().body(repository.findByStatusInAndDescriptionContainingIgnoreCase(statusList, description, pageable, PaintingSonDTO.class));
     }
 
