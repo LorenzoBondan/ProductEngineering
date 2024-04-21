@@ -2,12 +2,12 @@ import { AxiosRequestConfig } from "axios";
 import { DDrawerPull } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(name: string, page?: number, size?: number, status?: string, sort = "code") {
+export function findAll(description: string, page?: number, size?: number, status?: string, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
         url: "/drawerPulls",
         params: {
-            name,
+            description,
             page,
             size,
             sort,

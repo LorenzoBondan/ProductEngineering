@@ -2,6 +2,7 @@ import Footer from "Components/Footer";
 import Navbar from "Components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
+import DrawerPulls from "pages/CRUDs/Aluminium/DrawerPull";
 import Paintings from "pages/CRUDs/MDF/Painting";
 import PaintingBorderBackgrounds from "pages/CRUDs/MDF/PaintingBorderBackground";
 import Polyesters from "pages/CRUDs/MDF/Polyester";
@@ -83,6 +84,10 @@ const Routes = () => {
                     
                     <Route path="/polyesters">
                         <Polyesters/>
+                    </Route>
+
+                    <Route path="/drawerPulls">
+                        <DrawerPulls/>
                     </Route>
 
                 </Switch>

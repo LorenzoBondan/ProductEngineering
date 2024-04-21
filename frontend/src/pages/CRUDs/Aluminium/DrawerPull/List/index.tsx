@@ -60,7 +60,7 @@ const List = () => {
             <div className="crud-content-container">
                 <div className="crud-bar-container">
                     <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
-                        Adicionar novo Poliéster
+                        Adicionar novo Puxador
                     </button>
                     <DrawerPullModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getDrawerPulls()} />
                 </div>
@@ -73,10 +73,12 @@ const List = () => {
                         <thead>
                             <tr>
                                 <th>Código</th>
+                                <th>Descrição</th>
                                 <th>Medida 1</th>
                                 <th>Medida 2</th>
                                 <th>Medida 3</th>
                                 <th>Unidade de Medida</th>
+                                <th>Implementação</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
@@ -84,7 +86,7 @@ const List = () => {
                         </thead>
                         <tbody>
                             {page?.content.map((item) => (
-                                <DrawerPullRow DrawerPull={item} onDeleteOrEdit={getDrawerPulls} key={item.code}/>
+                                <DrawerPullRow drawerPull={item} onDeleteOrEdit={getDrawerPulls} key={item.code}/>
                             ))}
                         </tbody>
                     </table>

@@ -109,6 +109,7 @@ export type DItem = {
   measure2: number;
   measure3: number;
   measurementUnit: string;
+  implementation: Date;
 };
 
 export type DAttachment = DItem & {
