@@ -6,6 +6,7 @@ import MDPPage from 'pages/Home/MainComponents/MDPPage';
 import MDFPage from './MainComponents/MDFPage';
 import AluminiumPage from './MainComponents/AluminiumPage';
 import PackagingPage from './MainComponents/PackagingPage';
+import MachinePage from './MainComponents/MachinePage';
 
 const Home = () => {
 
@@ -25,6 +26,9 @@ const Home = () => {
                     </PrivateRoute>
                     <PrivateRoute path="/home/packaging">
                         <PackagingPage/>
+                    </PrivateRoute>
+                    <PrivateRoute path="/home/machines">
+                        <MachinePage/>
                     </PrivateRoute>
                 </Switch>
             </div>

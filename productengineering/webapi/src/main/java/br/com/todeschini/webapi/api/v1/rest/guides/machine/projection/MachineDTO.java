@@ -1,6 +1,5 @@
 package br.com.todeschini.webapi.api.v1.rest.guides.machine.projection;
 
-import br.com.todeschini.webapi.api.v1.rest.guides.machinegroup.projection.MachineGroupDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public interface MachineDTO {
@@ -11,6 +10,6 @@ public interface MachineDTO {
     String getName();
     @JsonProperty(value = "formula", index = 3)
     String[] getFormula();
-    @JsonProperty(value = "machineGroup", index = 4)
-    MachineGroupDTO getMachineGroup();
+    @JsonProperty(value = "machineGroupId", index = 4)
+    Long getMachineGroupId();
 }

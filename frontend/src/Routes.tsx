@@ -7,6 +7,7 @@ import Glasses from "pages/CRUDs/Aluminium/Glass";
 import Moldings from "pages/CRUDs/Aluminium/Molding";
 import Screws from "pages/CRUDs/Aluminium/Screw";
 import TrySquares from "pages/CRUDs/Aluminium/TrySquare";
+import Machines from "pages/CRUDs/Guides/Machine";
 import Paintings from "pages/CRUDs/MDF/Painting";
 import PaintingBorderBackgrounds from "pages/CRUDs/MDF/PaintingBorderBackground";
 import Polyesters from "pages/CRUDs/MDF/Polyester";
@@ -128,6 +129,10 @@ const Routes = () => {
 
                     <Route path="/polyethylenes">
                         <Polyethylenes/>
+                    </Route>
+
+                    <Route path="/machines">
+                        <Machines/>
                     </Route>
 
                 </Switch>
