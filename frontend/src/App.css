@@ -79,6 +79,11 @@ ul {
   backdrop-filter: blur(15px);
 }
 
+.active-card {
+  border-radius: 10px;
+  box-shadow: 0 0 5px 4px rgba(76, 215, 224, 0.5);
+}
+
 .base-input {
   border-radius: 10px !important;
   padding-left: 12px;
