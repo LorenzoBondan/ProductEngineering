@@ -87,7 +87,7 @@ public class MachineControllerTests {
         // Arrange
 
         // Act
-        ResponseEntity<?> responseEntity = controller.findByStatusInAndNameContainingIgnoreCase(statusList, description, pageable);
+        ResponseEntity<?> responseEntity = controller.findByStatusInAndNameContainingIgnoreCase("ACTIVE", description, pageable);
 
         // Assert
         assertNotNull(responseEntity.getBody());

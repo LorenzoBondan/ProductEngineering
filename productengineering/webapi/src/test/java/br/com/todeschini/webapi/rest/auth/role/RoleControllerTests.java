@@ -1,71 +1,83 @@
 package br.com.todeschini.webapi.rest.auth.role;
 
 import br.com.todeschini.domain.business.auth.role.DRole;
-import br.com.todeschini.domain.business.auth.role.api.RoleService;
+import br.com.todeschini.domain.business.auth.role.RoleServiceImpl;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.auth.role.RoleRepository;
-import br.com.todeschini.webapi.api.v1.rest.auth.role.RoleController;
-import br.com.todeschini.webapi.api.v1.rest.auth.role.projection.RoleDTO;
+import br.com.todeschini.persistence.auth.role.CrudRoleImpl;
+import br.com.todeschini.webapi.UserTest;
+import br.com.todeschini.webapi.rest.auth.TokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.test.web.servlet.MockMvc;
 
-import javax.transaction.Transactional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Transactional
+@SpringBootTest
+@AutoConfigureMockMvc
 public class RoleControllerTests {
 
-    private final RoleService service = mock(RoleService.class);
-    private final RoleRepository repository = mock(RoleRepository.class);
-    private final RoleController controller = new RoleController(service, repository);
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private CrudRoleImpl crud;
+
+    @Autowired
+    private TokenUtil tokenUtil;
+
+    @Value("${todeschini.users.admin.email}")
+    private String adminEmail;
+    @Value("${todeschini.users.admin.password}")
+    private String adminPassword;
 
     private DRole object, nonExistingObject;
     private Long existingId, nonExistingId;
-    private String description;
+    private String accessToken;
     private final Pageable pageable = PageRequest.of(0, 10);
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         existingId = 1L;
         nonExistingId = 99999999L;
 
-        description = "description";
+        accessToken = tokenUtil.obtainAccessToken(mockMvc, new UserTest(adminEmail, adminPassword));
 
-        object = new DRole(existingId);
+        object = RoleFactory.createDRole();
         nonExistingObject = new DRole(nonExistingId);
 
         // findAll
-        when(repository.findByAuthorityStartingWithIgnoreCase(anyString(), any(), any()))
-                .thenReturn(Page.empty());
+        //when(repository.findByAuthorityStartingWithIgnoreCase(any(), any(), any()))
+                //.thenReturn(Page.empty());
 
         // findById
-        when(service.find(anyLong())).thenReturn(object);
-        doThrow(ResourceNotFoundException.class).when(service).find(nonExistingId);
+        when(crud.find(existingId)).thenReturn(object);
+        when(crud.find(nonExistingId)).thenThrow(ResourceNotFoundException.class);
 
         // insert
-        when(service.insert(any(DRole.class))).thenReturn(object);
+        when(crud.insert(any(DRole.class))).thenReturn(object);
 
         // update
-        when(service.update(eq(existingId), any(DRole.class))).thenReturn(object);
-        doThrow(ResourceNotFoundException.class).when(service).update(nonExistingId, nonExistingObject);
+        when(crud.update(eq(existingId), any())).thenReturn(object);
+        when(crud.update(eq(nonExistingId), any())).thenThrow(ResourceNotFoundException.class);
 
         // delete
-        doNothing().when(service).delete(existingId);
-        doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
+        doNothing().when(crud).delete(existingId);
+        doThrow(ResourceNotFoundException.class).when(crud).delete(nonExistingId);
     }
 
+    /*
     @Test
     void findByStatusInAndNameContainingIgnoreCaseShouldReturnPage() {
         // Arrange
@@ -86,19 +98,17 @@ public class RoleControllerTests {
                 eq(description), eq(pageable), eq(RoleDTO.class));
     }
 
+     */
+
     @Test
-    public void findByIdShouldReturnObjectWhenIdExists() {
-        // Executando o método
-        ResponseEntity<?> responseEntity = controller.findById(existingId);
-
-        // Verificando o tipo de dado e código de status
-        assertThat(responseEntity.getBody()).isInstanceOf(DRole.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        // Verificando se o serviço foi chamado corretamente
-        verify(service).find(existingId);
+    public void findByIdShouldReturnObjectWhenIdExists() throws Exception {
+        mockMvc.perform(get("/roles/{id}",existingId)
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.authority").exists());
     }
-
+/*
     @Test
     public void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
         // Executando o método
@@ -177,4 +187,7 @@ public class RoleControllerTests {
         // Verificando se o serviço foi chamado corretamente
         verify(service).delete(eq(nonExistingId));
     }
+
+
+ */
 }

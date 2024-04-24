@@ -2,6 +2,7 @@ package br.com.todeschini.webapi.rest.mdf.painting;
 
 import br.com.todeschini.domain.business.mdf.painting.DPainting;
 import br.com.todeschini.domain.business.mdf.paintingtype.DPaintingType;
+import br.com.todeschini.domain.business.publico.color.DColor;
 
 import java.time.LocalDate;
 
@@ -15,17 +16,19 @@ public class PaintingFactory {
         Painting.setImplementation(LocalDate.of(3000,1,1));
         Painting.setLostPercentage(1.0);
         Painting.setPaintingType(new DPaintingType(1L));
+        Painting.setColor(new DColor(1L));
         return Painting;
     }
 
-    public static DPainting createDuplicatedDPainting(String duplicatedDescription, Long duplicatedId) {
+    public static DPainting createDuplicatedDPainting(Long duplicatedId) {
         DPainting Painting = new DPainting();
         Painting.setCode(2222222L);
-        Painting.setDescription(duplicatedDescription);
+        Painting.setDescription("Painting");
         Painting.setFamily("abcd");
         Painting.setImplementation(LocalDate.of(3000,1,1));
         Painting.setLostPercentage(1.0);
         Painting.setPaintingType(new DPaintingType(duplicatedId));
+        Painting.setColor(new DColor(duplicatedId));
         return Painting;
     }
 
@@ -37,6 +40,7 @@ public class PaintingFactory {
         Painting.setImplementation(LocalDate.of(3000,1,1));
         Painting.setLostPercentage(1.0);
         Painting.setPaintingType(new DPaintingType(1L));
+        Painting.setColor(new DColor(1L));
         return Painting;
     }
 }

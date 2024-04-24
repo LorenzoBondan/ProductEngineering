@@ -84,7 +84,7 @@ public class UsedPaintingControllerTests {
         // Arrange
 
         // Act
-        ResponseEntity<?> responseEntity = controller.findByStatusIn(statusList, pageable);
+        ResponseEntity<?> responseEntity = controller.findByStatusIn("ACTIVE", pageable);
 
         // Assert
         assertNotNull(responseEntity.getBody());

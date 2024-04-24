@@ -87,7 +87,7 @@ public class DrawerPullControllerTests {
         // Arrange
 
         // Act
-        ResponseEntity<?> responseEntity = controller.findByStatusInAndDescriptionContainingIgnoreCase(statusList, description, pageable);
+        ResponseEntity<?> responseEntity = controller.findByStatusInAndDescriptionContainingIgnoreCase("ACTIVE", description, pageable);
 
         // Assert
         assertNotNull(responseEntity.getBody());

@@ -39,10 +39,9 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
         setConfiguration("/paintings");
 
         Long duplicatedId = 2L;
-        String duplicatedDescription = "duplicatedDescription";
 
         factoryObject = PaintingFactory.createDPainting();
-        duplicatedObject = PaintingFactory.createDuplicatedDPainting(duplicatedDescription, duplicatedId);
+        duplicatedObject = PaintingFactory.createDuplicatedDPainting(duplicatedId);
         nonExistingObject = PaintingFactory.createNonExistingDPainting(nonExistingId);
 
         setCrudBehavior(factoryObject, nonExistingObject, crud);
@@ -52,7 +51,7 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
                 .thenReturn(Page.empty());
 
         // custom duplicated
-        doThrow(DuplicatedResourceException.class).when(crud).findByDescriptionAndPaintingType(duplicatedDescription, duplicatedId);
+        doThrow(DuplicatedResourceException.class).when(crud).findByColorAndPaintingType(duplicatedId, duplicatedId);
     }
 
     @Test

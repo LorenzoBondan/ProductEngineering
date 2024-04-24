@@ -136,7 +136,7 @@ public class AuthorizationTests {
         adminEndPoints.add(new EndpointMethod("/users/" + anyLong(), HttpMethod.DELETE));
 
         adminEndPoints.add(new EndpointMethod("/trash?username=" + anyString() + "&startDate=" + anyString() + "&endDate=" + anyString() + "&table=" + anyString(), HttpMethod.GET));
-        adminEndPoints.add(new EndpointMethod("/trash/recover/" + anyLong() + "?recuperarDependencias=" + anyBoolean(), HttpMethod.GET));
+        adminEndPoints.add(new EndpointMethod("/trash/retrieve/" + anyLong() + "?retrieveDependencies=" + anyBoolean(), HttpMethod.GET));
 
         // Testar autorização para operações de leitura com token inválido
         for (EndpointMethod endpoint : readEndpoints) {

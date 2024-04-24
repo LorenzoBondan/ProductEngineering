@@ -36,7 +36,7 @@ public class SheetControllerTests {
 
     private DSheet object, nonExistingObject;
     private Long existingId, nonExistingId;
-    private String description;
+    private String description, status = "ACTIVE";
     private final List<Status> statusList = new ArrayList<>();
     private final List<DSheet> objectList = new ArrayList<>();
     private final Pageable pageable = PageRequest.of(0, 10);
@@ -87,7 +87,7 @@ public class SheetControllerTests {
         // Arrange
 
         // Act
-        ResponseEntity<?> responseEntity = controller.findByStatusInAndDescriptionContainingIgnoreCase(statusList, description, pageable);
+        ResponseEntity<?> responseEntity = controller.findByStatusInAndDescriptionContainingIgnoreCase(status, description, pageable);
 
         // Assert
         assertNotNull(responseEntity.getBody());
