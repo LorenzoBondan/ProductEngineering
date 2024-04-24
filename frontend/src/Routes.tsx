@@ -1,5 +1,6 @@
 import Footer from "Components/Footer";
 import Navbar from "Components/Navbar";
+import PrivateRoute from "Components/PrivateRoute";
 import Admin from "pages/Admin";
 import Auth from "pages/Auth";
 import DrawerPulls from "pages/CRUDs/Aluminium/DrawerPull";
@@ -21,11 +22,9 @@ import Plastics from "pages/CRUDs/Packaging/Plastic";
 import Polyethylenes from "pages/CRUDs/Packaging/Polyethylene";
 import Colors from "pages/CRUDs/Public/Color";
 import Materials from "pages/CRUDs/Public/Materials";
-import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
 import Profile from "pages/Profile";
-import RecipeDetails from "pages/RecipeDetails";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { isAuthenticated } from "util/auth";
 import history from "util/history";
@@ -44,25 +43,17 @@ const Routes = () => {
                         <Redirect from='/' to='/auth/login' exact />
                     )}
                     
-                    <Route path="/home">
+                    <PrivateRoute path="/home">
                         <Home/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/mdp" exact>
+                    <PrivateRoute path="/mdp">
                         <MDPPage/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/recipes/:recipeId" exact>
-                        <RecipeDetails/>
-                    </Route>
-
-                    <Route path="/create" exact>
-                        <CreateRecipe/>
-                    </Route>
-
-                    <Route path="/profile" exact>
+                    <PrivateRoute path="/profile">
                         <Profile/>
-                    </Route>
+                    </PrivateRoute>
 
                     <Redirect from='/auth' to='/auth/login' exact />
                     <Route path="/auth">
@@ -70,85 +61,85 @@ const Routes = () => {
                     </Route>
 
                     <Redirect from="/admin" to="/admin/users" exact />
-                    <Route path="/admin">
+                    <PrivateRoute path="/admin">
                         <Admin/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/sheets">
+                    <PrivateRoute path="/sheets">
                         <Sheets/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/edgeBandings">
+                    <PrivateRoute path="/edgeBandings">
                         <EdgeBandings/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/glues">
+                    <PrivateRoute path="/glues">
                         <Glues/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/paintings">
+                    <PrivateRoute path="/paintings">
                         <Paintings/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/paintingBorderBackgrounds">
+                    <PrivateRoute path="/paintingBorderBackgrounds">
                         <PaintingBorderBackgrounds/>
-                    </Route>
+                    </PrivateRoute>
                     
-                    <Route path="/polyesters">
+                    <PrivateRoute path="/polyesters">
                         <Polyesters/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/drawerPulls">
+                    <PrivateRoute path="/drawerPulls">
                         <DrawerPulls/>
-                    </Route>
+                    </PrivateRoute>
                     
-                    <Route path="/glasses">
+                    <PrivateRoute path="/glasses">
                         <Glasses/>
-                    </Route>
+                    </PrivateRoute>
                                         
-                    <Route path="/trySquares">
+                    <PrivateRoute path="/trySquares">
                         <TrySquares/>
-                    </Route>
+                    </PrivateRoute>
                                                             
-                    <Route path="/moldings">
+                    <PrivateRoute path="/moldings">
                         <Moldings/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/screws">
+                    <PrivateRoute path="/screws">
                         <Screws/>
-                    </Route>
+                    </PrivateRoute>
                     
-                    <Route path="/cornerBrackets">
+                    <PrivateRoute path="/cornerBrackets">
                         <CornerBrackets/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/nonwovenFabrics">
+                    <PrivateRoute path="/nonwovenFabrics">
                         <NonwovenFabrics/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/plastics">
+                    <PrivateRoute path="/plastics">
                         <Plastics/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/polyethylenes">
+                    <PrivateRoute path="/polyethylenes">
                         <Polyethylenes/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/machines">
+                    <PrivateRoute path="/machines">
                         <Machines/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/machineGroups">
+                    <PrivateRoute path="/machineGroups">
                         <MachineGroups/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/colors">
+                    <PrivateRoute path="/colors">
                         <Colors/>
-                    </Route>
+                    </PrivateRoute>
 
-                    <Route path="/materials">
+                    <PrivateRoute path="/materials">
                         <Materials/>
-                    </Route>
+                    </PrivateRoute>
 
                 </Switch>
             </div>
