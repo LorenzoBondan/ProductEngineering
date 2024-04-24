@@ -11,7 +11,7 @@ export function findAll(description: string, page?: number, size?: number, statu
             page,
             size,
             sort,
-            status: status
+            status
         },
         withCredentials: true
     }

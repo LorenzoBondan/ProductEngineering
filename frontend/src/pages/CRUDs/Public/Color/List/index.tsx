@@ -16,7 +16,7 @@ const List = () => {
 
     // filter 
 
-    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { name: '', status: '' }});
+    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { name: '', status: undefined }});
 
     const handlePageChange = (pageNumber : number) => {
         setControlComponentsData({activePage: pageNumber, filterData: controlComponentsData.filterData});
