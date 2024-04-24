@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import { DMaterial } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(name: string, page?: number, size?: number, sort = "id") {
+export function findAll(name: string, page?: number, size?: number, status?: string, sort = "id") {
     const config : AxiosRequestConfig = {
         method: "GET",
         url: "/materials",
@@ -10,7 +10,8 @@ export function findAll(name: string, page?: number, size?: number, sort = "id")
             name,
             page,
             size,
-            sort 
+            sort,
+            status: status
         },
         withCredentials: true
     }

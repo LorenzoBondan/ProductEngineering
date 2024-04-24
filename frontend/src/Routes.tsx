@@ -20,6 +20,7 @@ import NonwovenFabrics from "pages/CRUDs/Packaging/NonwovenFabric";
 import Plastics from "pages/CRUDs/Packaging/Plastic";
 import Polyethylenes from "pages/CRUDs/Packaging/Polyethylene";
 import Colors from "pages/CRUDs/Public/Color";
+import Materials from "pages/CRUDs/Public/Materials";
 import CreateRecipe from "pages/CreateRecipe";
 import Home from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
@@ -143,6 +144,10 @@ const Routes = () => {
 
                     <Route path="/colors">
                         <Colors/>
+                    </Route>
+
+                    <Route path="/materials">
+                        <Materials/>
                     </Route>
 
                 </Switch>

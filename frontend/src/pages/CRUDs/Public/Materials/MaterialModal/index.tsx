@@ -2,13 +2,13 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import * as ColorService from 'services/public/colorService';
-import { DColor } from 'models/entities';
+import * as MaterialService from 'services/public/materialService';
+import { DMaterial } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
-type ColorModalProps = {
-    Color?: DColor;
+type MaterialModalProps = {
+    Material?: DMaterial;
     isOpen: boolean;
     isEditing: boolean;
     onClose: () => void;
@@ -16,31 +16,31 @@ type ColorModalProps = {
     children?: ReactNode;
 }
 
-const ColorModal: React.FC<ColorModalProps> = ({ Color, isOpen, isEditing, onClose, onDeleteOrEdit }) => {
+const MaterialModal: React.FC<MaterialModalProps> = ({ Material, isOpen, isEditing, onClose, onDeleteOrEdit }) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DColor>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DMaterial>();
 
   // load inputs
 
   useEffect(() => {
-    if(isEditing && Color){
-        ColorService.findById(Color.code)
+    if(isEditing && Material){
+        MaterialService.findById(Material.id)
         .then((response) => {
-            const fetchedColor = response.data as DColor;
+            const fetchedMaterial = response.data as DMaterial;
 
-            setValue('code', fetchedColor.code);
-            setValue('name', fetchedColor.name);
+            setValue('id', fetchedMaterial.id);
+            setValue('name', fetchedMaterial.name);
         });
     }
-  }, [isEditing, Color, setValue]);
+  }, [isEditing, Material, setValue]);
 
   // insert / update method
 
-  const insertOrUpdate = (formData: DColor) => {
+  const insertOrUpdate = (formData: DMaterial) => {
   
-    const serviceFunction = isEditing ? ColorService.update : ColorService.insert;
-    const successMessage = isEditing ? 'Cor editada!' : 'Cor inserida!';
+    const serviceFunction = isEditing ? MaterialService.update : MaterialService.insert;
+    const successMessage = isEditing ? 'Material editado!' : 'Material inserido!';
   
     serviceFunction(formData)
       .then(response => {
@@ -69,21 +69,6 @@ const ColorModal: React.FC<ColorModalProps> = ({ Color, isOpen, isEditing, onClo
         <div className="row crud-modal-inputs-container">
             <div className="col-lg-6 crud-modal-half-container">
                 <div className='margin-bottom-10'>
-                    <label htmlFor="">Código</label>
-                    <input 
-                        {...register("code", {
-                        required: 'Campo obrigatório', minLength: 7
-                        })}
-                        type="number"
-                        inputMode="numeric"
-                        className={`form-control base-input ${errors.code ? 'is-invalid' : ''}`}
-                        placeholder="Código"
-                        name="code"
-                        disabled={isEditing}
-                    />
-                    <div className='invalid-feedback d-block'>{errors.code?.message}</div>
-                </div> 
-                <div className='margin-bottom-10'>
                     <label htmlFor="">Nome</label>
                     <input 
                         {...register("name", {
@@ -108,4 +93,4 @@ const ColorModal: React.FC<ColorModalProps> = ({ Color, isOpen, isEditing, onClo
   );
 };
 
-export default ColorModal;
+export default MaterialModal;
