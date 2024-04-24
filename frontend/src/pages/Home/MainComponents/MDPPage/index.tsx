@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import './styles.css';
 import ItemCard from 'Components/ItemCard';
+import './styles.css';
 
 const MDPPage = () => {
     return(

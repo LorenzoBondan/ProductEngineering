@@ -1,38 +1,37 @@
-import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
-import { DGlue } from "models/entities";
+import NameFilter, { NameFilterData } from "Components/Filters/NameFilter";
+import { DColor } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
-import * as GlueService from 'services/MDP/glueService';
-import GlueRow from "../GlueRow";
-import GlueModal from "../GlueModal";
-
+import * as ColorService from 'services/public/colorService';
+import ColorRow from "../ColorRow";
+import ColorModal from "../ColorModal";
 
 type ControlComponentsData = {
     activePage: number;
-    filterData: DescriptionFilterData;
+    filterData: NameFilterData;
 }
 
 const List = () => {
 
     // filter 
 
-    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { description: '', status: '' }});
+    const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({activePage:0, filterData: { name: '', status: '' }});
 
     const handlePageChange = (pageNumber : number) => {
         setControlComponentsData({activePage: pageNumber, filterData: controlComponentsData.filterData});
     }
 
-    const handleSubmitFilter = (data : DescriptionFilterData) => {
+    const handleSubmitFilter = (data : NameFilterData) => {
         setControlComponentsData({activePage: 0, filterData: data});
     }
 
     // findAll
 
-    const [page, setPage] = useState<SpringPage<DGlue>>();
+    const [page, setPage] = useState<SpringPage<DColor>>();
 
-    const getGlues = useCallback(() => {
-        GlueService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
+    const getColors = useCallback(() => {
+        ColorService.findAll(controlComponentsData.filterData.name, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
@@ -40,8 +39,8 @@ const List = () => {
     }, [controlComponentsData])
 
     useEffect(() => {
-        getGlues();
-    }, [getGlues]);
+        getColors();
+    }, [getColors]);
 
     // modal functions
 
@@ -60,23 +59,19 @@ const List = () => {
             <div className="crud-content-container">
                 <div className="crud-bar-container">
                     <button className="btn btn-primary btn-crud-add" style={{color:"white", marginBottom:"20px"}} onClick={openModal}>
-                        Adicionar nova Cola
+                        Adicionar nova Cor
                     </button>
-                    <GlueModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getGlues()} />
+                    <ColorModal isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getColors()} />
                 </div>
                 <div className='search-bar-container'>
-                    <DescriptionFilter onSubmitFilter={handleSubmitFilter} />
+                    <NameFilter onSubmitFilter={handleSubmitFilter} />
                 </div>
                 <div className='crud-table-container'>
                     <table className='crud-table'>
                         <thead>
                             <tr>
                                 <th>Código</th>
-                                <th>Descrição</th>
-                                <th>Família</th>
-                                <th>Implementação</th>
-                                <th>% Perda</th>
-                                <th>Gramatura</th>
+                                <th>Nome</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
@@ -84,7 +79,7 @@ const List = () => {
                         </thead>
                         <tbody>
                             {page?.content.map((item) => (
-                                <GlueRow glue={item} onDeleteOrEdit={getGlues} key={item.code}/>
+                                <ColorRow Color={item} onDeleteOrEdit={getColors} key={item.code}/>
                             ))}
                         </tbody>
                     </table>

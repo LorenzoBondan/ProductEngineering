@@ -32,7 +32,7 @@ const List = () => {
     const [page, setPage] = useState<SpringPage<DPolyethylene>>();
 
     const getPolyethylenes = useCallback(() => {
-        PolyethyleneService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+        PolyethyleneService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);

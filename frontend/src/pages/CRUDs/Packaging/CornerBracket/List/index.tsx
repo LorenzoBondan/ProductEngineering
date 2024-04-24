@@ -32,7 +32,7 @@ const List = () => {
     const [page, setPage] = useState<SpringPage<DCornerBracket>>();
 
     const getCornerBrackets = useCallback(() => {
-        CornerBracketService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+        CornerBracketService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);

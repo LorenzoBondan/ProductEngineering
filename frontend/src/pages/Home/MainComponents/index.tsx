@@ -4,6 +4,8 @@ import mdpImage from 'assets/images/mdp.jpg';
 import mdfImage from 'assets/images/mdf.jpg';
 import aluminiumImage from 'assets/images/aluminium.jpg';
 import packagingImage from 'assets/images/packaging.jpg';
+import machinesImage from 'assets/images/machines.jpg';
+import colorsImage from 'assets/images/colors.jpg';
 
 const MainComponents = () => {
     const location = useLocation();
@@ -42,7 +44,14 @@ const MainComponents = () => {
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
                     <div className={`${location.pathname === "/home/machines" ? "active-card" : ""}`}>
                         <NavLink to="/home/machines">
-                            <ModuleCard title='Máquinas' imgUrl={packagingImage}/>
+                            <ModuleCard title='Máquinas' imgUrl={machinesImage}/>
+                        </NavLink>
+                    </div>
+                </div>
+                <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
+                    <div className={`${location.pathname === "/home/public" ? "active-card" : ""}`}>
+                        <NavLink to="/home/public">
+                            <ModuleCard title='Cores e Materiais' imgUrl={colorsImage}/>
                         </NavLink>
                     </div>
                 </div>

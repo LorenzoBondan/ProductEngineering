@@ -32,7 +32,7 @@ const List = () => {
     const [page, setPage] = useState<SpringPage<DMachineGroup>>();
 
     const getMachineGroups = useCallback(() => {
-        MachineGroupService.findAll(controlComponentsData.filterData.name, controlComponentsData.activePage, 10)
+        MachineGroupService.findAll(controlComponentsData.filterData.name, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);

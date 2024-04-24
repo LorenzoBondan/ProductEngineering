@@ -32,7 +32,7 @@ const List = () => {
     const [page, setPage] = useState<SpringPage<DNonwovenFabric>>();
 
     const getNonwovenFabrics = useCallback(() => {
-        NonwovenFabricService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10)
+        NonwovenFabricService.findAll(controlComponentsData.filterData.description, controlComponentsData.activePage, 10, controlComponentsData.filterData.status)
             .then(response => {
                 setPage(response.data);
                 window.scrollTo(0, 0);
