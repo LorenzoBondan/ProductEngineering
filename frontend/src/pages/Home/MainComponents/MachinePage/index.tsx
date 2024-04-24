@@ -10,6 +10,11 @@ const MachinePage = () => {
                         <ItemCard title='Máquinas'/>
                     </Link>
                 </div>
+                <div className="base-container-item">
+                    <Link to="/machineGroups">
+                        <ItemCard title='Grupos de Máquinas'/>
+                    </Link>
+                </div>
             </div>
         </div>
     );
