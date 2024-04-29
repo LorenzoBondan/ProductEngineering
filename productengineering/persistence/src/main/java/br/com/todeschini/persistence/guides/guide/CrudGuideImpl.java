@@ -3,7 +3,6 @@ package br.com.todeschini.persistence.guides.guide;
 import br.com.todeschini.domain.business.guides.guide.DGuide;
 import br.com.todeschini.domain.business.guides.guide.spi.CrudGuide;
 import br.com.todeschini.domain.exceptions.DatabaseException;
-import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.Status;
 import br.com.todeschini.persistence.entities.guides.Guide;
@@ -43,9 +42,6 @@ public class CrudGuideImpl implements CrudGuide {
     @Override
     @Transactional
     public DGuide insert(DGuide obj) {
-        if(repository.existsById(obj.getId())){
-            throw new DuplicatedResourceException("Código já existente: " + obj.getId());
-        }
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }

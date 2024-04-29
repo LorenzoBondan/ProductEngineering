@@ -24,12 +24,12 @@ public interface PaintingTypeRepository extends JpaRepository<PaintingType, Long
     <T> Page<T> findByStatusInAndDescriptionContainingIgnoreCase(List<Status> statusList, String description, Pageable pageable, Class<T> type);
 
     @Query(nativeQuery = true, value = """
-            SELECT created_by FROM tb_painting_type WHERE code = :id
+            SELECT created_by FROM tb_painting_type WHERE id = :id
             """)
     String findCreatedBy(@Param("id") Long id);
 
     @Query(nativeQuery = true, value = """
-            SELECT creation_date FROM tb_painting_type WHERE code = :id
+            SELECT creation_date FROM tb_painting_type WHERE id = :id
             """)
     LocalDateTime findCreationDate(@Param("id") Long id);
 }

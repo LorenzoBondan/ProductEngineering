@@ -22,7 +22,7 @@ public class TrashController {
         this.entityService = entityService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @GetMapping
     public ResponseEntity<?> findByUserAndDateRangeAndTable(
             @RequestParam(value = "username", required = false, defaultValue = "") String username,
@@ -34,7 +34,7 @@ public class TrashController {
         return ResponseEntity.ok(trashes);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @GetMapping(value = "/retrieve/{id}")
     public ResponseEntity<?> retrieve(@PathVariable("id") Long id, @RequestParam("retrieveDependencies") Boolean retrieveDependencies){
         entityService.retrieve(id, retrieveDependencies);

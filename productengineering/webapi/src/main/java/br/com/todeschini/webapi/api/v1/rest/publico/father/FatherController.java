@@ -38,7 +38,7 @@ public class FatherController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<?> findByStatusInAndDescriptionContainingIgnoreCase(@RequestParam(value = "status", required = false) String statusParam,
                                                                               @RequestParam(value = "description", required = false) String description,
@@ -56,7 +56,7 @@ public class FatherController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/activeAndCurrentOne")
     public ResponseEntity<List<DFather>> findAllActiveAndCurrentOne(@RequestParam(value = "id", required = false) Long id){
         List<DFather> list = service.findAllActiveAndCurrentOne(id);
@@ -69,7 +69,7 @@ public class FatherController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<DFather> findById(@PathVariable Long id){
         DFather dto = service.find(id);
@@ -82,7 +82,7 @@ public class FatherController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PostMapping
     public ResponseEntity<DFather> insert(@Valid @RequestBody DFather dto){
         dto = service.insert(dto);
@@ -98,7 +98,7 @@ public class FatherController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<DFather> update(@PathVariable Long id, @Valid @RequestBody DFather dto){
         dto = service.update(id, dto);
@@ -111,7 +111,7 @@ public class FatherController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping(value = "/inactivate/{id}")
     public ResponseEntity<DFather> inactivate(@PathVariable Long id){
         service.inactivate(id);
@@ -125,7 +125,7 @@ public class FatherController {
             @ApiResponse(responseCode = "409", description = "Integrity Violation"), // when object has relationships
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<DFather> delete(@PathVariable Long id){
         service.delete(id);

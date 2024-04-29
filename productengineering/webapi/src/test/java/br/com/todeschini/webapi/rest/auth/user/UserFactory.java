@@ -25,7 +25,7 @@ public class UserFactory {
         user.setEmail("client@client.com");
         user.setPassword("client");
         user.setImgUrl("https://client.com");
-        user.setRoles(List.of(new DRole(2L, "ROLE_CLIENT")));
+        user.setRoles(List.of(new DRole(2L, "ROLE_OPERATOR")));
         return user;
     }
 
@@ -36,7 +36,7 @@ public class UserFactory {
         user.setEmail("client@client.com");
         user.setPassword("client");
         user.setImgUrl("https://client.com");
-        user.setRoles(List.of(new DRole(2L, "ROLE_CLIENT")));
+        user.setRoles(List.of(new DRole(2L, "ROLE_OPERATOR")));
         return user;
     }
 
@@ -47,7 +47,7 @@ public class UserFactory {
         user.setEmail("client@client.com");
         user.setPassword("client");
         user.setImgUrl("https://client.com");
-        user.setRoles(List.of(new DRole(2L, "ROLE_CLIENT")));
+        user.setRoles(List.of(new DRole(2L, "ROLE_OPERATOR")));
         return user;
     }
 }

@@ -68,7 +68,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<DUser> findById(@PathVariable Long id) {
         authService.validateSelfOrAdmin(id);
@@ -101,7 +101,7 @@ public class UserController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<DUser> update(@PathVariable Long id, @Valid @RequestBody DUser domain){
         authService.validateSelfOrAdmin(id);
@@ -113,7 +113,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping(value = "/password")
     public ResponseEntity<DUser> updatePassword(@RequestParam("newPassword") String newPassword,
                                                 @RequestParam("oldPassword") String oldPassword){

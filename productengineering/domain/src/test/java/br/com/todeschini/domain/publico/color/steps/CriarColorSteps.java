@@ -15,16 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class CriarColorSteps {
 
-    //private final CrudColor dataStore;
     private final InsertColor criarColor;
     private DColor dColor, novoRegistro;
     private Exception exp;
 
-
     public CriarColorSteps() {
         criarColor = new ColorServiceImpl(new ColorInMemoryDataStore());
     }
-    
+
     @Dado("Um formulario corretamente preenchido")
     public void um_formulario_corretamente_preenchido() {
         dColor = new DColor();

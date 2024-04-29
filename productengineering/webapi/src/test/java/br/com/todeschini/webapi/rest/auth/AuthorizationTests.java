@@ -29,10 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AuthorizationTests {
 
-    @Value("${todeschini.users.readOnly.email}")
-    private String readOnlyEmail;
-    @Value("${todeschini.users.readOnly.password}")
-    private String readOnlyPassword;
+    @Value("${todeschini.users.operator.email}")
+    private String operatorEmail;
+    @Value("${todeschini.users.operator.password}")
+    private String operatorPassword;
+    @Value("${todeschini.users.analyst.email}")
+    private String analystEmail;
+    @Value("${todeschini.users.analyst.password}")
+    private String analystPassword;
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,10 +45,14 @@ public class AuthorizationTests {
 
     @Test
     public void testCrudAuthorization() throws Exception {
-        String readOnlyAccessToken = tokenUtil.obtainAccessToken(mockMvc, new UserTest(readOnlyEmail, readOnlyPassword));
+        String operatorAccessToken = tokenUtil.obtainAccessToken(mockMvc, new UserTest(operatorEmail, operatorPassword));
+        String analystAccessToken = tokenUtil.obtainAccessToken(mockMvc, new UserTest(analystEmail, analystPassword));
         String invalidAccessToken = "invalidAccessToken";
 
         List<String> entities = Arrays.asList(
+                // audit
+                "audit",
+
                 // aluminium
                 "aluminiumSons",
                 "aluminiumTypes",
@@ -106,6 +114,41 @@ public class AuthorizationTests {
                 "sons"
                 );
 
+        List<String> analystEntities = Arrays.asList(
+                // aluminium
+                "aluminiumTypes",
+                "drawerPulls",
+                "glasses",
+                "moldings",
+                "screws",
+                "trySquares",
+
+                // guides
+                "machineGroups",
+                "machines",
+
+                // mdf
+                "paintingTypes",
+                "paintings",
+                "paintingBorderBackgrounds",
+                "polyesters",
+
+                // mdp
+                "edgeBandings",
+                "glues",
+                "sheets",
+
+                // packaging
+                "cornerBrackets",
+                "nonwovenFabrics",
+                "plastics",
+                "polyethylenes",
+
+                // public
+                "colors",
+                "materials"
+        );
+
         // Endpoints e métodos para operações de leitura
         List<EndpointMethod> readEndpoints = entities.stream()
                 .flatMap(entity -> Stream.of(
@@ -115,18 +158,20 @@ public class AuthorizationTests {
                 )).collect(Collectors.toList());
 
         // Endpoints e métodos para operações de escrita
-        /*
-        List<EndpointMethod> adminEndPoints = new java.util.ArrayList<>(entities.stream()
+        List<EndpointMethod> writeEndPoints = analystEntities.stream()
                 .flatMap(entity -> Stream.of(
                         new EndpointMethod("/" + entity, HttpMethod.POST),
-                        new EndpointMethod("/" + entity, HttpMethod.PUT),
+                        new EndpointMethod("/" + entity + "/1", HttpMethod.PUT),
                         new EndpointMethod("/" + entity + "/inactivate/1", HttpMethod.PUT),
                         new EndpointMethod("/" + entity + "/1", HttpMethod.DELETE)
                 ))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
 
-         */
+        writeEndPoints.add(new EndpointMethod("/trash?username=" + anyString() + "&startDate=" + anyString() + "&endDate=" + anyString() + "&table=" + anyString(), HttpMethod.GET));
+        writeEndPoints.add(new EndpointMethod("/trash/retrieve/" + anyLong() + "?retrieveDependencies=" + anyBoolean(), HttpMethod.GET));
+
         List<EndpointMethod> adminEndPoints = new ArrayList<>();
+
         adminEndPoints.add(new EndpointMethod("/roles?authority=", HttpMethod.GET));
         adminEndPoints.add(new EndpointMethod("/roles", HttpMethod.POST));
         adminEndPoints.add(new EndpointMethod("/roles/" + anyLong(), HttpMethod.PUT));
@@ -138,19 +183,36 @@ public class AuthorizationTests {
         adminEndPoints.add(new EndpointMethod("/trash?username=" + anyString() + "&startDate=" + anyString() + "&endDate=" + anyString() + "&table=" + anyString(), HttpMethod.GET));
         adminEndPoints.add(new EndpointMethod("/trash/retrieve/" + anyLong() + "?retrieveDependencies=" + anyBoolean(), HttpMethod.GET));
 
-        // Testar autorização para operações de leitura com token inválido
+        adminEndPoints.add(new EndpointMethod("/audit?tabname=" + anyString() + "&operation=" + anyString() + "&idName=" + anyString() + "&idValue=" + anyString() + "&startDate=" + anyString() + "&endDate=" + anyString(), HttpMethod.GET));
+
+        // Testar autorização para operações de operador com token inválido
         for (EndpointMethod endpoint : readEndpoints) {
             testUnauthorizedAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), invalidAccessToken);
         }
 
-        // Testar autorização para operações de escrita com token inválido
+        // Testar autorização para operações de analista com token inválido
+        for (EndpointMethod endpoint : writeEndPoints) {
+            testUnauthorizedAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), invalidAccessToken);
+        }
+
+        // Testar autorização para operações de admin com token inválido
         for (EndpointMethod endpoint : adminEndPoints) {
             testUnauthorizedAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), invalidAccessToken);
         }
 
-        // Testar autorização para operações de escrita com token de leitura
+        // Testar autorização para operações de analista com token de operador
+        for (EndpointMethod endpoint : writeEndPoints) {
+            testForbiddenAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), operatorAccessToken);
+        }
+
+        // Testar autorização para operações de admin com token de operador
         for (EndpointMethod endpoint : adminEndPoints) {
-            testForbiddenAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), readOnlyAccessToken);
+            testForbiddenAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), operatorAccessToken);
+        }
+
+        // Testar autorização para operações de admin com token de analista (profile:dev)
+        for (EndpointMethod endpoint : adminEndPoints) {
+            testForbiddenAccessForMethod(endpoint.getEndpoint(), endpoint.getMethod(), analystAccessToken);
         }
     }
 

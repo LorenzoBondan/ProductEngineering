@@ -48,7 +48,6 @@ public class CrudMDPSonImpl implements CrudMDPSon {
     @Override
     @Transactional(readOnly = true)
     public DMDPSon find(Long id) {
-        MDPSon entity = repository.getOne(id);
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 

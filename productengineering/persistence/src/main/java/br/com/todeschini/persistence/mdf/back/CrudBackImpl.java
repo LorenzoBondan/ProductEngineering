@@ -2,12 +2,15 @@ package br.com.todeschini.persistence.mdf.back;
 
 import br.com.todeschini.domain.business.mdf.back.DBack;
 import br.com.todeschini.domain.business.mdf.back.spi.CrudBack;
+import br.com.todeschini.domain.exceptions.DatabaseException;
 import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.Status;
 import br.com.todeschini.persistence.entities.mdf.Back;
 import br.com.todeschini.persistence.util.EntityService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -77,9 +80,16 @@ public class CrudBackImpl implements CrudBack {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), Status.DELETED);
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Código não encontrado: " + id);
+        }
+        try{
+            repository.deleteById(id);
+        } catch(DataIntegrityViolationException e) {
+            throw new DatabaseException("Violação de integridade. Existem dependências relacionadas a esse objeto");
+        }
     }
 
     private void setCreationProperties(Back obj){

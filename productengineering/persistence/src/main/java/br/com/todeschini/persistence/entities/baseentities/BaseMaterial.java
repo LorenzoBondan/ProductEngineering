@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.entities.baseentities;
 
-import br.com.todeschini.persistence.entities.AuditInfo;
+import br.com.todeschini.persistence.entities.audit.AuditInfo;
 import br.com.todeschini.persistence.entities.publico.Color;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;

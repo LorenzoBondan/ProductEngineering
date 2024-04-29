@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.entities.guides;
 
-import br.com.todeschini.persistence.entities.AuditInfo;
+import br.com.todeschini.persistence.entities.audit.AuditInfo;
 import lombok.*;
 
 import javax.persistence.*;

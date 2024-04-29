@@ -94,7 +94,9 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
         if(domain.getGuide() != null){
             entity.setGuide(guideRepository.findById(domain.getGuide().getId()).orElse(null));
         }
-        entity.setAluminiumType(aluminiumTypeRepository.findById(domain.getAluminiumType().getId()).orElseThrow(() -> new ResourceNotFoundException("Tipo de Alumínio não encontrado")));
+        if(domain.getAluminiumType() != null){
+            entity.setAluminiumType(aluminiumTypeRepository.findById(domain.getAluminiumType().getId()).orElseThrow(() -> new ResourceNotFoundException("Tipo de Alumínio não encontrado")));
+        }
         if(domain.getSons() != null){
             entity.setSons(domain.getSons().stream().map(son -> mdpsonRepository.findById(son.getCode()).orElse(null)).collect(Collectors.toList()));
         }
@@ -132,7 +134,9 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
         if(entity.getGuide() != null){
             domain.setGuide(guideAdapter.toDomain(entity.getGuide()));
         }
-        domain.setAluminiumType(aluminiumTypeAdapter.toDomain(entity.getAluminiumType()));
+        if(entity.getAluminiumType() != null){
+            domain.setAluminiumType(aluminiumTypeAdapter.toDomain(entity.getAluminiumType()));
+        }
         if(entity.getSons() != null){
             domain.setSons(entity.getSons().stream().map(mdpSonAdapter::toDomain).collect(Collectors.toList()));
         }

@@ -38,7 +38,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<?> findByStatusIn(@RequestParam(value = "status", required = false) String statusParam,
                                             Pageable pageable){
@@ -55,7 +55,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/activeAndCurrentOne")
     public ResponseEntity<List<DUsedPolyethylene>> findAllActiveAndCurrentOne(@RequestParam(value = "id", required = false) Long id){
         List<DUsedPolyethylene> list = service.findAllActiveAndCurrentOne(id);
@@ -68,7 +68,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<DUsedPolyethylene> findById(@PathVariable Long id){
         DUsedPolyethylene dto = service.find(id);
@@ -81,7 +81,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PostMapping
     public ResponseEntity<DUsedPolyethylene> insert(@Valid @RequestBody DUsedPolyethylene dto){
         dto = service.insert(dto);
@@ -97,7 +97,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<DUsedPolyethylene> update(@PathVariable Long id, @Valid @RequestBody DUsedPolyethylene dto){
         dto = service.update(id, dto);
@@ -110,7 +110,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping(value = "/inactivate/{id}")
     public ResponseEntity<DUsedPolyethylene> inactivate(@PathVariable Long id){
         service.inactivate(id);
@@ -124,7 +124,7 @@ public class UsedPolyethyleneController {
             @ApiResponse(responseCode = "409", description = "Integrity Violation"), // when object has relationships
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<DUsedPolyethylene> delete(@PathVariable Long id){
         service.delete(id);

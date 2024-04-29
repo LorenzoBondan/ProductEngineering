@@ -1,4 +1,4 @@
-package br.com.todeschini.persistence.entities;
+package br.com.todeschini.persistence.entities.audit;
 
 import br.com.todeschini.persistence.entities.enums.Status;
 import javax.persistence.*;

@@ -38,7 +38,7 @@ public class MachineController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<?> findByStatusInAndNameContainingIgnoreCase(@RequestParam(value = "status", required = false) String statusParam,
                                                                        @RequestParam(value = "name", required = false) String name,
@@ -56,7 +56,7 @@ public class MachineController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/activeAndCurrentOne")
     public ResponseEntity<List<DMachine>> findAllActiveAndCurrentOne(@RequestParam(value = "id", required = false) Long id){
         List<DMachine> list = service.findAllActiveAndCurrentOne(id);
@@ -69,7 +69,7 @@ public class MachineController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<DMachine> findById(@PathVariable Long id){
         DMachine dto = service.find(id);
@@ -82,7 +82,7 @@ public class MachineController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PostMapping
     public ResponseEntity<DMachine> insert(@Valid @RequestBody DMachine dto){
         dto = service.insert(dto);
@@ -98,7 +98,7 @@ public class MachineController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<DMachine> update(@PathVariable Long id, @Valid @RequestBody DMachine dto){
         dto = service.update(id, dto);
@@ -111,7 +111,7 @@ public class MachineController {
             @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PutMapping(value = "/inactivate/{id}")
     public ResponseEntity<DMachine> inactivate(@PathVariable Long id){
         service.inactivate(id);
@@ -125,7 +125,7 @@ public class MachineController {
             @ApiResponse(responseCode = "409", description = "Integrity Violation"), // when object has relationships
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<DMachine> delete(@PathVariable Long id){
         service.delete(id);

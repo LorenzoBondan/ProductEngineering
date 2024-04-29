@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.entities.baseentities;
 
-import br.com.todeschini.persistence.entities.AuditInfo;
+import br.com.todeschini.persistence.entities.audit.AuditInfo;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;

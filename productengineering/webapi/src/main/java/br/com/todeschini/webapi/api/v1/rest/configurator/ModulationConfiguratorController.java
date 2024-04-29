@@ -33,7 +33,7 @@ public class ModulationConfiguratorController {
             @ApiResponse(responseCode = "422", description = "Invalid data"), // when some attribute is not valid
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PostMapping
     public ResponseEntity<List<DFather>> generateModulationStruct(@RequestBody ModulationConfigurator config,
 

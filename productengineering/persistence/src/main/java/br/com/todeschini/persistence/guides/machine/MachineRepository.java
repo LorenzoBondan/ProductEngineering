@@ -24,12 +24,12 @@ public interface MachineRepository extends JpaRepository<Machine, Long> {
     <T> Page<T> findByStatusInAndNameContainingIgnoreCase(List<Status> statusList, String name, Pageable pageable, Class<T> type);
 
     @Query(nativeQuery = true, value = """
-            SELECT created_by FROM tb_machine WHERE code = :id
+            SELECT created_by FROM tb_machine WHERE id = :id
             """)
     String findCreatedBy(@Param("id") Long id);
 
     @Query(nativeQuery = true, value = """
-            SELECT creation_date FROM tb_machine WHERE code = :id
+            SELECT creation_date FROM tb_machine WHERE id = :id
             """)
     LocalDateTime findCreationDate(@Param("id") Long id);
 }

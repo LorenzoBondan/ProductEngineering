@@ -40,7 +40,7 @@ public class UsedPaintingDomainToEntityAdapter implements Convertable<UsedPainti
         DUsedPainting domain = new DUsedPainting();
         domain.setId(entity.getId());
         domain.setPaintingCode(entity.getPainting().getCode());
-        domain.setPaintingCode(entity.getPaintingSon().getCode());
+        domain.setPaintingSonCode(entity.getPaintingSon().getCode());
         domain.setNetQuantity(entity.getNetQuantity());
         domain.setGrossQuantity(entity.getGrossQuantity());
         domain.setMeasurementUnit(entity.getMeasurementUnit());

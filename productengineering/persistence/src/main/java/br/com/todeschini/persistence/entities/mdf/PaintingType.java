@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.entities.mdf;
 
-import br.com.todeschini.persistence.entities.AuditInfo;
+import br.com.todeschini.persistence.entities.audit.AuditInfo;
 import javax.persistence.*;
 import lombok.*;
 

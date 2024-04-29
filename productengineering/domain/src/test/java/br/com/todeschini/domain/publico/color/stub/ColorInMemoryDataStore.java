@@ -31,7 +31,6 @@ public class ColorInMemoryDataStore implements CrudColor {
         return obj;
     }
 
-
     @Override
     public DColor find(Long id) {
         return dataStore.get(id);
