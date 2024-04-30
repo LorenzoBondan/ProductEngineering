@@ -128,7 +128,7 @@ const MDPStruct = () => {
                                         </label>
                                     </div>
                                 ))}
-                                </div> 
+                            </div> 
                         </Tab.Pane> 
                         <Tab.Pane eventKey="materials" className='heigth-100'>
                             <div className='struct-materials-row'>

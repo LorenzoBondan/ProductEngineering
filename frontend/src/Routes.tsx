@@ -26,6 +26,7 @@ import Home from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
 import Profile from "pages/Profile";
 import MDPStruct from "pages/Structs/MDPStruct";
+import TestStruct from "pages/Structs/test";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { isAuthenticated } from "util/auth";
 import history from "util/history";
@@ -144,6 +145,10 @@ const Routes = () => {
 
                     <PrivateRoute path="/mdpstruct">
                         <MDPStruct/>
+                    </PrivateRoute>
+
+                    <PrivateRoute path="/test">
+                        <TestStruct/>
                     </PrivateRoute>
 
                 </Switch>
