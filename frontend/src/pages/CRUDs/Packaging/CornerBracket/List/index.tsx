@@ -1,12 +1,10 @@
 import DescriptionFilter, { DescriptionFilterData } from "Components/Filters/DescriptionFilter";
-import { DCornerBracket } from "models/entities";
+import { DCornerBracket, SpringPage } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
-import { SpringPage } from "types";
 import * as CornerBracketService from 'services/Packaging/cornerBracketService';
 import CornerBracketRow from "../CornerBracketRow";
 import CornerBracketModal from "../CornerBracketModal";
-
 
 type ControlComponentsData = {
     activePage: number;
