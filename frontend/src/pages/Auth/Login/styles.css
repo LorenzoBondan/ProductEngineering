@@ -14,7 +14,7 @@
     text-transform: uppercase;
 }
 
-input[type=text], input[type=password]{
+input[type=text], input[type=password], input[type=number]{
     font-size: 18px;
 }
 

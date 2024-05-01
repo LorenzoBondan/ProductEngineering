@@ -5,8 +5,9 @@ import { Nav, Tab } from 'react-bootstrap';
 import { AiOutlineTool } from 'react-icons/ai';
 import { FaRegChartBar } from 'react-icons/fa';
 import Select from 'react-select';
-import { DColor, DMachine, SpringPage } from 'models/entities';
+import { DColor, DGlue, DMachine, SpringPage } from 'models/entities';
 import * as colorService from 'services/public/colorService';
+import * as glueService from 'services/MDP/glueService';
 import './styles.css';
 
 interface AdditionalField {
@@ -28,8 +29,12 @@ interface BPConfigurator {
 const MDPStruct = () => {
 
     const [selectColors, setSelectColors] = useState<SpringPage<DColor>>();
+    const [selectGlues, setSelectGlues] = useState<SpringPage<DGlue>>();
     const [selectMachines, setSelectMachines] = useState<SpringPage<DMachine>>();
     const [selectedColors, setSelectedColors] = useState<DColor[]>([]);
+    const [selectedGlue, setSelectedGlue] = useState<DGlue>();
+    const [edgeLength, setEdgeLength] = useState<number>();
+    const [edgeWidth, setEdgeWidth] = useState<number>();
 
     const getColors = useCallback(() => {
         colorService.findAll('')
@@ -45,10 +50,18 @@ const MDPStruct = () => {
             });
     }, [])
 
+    const getGlues = useCallback(() => {
+        glueService.findAll('')
+            .then(response => {
+                setSelectGlues(response.data);
+            });
+    }, [])
+
     useEffect(() => {
         getColors();
         getMachines();
-    }, [getColors, getMachines]);
+        getGlues();
+    }, [getColors, getMachines, getGlues]);
     
     const [bpConfigurator, setBPConfigurator] = useState<BPConfigurator>({
         items: [{ fatherCode: '', description: '', descriptionText: '', measure1: '', measure2: '', measure3: '', sonCode: '', machinesIds: [] }],
@@ -86,6 +99,7 @@ const MDPStruct = () => {
         bpConfigurator.items.map(item => item.description = concatenateDescription(item));
         // Envie os dados, incluindo os campos adicionais, para onde você precisar
         console.log(bpConfigurator);
+        console.log(`https://localhost:8080/mdpStruct?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}`)
     };
 
     return (
@@ -162,7 +176,7 @@ const MDPStruct = () => {
                                 ))}
                             </div>
                             <div className='crud-modal-buttons-container struct-button-container'>
-                                <button type="button" onClick={handleAddField} className='btn btn-primary text-white crud-modal-button'>Adicionar Campo</button>
+                                <button type="button" onClick={handleAddField} className='btn btn-primary text-white crud-modal-button'>Adicionar Item</button>
                             </div>
                         </Tab.Pane> 
                         <Tab.Pane eventKey="colors" className='heigth-100'>
@@ -225,11 +239,37 @@ const MDPStruct = () => {
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="materials" className='heigth-100'>
-                            <div className='struct-materials-row'>
-                                <h1>3</h1>
+                            <div className='struct-colors-container'>
+                                <label htmlFor="">Cola</label> 
+                                <Select 
+                                    options={selectGlues?.content}
+                                    value={selectedGlue}
+                                    onChange={(selectedOptions: any) => {
+                                        setSelectedGlue(selectedOptions);
+                                    }}
+                                    classNamePrefix="margin-bottom-20"
+                                    className="margin-bottom-20"
+                                    placeholder="Cola"
+                                    isClearable
+                                    getOptionLabel={(glue: DGlue) => glue.description}
+                                    getOptionValue={(glue: DGlue) => glue.code.toString()}
+                                />
+                                <label htmlFor="">Bordas no comprimento</label> 
+                                <input
+                                    type="number"
+                                    onChange={(e) => setEdgeLength(Number(e.target.value))}
+                                    placeholder="Bordas no comprimento"
+                                    className='form-control base-input'
+                                />
+                                <label htmlFor="">Bordas na largura</label> 
+                                <input
+                                    type="number"
+                                    onChange={(e) => setEdgeWidth(Number(e.target.value))}
+                                    placeholder="Bordas na largura"
+                                    className='form-control base-input'
+                                />
                             </div>
                         </Tab.Pane>
-                        
                         <Tab.Pane eventKey="ghost" className='heigth-100'>
                             <div className='struct-ghost-row'>
                                 <h1>4</h1>
