@@ -5,6 +5,7 @@ import { Nav, Tab } from 'react-bootstrap';
 import { AiOutlineTool } from 'react-icons/ai';
 import { FaRegChartBar } from 'react-icons/fa';
 import Select from 'react-select';
+import FlatPicker from 'react-flatpickr';
 import { DColor, DGlue, DMachine, SpringPage } from 'models/entities';
 import * as colorService from 'services/public/colorService';
 import * as glueService from 'services/MDP/glueService';
@@ -35,6 +36,7 @@ const MDPStruct = () => {
     const [selectedGlue, setSelectedGlue] = useState<DGlue>();
     const [edgeLength, setEdgeLength] = useState<number>();
     const [edgeWidth, setEdgeWidth] = useState<number>();
+    const [dateTime, setDateTime] = useState<string>('');
 
     const getColors = useCallback(() => {
         colorService.findAll('')
@@ -99,7 +101,7 @@ const MDPStruct = () => {
         bpConfigurator.items.map(item => item.description = concatenateDescription(item));
         // Envie os dados, incluindo os campos adicionais, para onde você precisar
         console.log(bpConfigurator);
-        console.log(`https://localhost:8080/mdpStruct?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}`)
+        console.log(`https://localhost:8080/mdpConfigurator?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}&implementation=${dateTime}`)
     };
 
     return (
@@ -235,6 +237,27 @@ const MDPStruct = () => {
                                     isMulti
                                     getOptionLabel={(color: DColor) => color.name}
                                     getOptionValue={(color: DColor) => color.code.toString()}
+                                />
+                            </div>
+                            <div className='struct-implementation-container'>
+                                <label htmlFor="">Implementação</label> 
+                                <FlatPicker
+                                    value={dateTime}
+                                    onChange={(dates) => {
+                                        if (dates && dates.length > 0) {
+                                            const selectedDate = dates[0];
+                                            const formattedDate = selectedDate.toISOString().split('T')[0];
+                                            setDateTime(formattedDate);
+                                        } else {
+                                            setDateTime('');
+                                        }
+                                    }}
+                                    options={{
+                                        enableTime: false,
+                                        dateFormat: 'Y-m-d',
+                                    }}
+                                    className="base-input time-input"
+                                    name="implementation"
                                 />
                             </div>
                         </Tab.Pane>
