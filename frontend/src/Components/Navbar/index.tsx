@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { getTokenData, hasAnyRoles, isAuthenticated } from 'util/auth';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from 'AuthContext';
@@ -16,6 +16,7 @@ import logoutIcon from 'assets/images/logout.png';
 import './styles.css';
 
 const Navbar = () => {
+    const location = useLocation();
 
     const { authContextData, setAuthContextData } = useContext(AuthContext);
 
@@ -65,40 +66,40 @@ const Navbar = () => {
                 {isAuthenticated() && (
                 <>
                 <li>
-                    <NavLink to="/homestructs" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"} >
+                    <NavLink to="/homestructs" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/homestructs" ? "active-nav-item" : "")}>
                         <img src={struct} alt="" />
                         { isExpanded && <p>Estruturas</p>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/homeitems" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"}>
+                    <NavLink to="/homeitems" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/homeitems" ? "active-nav-item" : "")}>
                         <img src={item} alt="" />
                         {isExpanded && <p>Itens</p>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/homebasematerials" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"}>
+                    <NavLink to="/homebasematerials" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/homebasematerials" ? "active-nav-item" : "")}>
                         <img src={hammer} alt="" />
                         {isExpanded && <p>Materiais base</p>}
                     </NavLink>
                 </li>
                 { hasAnyRoles(['ROLE_ANALYST', 'ROLE_ADMIN']) && ( 
                     <li>
-                        <NavLink to="/trash" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"}>
+                        <NavLink to="/trash" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/trash" ? "active-nav-item" : "")}>
                             <img src={trash} alt="" />
                             {isExpanded && <p>Lixeira</p>}
                         </NavLink>
                     </li>   
                 )}
                 <li>
-                    <NavLink to="/profile" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"}>
+                    <NavLink to="/profile" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/profile" ? "active-nav-item" : "")}>
                         <img src={profileIcon} alt="" />
                         {isExpanded && <p>Perfil</p>}
                     </NavLink>
                 </li>
                 { hasAnyRoles(['ROLE_ADMIN']) && ( 
                     <li>
-                        <NavLink to="/admin" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"}>
+                        <NavLink to="/admin" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/admin" ? "active-nav-item" : "")}>
                             <img src={adminIcon} alt="" />
                             {isExpanded && <p>Admin</p>}
                         </NavLink>

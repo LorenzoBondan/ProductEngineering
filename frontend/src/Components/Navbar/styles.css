@@ -94,6 +94,10 @@
     border-radius: 100px;
 }
 
+.active-nav-item{
+    background-color: #897877a1 !important;
+}
+
 .admin-nav-item img, .login-nav-item img{
     width: 20px;
 }
