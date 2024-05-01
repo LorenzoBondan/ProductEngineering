@@ -57,10 +57,14 @@ export type BPConfigurator = {
 };
 
 export type BPConfiguratorSon = {
-  fatherCode: number;
-  description: string;
-  sonCode: number;
-  machinesIds: number[];
+  fatherCode: string;
+    description: string;
+    descriptionText: string;
+    measure1: string;
+    measure2: string;
+    measure3: string;
+    sonCode: string;
+    machinesIds: number[];
 };
 
 export type ModulationConfigurator = {

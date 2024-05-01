@@ -13,7 +13,9 @@ import * as cornerBracketService from 'services/Packaging/cornerBracketService';
 import * as plasticService from 'services/Packaging/plasticService';
 import * as nonwovenFabricService from 'services/Packaging/nonwovenFabricService';
 import * as polyethyleneService from 'services/Packaging/polyethyleneService';
+import * as configuratorService from 'services/Configurator/configuratorService';
 import './styles.css';
+import { toast } from 'react-toastify';
 
 interface AdditionalField {
     fatherCode: string;
@@ -32,6 +34,8 @@ interface BPConfigurator {
 }
 
 const MDPStruct = () => {
+
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const [selectColors, setSelectColors] = useState<SpringPage<DColor>>();
     const [selectGlues, setSelectGlues] = useState<SpringPage<DGlue>>();
@@ -150,9 +154,33 @@ const MDPStruct = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         bpConfigurator.items.map(item => item.description = concatenateDescription(item));
-        // Envie os dados, incluindo os campos adicionais, para onde você precisar
-        console.log(bpConfigurator);
-        console.log(`https://localhost:8080/mdpConfigurator?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}&implementation=${dateTime}&ghostSuffix=${ghostSuffix}&cornerBracketCode=${selectedCornerBracket?.code}&plasticCode=${selectedPlastic?.code}&nonwovenFabricCode=${selectedNonwovenFabric?.code}&polyethyleneCode=${selectedPolyethylene?.code}&additional=${additional}&width=${width}&quantity=${quantity}&oneFace=${oneFace}&upper=${upper}`)
+
+        //console.log(bpConfigurator);
+        //console.log(`https://localhost:8080/mdpConfigurator?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}&implementation=${dateTime}&ghostSuffix=${ghostSuffix}&cornerBracketCode=${selectedCornerBracket?.code}&plasticCode=${selectedPlastic?.code}&nonwovenFabricCode=${selectedNonwovenFabric?.code}&polyethyleneCode=${selectedPolyethylene?.code}&additional=${additional}&width=${width}&quantity=${quantity}&oneFace=${oneFace}&upper=${upper}`)
+
+        configuratorService.mdpConfigurator(
+            bpConfigurator,
+            edgeLength ?? 0,
+            edgeWidth ?? 0, 
+            ghostSuffix ?? '',
+            selectedGlue?.code ?? 0,
+            selectedCornerBracket?.code ?? 0,
+            selectedPlastic?.code ?? 0,
+            selectedNonwovenFabric?.code ?? 0,
+            selectedPolyethylene?.code ?? 0,
+            upper,
+            additional ?? 0,
+            width ?? 0,
+            quantity ?? 0,
+            oneFace,
+            dateTime
+        ).then(response => {
+            console.log(response.data);
+            toast.success("Cadastros, estruturas e roteiros realizados!")
+        }).catch(error => {
+            toast.error(error.response.data.error);
+            setErrorMessage(error.response.data.error);
+        });
     };
 
     return (
@@ -458,6 +486,7 @@ const MDPStruct = () => {
                                 </div>
                             </div>
                             <div className='crud-modal-buttons-container'>
+                                {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
                                 <button type="submit" className='btn btn-primary text-white crud-modal-button'>Salvar</button>
                             </div>
                         </Tab.Pane>
