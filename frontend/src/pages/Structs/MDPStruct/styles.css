@@ -125,6 +125,13 @@
     opacity: 1;
 }
 
+.struct-ghost-checks-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 24px;
+}
+
 @media(min-width:1200px){
     .struct-container{
         padding: 20px;

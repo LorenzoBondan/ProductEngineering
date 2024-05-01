@@ -6,9 +6,13 @@ import { AiOutlineTool } from 'react-icons/ai';
 import { FaRegChartBar } from 'react-icons/fa';
 import Select from 'react-select';
 import FlatPicker from 'react-flatpickr';
-import { DColor, DGlue, DMachine, SpringPage } from 'models/entities';
+import { DColor, DCornerBracket, DGlue, DMachine, DNonwovenFabric, DPlastic, DPolyethylene, SpringPage } from 'models/entities';
 import * as colorService from 'services/public/colorService';
 import * as glueService from 'services/MDP/glueService';
+import * as cornerBracketService from 'services/Packaging/cornerBracketService';
+import * as plasticService from 'services/Packaging/plasticService';
+import * as nonwovenFabricService from 'services/Packaging/nonwovenFabricService';
+import * as polyethyleneService from 'services/Packaging/polyethyleneService';
 import './styles.css';
 
 interface AdditionalField {
@@ -38,6 +42,21 @@ const MDPStruct = () => {
     const [edgeWidth, setEdgeWidth] = useState<number>();
     const [dateTime, setDateTime] = useState<string>('');
 
+    const [ghostSuffix, setGhostSuffix] = useState<string>();
+    const [selectCornerBrackets, setSelectCornerBrackets] = useState<SpringPage<DCornerBracket>>();
+    const [selectedCornerBracket, setSelectedCornerBracket] = useState<DCornerBracket>();
+    const [selectPlastics, setSelectPlastics] = useState<SpringPage<DPlastic>>();
+    const [selectedPlastic, setSelectedPlastic] = useState<DPlastic>();
+    const [selectNonwovenFabrics, setSelectNonwovenFabrics] = useState<SpringPage<DNonwovenFabric>>();
+    const [selectedNonwovenFabric, setSelectedNonwovenFabric] = useState<DNonwovenFabric>();
+    const [selectPolyethylenes, setSelectPolyethylenes] = useState<SpringPage<DPolyethylene>>();
+    const [selectedPolyethylene, setSelectedPolyethylene] = useState<DPolyethylene>();
+    const [upper, setUpper] = useState<boolean>(false);
+    const [additional, setAdditional] = useState<number>();
+    const [width, setWidth] = useState<number>();
+    const [quantity, setQuantity] = useState<number>();
+    const [oneFace, setOneFace] = useState<boolean>(false);
+
     const getColors = useCallback(() => {
         colorService.findAll('')
             .then(response => {
@@ -59,11 +78,43 @@ const MDPStruct = () => {
             });
     }, [])
 
+    const getCornerBrackets = useCallback(() => {
+        cornerBracketService.findAll('')
+            .then(response => {
+                setSelectCornerBrackets(response.data);
+            });
+    }, [])
+
+    const getPlastics = useCallback(() => {
+        plasticService.findAll('')
+            .then(response => {
+                setSelectPlastics(response.data);
+            });
+    }, [])
+
+    const getNonwovenFabrics = useCallback(() => {
+        nonwovenFabricService.findAll('')
+            .then(response => {
+                setSelectNonwovenFabrics(response.data);
+            });
+    }, [])
+
+    const getPolyethylenes = useCallback(() => {
+        polyethyleneService.findAll('')
+            .then(response => {
+                setSelectPolyethylenes(response.data);
+            });
+    }, [])
+
     useEffect(() => {
         getColors();
         getMachines();
         getGlues();
-    }, [getColors, getMachines, getGlues]);
+        getCornerBrackets();
+        getPlastics();
+        getNonwovenFabrics();
+        getPolyethylenes();
+    }, [getColors, getMachines, getGlues, getCornerBrackets, getPlastics, getNonwovenFabrics, getPolyethylenes]);
     
     const [bpConfigurator, setBPConfigurator] = useState<BPConfigurator>({
         items: [{ fatherCode: '', description: '', descriptionText: '', measure1: '', measure2: '', measure3: '', sonCode: '', machinesIds: [] }],
@@ -101,7 +152,7 @@ const MDPStruct = () => {
         bpConfigurator.items.map(item => item.description = concatenateDescription(item));
         // Envie os dados, incluindo os campos adicionais, para onde você precisar
         console.log(bpConfigurator);
-        console.log(`https://localhost:8080/mdpConfigurator?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}&implementation=${dateTime}`)
+        console.log(`https://localhost:8080/mdpConfigurator?glueCode=${selectedGlue?.code}&edgeLength=${edgeLength}&edgeWidth=${edgeWidth}&implementation=${dateTime}&ghostSuffix=${ghostSuffix}&cornerBracketCode=${selectedCornerBracket?.code}&plasticCode=${selectedPlastic?.code}&nonwovenFabricCode=${selectedNonwovenFabric?.code}&polyethyleneCode=${selectedPolyethylene?.code}&additional=${additional}&width=${width}&quantity=${quantity}&oneFace=${oneFace}&upper=${upper}`)
     };
 
     return (
@@ -294,8 +345,117 @@ const MDPStruct = () => {
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="ghost" className='heigth-100'>
-                            <div className='struct-ghost-row'>
-                                <h1>4</h1>
+                            <div className='row struct-ghost-container'>
+                                <div className="col-lg-6 crud-modal-half-container">
+                                    <label htmlFor="">Sufixo do fantasma</label> 
+                                    <input
+                                        type="text"
+                                        onChange={(e) => setGhostSuffix(e.target.value)}
+                                        placeholder="Sufixo do fantasma"
+                                        className='form-control base-input'
+                                    />
+                                    <label htmlFor="">Plástico</label> 
+                                    <Select 
+                                        options={selectPlastics?.content}
+                                        value={selectedPlastic}
+                                        onChange={(selectedOptions: any) => {
+                                            setSelectedPlastic(selectedOptions);
+                                        }}
+                                        classNamePrefix="margin-bottom-20"
+                                        className="margin-bottom-20"
+                                        placeholder="Plástico"
+                                        isClearable
+                                        getOptionLabel={(plastic: DPlastic) => plastic.description}
+                                        getOptionValue={(plastic: DPlastic) => plastic.code.toString()}
+                                    />
+                                    <label htmlFor="">Cantoneira</label> 
+                                    <Select 
+                                        options={selectCornerBrackets?.content}
+                                        value={selectedCornerBracket}
+                                        onChange={(selectedOptions: any) => {
+                                            setSelectedCornerBracket(selectedOptions);
+                                        }}
+                                        classNamePrefix="margin-bottom-20"
+                                        className="margin-bottom-20"
+                                        placeholder="Cantoneira"
+                                        isClearable
+                                        getOptionLabel={(cornerBracket: DCornerBracket) => cornerBracket.description}
+                                        getOptionValue={(cornerBracket: DCornerBracket) => cornerBracket.code.toString()}
+                                    />
+                                    <label htmlFor="">TNT</label> 
+                                    <Select 
+                                        options={selectNonwovenFabrics?.content}
+                                        value={selectedNonwovenFabric}
+                                        onChange={(selectedOptions: any) => {
+                                            setSelectedNonwovenFabric(selectedOptions);
+                                        }}
+                                        classNamePrefix="margin-bottom-20"
+                                        className="margin-bottom-20"
+                                        placeholder="TNT"
+                                        isClearable
+                                        getOptionLabel={(nonwovenFabric: DNonwovenFabric) => nonwovenFabric.description}
+                                        getOptionValue={(nonwovenFabric: DNonwovenFabric) => nonwovenFabric.code.toString()}
+                                    />
+                                    <label htmlFor="">Polietileno</label> 
+                                    <Select 
+                                        options={selectPolyethylenes?.content}
+                                        value={selectedPolyethylene}
+                                        onChange={(selectedOptions: any) => {
+                                            setSelectedPolyethylene(selectedOptions);
+                                        }}
+                                        classNamePrefix="margin-bottom-20"
+                                        className="margin-bottom-20"
+                                        placeholder="Polietileno"
+                                        isClearable
+                                        getOptionLabel={(polyethylene: DPolyethylene) => polyethylene.description}
+                                        getOptionValue={(polyethylene: DPolyethylene) => polyethylene.code.toString()}
+                                    />
+                                </div>
+                                <div className="col-lg-6 crud-modal-half-container">
+                                    <label htmlFor="">Plástico adicional</label> 
+                                    <input
+                                        type="number"
+                                        onChange={(e) => setAdditional(Number(e.target.value))}
+                                        placeholder="Plástico adicional"
+                                        className='form-control base-input'
+                                    />
+                                    <label htmlFor="">Largura plástico</label> 
+                                    <input
+                                        type="number"
+                                        onChange={(e) => setWidth(Number(e.target.value))}
+                                        placeholder="Largura plástico"
+                                        className='form-control base-input'
+                                    />
+                                    <label htmlFor="">Quantidade cantoneira</label> 
+                                    <input
+                                        type="number"
+                                        onChange={(e) => setQuantity(Number(e.target.value))}
+                                        placeholder="Quantidade cantoneira"
+                                        className='form-control base-input'
+                                    />
+                                    <div className='struct-ghost-checks-container'>
+                                        <label htmlFor="upper-checkbox" className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                onChange={(e) => setUpper(e.target.checked)}
+                                                className="checkbox-input"
+                                                id="upper-checkbox"
+                                            />
+                                            <span className='checkbox-custom'></span>
+                                            Acima
+                                        </label>
+                                        <label htmlFor="one-face-checkbox" className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                onChange={(e) => setOneFace(e.target.checked)}
+                                                className="checkbox-input"
+                                                id="one-face-checkbox"
+                                            />
+                                            <span className='checkbox-custom'></span>
+                                            Uma face
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <div className='crud-modal-buttons-container'>
                                 <button type="submit" className='btn btn-primary text-white crud-modal-button'>Salvar</button>
