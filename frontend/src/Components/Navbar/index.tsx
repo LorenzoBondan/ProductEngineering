@@ -11,8 +11,6 @@ import plusIcon from 'assets/images/plus.png';
 import profileIcon from 'assets/images/profile.png';
 import adminIcon from 'assets/images/admin.png';
 import logoutIcon from 'assets/images/logout.png';
-import loginIcon from 'assets/images/login.png';
-import homeIcon from 'assets/images/home.png';
 import './styles.css';
 
 const Navbar = () => {
@@ -62,7 +60,7 @@ const Navbar = () => {
                 </button>
             </div>
             <ul className='ul-container'>
-                {isAuthenticated() ? (
+                {isAuthenticated() && (
                 <>
                 <li>
                     <NavLink to="/recipes" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"} >
@@ -90,31 +88,14 @@ const Navbar = () => {
                         </NavLink>
                     </li>   
                 )}
+                <li>
+                    <NavLink to="/" className={isExpanded ? "login-nav-item" : "login-nav-item-expanded"} onClick={handleLogoutClick}>
+                        <img src={logoutIcon} alt="" />
+                        {isExpanded && <p>Logout</p>}
+                    </NavLink>
+                </li>
                 </>
-                ) : (
-                    <li>
-                        <NavLink to="/home" exact className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded"}>
-                            <img src={homeIcon} alt="" />
-                            {isExpanded && <p>Home</p>}
-                        </NavLink>
-                    </li>   
                 )}
-                { authContextData.authenticated ? (
-                    <li>
-                        <NavLink to="/" className={isExpanded ? "login-nav-item" : "login-nav-item-expanded"} onClick={handleLogoutClick}>
-                            <img src={logoutIcon} alt="" />
-                                {isExpanded && <p>Logout</p>}
-                        </NavLink>
-                    </li>
-                    ) : (
-                        <li>
-                            <NavLink to="/auth/login" className={isExpanded ? "login-nav-item" : "login-nav-item-expanded"}>
-                                <img src={loginIcon} alt="" />
-                                {isExpanded && <p>Login</p>}
-                            </NavLink>
-                        </li>
-                    )
-                }
             </ul>
         </nav>
     );

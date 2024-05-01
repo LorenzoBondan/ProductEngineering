@@ -14,43 +14,43 @@ const MainComponents = () => {
         <div className='home-container'>
             <div className="row">
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
-                    <NavLink to="/home/mdp">
-                        <div className={`${location.pathname === "/home/mdp" ? "active-card" : ""}`}>
+                    <NavLink to="/homebasematerials/mdp">
+                        <div className={`${location.pathname === "/homebasematerials/mdp" ? "active-card" : ""}`}>
                             <ModuleCard title='MDP' imgUrl={mdpImage}/>
                         </div>
                     </NavLink>
                 </div>
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
-                    <NavLink to="/home/mdf">
-                        <div className={`${location.pathname === "/home/mdf" ? "active-card" : ""}`}>
+                    <NavLink to="/homebasematerials/mdf">
+                        <div className={`${location.pathname === "/homebasematerials/mdf" ? "active-card" : ""}`}>
                             <ModuleCard title='MDF' imgUrl={mdfImage}/>
                         </div>
                     </NavLink>
                 </div>
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
-                    <NavLink to="/home/aluminium">
-                        <div className={`${location.pathname === "/home/aluminium" ? "active-card" : ""}`}>
+                    <NavLink to="/homebasematerials/aluminium">
+                        <div className={`${location.pathname === "/homebasematerials/aluminium" ? "active-card" : ""}`}>
                             <ModuleCard title='Alumínios' imgUrl={aluminiumImage}/>
                         </div>
                     </NavLink>
                 </div>
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
-                    <div className={`${location.pathname === "/home/packaging" ? "active-card" : ""}`}>
-                        <NavLink to="/home/packaging">
+                    <div className={`${location.pathname === "/homebasematerials/packaging" ? "active-card" : ""}`}>
+                        <NavLink to="/homebasematerials/packaging">
                             <ModuleCard title='Embalagem' imgUrl={packagingImage}/>
                         </NavLink>
                     </div>
                 </div>
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
-                    <div className={`${location.pathname === "/home/machines" ? "active-card" : ""}`}>
-                        <NavLink to="/home/machines">
+                    <div className={`${location.pathname === "/homebasematerials/machines" ? "active-card" : ""}`}>
+                        <NavLink to="/homebasematerials/machines">
                             <ModuleCard title='Máquinas' imgUrl={machinesImage}/>
                         </NavLink>
                     </div>
                 </div>
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
-                    <div className={`${location.pathname === "/home/public" ? "active-card" : ""}`}>
-                        <NavLink to="/home/public">
+                    <div className={`${location.pathname === "/homebasematerials/public" ? "active-card" : ""}`}>
+                        <NavLink to="/homebasematerials/public">
                             <ModuleCard title='Cores e Materiais' imgUrl={colorsImage}/>
                         </NavLink>
                     </div>

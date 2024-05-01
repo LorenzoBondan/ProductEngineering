@@ -9,29 +9,29 @@ import PackagingPage from './MainComponents/PackagingPage';
 import MachinePage from './MainComponents/MachinePage';
 import PublicPage from './MainComponents/PublicPage';
 
-const Home = () => {
+const HomeBaseMaterials = () => {
 
     return(
         <div className='home-page'>
             <MainComponents />
             <div className='home-items-container'>
                 <Switch>
-                    <PrivateRoute path="/home/mdp">
+                    <PrivateRoute path="/homebasematerials/mdp">
                         <MDPPage />
                     </PrivateRoute>
-                    <PrivateRoute path="/home/mdf">
+                    <PrivateRoute path="/homebasematerials/mdf">
                         <MDFPage/>
                     </PrivateRoute>
-                    <PrivateRoute path="/home/aluminium">
+                    <PrivateRoute path="/homebasematerials/aluminium">
                         <AluminiumPage/>
                     </PrivateRoute>
-                    <PrivateRoute path="/home/packaging">
+                    <PrivateRoute path="/homebasematerials/packaging">
                         <PackagingPage/>
                     </PrivateRoute>
-                    <PrivateRoute path="/home/machines">
+                    <PrivateRoute path="/homebasematerials/machines">
                         <MachinePage/>
                     </PrivateRoute>
-                    <PrivateRoute path="/home/public">
+                    <PrivateRoute path="/homebasematerials/public">
                         <PublicPage/>
                     </PrivateRoute>
                 </Switch>
@@ -40,4 +40,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default HomeBaseMaterials;

@@ -22,8 +22,9 @@ import Plastics from "pages/CRUDs/Packaging/Plastic";
 import Polyethylenes from "pages/CRUDs/Packaging/Polyethylene";
 import Colors from "pages/CRUDs/Public/Color";
 import Materials from "pages/CRUDs/Public/Materials";
-import Home from "pages/Home";
+import HomeBaseMaterials from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
+import Operations from "pages/Operations";
 import Profile from "pages/Profile";
 import MDPStruct from "pages/Structs/MDPStruct";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
@@ -39,13 +40,17 @@ const Routes = () => {
 
                 <Switch>
                     {isAuthenticated() ? (
-                        <Redirect from='/' to='/home' exact />
+                        <Redirect from='/' to='/operations' exact />
                     ) : (
                         <Redirect from='/' to='/auth/login' exact />
                     )}
+
+                    <PrivateRoute path="/operations">
+                        <Operations/>
+                    </PrivateRoute>
                     
-                    <PrivateRoute path="/home">
-                        <Home/>
+                    <PrivateRoute path="/homebasematerials">
+                        <HomeBaseMaterials/>
                     </PrivateRoute>
 
                     <PrivateRoute path="/mdp">
