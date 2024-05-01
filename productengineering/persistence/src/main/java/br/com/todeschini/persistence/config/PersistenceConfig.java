@@ -28,7 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class PersistenceConfig {
-
+/*
     @Autowired
     private AluminiumItemMethods aluminiumItemMethods;
     @Autowired
@@ -83,4 +83,6 @@ public class PersistenceConfig {
     public GuideGeneratorService guideGeneratorService() {
         return new GuideGeneratorServiceImpl(guideGeneratorMethods);
     }
+
+ */
 }

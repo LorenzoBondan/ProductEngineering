@@ -11,8 +11,12 @@ import * as colorService from 'services/public/colorService';
 interface AdditionalField {
     fatherCode: string;
     description: string;
+    descriptionText: string;
+    measure1: string;
+    measure2: string;
+    measure3: string;
     sonCode: string;
-    machines: number[];
+    machinesIds: number[];
 }
 
 interface BPConfigurator {
@@ -46,14 +50,14 @@ const TestStruct = () => {
     }, [getColors, getMachines]);
     
     const [bpConfigurator, setBPConfigurator] = useState<BPConfigurator>({
-        items: [{ fatherCode: '', description: '', sonCode: '', machines: [] }],
+        items: [{ fatherCode: '', description: '', descriptionText: '', measure1: '', measure2: '', measure3: '', sonCode: '', machinesIds: [] }],
         colors: [] 
     });
 
     const handleAddField = () => {
         setBPConfigurator(prevConfig => ({
             ...prevConfig,
-            items: [...prevConfig.items, { fatherCode: '', description: '', sonCode: '', machines: [] }]
+            items: [...prevConfig.items, { fatherCode: '', description: '', descriptionText: '', measure1: '', measure2: '', measure3: '', sonCode: '', machinesIds: [] }]
         }));
     };
 
@@ -72,8 +76,13 @@ const TestStruct = () => {
         });
     };
 
+    const concatenateDescription = (item: AdditionalField): string => {
+        return `${item.descriptionText} ${item.measure1}X${item.measure2}X${item.measure3}`;
+    };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        bpConfigurator.items.map(item => item.description = concatenateDescription(item));
         // Envie os dados, incluindo os campos adicionais, para onde você precisar
         console.log(bpConfigurator);
     };
@@ -110,11 +119,36 @@ const TestStruct = () => {
                                         />
                                         <input
                                             type="text"
-                                            value={item.description}
-                                            onChange={(e) => handleChangeField(index, 'description', e.target.value)}
+                                            value={item.descriptionText}
+                                            onChange={(e) => handleChangeField(index, 'descriptionText', e.target.value)}
                                             placeholder="Descrição"
                                             className='form-control base-input'
                                         />
+                                        <div className='struct-measures-container'>
+                                            <input
+                                                type="number"
+                                                value={item.measure1}
+                                                onChange={(e) => handleChangeField(index, 'measure1', e.target.value)}
+                                                placeholder="Altura"
+                                                className='form-control base-input'
+                                            />
+                                            <p>X</p>
+                                            <input
+                                                type="number"
+                                                value={item.measure2}
+                                                onChange={(e) => handleChangeField(index, 'measure2', e.target.value)}
+                                                placeholder="Largura"
+                                                className='form-control base-input'
+                                            />
+                                            <p>X</p>
+                                            <input
+                                                type="number"
+                                                value={item.measure3}
+                                                onChange={(e) => handleChangeField(index, 'measure3', e.target.value)}
+                                                placeholder="Espessura"
+                                                className='form-control base-input'
+                                            />
+                                        </div>
                                         <input
                                             type="number"
                                             value={item.sonCode}
@@ -137,15 +171,15 @@ const TestStruct = () => {
                                             <input
                                                 type="checkbox"
                                                 id={`machines-${index}`}
-                                                checked={bpConfigurator.items.every(item => item.machines.includes(machine.id))}
+                                                checked={bpConfigurator.items.every(item => item.machinesIds.includes(machine.id))}
                                                 onChange={(e) => {
                                                     const isChecked = e.target.checked;
                                                     setBPConfigurator(prevConfig => {
                                                         const updatedItems = prevConfig.items.map(item => {
-                                                            if (isChecked && !item.machines.includes(machine.id)) {
-                                                                return { ...item, machines: [...item.machines, machine.id] };
-                                                            } else if (!isChecked && item.machines.includes(machine.id)) {
-                                                                return { ...item, machines: item.machines.filter(id => id !== machine.id) };
+                                                            if (isChecked && !item.machinesIds.includes(machine.id)) {
+                                                                return { ...item, machinesIds: [...item.machinesIds, machine.id] };
+                                                            } else if (!isChecked && item.machinesIds.includes(machine.id)) {
+                                                                return { ...item, machinesIds: item.machinesIds.filter(id => id !== machine.id) };
                                                             }
                                                             return item;
                                                         });
@@ -199,12 +233,13 @@ const TestStruct = () => {
                             <div className='struct-ghost-row'>
                                 <h1>4</h1>
                             </div>
+                            <div className='crud-modal-buttons-container'>
+                                <button type="submit" className='btn btn-primary text-white crud-modal-button'>Salvar</button>
+                            </div>
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>
-                <div className='crud-modal-buttons-container'>
-                    <button type="submit" className='btn btn-primary text-white crud-modal-button'>Salvar</button>
-                </div>
+                
             </form>
         </div>
     );
