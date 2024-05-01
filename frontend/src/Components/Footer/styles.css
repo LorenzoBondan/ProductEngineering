@@ -1,5 +1,5 @@
 .footer-container h6 {
-    color: #8E5E26;
+    color: var(--color-btn-primary);
     font-size: 12px;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .footer-container h5 {
-    color: #8E5E26;
+    color: var(--color-btn-primary);
     font-size: 14px;
     font-weight: 700;
 }
@@ -33,7 +33,7 @@
 }
 
 .footer-download-zone{
-    border-top: 1px solid #8E5E26;
+    border-top: 1px solid var(--color-btn-primary);
     text-align: center;
     display: flex;
     flex-direction: row;
