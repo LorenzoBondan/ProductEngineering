@@ -10,8 +10,8 @@ const Operations = () => {
                     <p>Gere automaticamente cadastros, estruturas e roteiros dos itens de MDP, MDF, Modulação, Alumínios e Embalagem</p>
                 </div>
                 <div className='operation-section-button-container'>
-                    <Link to={"/mdpStruct"}>
-                        <button className='btn btn-primary text-white'>Entrar<Seta/></button>
+                    <Link to={"/homestructs"}>
+                        <button className='btn btn-primary text-white'>ENTRAR<Seta/></button>
                     </Link>
                 </div>
             </div>
@@ -21,7 +21,7 @@ const Operations = () => {
                 </div>
                 <div className='operation-section-button-container'>
                     <Link to={"/mdpStruct"}>
-                        <button className='btn btn-primary text-white'>Entrar<Seta/></button>
+                        <button className='btn btn-primary text-white'>ENTRAR<Seta/></button>
                     </Link>
                 </div>
             </div>
@@ -31,7 +31,7 @@ const Operations = () => {
                 </div>
                 <div className='operation-section-button-container'>
                     <Link to={"/homebasematerials"}>
-                        <button className='btn btn-primary text-white'>Entrar<Seta/></button>
+                        <button className='btn btn-primary text-white'>ENTRAR<Seta/></button>
                     </Link>
                 </div>
             </div>
