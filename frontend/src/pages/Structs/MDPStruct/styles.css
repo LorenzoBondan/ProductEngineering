@@ -30,6 +30,11 @@
     background-color: unset;
 }
 
+.nav-link svg{
+    width: 25px;
+    height: 25px;
+}
+
 .struct-measures-container{
     display: flex;
     flex-direction: row;

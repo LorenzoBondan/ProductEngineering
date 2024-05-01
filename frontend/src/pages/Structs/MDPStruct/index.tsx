@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import * as machineService from 'services/Guides/machineService';
-import { BiCommentDetail } from 'react-icons/bi';
 import { Nav, Tab } from 'react-bootstrap';
-import { AiOutlineTool } from 'react-icons/ai';
-import { FaRegChartBar } from 'react-icons/fa';
+import { GiMaterialsScience } from "react-icons/gi";
+import { RiGhost2Line } from "react-icons/ri";
+import { IoColorPaletteOutline } from "react-icons/io5";
+import { TbSitemap } from "react-icons/tb";
 import Select from 'react-select';
 import FlatPicker from 'react-flatpickr';
 import { DColor, DCornerBracket, DGlue, DMachine, DNonwovenFabric, DPlastic, DPolyethylene, SpringPage } from 'models/entities';
@@ -176,11 +177,41 @@ const MDPStruct = () => {
             dateTime
         ).then(response => {
             console.log(response.data);
-            toast.success("Cadastros, estruturas e roteiros realizados!")
+            toast.success("Cadastros, estruturas e roteiros realizados!");
+            clearFields();
         }).catch(error => {
             toast.error(error.response.data.error);
             setErrorMessage(error.response.data.error);
         });
+    };
+
+    const clearFields = () => {
+        setBPConfigurator({
+            items: [{ fatherCode: '', description: '', descriptionText: '', measure1: '', measure2: '', measure3: '', sonCode: '', machinesIds: [] }],
+            colors: []
+        });
+        setSelectColors(undefined);
+        setSelectGlues(undefined);
+        setSelectedColors([]);
+        setSelectedGlue(undefined);
+        setEdgeLength(undefined);
+        setEdgeWidth(undefined);
+        setDateTime('');
+        setGhostSuffix(undefined);
+        setSelectCornerBrackets(undefined);
+        setSelectedCornerBracket(undefined);
+        setSelectPlastics(undefined);
+        setSelectedPlastic(undefined);
+        setSelectNonwovenFabrics(undefined);
+        setSelectedNonwovenFabric(undefined);
+        setSelectPolyethylenes(undefined);
+        setSelectedPolyethylene(undefined);
+        setUpper(false);
+        setAdditional(undefined);
+        setWidth(undefined);
+        setQuantity(undefined);
+        setOneFace(false);
+        setErrorMessage('');
     };
 
     return (
@@ -189,16 +220,16 @@ const MDPStruct = () => {
                 <Tab.Container id="structs-tabs" defaultActiveKey="codes">
                     <Nav variant="pills" className="nav-pills mb-2 mt-2" id="pills-tab">
                         <Nav.Item>
-                        <Nav.Link eventKey="codes"><BiCommentDetail/></Nav.Link>
+                        <Nav.Link eventKey="codes"><TbSitemap/></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                        <Nav.Link eventKey="colors"><AiOutlineTool/></Nav.Link>
+                        <Nav.Link eventKey="colors"><IoColorPaletteOutline/></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                        <Nav.Link eventKey="materials"><FaRegChartBar/></Nav.Link>
+                        <Nav.Link eventKey="materials"><GiMaterialsScience/></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                        <Nav.Link eventKey="ghost"><FaRegChartBar/></Nav.Link>
+                        <Nav.Link eventKey="ghost"><RiGhost2Line/></Nav.Link>
                         </Nav.Item>
                     </Nav>
                     <Tab.Content id="slideInUp" className='heigth-100'>
