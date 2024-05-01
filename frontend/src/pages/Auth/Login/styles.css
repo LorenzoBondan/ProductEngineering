@@ -18,6 +18,23 @@ input[type=text], input[type=password], input[type=number]{
     font-size: 18px;
 }
 
+.username-input{
+    padding-left: 35px !important;
+}
+
+.login-username-input{
+    position: relative;
+}
+
+.user-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #999;
+}
+
 .login-submit {
     margin-bottom: 10px;
     display: flex;
