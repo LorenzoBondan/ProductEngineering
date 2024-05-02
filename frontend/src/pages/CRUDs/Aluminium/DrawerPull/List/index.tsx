@@ -79,6 +79,7 @@ const List = () => {
                                 <th>Medida 3</th>
                                 <th>Unidade de Medida</th>
                                 <th>Implementação</th>
+                                <th>Valor/UN</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

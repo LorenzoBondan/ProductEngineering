@@ -62,7 +62,7 @@ const GlassRow = ({glass, onDeleteOrEdit} : Props) => {
             <td>{glass.measurementUnit}</td>
             {glass.implementation ? <td>{glass.implementation.toString()}</td> : <td>-</td>}
             {glass.color ? <td>{glass.color.name}</td> : <td>-</td>}
-            
+            <td>R$ {glass.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(glass.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(glass.code)}/></td>

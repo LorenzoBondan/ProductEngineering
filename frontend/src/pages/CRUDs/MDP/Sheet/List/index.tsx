@@ -81,6 +81,7 @@ const List = () => {
                                 <th>Espessura</th>
                                 <th>Faces</th>
                                 <th>Material</th>
+                                <th>Valor/M²</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

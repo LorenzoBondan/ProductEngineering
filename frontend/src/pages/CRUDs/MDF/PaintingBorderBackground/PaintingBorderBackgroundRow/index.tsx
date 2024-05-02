@@ -59,7 +59,7 @@ const PaintingBorderBackgroundRow = ({paintingBorderBackground, onDeleteOrEdit} 
             <td>{paintingBorderBackground.family}</td>
             {paintingBorderBackground.implementation ? <td>{paintingBorderBackground.implementation.toString()}</td> : <td>-</td>}
             <td>{paintingBorderBackground.lostPercentage}</td>
-
+            <td>R$ {paintingBorderBackground.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(paintingBorderBackground.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(paintingBorderBackground.code)}/></td>

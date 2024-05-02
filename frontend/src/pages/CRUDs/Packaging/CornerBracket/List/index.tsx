@@ -74,6 +74,7 @@ const List = () => {
                                 <th>Família</th>
                                 <th>Implementação</th>
                                 <th>% Perda</th>
+                                <th>Valor/UN</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

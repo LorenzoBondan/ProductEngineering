@@ -61,7 +61,7 @@ const PaintingRow = ({painting, onDeleteOrEdit} : Props) => {
             <td>{painting.lostPercentage}</td>
             {painting.color ? <td>{painting.color.name}</td> : <td>-</td>}
             <td>{painting.paintingType.description}</td>
-            
+            <td>R$ {painting.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(painting.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(painting.code)}/></td>

@@ -74,7 +74,7 @@ const MachineRow = ({machine, onDeleteOrEdit} : Props) => {
             <td>{machine.name}</td>
             <td>{machine.formula}</td>
             {machine.machineGroupId ? <td>{machineGroup?.name}</td> : <td></td>}
-
+            <td>R$ {machine.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(machine.id)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(machine.id)}/></td>

@@ -59,7 +59,7 @@ const NonwovenFabricRow = ({NonwovenFabric, onDeleteOrEdit} : Props) => {
             <td>{NonwovenFabric.family}</td>
             {NonwovenFabric.implementation ? <td>{NonwovenFabric.implementation.toString()}</td> : <td>-</td>}
             <td>{NonwovenFabric.lostPercentage}</td>
-
+            <td>R$ {NonwovenFabric.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(NonwovenFabric.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(NonwovenFabric.code)}/></td>

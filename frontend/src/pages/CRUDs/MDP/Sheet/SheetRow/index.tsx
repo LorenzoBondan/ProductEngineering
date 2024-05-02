@@ -79,7 +79,7 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
             <td>{sheet.thickness}</td>
             <td>{sheet.faces}</td>
             {sheet.materialId ? <td>{material?.name}</td> : <td>-</td>}
-            
+            <td>R$ {sheet.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(sheet.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(sheet.code)}/></td>

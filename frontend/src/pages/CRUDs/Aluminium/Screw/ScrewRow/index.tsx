@@ -61,7 +61,7 @@ const ScrewRow = ({Screw, onDeleteOrEdit} : Props) => {
             <td>{Screw.measure3}</td>
             <td>{Screw.measurementUnit}</td>
             {Screw.implementation ? <td>{Screw.implementation.toString()}</td> : <td>-</td>}
-            
+            <td>R$ {Screw.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(Screw.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(Screw.code)}/></td>

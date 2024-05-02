@@ -59,7 +59,7 @@ const CornerBracketRow = ({CornerBracket, onDeleteOrEdit} : Props) => {
             <td>{CornerBracket.family}</td>
             {CornerBracket.implementation ? <td>{CornerBracket.implementation.toString()}</td> : <td>-</td>}
             <td>{CornerBracket.lostPercentage}</td>
-
+            <td>R$ {CornerBracket.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(CornerBracket.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(CornerBracket.code)}/></td>

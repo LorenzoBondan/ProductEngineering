@@ -61,7 +61,7 @@ const DrawerPullRow = ({drawerPull, onDeleteOrEdit} : Props) => {
             <td>{drawerPull.measure3}</td>
             <td>{drawerPull.measurementUnit}</td>
             {drawerPull.implementation ? <td>{drawerPull.implementation.toString()}</td> : <td>-</td>}
-            
+            <td>R$ {drawerPull.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(drawerPull.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(drawerPull.code)}/></td>

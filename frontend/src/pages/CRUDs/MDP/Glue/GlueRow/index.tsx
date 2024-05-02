@@ -60,7 +60,7 @@ const GlueRow = ({glue, onDeleteOrEdit} : Props) => {
             {glue.implementation ? <td>{glue.implementation.toString()}</td> : <td>-</td>}
             <td>{glue.lostPercentage}</td>
             <td>{glue.grammage}</td>
-
+            <td>R$ {glue.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(glue.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(glue.code)}/></td>

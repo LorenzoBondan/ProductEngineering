@@ -61,7 +61,7 @@ const TrySquareRow = ({TrySquare, onDeleteOrEdit} : Props) => {
             <td>{TrySquare.measure3}</td>
             <td>{TrySquare.measurementUnit}</td>
             {TrySquare.implementation ? <td>{TrySquare.implementation.toString()}</td> : <td>-</td>}
-            
+            <td>R$ {TrySquare.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(TrySquare.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(TrySquare.code)}/></td>

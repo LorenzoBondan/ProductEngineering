@@ -61,7 +61,7 @@ const MoldingRow = ({Molding, onDeleteOrEdit} : Props) => {
             <td>{Molding.measure3}</td>
             <td>{Molding.measurementUnit}</td>
             {Molding.implementation ? <td>{Molding.implementation.toString()}</td> : <td>-</td>}
-            
+            <td>R$ {Molding.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(Molding.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(Molding.code)}/></td>

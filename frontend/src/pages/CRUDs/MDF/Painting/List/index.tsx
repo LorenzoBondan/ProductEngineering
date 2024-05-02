@@ -79,6 +79,7 @@ const List = () => {
                                 <th>% Perda</th>
                                 <th>Cor</th>
                                 <th>Tipo de Pintura</th>
+                                <th>Valor/M²</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

@@ -62,7 +62,7 @@ const EdgeBandingRow = ({edgeBanding, onDeleteOrEdit} : Props) => {
             {edgeBanding.color ? <td>{edgeBanding.color.name}</td> : <td>-</td>}
             <td>{edgeBanding.height}</td>
             <td>{edgeBanding.thickness}</td>
-
+            <td>R$ {edgeBanding.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(edgeBanding.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(edgeBanding.code)}/></td>

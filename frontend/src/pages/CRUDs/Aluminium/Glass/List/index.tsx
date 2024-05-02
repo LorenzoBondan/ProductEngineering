@@ -80,6 +80,7 @@ const List = () => {
                                 <th>Unidade de Medida</th>
                                 <th>Implementação</th>
                                 <th>Cor</th>
+                                <th>Valor/UN</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

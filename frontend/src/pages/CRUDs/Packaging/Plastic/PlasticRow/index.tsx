@@ -60,7 +60,7 @@ const PlasticRow = ({Plastic, onDeleteOrEdit} : Props) => {
             {Plastic.implementation ? <td>{Plastic.implementation.toString()}</td> : <td>-</td>}
             <td>{Plastic.lostPercentage}</td>
             <td>{Plastic.grammage}</td>
-
+            <td>{Plastic.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(Plastic.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(Plastic.code)}/></td>

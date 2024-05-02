@@ -59,7 +59,7 @@ const PolyethyleneRow = ({Polyethylene, onDeleteOrEdit} : Props) => {
             <td>{Polyethylene.family}</td>
             {Polyethylene.implementation ? <td>{Polyethylene.implementation.toString()}</td> : <td>-</td>}
             <td>{Polyethylene.lostPercentage}</td>
-
+            <td>R$ {Polyethylene.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(Polyethylene.code)}/></td>
             <td><DeleteSvg onClick={() => deleteObject(Polyethylene.code)}/></td>

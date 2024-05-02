@@ -77,6 +77,7 @@ const List = () => {
                                 <th>Implementação</th>
                                 <th>% Perda</th>
                                 <th>Gramatura</th>
+                                <th>Valor/kg</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

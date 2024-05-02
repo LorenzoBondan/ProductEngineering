@@ -74,6 +74,7 @@ const List = () => {
                                 <th>Nome</th>
                                 <th>Fórmula</th>
                                 <th>Grupo de Máquina</th>
+                                <th>Valor/min</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>

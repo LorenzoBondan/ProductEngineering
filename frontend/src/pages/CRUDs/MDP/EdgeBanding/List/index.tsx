@@ -80,6 +80,7 @@ const List = () => {
                                 <th>Cor</th>
                                 <th>Altura</th>
                                 <th>Espessura</th>
+                                <th>Valor/M</th>
                                 <th>Editar</th>
                                 <th>Inativar</th>
                                 <th>Excluir</th>
