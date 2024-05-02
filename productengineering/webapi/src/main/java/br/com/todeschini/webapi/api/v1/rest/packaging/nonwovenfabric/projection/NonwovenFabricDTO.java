@@ -19,4 +19,6 @@ public interface NonwovenFabricDTO {
     Double getLostPercentage();
     @JsonProperty(value = "color", index = 6)
     ColorDTO getColor();
+    @JsonProperty(value = "value", index = 7)
+    Double getValue();
 }

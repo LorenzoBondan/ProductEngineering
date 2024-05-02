@@ -16,4 +16,6 @@ public interface PolyesterDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "lostPercentage", index = 5)
     Double getLostPercentage();
+    @JsonProperty(value = "value", index = 6)
+    Double getValue();
 }

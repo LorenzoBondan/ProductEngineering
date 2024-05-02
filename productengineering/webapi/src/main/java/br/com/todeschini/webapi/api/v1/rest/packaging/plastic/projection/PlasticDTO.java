@@ -21,4 +21,6 @@ public interface PlasticDTO {
     ColorDTO getColor();
     @JsonProperty(value = "grammage", index = 7)
     Double getGrammage();
+    @JsonProperty(value = "value", index = 8)
+    Double getValue();
 }

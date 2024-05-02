@@ -20,4 +20,6 @@ public interface DrawerPullDTO {
     String getMeasurementUnit();
     @JsonProperty(value = "implementation", index = 7)
     LocalDate getImplementation();
+    @JsonProperty(value = "value", index = 8)
+    Double getValue();
 }

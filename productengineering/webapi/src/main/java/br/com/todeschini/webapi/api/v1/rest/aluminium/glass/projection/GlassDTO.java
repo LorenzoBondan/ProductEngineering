@@ -23,4 +23,6 @@ public interface GlassDTO {
     ColorDTO getColor();
     @JsonProperty(value = "implementation", index = 8)
     LocalDate getImplementation();
+    @JsonProperty(value = "value", index = 9)
+    Double getValue();
 }

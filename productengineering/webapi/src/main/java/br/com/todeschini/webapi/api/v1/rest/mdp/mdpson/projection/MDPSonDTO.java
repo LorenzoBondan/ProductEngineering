@@ -27,4 +27,6 @@ public interface MDPSonDTO {
     Long getGuideId();
     @JsonProperty(value = "implementation", index = 10)
     LocalDate getImplementation();
+    @JsonProperty(value = "value", index = 11)
+    Double getValue();
 }

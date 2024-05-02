@@ -21,4 +21,6 @@ public interface GlueDTO {
     Double getGrammage();
     @JsonProperty(value = "color", index = 7)
     ColorDTO getColor();
+    @JsonProperty(value = "value", index = 8)
+    Double getValue();
 }

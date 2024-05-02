@@ -23,4 +23,6 @@ public interface EdgeBandingDTO {
     Integer getThickness();
     @JsonProperty(value = "color", index = 8)
     ColorDTO getColor();
+    @JsonProperty(value = "value", index = 9)
+    Double getValue();
 }

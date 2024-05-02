@@ -25,4 +25,6 @@ public interface AluminiumSonDTO {
     Long getFatherCode();
     @JsonProperty(value = "implementation", index = 9)
     LocalDate getImplementation();
+    @JsonProperty(value = "value", index = 10)
+    Double getValue();
 }

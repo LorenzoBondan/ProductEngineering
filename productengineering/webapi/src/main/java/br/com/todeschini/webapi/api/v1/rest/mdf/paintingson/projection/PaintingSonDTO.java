@@ -41,4 +41,6 @@ public interface PaintingSonDTO {
     Long getGuideId();
     @JsonProperty(value = "implementation", index = 17)
     LocalDate getImplementation();
+    @JsonProperty(value = "value", index = 18)
+    Double getValue();
 }

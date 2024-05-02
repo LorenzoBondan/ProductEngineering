@@ -12,4 +12,6 @@ public interface MachineDTO {
     String[] getFormula();
     @JsonProperty(value = "machineGroupId", index = 4)
     Long getMachineGroupId();
+    @JsonProperty(value = "value", index = 5)
+    Double getValue();
 }

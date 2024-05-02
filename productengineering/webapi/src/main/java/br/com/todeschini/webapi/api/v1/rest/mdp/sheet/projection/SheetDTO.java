@@ -26,4 +26,6 @@ public interface SheetDTO {
     ColorDTO getColor();
     @JsonProperty(value = "materialId", index = 9)
     Long getMaterialId();
+    @JsonProperty(value = "value", index = 10)
+    Double getValue();
 }
