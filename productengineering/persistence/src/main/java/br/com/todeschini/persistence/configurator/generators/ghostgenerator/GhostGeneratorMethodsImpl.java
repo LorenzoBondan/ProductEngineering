@@ -79,6 +79,7 @@ public class GhostGeneratorMethodsImpl implements GhostGeneratorMethods {
         processNonwovenFabric((Ghost) ghostGenerator.getGhost(), ghostGenerator.getNonwovenFabricCode(), ghostGenerator.getOneFace());
         processPlastic((Ghost) ghostGenerator.getGhost(), ghostGenerator.getPlasticCode(), ghostGenerator.getUpper(), ghostGenerator.getAdditional(), ghostGenerator.getWidth());
         processPolyethylene((Ghost) ghostGenerator.getGhost(), ghostGenerator.getPolyethyleneCode());
+        ((Ghost) ghostGenerator.getGhost()).calculateValue();
         repository.save((Ghost) ghostGenerator.getGhost());
     }
 

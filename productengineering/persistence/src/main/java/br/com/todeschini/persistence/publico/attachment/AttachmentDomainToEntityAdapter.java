@@ -17,6 +17,7 @@ public class AttachmentDomainToEntityAdapter implements Convertable<Attachment, 
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
         entity.setImplementation(domain.getImplementation());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -30,6 +31,7 @@ public class AttachmentDomainToEntityAdapter implements Convertable<Attachment, 
         domain.setMeasure3(entity.getMeasure3());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setImplementation(domain.getImplementation());
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

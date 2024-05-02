@@ -156,6 +156,7 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
             domain.setGlass(usedGlassAdapter.toDomain(entity.getGlass()));
         }
 
+        domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
         return domain;
     }
 }

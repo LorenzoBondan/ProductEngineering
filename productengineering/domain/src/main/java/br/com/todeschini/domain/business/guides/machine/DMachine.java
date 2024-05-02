@@ -3,10 +3,7 @@ package br.com.todeschini.domain.business.guides.machine;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
-import br.com.todeschini.domain.validation.impl.NaoBrancoValidator;
-import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
-import br.com.todeschini.domain.validation.impl.TamanhoMaximoValidator;
-import br.com.todeschini.domain.validation.impl.TamanhoMinimoValidator;
+import br.com.todeschini.domain.validation.impl.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -24,6 +21,7 @@ public class DMachine {
     private Long id;
     private String name;
     private String[] formula;
+    private Double value;
     private Long machineGroupId;
     private List<Long> guideMachinesIds = new ArrayList<>();
 
@@ -38,6 +36,8 @@ public class DMachine {
                 .add(new NamedValidator<>("Nome", new TamanhoMinimoValidator(3)), this.name)
                 .add(new NamedValidator<>("Nome", new TamanhoMaximoValidator(30)), this.name)
                 .add(new NamedValidator<>("Grupo", new ObjetoNaoNuloValidator()), this.machineGroupId)
+                .add(new NamedValidator<>("Valor", new ObjetoNaoNuloValidator()), this.value)
+                .add(new NamedValidator<>("Valor", new NumeroMaiorQueZeroValidator()), this.value)
                 .validate();
     }
 }

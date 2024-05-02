@@ -20,6 +20,7 @@ import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.entities.publico.Son;
 import br.com.todeschini.persistence.publico.color.ColorRepository;
 import br.com.todeschini.persistence.publico.father.FatherDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.father.FatherRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,14 +37,16 @@ public class ModulationConfiguratorMethodsImpl implements ModulationConfigurator
     private final FatherGeneratorService fatherGeneratorService;
     private final SonGeneratorService sonGeneratorService;
     private final FatherDomainToEntityAdapter fatherAdapter;
+    private final FatherRepository fatherRepository;
 
-    public ModulationConfiguratorMethodsImpl(ColorRepository colorRepository, MDPItemService mdpItemService, GhostGeneratorService ghostGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, FatherDomainToEntityAdapter fatherAdapter) {
+    public ModulationConfiguratorMethodsImpl(ColorRepository colorRepository, MDPItemService mdpItemService, GhostGeneratorService ghostGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, FatherDomainToEntityAdapter fatherAdapter, FatherRepository fatherRepository) {
         this.colorRepository = colorRepository;
         this.mdpItemService = mdpItemService;
         this.ghostGeneratorService = ghostGeneratorService;
         this.fatherGeneratorService = fatherGeneratorService;
         this.sonGeneratorService = sonGeneratorService;
         this.fatherAdapter = fatherAdapter;
+        this.fatherRepository = fatherRepository;
     }
 
     @Override
@@ -73,6 +76,10 @@ public class ModulationConfiguratorMethodsImpl implements ModulationConfigurator
                     father.getGhost(), configurator.getCornerBracketCode(), configurator.getPlasticCode(), configurator.getNonwovenFabricCode(),
                     configurator.getPolyethyleneCode(), configurator.getUpper(), configurator.getAdditional(), configurator.getWidth(), configurator.getQuantity(), configurator.getOneFace()
             ));
+
+            father.calculateValue();
+            father.setImplementation(configurator.getImplementation());
+            fatherRepository.save(father);
         }
         return fatherList.stream().map(fatherAdapter::toDomain).collect(Collectors.toList());
     }

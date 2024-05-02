@@ -34,6 +34,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
         entity.setThickness(domain.getThickness());
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         entity.setMaterial(materialRepository.findById(domain.getMaterialId()).get());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -50,6 +51,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
         domain.setThickness(entity.getThickness());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         domain.setMaterialId(entity.getMaterial().getId());
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

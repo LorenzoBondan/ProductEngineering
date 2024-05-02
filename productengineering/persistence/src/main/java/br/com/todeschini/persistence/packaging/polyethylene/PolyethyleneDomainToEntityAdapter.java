@@ -16,6 +16,7 @@ public class PolyethyleneDomainToEntityAdapter implements Convertable<Polyethyle
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -27,6 +28,7 @@ public class PolyethyleneDomainToEntityAdapter implements Convertable<Polyethyle
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

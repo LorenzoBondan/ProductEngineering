@@ -68,6 +68,8 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
                 createAndLinkUsedPainting(paintingSon, paintingType, item.getHighShine());
                 createAndLinkUsedPaintingBorderBackground(paintingSon, item.getPaintingBorderBackgroundId());
                 createAndLinkUsedPolyester(paintingSon, item.getPolyesterId());
+                paintingSon.calculateValue();
+                paintingSonRepository.save(paintingSon);
             }
         }
     }

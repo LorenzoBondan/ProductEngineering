@@ -24,6 +24,7 @@ public class DGuide {
     private Long id;
     private LocalDate implementation;
     private LocalDate finalDate;
+    private Double value;
 
     private List<DGuideMachine> guideMachines = new ArrayList<>();
 

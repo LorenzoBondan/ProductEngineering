@@ -22,6 +22,7 @@ import br.com.todeschini.domain.business.configurator.structs.mdpitem.MDPItemSer
 import br.com.todeschini.domain.business.configurator.structs.mdpitem.api.MDPItemService;
 import br.com.todeschini.domain.business.configurator.structs.mdpitem.spi.MDPItemMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -83,6 +84,5 @@ public class PersistenceConfig {
     public GuideGeneratorService guideGeneratorService() {
         return new GuideGeneratorServiceImpl(guideGeneratorMethods);
     }
-
- */
+*/
 }

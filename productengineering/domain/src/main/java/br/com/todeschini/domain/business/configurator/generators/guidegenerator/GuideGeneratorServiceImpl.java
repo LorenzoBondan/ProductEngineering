@@ -3,7 +3,6 @@ package br.com.todeschini.domain.business.configurator.generators.guidegenerator
 import br.com.todeschini.domain.business.configurator.generators.guidegenerator.api.GuideGeneratorService;
 import br.com.todeschini.domain.business.configurator.generators.guidegenerator.spi.GuideGeneratorMethods;
 import br.com.todeschini.domain.metadata.DomainService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 @DomainService
 public class GuideGeneratorServiceImpl implements GuideGeneratorService {
 
-    @Autowired
     private final GuideGeneratorMethods guideGeneratorMethods;
 
     public GuideGeneratorServiceImpl(GuideGeneratorMethods guideGeneratorMethods) {

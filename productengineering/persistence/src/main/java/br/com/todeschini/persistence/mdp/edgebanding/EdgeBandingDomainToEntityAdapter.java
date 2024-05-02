@@ -29,6 +29,7 @@ public class EdgeBandingDomainToEntityAdapter implements Convertable<EdgeBanding
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         entity.setHeight(domain.getHeight());
         entity.setThickness(domain.getThickness());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -43,6 +44,7 @@ public class EdgeBandingDomainToEntityAdapter implements Convertable<EdgeBanding
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setHeight(entity.getHeight());
         domain.setThickness(entity.getThickness());
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

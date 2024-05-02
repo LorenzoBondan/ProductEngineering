@@ -10,6 +10,7 @@ import br.com.todeschini.domain.business.publico.father.DFather;
 import br.com.todeschini.persistence.entities.aluminium.AluminiumSon;
 import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.publico.father.FatherDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.father.FatherRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +24,13 @@ public class AluminiumConfiguratorMethodsImpl implements AluminiumConfiguratorMe
     private final AluminiumItemService aluminiumItemService;
     private final GhostGeneratorService ghostGeneratorService;
     private final FatherDomainToEntityAdapter fatherAdapter;
+    private final FatherRepository fatherRepository;
 
-    public AluminiumConfiguratorMethodsImpl(AluminiumItemService aluminiumItemService, GhostGeneratorService ghostGeneratorService, FatherDomainToEntityAdapter fatherAdapter) {
+    public AluminiumConfiguratorMethodsImpl(AluminiumItemService aluminiumItemService, GhostGeneratorService ghostGeneratorService, FatherDomainToEntityAdapter fatherAdapter, FatherRepository fatherRepository) {
         this.aluminiumItemService = aluminiumItemService;
         this.ghostGeneratorService = ghostGeneratorService;
         this.fatherAdapter = fatherAdapter;
+        this.fatherRepository = fatherRepository;
     }
 
     @Override
@@ -52,6 +55,10 @@ public class AluminiumConfiguratorMethodsImpl implements AluminiumConfiguratorMe
                         configurator.getQuantity(),
                         configurator.getOneFace())
                 );
+
+                father.calculateValue();
+                father.setImplementation(configurator.getImplementation());
+                fatherRepository.save(father);
             }
         }
 

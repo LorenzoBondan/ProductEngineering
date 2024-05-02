@@ -1,10 +1,12 @@
 package br.com.todeschini.domain.business.configurator.generators.songenerator.spi;
 
 import br.com.todeschini.domain.business.configurator.generators.songenerator.DSonGenerator;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public interface SonGeneratorMethods {
 
     Object createOrUpdateMDPSon(DSonGenerator sonGenerator);

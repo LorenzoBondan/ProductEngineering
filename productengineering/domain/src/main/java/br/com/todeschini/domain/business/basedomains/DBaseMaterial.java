@@ -24,6 +24,7 @@ public class DBaseMaterial {
     private LocalDate implementation;
     private Double lostPercentage;
     private DColor color;
+    private Double value;
 
     public void validate() throws ValidationException {
         new ValidationBuilder()
@@ -40,6 +41,7 @@ public class DBaseMaterial {
                 .add(new NamedValidator<>("Família", new TamanhoMaximoValidator(10)), this.family)
                 .add(new NamedValidator<>("Implementação", new DataFuturaValidator()), this.implementation)
                 .add(new NamedValidator<>("Porcentagem de perda", new NumeroMaiorOuIgualAZeroValidator()), this.lostPercentage)
+                .add(new NamedValidator<>("Valor", new NumeroMaiorQueZeroValidator()), this.value)
                 .validate();
     }
 }

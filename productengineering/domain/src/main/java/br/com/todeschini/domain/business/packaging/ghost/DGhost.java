@@ -28,6 +28,7 @@ public class DGhost {
     private Integer measure1;
     private Integer measure2;
     private Integer measure3;
+    private Double value;
 
     private List<DUsedCornerBracket> cornerBrackets = new ArrayList<>();
     private List<DUsedNonwovenFabric> nonwovenFabrics = new ArrayList<>();

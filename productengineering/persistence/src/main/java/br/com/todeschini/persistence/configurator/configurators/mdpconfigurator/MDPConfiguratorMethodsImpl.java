@@ -21,6 +21,7 @@ import br.com.todeschini.persistence.entities.publico.Color;
 import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.publico.color.ColorRepository;
 import br.com.todeschini.persistence.publico.father.FatherDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.father.FatherRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 @Component
 public class MDPConfiguratorMethodsImpl implements MDPConfiguratorMethods {
 
+    private final FatherRepository fatherRepository;
     private final ColorRepository colorRepository;
     private final MDPItemService mdpItemService;
     private final GhostGeneratorService ghostGeneratorService;
@@ -41,7 +43,8 @@ public class MDPConfiguratorMethodsImpl implements MDPConfiguratorMethods {
     private final SonGeneratorService sonGeneratorService;
     private final FatherDomainToEntityAdapter fatherAdapter;
 
-    public MDPConfiguratorMethodsImpl(ColorRepository colorRepository, MDPItemService mdpItemService, GhostGeneratorService ghostGeneratorService, GuideGeneratorService guideGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, FatherDomainToEntityAdapter fatherAdapter) {
+    public MDPConfiguratorMethodsImpl(FatherRepository fatherRepository, ColorRepository colorRepository, MDPItemService mdpItemService, GhostGeneratorService ghostGeneratorService, GuideGeneratorService guideGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, FatherDomainToEntityAdapter fatherAdapter) {
+        this.fatherRepository = fatherRepository;
         this.colorRepository = colorRepository;
         this.mdpItemService = mdpItemService;
         this.ghostGeneratorService = ghostGeneratorService;
@@ -69,6 +72,10 @@ public class MDPConfiguratorMethodsImpl implements MDPConfiguratorMethods {
                     configurator.getQuantity(),
                     configurator.getOneFace())
             );
+
+            father.calculateValue();
+            father.setImplementation(configurator.getImplementation());
+            fatherRepository.save(father);
         }
         return fatherList.stream().map(fatherAdapter::toDomain).collect(Collectors.toList());
     }
@@ -95,6 +102,7 @@ public class MDPConfiguratorMethodsImpl implements MDPConfiguratorMethods {
                         father,
                         null
                 ));
+                son.setImplementation(implementation);
                 guideGeneratorService.generateGuideSon(new DGuideGenerator(son, item.getMachinesIds(), implementation, LocalDate.parse("9999-12-31")));
 
                 if (!fatherList.contains(father)) {

@@ -17,6 +17,7 @@ public class MoldingDomainToEntityAdapter implements Convertable<Molding, DMoldi
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
         entity.setImplementation(domain.getImplementation());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -30,6 +31,7 @@ public class MoldingDomainToEntityAdapter implements Convertable<Molding, DMoldi
         domain.setMeasure3(entity.getMeasure3());
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setImplementation(entity.getImplementation());
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

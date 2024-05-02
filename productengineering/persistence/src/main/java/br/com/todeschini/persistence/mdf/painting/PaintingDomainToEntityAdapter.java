@@ -37,6 +37,7 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
             entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
         }
         entity.setPaintingType(paintingTypeRepository.findById(domain.getPaintingType().getId()).get());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -52,6 +53,7 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
             domain.setColor(colorAdapter.toDomain(entity.getColor()));
         }
         domain.setPaintingType(paintingTypeAdapter.toDomain(entity.getPaintingType()));
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

@@ -28,6 +28,7 @@ public class GlassDomainToEntityAdapter implements Convertable<Glass, DGlass> {
         entity.setMeasure3(domain.getMeasure3());
         entity.setImplementation(domain.getImplementation());
         entity.setColor(colorRepository.findById(domain.getColor().getCode()).get());
+        entity.setValue(domain.getValue());
         return entity;
     }
 
@@ -42,6 +43,7 @@ public class GlassDomainToEntityAdapter implements Convertable<Glass, DGlass> {
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setImplementation(entity.getImplementation());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
+        domain.setValue(entity.getValue());
         return domain;
     }
 }

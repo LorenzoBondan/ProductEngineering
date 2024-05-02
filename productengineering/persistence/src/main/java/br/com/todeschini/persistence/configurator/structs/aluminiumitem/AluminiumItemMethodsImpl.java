@@ -123,6 +123,7 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
                 addUsedMolding(son, aluminiumItem.getMoldingCode());
                 addUsedTrySquare(son, aluminiumItem.getTrySquareCode(), aluminiumItem.getTrySquareQuantity());
                 addUsedScrews(son, aluminiumItem.getScrews());
+                son.calculateValue();
                 aluminiumSonRepository.save(son);
             }
         }

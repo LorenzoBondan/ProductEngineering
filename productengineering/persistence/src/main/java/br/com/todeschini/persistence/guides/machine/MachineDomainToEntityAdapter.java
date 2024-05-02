@@ -27,6 +27,7 @@ public class MachineDomainToEntityAdapter implements Convertable<Machine, DMachi
                 .id(domain.getId())
                 .name(domain.getName())
                 .formula(domain.getFormula())
+                .value(domain.getValue())
                 .machineGroup(machineGroupRepository.findById(domain.getMachineGroupId()).get())
 
                 .guideMachines(domain.getGuideMachinesIds().stream().map(guideMachineId -> guideMachineRepository.findById(guideMachineId).get()).collect(Collectors.toSet()))
@@ -40,6 +41,7 @@ public class MachineDomainToEntityAdapter implements Convertable<Machine, DMachi
                 .id(entity.getId())
                 .name(entity.getName())
                 .formula(entity.getFormula())
+                .value(entity.getValue())
                 .machineGroupId(entity.getMachineGroup().getId())
 
                 .guideMachinesIds(entity.getGuideMachines().stream().map(GuideMachine::getId).collect(Collectors.toList()))

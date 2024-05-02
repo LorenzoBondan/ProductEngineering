@@ -22,6 +22,7 @@ public class Machine extends AuditInfo {
     private Long id;
     private String name;
     private String[] formula;
+    private Double value;
 
     @ManyToOne
     @JoinColumn(name = "machine_group_id")

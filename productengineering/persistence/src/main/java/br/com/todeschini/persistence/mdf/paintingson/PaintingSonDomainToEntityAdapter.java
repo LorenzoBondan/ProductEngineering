@@ -123,6 +123,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
         domain.setPaintingBorderBackgrounds(entity.getPaintingBorderBackgrounds().stream().map(usedPaintingBorderBackgroundAdapter::toDomain).collect(Collectors.toList()));
         domain.setPolyesters(entity.getPolyesters().stream().map(usedPolyesterAdapter::toDomain).collect(Collectors.toList()));
 
+        domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
         return domain;
     }
 }

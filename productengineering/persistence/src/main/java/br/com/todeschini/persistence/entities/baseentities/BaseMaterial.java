@@ -24,6 +24,7 @@ public class BaseMaterial extends AuditInfo {
     private String family;
     private LocalDate implementation;
     private Double lostPercentage;
+    private Double value;
 
     @ManyToOne
     @JoinColumn(name = "color_id")

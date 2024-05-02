@@ -3,15 +3,13 @@ package br.com.todeschini.domain.business.configurator.generators.fathergenerato
 import br.com.todeschini.domain.business.configurator.generators.fathergenerator.api.FatherGeneratorService;
 import br.com.todeschini.domain.business.configurator.generators.fathergenerator.spi.FatherGeneratorMethods;
 import br.com.todeschini.domain.metadata.DomainService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @DomainService
 public class FatherGeneratorServiceImpl implements FatherGeneratorService {
 
-    @Autowired
-    private FatherGeneratorMethods fatherGeneratorMethods;
+    private final FatherGeneratorMethods fatherGeneratorMethods;
 
     public FatherGeneratorServiceImpl(FatherGeneratorMethods fatherGeneratorMethods) {
         this.fatherGeneratorMethods = fatherGeneratorMethods;

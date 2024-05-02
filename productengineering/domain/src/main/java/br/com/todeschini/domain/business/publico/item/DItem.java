@@ -23,6 +23,7 @@ public class DItem {
     private Integer measure3;
     private String measurementUnit;
     private LocalDate implementation;
+    private Double value;
 
     public DItem(Long code){
         this.code = code;

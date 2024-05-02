@@ -1,5 +1,11 @@
 package br.com.todeschini.persistence.entities.publico;
 
+import br.com.todeschini.persistence.entities.aluminium.AluminiumSon;
+import br.com.todeschini.persistence.entities.mdf.PaintingSon;
+import br.com.todeschini.persistence.entities.mdp.MDPSon;
+import br.com.todeschini.persistence.entities.mdp.UsedEdgeBanding;
+import br.com.todeschini.persistence.entities.mdp.UsedGlue;
+import br.com.todeschini.persistence.entities.mdp.UsedSheet;
 import br.com.todeschini.persistence.entities.packaging.Ghost;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,5 +55,27 @@ public class Father extends Item implements Serializable {
     public Father(Long code, String description, Integer measure1, Integer measure2, Integer measure3, Ghost ghost) {
         super(code, description, measure1, measure2, measure3);
         this.ghost = ghost;
+    }
+
+    public Double calculateValue(){
+        Double value = 0.0;
+        for(Son son : sons){
+            if(son instanceof MDPSon){
+                value += ((MDPSon) son).calculateValue();
+            } else if (son instanceof PaintingSon) {
+                value += ((PaintingSon) son).calculateValue();
+            } else if (son instanceof AluminiumSon) {
+                value += ((AluminiumSon) son).calculateValue();
+            }
+        }
+        for(Attachment attachment : attachments){
+            value += attachment.getValue();
+        }
+        if(this.ghost != null){
+            value += ghost.calculateValue();
+        }
+        value = Math.round(value * 1e2) / 1e2;
+        this.setValue(value);
+        return value;
     }
 }

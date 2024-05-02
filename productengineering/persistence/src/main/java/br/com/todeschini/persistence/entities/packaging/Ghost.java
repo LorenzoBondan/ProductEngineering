@@ -29,6 +29,7 @@ public class Ghost extends AuditInfo {
     private Integer measure1;
     private Integer measure2;
     private Integer measure3;
+    private Double value;
 
     @OneToMany(mappedBy = "ghost", fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
@@ -57,5 +58,24 @@ public class Ghost extends AuditInfo {
         this.measure1 = measure1;
         this.measure2 = measure2;
         this.measure3 = measure3;
+    }
+
+    public Double calculateValue() {
+        double value = 0;
+        for (UsedCornerBracket bracket : cornerBrackets) {
+            value += bracket.getCornerBracket().getValue() * bracket.getNetQuantity();
+        }
+        for(UsedNonwovenFabric nonwovenFabric : nonwovenFabrics){
+            value += nonwovenFabric.getNonwovenFabric().getValue() * nonwovenFabric.getNetQuantity();
+        }
+        for(UsedPlastic plastic : plastics){
+            value += plastic.getPlastic().getValue() * plastic.getNetQuantity();
+        }
+        for(UsedPolyethylene polyethylene : polyethylenes){
+            value += polyethylene.getPolyethylene().getValue() * polyethylene.getNetQuantity();
+        }
+        value = Math.round(value * 1e2) / 1e2;
+        this.setValue(value);
+        return value;
     }
 }

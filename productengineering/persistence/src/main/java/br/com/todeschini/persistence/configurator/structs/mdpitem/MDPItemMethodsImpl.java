@@ -9,6 +9,7 @@ import br.com.todeschini.persistence.entities.mdp.UsedGlue;
 import br.com.todeschini.persistence.entities.mdp.UsedSheet;
 import br.com.todeschini.persistence.mdp.edgebanding.EdgeBandingRepository;
 import br.com.todeschini.persistence.mdp.glue.GlueRepository;
+import br.com.todeschini.persistence.mdp.mdpson.MDPSonRepository;
 import br.com.todeschini.persistence.mdp.sheet.SheetRepository;
 import br.com.todeschini.persistence.mdp.usededgebanding.UsedEdgeBandingRepository;
 import br.com.todeschini.persistence.mdp.usedglue.UsedGlueRepository;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class MDPItemMethodsImpl implements MDPItemMethods {
 
+    private final MDPSonRepository mdpSonRepository;
     private final SheetRepository sheetRepository;
     private final EdgeBandingRepository edgeBandingRepository;
     private final GlueRepository glueRepository;
@@ -26,7 +28,8 @@ public class MDPItemMethodsImpl implements MDPItemMethods {
     private final UsedEdgeBandingRepository usedEdgeBandingRepository;
     private final UsedGlueRepository usedGlueRepository;
 
-    public MDPItemMethodsImpl(SheetRepository sheetRepository, EdgeBandingRepository edgeBandingRepository, GlueRepository glueRepository, UsedSheetRepository usedSheetRepository, UsedEdgeBandingRepository usedEdgeBandingRepository, UsedGlueRepository usedGlueRepository) {
+    public MDPItemMethodsImpl(MDPSonRepository mdpSonRepository, SheetRepository sheetRepository, EdgeBandingRepository edgeBandingRepository, GlueRepository glueRepository, UsedSheetRepository usedSheetRepository, UsedEdgeBandingRepository usedEdgeBandingRepository, UsedGlueRepository usedGlueRepository) {
+        this.mdpSonRepository = mdpSonRepository;
         this.sheetRepository = sheetRepository;
         this.edgeBandingRepository = edgeBandingRepository;
         this.glueRepository = glueRepository;
@@ -43,6 +46,8 @@ public class MDPItemMethodsImpl implements MDPItemMethods {
                 generateUsedSheet(son);
                 generateUsedEdgeBanding(son, item.getEdgeLength(), item.getEdgeWidth());
                 generateUsedGlue(son, item.getGlueCode());
+                son.calculateValue();
+                mdpSonRepository.save(son);
             }
         }
     }

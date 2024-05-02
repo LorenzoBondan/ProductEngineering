@@ -21,6 +21,7 @@ import br.com.todeschini.persistence.entities.publico.Color;
 import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.publico.color.ColorRepository;
 import br.com.todeschini.persistence.publico.father.FatherDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.father.FatherRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +40,9 @@ public class MDFConfiguratorMethodsImpl implements MDFConfiguratorMethods {
     private final FatherGeneratorService fatherGeneratorService;
     private final SonGeneratorService sonGeneratorService;
     private final FatherDomainToEntityAdapter fatherAdapter;
+    private final FatherRepository fatherRepository;
 
-    public MDFConfiguratorMethodsImpl(ColorRepository colorRepository, MDFItemService mdfItemService, GhostGeneratorService ghostGeneratorService, GuideGeneratorService guideGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, FatherDomainToEntityAdapter fatherAdapter) {
+    public MDFConfiguratorMethodsImpl(ColorRepository colorRepository, MDFItemService mdfItemService, GhostGeneratorService ghostGeneratorService, GuideGeneratorService guideGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, FatherDomainToEntityAdapter fatherAdapter, FatherRepository fatherRepository) {
         this.colorRepository = colorRepository;
         this.mdfItemService = mdfItemService;
         this.ghostGeneratorService = ghostGeneratorService;
@@ -48,6 +50,7 @@ public class MDFConfiguratorMethodsImpl implements MDFConfiguratorMethods {
         this.fatherGeneratorService = fatherGeneratorService;
         this.sonGeneratorService = sonGeneratorService;
         this.fatherAdapter = fatherAdapter;
+        this.fatherRepository = fatherRepository;
     }
 
     @Override
@@ -69,6 +72,10 @@ public class MDFConfiguratorMethodsImpl implements MDFConfiguratorMethods {
                     configurator.getQuantity(),
                     configurator.getOneFace())
             );
+
+            father.calculateValue();
+            father.setImplementation(configurator.getImplementation());
+            fatherRepository.save(father);
         }
         return fatherList.stream().map(fatherAdapter::toDomain).collect(Collectors.toList());
     }

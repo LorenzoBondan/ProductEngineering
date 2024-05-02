@@ -1,9 +1,9 @@
 package br.com.todeschini.domain.business.configurator.generators.fathergenerator.spi;
 
 import br.com.todeschini.domain.business.configurator.generators.fathergenerator.DFatherGenerator;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public interface FatherGeneratorMethods {
 
     Object createOrUpdateFather(DFatherGenerator fatherGenerator);

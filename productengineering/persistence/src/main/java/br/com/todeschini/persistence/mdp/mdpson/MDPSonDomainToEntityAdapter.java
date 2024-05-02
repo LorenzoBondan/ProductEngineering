@@ -96,6 +96,7 @@ public class MDPSonDomainToEntityAdapter implements Convertable<MDPSon, DMDPSon>
         domain.setEdgeBandings(entity.getEdgeBandings().stream().map(usedEdgeBandingAdapter::toDomain).collect(Collectors.toList()));
         domain.setGlues(entity.getGlues().stream().map(usedGlueAdapter::toDomain).collect(Collectors.toList()));
 
+        domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
         return domain;
     }
 }

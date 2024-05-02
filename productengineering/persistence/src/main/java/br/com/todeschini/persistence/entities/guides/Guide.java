@@ -32,4 +32,13 @@ public class Guide extends AuditInfo {
 
     @OneToMany(mappedBy = "guide", fetch = FetchType.EAGER)
     private Set<GuideMachine> guideMachines = new HashSet<>();
+
+    public Double calculateValue() {
+        double value = 0;
+        for(GuideMachine guideMachine : this.guideMachines) {
+            value += guideMachine.getMachine().getValue() * guideMachine.getMachineTime();
+            value += guideMachine.getMachine().getValue() * guideMachine.getManTime();
+        }
+        return value;
+    }
 }

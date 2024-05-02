@@ -42,21 +42,6 @@ public class PaintingSon extends Son implements Serializable {
     @Fetch(FetchMode.SUBSELECT)
     private List<UsedPolyester> polyesters = new ArrayList<>();
 
-    public void generateSuffix(){
-        if(faces == 1){
-            suffix = 99;
-            if(special){
-                suffix = 77;
-            }
-        }
-        else if(faces == 2){
-            suffix = 55;
-            if(special){
-                suffix = 44;
-            }
-        }
-    }
-
     public PaintingSon(Son son){
         this.setCode(son.getCode());
         this.setDescription(son.getDescription());
@@ -72,5 +57,42 @@ public class PaintingSon extends Son implements Serializable {
         this.setSuffix(99);
         this.setFaces(1);
         //this.setGuide
+    }
+
+    public void generateSuffix(){
+        if(faces == 1){
+            suffix = 99;
+            if(special){
+                suffix = 77;
+            }
+        }
+        else if(faces == 2){
+            suffix = 55;
+            if(special){
+                suffix = 44;
+            }
+        }
+    }
+
+    public Double calculateValue() {
+        double value = 0;
+        for(UsedPainting painting : paintings){
+            value += painting.getPainting().getValue() * painting.getNetQuantity();
+        }
+        for(UsedPaintingBorderBackground paintingBorderBackground : paintingBorderBackgrounds){
+            value += paintingBorderBackground.getPaintingBorderBackground().getValue() * paintingBorderBackground.getNetQuantity();
+        }
+        for(UsedPolyester polyester : polyesters){
+            value += polyester.getPolyester().getValue() * polyester.getNetQuantity();
+        }
+        for(UsedBackSheet usedBackSheet : back.getSheets()){
+            value += usedBackSheet.getSheet().getValue() * usedBackSheet.getNetQuantity();
+        }
+        if(this.getGuide() != null){
+            value += this.getGuide().calculateValue();
+        }
+        value = Math.round(value * 1e2) / 1e2;
+        this.setValue(value);
+        return value;
     }
 }

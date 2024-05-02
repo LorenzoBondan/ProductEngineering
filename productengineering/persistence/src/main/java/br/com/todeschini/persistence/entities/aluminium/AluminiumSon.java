@@ -62,4 +62,29 @@ public class AluminiumSon extends Son implements Serializable {
         this.setColor(son.getColor());
         this.setFather(son.getFather());
     }
+
+    public Double calculateValue() {
+        double value = 0;
+        for(MDPSon son : sons){
+            value += son.calculateValue();
+        }
+        if(drawerPull != null){
+            value += drawerPull.getDrawerPull().getValue() * drawerPull.getQuantity();
+        }
+        if(glass != null){
+            value += glass.getGlass().getValue() * glass.getQuantity();
+        }
+        for(UsedTrySquare trySquare : trySquares){
+            value += trySquare.getTrySquare().getValue() * trySquare.getQuantity();
+        }
+        for(UsedScrew screw : screws){
+            value += screw.getScrew().getValue() * screw.getQuantity();
+        }
+        for(UsedMolding molding : moldings){
+            value += molding.getMolding().getValue() * molding.getQuantity();
+        }
+        value = Math.round(value * 1e2) / 1e2;
+        this.setValue(value);
+        return value;
+    }
 }

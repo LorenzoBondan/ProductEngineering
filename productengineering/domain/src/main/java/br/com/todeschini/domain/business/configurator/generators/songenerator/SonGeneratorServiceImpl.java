@@ -3,7 +3,6 @@ package br.com.todeschini.domain.business.configurator.generators.songenerator;
 import br.com.todeschini.domain.business.configurator.generators.songenerator.api.SonGeneratorService;
 import br.com.todeschini.domain.business.configurator.generators.songenerator.spi.SonGeneratorMethods;
 import br.com.todeschini.domain.metadata.DomainService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 @DomainService
 public class SonGeneratorServiceImpl implements SonGeneratorService {
 
-    @Autowired
     private final SonGeneratorMethods sonGeneratorMethods;
 
     public SonGeneratorServiceImpl(SonGeneratorMethods sonGeneratorMethods) {

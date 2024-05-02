@@ -40,7 +40,7 @@ public class GuideDomainToEntityAdapter implements Convertable<Guide, DGuide> {
                 .implementation(entity.getImplementation())
 
                 .guideMachines(entity.getGuideMachines().stream().map(guideMachineAdapter::toDomain).collect(Collectors.toList()))
-
+                .value(Math.round(entity.calculateValue() * 1e2) / 1e2)
                 .build();
     }
 }
