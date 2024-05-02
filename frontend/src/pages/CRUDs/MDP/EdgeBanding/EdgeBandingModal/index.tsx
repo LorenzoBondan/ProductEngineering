@@ -42,6 +42,7 @@ const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen
             setValue('color', fetchedEdgeBanding.color);
             setValue('height', fetchedEdgeBanding.height);
             setValue('thickness', fetchedEdgeBanding.thickness);
+            setValue('value', fetchedEdgeBanding.value);
 
             setDateTime(fetchedEdgeBanding.implementation ? new Date(fetchedEdgeBanding.implementation) : null);
         });
@@ -217,7 +218,24 @@ const EdgeBandingModal: React.FC<EdgeBandingModalProps> = ({ edgeBanding, isOpen
                     {errors.color && (
                         <div className='invalid-feedback d-block'>Campo obrigatório</div>
                     )}
-                </div>                 
+                </div>    
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por Metro</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div>              
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>

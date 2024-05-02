@@ -37,6 +37,7 @@ const MoldingModal: React.FC<MoldingModalProps> = ({ Molding, isOpen, isEditing,
             setValue('measure2', fetchedMolding.measure2);
             setValue('measure3', fetchedMolding.measure3);
             setValue('measurementUnit', fetchedMolding.measurementUnit);
+            setValue('value', fetchedMolding.value);
 
             setDateTime(fetchedMolding.implementation ? new Date(fetchedMolding.implementation) : null);
         });
@@ -161,6 +162,23 @@ const MoldingModal: React.FC<MoldingModalProps> = ({ Molding, isOpen, isEditing,
                         name="implementation"
                     />
                 </div>
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por Metro</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div> 
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>

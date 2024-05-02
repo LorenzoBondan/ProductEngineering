@@ -36,6 +36,7 @@ const PolyethyleneModal: React.FC<PolyethyleneModalProps> = ({ Polyethylene, isO
             setValue('family', fetchedPolyethylene.family);
             setValue('implementation', fetchedPolyethylene.implementation);
             setValue('lostPercentage', fetchedPolyethylene.lostPercentage);
+            setValue('value', fetchedPolyethylene.value);
 
             setDateTime(fetchedPolyethylene.implementation ? new Date(fetchedPolyethylene.implementation) : null);
         });
@@ -150,7 +151,24 @@ const PolyethyleneModal: React.FC<PolyethyleneModalProps> = ({ Polyethylene, isO
                         className="base-input time-input"
                         name="implementation"
                     />
-                </div>        
+                </div>  
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por Metro</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div>       
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>

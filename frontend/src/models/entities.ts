@@ -28,6 +28,7 @@ export type DBaseMaterial = {
   family: string;
   implementation: Date;
   lostPercentage: number;
+  value: number;
   color: DColor;
 }
 
@@ -114,6 +115,7 @@ export type DItem = {
   measure3: number;
   measurementUnit: string;
   implementation: Date;
+  value: number;
 };
 
 export type DAttachment = DItem & {
@@ -217,6 +219,7 @@ export type DMachine = {
   formula: string[];
   machineGroupId: number;
   guideMachinesIds: number[];
+  value: number;
 };
 
 export type DMachineGroup = {
@@ -321,6 +324,7 @@ export type DGhost = {
   measure1: number;
   measure2: number;
   measure3: number;
+  value: number;
   cornerBrackets: DUsedCornerBracket[];
   nonwovenFabrics: DUsedNonwovenFabric[];
   plastics: DUsedPlastic[];

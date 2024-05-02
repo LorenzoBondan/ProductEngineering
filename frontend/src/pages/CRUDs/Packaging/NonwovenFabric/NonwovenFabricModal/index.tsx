@@ -150,7 +150,24 @@ const NonwovenFabricModal: React.FC<NonwovenFabricModalProps> = ({ NonwovenFabri
                         className="base-input time-input"
                         name="implementation"
                     />
-                </div>        
+                </div>
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por M²</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div>         
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>

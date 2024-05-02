@@ -47,6 +47,7 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
             setValue('thickness', fetchedSheet.thickness);
             setValue('faces', fetchedSheet.faces);
             setValue('materialId', fetchedSheet.materialId);
+            setValue('value', fetchedSheet.value);
 
             setDateTime(fetchedSheet.implementation ? new Date(fetchedSheet.implementation) : null);
         });
@@ -179,7 +180,7 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
                 </div>
             </div>
             <div className="col-lg-6 crud-modal-half-container">
-            <div className='margin-bottom-10'>
+                <div className='margin-bottom-10'>
                     <label htmlFor="">% Perda</label>
                     <input 
                         {...register("lostPercentage", {
@@ -246,6 +247,23 @@ const SheetModal: React.FC<SheetModalProps> = ({ sheet, isOpen, isEditing, onClo
                     {errors.color && (
                         <div className='invalid-feedback d-block'>Campo obrigatório</div>
                     )}
+                </div>
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por M²</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
                 </div>                 
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}

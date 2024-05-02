@@ -37,6 +37,7 @@ const PolyesterModal: React.FC<PolyesterModalProps> = ({ polyester, isOpen, isEd
             setValue('implementation', fetchedPolyester.implementation);
             setValue('lostPercentage', fetchedPolyester.lostPercentage);
             setValue('color', fetchedPolyester.color);
+            setValue('value', fetchedPolyester.value);
 
             setDateTime(fetchedPolyester.implementation ? new Date(fetchedPolyester.implementation) : null);
         });

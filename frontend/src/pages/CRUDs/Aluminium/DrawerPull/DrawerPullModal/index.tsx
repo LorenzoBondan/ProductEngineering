@@ -37,6 +37,7 @@ const DrawerPullModal: React.FC<DrawerPullModalProps> = ({ drawerPull, isOpen, i
             setValue('measure2', fetchedDrawerPull.measure2);
             setValue('measure3', fetchedDrawerPull.measure3);
             setValue('measurementUnit', fetchedDrawerPull.measurementUnit);
+            setValue('value', fetchedDrawerPull.value);
 
             setDateTime(fetchedDrawerPull.implementation ? new Date(fetchedDrawerPull.implementation) : null);
         });
@@ -161,6 +162,23 @@ const DrawerPullModal: React.FC<DrawerPullModalProps> = ({ drawerPull, isOpen, i
                         name="implementation"
                     />
                 </div>
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por Unidade</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div> 
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>

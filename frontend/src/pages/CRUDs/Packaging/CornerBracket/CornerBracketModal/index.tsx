@@ -36,6 +36,7 @@ const CornerBracketModal: React.FC<CornerBracketModalProps> = ({ CornerBracket, 
             setValue('family', fetchedCornerBracket.family);
             setValue('implementation', fetchedCornerBracket.implementation);
             setValue('lostPercentage', fetchedCornerBracket.lostPercentage);
+            setValue('value', fetchedCornerBracket.value);
 
             setDateTime(fetchedCornerBracket.implementation ? new Date(fetchedCornerBracket.implementation) : null);
         });
@@ -150,6 +151,23 @@ const CornerBracketModal: React.FC<CornerBracketModalProps> = ({ CornerBracket, 
                         className="base-input time-input"
                         name="implementation"
                     />
+                </div>
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por Unidade</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
                 </div>        
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}

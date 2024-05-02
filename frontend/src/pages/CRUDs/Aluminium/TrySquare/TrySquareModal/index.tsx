@@ -37,6 +37,7 @@ const TrySquareModal: React.FC<TrySquareModalProps> = ({ TrySquare, isOpen, isEd
             setValue('measure2', fetchedTrySquare.measure2);
             setValue('measure3', fetchedTrySquare.measure3);
             setValue('measurementUnit', fetchedTrySquare.measurementUnit);
+            setValue('value', fetchedTrySquare.value);
 
             setDateTime(fetchedTrySquare.implementation ? new Date(fetchedTrySquare.implementation) : null);
         });
@@ -161,6 +162,23 @@ const TrySquareModal: React.FC<TrySquareModalProps> = ({ TrySquare, isOpen, isEd
                         name="implementation"
                     />
                 </div>
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por Unidade</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div> 
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>

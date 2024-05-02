@@ -37,6 +37,7 @@ const GlueModal: React.FC<GlueModalProps> = ({ glue, isOpen, isEditing, onClose,
             setValue('implementation', fetchedGlue.implementation);
             setValue('lostPercentage', fetchedGlue.lostPercentage);
             setValue('grammage', fetchedGlue.grammage);
+            setValue('value', fetchedGlue.value);
 
             setDateTime(fetchedGlue.implementation ? new Date(fetchedGlue.implementation) : null);
         });
@@ -168,7 +169,24 @@ const GlueModal: React.FC<GlueModalProps> = ({ glue, isOpen, isEditing, onClose,
                         className="base-input time-input"
                         name="implementation"
                     />
-                </div>        
+                </div>    
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor por KG</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
+                </div>     
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}
         </div>
