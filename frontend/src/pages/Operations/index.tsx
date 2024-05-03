@@ -20,7 +20,7 @@ const Operations = () => {
                     <p>Crie e altere manualmente itens e materiais utilizados nas estruturas de MDP, MDF, Modulação, Alumínios e Embalagem</p>
                 </div>
                 <div className='operation-section-button-container'>
-                    <Link to={"/mdpStruct"}>
+                    <Link to={"/homeitems"}>
                         <button className='btn btn-primary text-white'>ENTRAR<Seta/></button>
                     </Link>
                 </div>

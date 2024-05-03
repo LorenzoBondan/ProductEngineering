@@ -24,7 +24,9 @@ import Colors from "pages/CRUDs/Public/Color";
 import Materials from "pages/CRUDs/Public/Materials";
 import HomeBaseMaterials from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
+import HomeItems from "pages/HomeItems";
 import HomeStruct from "pages/HomeStructs";
+import Fathers from "pages/Items/Fathers";
 import Operations from "pages/Operations";
 import Profile from "pages/Profile";
 import MDPStruct from "pages/Structs/MDPStruct";
@@ -154,6 +156,14 @@ const Routes = () => {
 
                     <PrivateRoute path="/mdpstruct">
                         <MDPStruct/>
+                    </PrivateRoute>
+
+                    <PrivateRoute path="/homeitems">
+                        <HomeItems/>
+                    </PrivateRoute>
+
+                    <PrivateRoute path="/fathers">
+                        <Fathers/>
                     </PrivateRoute>
 
                 </Switch>

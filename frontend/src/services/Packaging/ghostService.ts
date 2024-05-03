@@ -1,17 +1,17 @@
 import { AxiosRequestConfig } from "axios";
-import { DFather } from "models/entities";
+import { DGhost } from "models/entities";
 import { requestBackend } from "util/requests";
 
 export function findAll(description: string, page?: number, size?: number, status?: string, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/fathers",
+        url: "/ghosts",
         params: {
             description,
             page,
             size,
             sort,
-            status
+            status: status
         },
         withCredentials: true
     }
@@ -22,7 +22,7 @@ export function findAll(description: string, page?: number, size?: number, statu
 export function findAllActiveAndCurrentOne(id: number) {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/fathers/activeAndCurrentOne",
+        url: "/ghosts/activeAndCurrentOne",
         params: {
             id
         },
@@ -33,13 +33,13 @@ export function findAllActiveAndCurrentOne(id: number) {
 }
 
 export function findById(id: number) {
-    return requestBackend({ url: `/fathers/${id}`, withCredentials: true });
+    return requestBackend({ url: `/ghosts/${id}`, withCredentials: true });
 }
 
-export function insert(obj: DFather) {
+export function insert(obj: DGhost) {
     const config: AxiosRequestConfig = {
         method: "POST",
-        url: "/fathers",
+        url: "/ghosts",
         withCredentials: true,
         data: obj
     }
@@ -47,10 +47,10 @@ export function insert(obj: DFather) {
     return requestBackend(config);
 }
 
-export function update(obj: DFather) {
+export function update(obj: DGhost) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/fathers/${obj.code}`,
+        url: `/ghosts/${obj.code}`,
         withCredentials: true,
         data: obj
     }
@@ -61,7 +61,7 @@ export function update(obj: DFather) {
 export function inactivate(id: number) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/fathers/inactivate/${id}`,
+        url: `/ghosts/inactivate/${id}`,
         withCredentials: true
     }
 
@@ -71,7 +71,7 @@ export function inactivate(id: number) {
 export function deleteById(id: number) {
     const config : AxiosRequestConfig = {
         method: "DELETE",
-        url: `/fathers/${id}`,
+        url: `/ghosts/${id}`,
         withCredentials: true
     }
 
