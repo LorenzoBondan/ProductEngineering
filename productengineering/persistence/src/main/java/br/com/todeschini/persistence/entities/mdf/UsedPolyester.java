@@ -42,4 +42,9 @@ public class UsedPolyester extends BaseUsedMaterial {
         double grossQuantity = netQuantity / (1.0 - polyester.getLostPercentage()/100);
         this.setGrossQuantity(Math.round(grossQuantity * 1e6) / 1e6);
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(polyester.getValue() * this.getNetQuantity() * 1e2) / 1e2;
+    }
 }

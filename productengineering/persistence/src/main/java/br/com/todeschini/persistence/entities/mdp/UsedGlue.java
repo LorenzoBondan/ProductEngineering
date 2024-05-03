@@ -44,4 +44,9 @@ public class UsedGlue extends BaseUsedMaterial {
         double grossQuantity = this.getNetQuantity() / (1.0 - glue.getLostPercentage()/100);
         this.setGrossQuantity(Math.round(grossQuantity * 1e6) / 1e6);
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(glue.getValue() * this.getNetQuantity() * 1e2) / 1e2;
+    }
 }

@@ -24,4 +24,5 @@ public abstract class BaseUsedMaterial extends AuditInfo {
 
     public abstract Double calculateNetQuantity();
     public abstract void calculateGrossQuantity();
+    public abstract Double calculateValue();
 }

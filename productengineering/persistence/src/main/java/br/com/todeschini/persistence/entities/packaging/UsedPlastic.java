@@ -59,4 +59,9 @@ public class UsedPlastic extends BaseUsedMaterial {
         double grossQuantity = netQuantity / (1.0 - plastic.getLostPercentage() / 100);
         this.setGrossQuantity(Math.round(grossQuantity * 1e6) / 1e6);
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(plastic.getValue() * this.getNetQuantity() * 1e2) / 1e2;
+    }
 }

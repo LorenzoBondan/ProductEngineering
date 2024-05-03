@@ -36,8 +36,8 @@ public class Guide extends AuditInfo {
     public Double calculateValue() {
         double value = 0;
         for(GuideMachine guideMachine : this.guideMachines) {
-            value += guideMachine.getMachine().getValue() * guideMachine.getMachineTime();
-            value += guideMachine.getMachine().getValue() * guideMachine.getManTime();
+            value += guideMachine.calculateMachineValue();
+            value += guideMachine.calculateManValue();
         }
         return value;
     }

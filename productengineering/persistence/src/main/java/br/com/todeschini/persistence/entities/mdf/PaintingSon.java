@@ -77,16 +77,16 @@ public class PaintingSon extends Son implements Serializable {
     public Double calculateValue() {
         double value = 0;
         for(UsedPainting painting : paintings){
-            value += painting.getPainting().getValue() * painting.getNetQuantity();
+            value += painting.calculateValue();
         }
         for(UsedPaintingBorderBackground paintingBorderBackground : paintingBorderBackgrounds){
-            value += paintingBorderBackground.getPaintingBorderBackground().getValue() * paintingBorderBackground.getNetQuantity();
+            value += paintingBorderBackground.calculateValue();
         }
         for(UsedPolyester polyester : polyesters){
-            value += polyester.getPolyester().getValue() * polyester.getNetQuantity();
+            value += polyester.calculateValue();
         }
         for(UsedBackSheet usedBackSheet : back.getSheets()){
-            value += usedBackSheet.getSheet().getValue() * usedBackSheet.getNetQuantity();
+            value += usedBackSheet.calculateValue();
         }
         if(this.getGuide() != null){
             value += this.getGuide().calculateValue();

@@ -43,4 +43,9 @@ public class UsedCornerBracket extends BaseUsedMaterial {
     public void calculateGrossQuantity() {
         this.setGrossQuantity(this.getNetQuantity());
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(cornerBracket.getValue() * this.getNetQuantity() * 1e2) / 1e2;
+    }
 }

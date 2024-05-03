@@ -54,4 +54,9 @@ public class UsedNonwovenFabric extends BaseUsedMaterial {
         double grossQuantity = netQuantity / (1.0 - nonwovenFabric.getLostPercentage()/100);
         this.setGrossQuantity(Math.round(grossQuantity * 1e6) / 1e6);
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(nonwovenFabric.getValue() * this.getNetQuantity() * 1e2) / 1e2;
+    }
 }

@@ -26,4 +26,5 @@ public abstract class BaseUsedAluminiumMaterial extends AuditInfo {
     private AluminiumSon aluminiumSon;
 
     public abstract Double calculateQuantity();
+    public abstract Double calculateValue();
 }

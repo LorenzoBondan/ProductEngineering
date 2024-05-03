@@ -31,4 +31,9 @@ public class UsedDrawerPull extends BaseUsedAluminiumMaterial {
         this.setQuantity(1.0);
         return 1.0;
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(drawerPull.getValue() * this.getQuantity() * 1e2) / 1e2;
+    }
 }

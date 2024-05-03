@@ -34,4 +34,9 @@ public class UsedMolding extends BaseUsedAluminiumMaterial {
         this.setQuantity(Math.round(quantity * 1e6) / 1e6);
         return quantity;
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(molding.getValue() * this.getQuantity() * 1e2) / 1e2;
+    }
 }

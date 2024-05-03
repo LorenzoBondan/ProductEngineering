@@ -63,16 +63,16 @@ public class Ghost extends AuditInfo {
     public Double calculateValue() {
         double value = 0;
         for (UsedCornerBracket bracket : cornerBrackets) {
-            value += bracket.getCornerBracket().getValue() * bracket.getNetQuantity();
+            value += bracket.calculateValue();
         }
         for(UsedNonwovenFabric nonwovenFabric : nonwovenFabrics){
-            value += nonwovenFabric.getNonwovenFabric().getValue() * nonwovenFabric.getNetQuantity();
+            value += nonwovenFabric.calculateValue();
         }
         for(UsedPlastic plastic : plastics){
-            value += plastic.getPlastic().getValue() * plastic.getNetQuantity();
+            value += plastic.calculateValue();
         }
         for(UsedPolyethylene polyethylene : polyethylenes){
-            value += polyethylene.getPolyethylene().getValue() * polyethylene.getNetQuantity();
+            value += polyethylene.calculateValue();
         }
         value = Math.round(value * 1e2) / 1e2;
         this.setValue(value);

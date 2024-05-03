@@ -31,4 +31,9 @@ public class UsedScrew extends BaseUsedAluminiumMaterial {
         this.setQuantity(this.getQuantity());
         return Double.parseDouble(String.valueOf(this.getQuantity()));
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(screw.getValue() * this.getQuantity() * 1e2) / 1e2;
+    }
 }

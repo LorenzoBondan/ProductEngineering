@@ -69,19 +69,19 @@ public class AluminiumSon extends Son implements Serializable {
             value += son.calculateValue();
         }
         if(drawerPull != null){
-            value += drawerPull.getDrawerPull().getValue() * drawerPull.getQuantity();
+            value += drawerPull.calculateValue();
         }
         if(glass != null){
-            value += glass.getGlass().getValue() * glass.getQuantity();
+            value += glass.calculateValue();
         }
         for(UsedTrySquare trySquare : trySquares){
-            value += trySquare.getTrySquare().getValue() * trySquare.getQuantity();
+            value += trySquare.calculateValue();
         }
         for(UsedScrew screw : screws){
-            value += screw.getScrew().getValue() * screw.getQuantity();
+            value += screw.calculateValue();
         }
         for(UsedMolding molding : moldings){
-            value += molding.getMolding().getValue() * molding.getQuantity();
+            value += molding.calculateValue();
         }
         value = Math.round(value * 1e2) / 1e2;
         this.setValue(value);

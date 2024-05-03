@@ -47,4 +47,12 @@ public class GuideMachine extends AuditInfo {
         this.machineTime = Math.round(time * 1e3) / 1e3;
         this.manTime = machineTime;
     }
+
+    public Double calculateMachineValue() {
+        return Math.round(machine.getValue() * this.machineTime * 1e2) / 1e2;
+    }
+
+    public Double calculateManValue() {
+        return Math.round(machine.getValue() * this.manTime * 1e2) / 1e2;
+    }
 }

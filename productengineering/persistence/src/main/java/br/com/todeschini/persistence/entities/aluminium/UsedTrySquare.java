@@ -31,4 +31,9 @@ public class UsedTrySquare extends BaseUsedAluminiumMaterial {
         this.setQuantity(getQuantity());
         return Double.parseDouble(String.valueOf(this.getQuantity()));
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(trySquare.getValue() * this.getQuantity() * 1e2) / 1e2;
+    }
 }

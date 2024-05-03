@@ -44,4 +44,9 @@ public class UsedPainting extends BaseUsedMaterial {
         double grossQuantity = netQuantity / (1.0 - painting.getLostPercentage()/100);
         this.setGrossQuantity(Math.round(grossQuantity * 1e6) / 1e6);
     }
+
+    @Override
+    public Double calculateValue() {
+        return Math.round(painting.getValue() * this.getNetQuantity() * 1e2) / 1e2;
+    }
 }

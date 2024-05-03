@@ -54,13 +54,13 @@ public class MDPSon extends Son implements Serializable {
     public Double calculateValue(){
         double value = 0.0;
         for(UsedEdgeBanding usedEdgeBanding : this.getEdgeBandings()){
-            value += usedEdgeBanding.getEdgeBanding().getValue() * usedEdgeBanding.getNetQuantity();
+            value += usedEdgeBanding.calculateValue();
         }
         for(UsedGlue usedGlue : this.getGlues()){
-            value += usedGlue.getGlue().getValue() * usedGlue.getNetQuantity();
+            value += usedGlue.calculateValue();
         }
         for(UsedSheet usedSheet : this.getSheets()){
-            value += usedSheet.getSheet().getValue() * usedSheet.getNetQuantity();
+            value += usedSheet.calculateValue();
         }
         if(this.getGuide() != null){
             value += this.getGuide().calculateValue();
