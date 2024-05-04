@@ -140,9 +140,9 @@ export type DSon = DItem & {
 }
 
 export type DMDPSon = DSon & {
-  sheets: DSheet[];
-  edgeBandings: DEdgeBanding[];
-  glues: DGlue[];
+  sheets: DUsedSheet[];
+  edgeBandings: DUsedEdgeBanding[];
+  glues: DUsedGlue[];
 };
 
 export type DAluminiumSon = DSon & {

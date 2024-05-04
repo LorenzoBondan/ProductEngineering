@@ -71,7 +71,7 @@ const FatherModal: React.FC<FatherModalProps> = ({ father, isOpen, isEditing, on
                 .then(response => setSelectGhost(response.data.content));
         }
     
-      }, [father?.color, father?.ghost]);
+    }, [father?.color, father?.ghost]);
 
   // insert / update method
 

@@ -6,6 +6,7 @@ import { SpringPage } from "types";
 import FatherRow from "../FatherRow";
 import * as FatherService from 'services/public/fatherService';
 import FatherModal from "../FatherModal";
+import { useHistory } from "react-router-dom";
 
 type ControlComponentsData = {
     activePage: number;
@@ -55,6 +56,12 @@ const List = () => {
         setIsOpen(false);
     }
 
+    const history = useHistory();
+
+    const handleRowClick = (code: string) => {
+        history.push(`/fathers/${code}`);
+    }
+
     return(
         <div className='crud-container'>
             <div className="crud-content-container">
@@ -88,7 +95,7 @@ const List = () => {
                         </thead>
                         <tbody>
                             {page?.content.map((item) => (
-                                <FatherRow Father={item} onDeleteOrEdit={getFathers} key={item.code}/>
+                                <FatherRow Father={item} onDeleteOrEdit={getFathers} handleRowClick={handleRowClick} />
                             ))}
                         </tbody>
                     </table>
