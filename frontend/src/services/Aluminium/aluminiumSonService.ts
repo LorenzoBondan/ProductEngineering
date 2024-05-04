@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from "axios";
-import { DSon } from "models/entities";
+import { DAluminiumSon } from "models/entities";
 import { requestBackend } from "util/requests";
 
 export function findAll(description: string, page?: number, size?: number, status?: string, sort = "code") {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/sons",
+        url: "/aluminiumSons",
         params: {
             description,
             page,
@@ -22,7 +22,7 @@ export function findAll(description: string, page?: number, size?: number, statu
 export function findAllActiveAndCurrentOne(id: number) {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/sons/activeAndCurrentOne",
+        url: "/aluminiumSons/activeAndCurrentOne",
         params: {
             id
         },
@@ -33,13 +33,13 @@ export function findAllActiveAndCurrentOne(id: number) {
 }
 
 export function findById(id: number) {
-    return requestBackend({ url: `/sons/${id}`, withCredentials: true });
+    return requestBackend({ url: `/aluminiumSons/${id}`, withCredentials: true });
 }
 
-export function insert(obj: DSon) {
+export function insert(obj: DAluminiumSon) {
     const config: AxiosRequestConfig = {
         method: "POST",
-        url: "/sons",
+        url: "/aluminiumSons",
         withCredentials: true,
         data: obj
     }
@@ -47,10 +47,10 @@ export function insert(obj: DSon) {
     return requestBackend(config);
 }
 
-export function update(obj: DSon) {
+export function update(obj: DAluminiumSon) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/sons/${obj.code}`,
+        url: `/aluminiumSons/${obj.code}`,
         withCredentials: true,
         data: obj
     }
@@ -61,7 +61,7 @@ export function update(obj: DSon) {
 export function inactivate(id: number) {
     const config: AxiosRequestConfig = {
         method: "PUT",
-        url: `/sons/inactivate/${id}`,
+        url: `/aluminiumSons/inactivate/${id}`,
         withCredentials: true
     }
 
@@ -71,7 +71,7 @@ export function inactivate(id: number) {
 export function deleteById(id: number) {
     const config : AxiosRequestConfig = {
         method: "DELETE",
-        url: `/sons/${id}`,
+        url: `/aluminiumSons/${id}`,
         withCredentials: true
     }
 

@@ -51,11 +51,6 @@
     width: 100%;
 }
 
-.son-list-item{
-    list-style-type: disc;
-    width: 100%;
-}
-
 @media(min-width:1200px){
     .father-details-page{
         padding: 30px;

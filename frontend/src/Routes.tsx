@@ -23,6 +23,7 @@ import Polyethylenes from "pages/CRUDs/Packaging/Polyethylene";
 import Colors from "pages/CRUDs/Public/Color";
 import Materials from "pages/CRUDs/Public/Materials";
 import FatherDetails from "pages/Details/FatherDetails";
+import SonDetails from "pages/Details/SonDetails";
 import HomeBaseMaterials from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
 import HomeItems from "pages/HomeItems";
@@ -169,6 +170,10 @@ const Routes = () => {
 
                     <Route path="/fathers/:fatherId" exact>
                         <FatherDetails />
+                    </Route>
+
+                    <Route path="/sons/:sonId" exact>
+                        <SonDetails />
                     </Route>
 
                 </Switch>

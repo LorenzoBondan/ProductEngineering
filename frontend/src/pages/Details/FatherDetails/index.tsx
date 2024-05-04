@@ -39,11 +39,11 @@ const FatherDetails = () => {
                 {father && father?.sons.length > 0 && 
                     <ul className='father-sons-list'>
                         {father?.sons.map(son => (
-                            <Link to={`/sons/${son.code}`}>
-                                <li className='son-list-item'>
+                            <li key={son.code} className='son-list-item'>
+                                <Link to={`/sons/${son.code}`}>
                                     {son.code} - {son.description}
-                                </li>
-                            </Link>
+                                </Link>
+                            </li>
                         ))}
                     </ul>
                 }
