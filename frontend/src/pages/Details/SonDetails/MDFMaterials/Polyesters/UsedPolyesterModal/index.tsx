@@ -2,14 +2,14 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import * as usedPaintingBorderBackgroundService from 'services/MDF/usedPaintingBorderBackgroundService';
-import * as PaintingBorderBackgroundService from 'services/MDF/paintingBorderBackgroundService';
-import { DUsedPaintingBorderBackground, DPaintingBorderBackground } from 'models/entities';
+import * as usedPolyesterService from 'services/MDF/usedPolyesterService';
+import * as PolyesterService from 'services/MDF/polyesterService';
+import { DUsedPolyester, DPolyester } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
-type UsedPaintingBorderBackgroundModalProps = {
-    usedPaintingBorderBackground?: DUsedPaintingBorderBackground;
+type UsedPolyesterModalProps = {
+    usedPolyester?: DUsedPolyester;
     isOpen: boolean;
     isEditing: boolean;
     onClose: () => void;
@@ -18,52 +18,52 @@ type UsedPaintingBorderBackgroundModalProps = {
     paintingSonCode : number;
 }
 
-const UsedPaintingBorderBackgroundModal: React.FC<UsedPaintingBorderBackgroundModalProps> = ({ usedPaintingBorderBackground, isOpen, isEditing, onClose, onDeleteOrEdit, paintingSonCode }) => {
+const UsedPolyesterModal: React.FC<UsedPolyesterModalProps> = ({ usedPolyester, isOpen, isEditing, onClose, onDeleteOrEdit, paintingSonCode }) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DUsedPaintingBorderBackground>();
-  const [selectPaintingBorderBackgrounds, setSelectPaintingBorderBackgrounds] = useState<DPaintingBorderBackground[]>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DUsedPolyester>();
+  const [selectPolyesters, setSelectPolyesters] = useState<DPolyester[]>();
 
   // load inputs
 
   useEffect(() => {
-    if(isEditing && usedPaintingBorderBackground){
-        usedPaintingBorderBackgroundService.findById(usedPaintingBorderBackground.id)
+    if(isEditing && usedPolyester){
+        usedPolyesterService.findById(usedPolyester.id)
         .then((response) => {
-            const fetchedUsedPaintingBorderBackground = response.data as DUsedPaintingBorderBackground;
+            const fetchedUsedPolyester = response.data as DUsedPolyester;
 
-            setValue('id', fetchedUsedPaintingBorderBackground.id);
-            setValue('paintingBorderBackgroundCode', fetchedUsedPaintingBorderBackground.paintingBorderBackgroundCode);
+            setValue('id', fetchedUsedPolyester.id);
+            setValue('polyesterCode', fetchedUsedPolyester.polyesterCode);
             setValue('paintingSonCode', paintingSonCode);
-            setValue('grossQuantity', fetchedUsedPaintingBorderBackground.grossQuantity);
-            setValue('netQuantity', fetchedUsedPaintingBorderBackground.netQuantity);
-            setValue('measurementUnit', fetchedUsedPaintingBorderBackground.measurementUnit);
+            setValue('grossQuantity', fetchedUsedPolyester.grossQuantity);
+            setValue('netQuantity', fetchedUsedPolyester.netQuantity);
+            setValue('measurementUnit', fetchedUsedPolyester.measurementUnit);
         });
-    } else if (!isEditing && usedPaintingBorderBackground){
+    } else if (!isEditing && usedPolyester){
         setValue('paintingSonCode', paintingSonCode);
     }
-  }, [isEditing, usedPaintingBorderBackground, setValue, paintingSonCode]);
+  }, [isEditing, usedPolyester, setValue, paintingSonCode]);
 
     // populate comboboxes
 
     useEffect(() => {
 
-        if(usedPaintingBorderBackground?.paintingBorderBackgroundCode){
-            PaintingBorderBackgroundService.findAllActiveAndCurrentOne(usedPaintingBorderBackground?.paintingBorderBackgroundCode)
-                .then(response => setSelectPaintingBorderBackgrounds(response.data));
+        if(usedPolyester?.polyesterCode){
+            PolyesterService.findAllActiveAndCurrentOne(usedPolyester?.polyesterCode)
+                .then(response => setSelectPolyesters(response.data));
         } else{
-            PaintingBorderBackgroundService.findAll('')
-                .then(response => setSelectPaintingBorderBackgrounds(response.data.content));
+            PolyesterService.findAll('')
+                .then(response => setSelectPolyesters(response.data.content));
         }
     
-    }, [usedPaintingBorderBackground?.paintingBorderBackgroundCode]);
+    }, [usedPolyester?.polyesterCode]);
 
   // insert / update method
 
-  const insertOrUpdate = (formData: DUsedPaintingBorderBackground) => {
+  const insertOrUpdate = (formData: DUsedPolyester) => {
 
-    const serviceFunction = isEditing ? usedPaintingBorderBackgroundService.update : usedPaintingBorderBackgroundService.insert;
-    const successMessage = isEditing ? 'Pintura de borda de fundo utilizada editada!' : 'Pintura de borda de fundo utilizada inserida!';
+    const serviceFunction = isEditing ? usedPolyesterService.update : usedPolyesterService.insert;
+    const successMessage = isEditing ? 'Poliéster utilizado editado!' : 'Poliéster utilizado inserido!';
   
     serviceFunction(formData)
       .then(response => {
@@ -101,25 +101,25 @@ const UsedPaintingBorderBackgroundModal: React.FC<UsedPaintingBorderBackgroundMo
                         inputMode="numeric"
                         className={`form-control base-input ${errors.paintingSonCode ? 'is-invalid' : ''}`}
                         placeholder="Código do Filho"
-                        name="paintingSonCode"
+                        name="PolyesterSonCode"
                         disabled
                     />
                     <div className='invalid-feedback d-block'>{errors.paintingSonCode?.message}</div>
                 </div> 
                 <div className='margin-bottom-10'>
-                    <label htmlFor="">Pintura de Borda de Fundo</label> 
+                    <label htmlFor="">Poliéster</label> 
                     <select
-                        {...register("paintingBorderBackgroundCode", {
+                        {...register("polyesterCode", {
                             required: 'Campo obrigatório',
                         })}
-                        className={`form-control base-input ${errors.paintingBorderBackgroundCode ? 'is-invalid' : ''}`}
+                        className={`form-control base-input ${errors.polyesterCode ? 'is-invalid' : ''}`}
                         placeholder='Chapa' 
-                        name="paintingBorderBackgroundCode"
+                        name="polyesterCode"
                     >
-                        {selectPaintingBorderBackgrounds && selectPaintingBorderBackgrounds.length > 0 ? (
-                            selectPaintingBorderBackgrounds.map(PaintingBorderBackground => (
-                                <option key={PaintingBorderBackground.code} value={PaintingBorderBackground.code}>
-                                    {PaintingBorderBackground.description}
+                        {selectPolyesters && selectPolyesters.length > 0 ? (
+                            selectPolyesters.map(Polyester => (
+                                <option key={Polyester.code} value={Polyester.code}>
+                                    {Polyester.description}
                                 </option>
                             ))
                         ) : (
@@ -128,7 +128,7 @@ const UsedPaintingBorderBackgroundModal: React.FC<UsedPaintingBorderBackgroundMo
                             </option>
                         )}
                     </select>
-                    {errors.paintingBorderBackgroundCode && (
+                    {errors.polyesterCode && (
                         <div className='invalid-feedback d-block'>Campo obrigatório</div>
                     )}
                 </div>
@@ -172,4 +172,4 @@ const UsedPaintingBorderBackgroundModal: React.FC<UsedPaintingBorderBackgroundMo
   );
 };
 
-export default UsedPaintingBorderBackgroundModal;
+export default UsedPolyesterModal;

@@ -18,6 +18,8 @@ import UsedPaintingRow from "./MDFMaterials/Paintings/UsedPaintingRow";
 import UsedPaintingModal from "./MDFMaterials/Paintings/UsedPaintingModal";
 import UsedPaintingBorderBackgroundRow from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundRow";
 import UsedPaintingBorderBackgroundModal from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundModal";
+import UsedPolyesterRow from "./MDFMaterials/Polyesters/UsedPolyestersRow";
+import UsedPolyesterModal from "./MDFMaterials/Polyesters/UsedPolyesterModal";
 
 type UrlParams = {
     sonId: string;
@@ -179,6 +181,23 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
+
+                    <div className="son-material-container">
+                        <div className="son-material-top-menu">
+                            <h5>Poliésters</h5>
+                            <IoMdAdd onClick={openModal} /> 
+                        </div>
+                        <ul className='father-sons-list'>
+                            {paintingSon?.polyesters.map(polyester => (
+                                <>
+                                    <UsedPolyesterRow usedPolyester={polyester} onDeleteOrEdit={getSon} key={polyester.id} />
+                                    <UsedPolyesterModal usedPolyester={polyester} paintingSonCode={paintingSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                </>
+                            ))}
+                        </ul>
+                    </div>
+
+                    { /* Roteiro */}
                 </>
                 }
                 
