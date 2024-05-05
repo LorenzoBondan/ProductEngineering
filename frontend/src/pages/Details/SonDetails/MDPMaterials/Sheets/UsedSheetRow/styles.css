@@ -4,11 +4,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    list-style-type: disc !important;
-}
-
-.son-list-item-info{
-    list-style-type: disc !important;
 }
 
 .son-list-item-buttons{
@@ -17,4 +12,8 @@
     align-items: center;
     justify-content: space-evenly;
     width: 5%;
+}
+
+.son-list-item-buttons svg:hover{
+    cursor: pointer;
 }

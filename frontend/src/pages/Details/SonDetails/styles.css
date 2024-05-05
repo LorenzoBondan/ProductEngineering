@@ -28,3 +28,18 @@
     cursor: pointer;
 }
 
+.son-material-top-menu h5{
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.special-span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.special-span img{
+    height: 18px;
+    margin-left: 5px;
+}
