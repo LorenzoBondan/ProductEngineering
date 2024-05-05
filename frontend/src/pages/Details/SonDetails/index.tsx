@@ -16,6 +16,8 @@ import UsedGlueRow from "./MDPMaterials/Glues/UsedGlueRow";
 import UsedGlueModal from "./MDPMaterials/Glues/UsedGlueModal";
 import UsedPaintingRow from "./MDFMaterials/Paintings/UsedPaintingRow";
 import UsedPaintingModal from "./MDFMaterials/Paintings/UsedPaintingModal";
+import UsedPaintingBorderBackgroundRow from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundRow";
+import UsedPaintingBorderBackgroundModal from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundModal";
 
 type UrlParams = {
     sonId: string;
@@ -158,6 +160,21 @@ const SonDetails = () => {
                                 <>
                                     <UsedPaintingRow usedPainting={painting} onDeleteOrEdit={getSon} key={painting.id} />
                                     <UsedPaintingModal usedPainting={painting} paintingSonCode={paintingSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                </>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="son-material-container">
+                        <div className="son-material-top-menu">
+                            <h5>Pinturas de Borda de Fundo</h5>
+                            <IoMdAdd onClick={openModal} /> 
+                        </div>
+                        <ul className='father-sons-list'>
+                            {paintingSon?.paintingBorderBackgrounds.map(paintingBorderBackground => (
+                                <>
+                                    <UsedPaintingBorderBackgroundRow usedPaintingBorderBackground={paintingBorderBackground} onDeleteOrEdit={getSon} key={paintingBorderBackground.id} />
+                                    <UsedPaintingBorderBackgroundModal usedPaintingBorderBackground={paintingBorderBackground} paintingSonCode={paintingSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
                         </ul>

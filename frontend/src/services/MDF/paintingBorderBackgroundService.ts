@@ -23,7 +23,7 @@ export function findAll(description: string, page?: number, size?: number, statu
 export function findAllActiveAndCurrentOne(id: number) {
     const config : AxiosRequestConfig = {
         method: "GET",
-        url: "/paintings/paintingBorderBackgrounds",
+        url: "/paintingBorderBackgrounds/activeAndCurrentOne",
         params: {
             id
         },
