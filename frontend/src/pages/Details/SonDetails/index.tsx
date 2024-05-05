@@ -6,9 +6,12 @@ import * as paintingSonService from 'services/MDF/paintingSonService';
 import * as aluminiumSonService from 'services/Aluminium/aluminiumSonService';
 import plusIcon from 'assets/images/plus.png';
 import './styles.css';
-import Row from "./MDPMaterials/Sheets/Row";
+import Row from "./MDPMaterials/Sheets/UsedSheetRow";
 import UsedSheetModal from "./MDPMaterials/Sheets/UsedSheetModal";
 import { IoMdAdd } from "react-icons/io";
+import UsedSheetRow from "./MDPMaterials/Sheets/UsedSheetRow";
+import UsedEdgeBandingRow from "./MDPMaterials/EdgeBandings/UsedEdgeBandingRow";
+import UsedEdgeBandingModal from "./MDPMaterials/EdgeBandings/UsedEdgeBandingModal";
 
 type UrlParams = {
     sonId: string;
@@ -77,7 +80,7 @@ const SonDetails = () => {
                         <ul className='father-sons-list'>
                             {son?.sheets.map(sheet => 
                                 <>
-                                    <Row usedSheet={sheet} onDeleteOrEdit={getSon} key={sheet.id} />
+                                    <UsedSheetRow usedSheet={sheet} onDeleteOrEdit={getSon} key={sheet.id} />
                                     <UsedSheetModal usedSheet={sheet} mdpSonCode={son.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             )}
@@ -93,9 +96,10 @@ const SonDetails = () => {
                         </div>
                         <ul className='father-sons-list'>
                             {son?.edgeBandings.map(edgeBanding => (
-                                <li key={edgeBanding.id} className='son-list-item'>
-                                    {edgeBanding.edgeBandingCode} - {edgeBanding.netQuantity} {edgeBanding.measurementUnit}
-                                </li>
+                                <>
+                                <UsedEdgeBandingRow usedEdgeBanding={edgeBanding} onDeleteOrEdit={getSon} key={edgeBanding.id} />
+                                <UsedEdgeBandingModal usedEdgeBanding={edgeBanding} mdpSonCode={son.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                            </>
                             ))}
                         </ul>
                     </div>

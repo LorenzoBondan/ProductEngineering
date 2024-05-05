@@ -13,7 +13,7 @@ type Props = {
     onDeleteOrEdit: Function;
 }
 
-const Row = ({usedSheet, onDeleteOrEdit} : Props) => {
+const UsedSheetRow = ({usedSheet, onDeleteOrEdit} : Props) => {
 
     const [sheet, setSheet] = useState<DSheet>();
 
@@ -67,4 +67,4 @@ const Row = ({usedSheet, onDeleteOrEdit} : Props) => {
     );
 }
 
-export default Row;
+export default UsedSheetRow;
