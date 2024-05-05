@@ -2,14 +2,14 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import * as usedEdgeBandingService from 'services/MDP/usedEdgeBandingService';
-import * as EdgeBandingService from 'services/MDP/edgeBandingService';
-import { DUsedEdgeBanding, DEdgeBanding } from 'models/entities';
+import * as usedGlueService from 'services/MDP/usedGlueService';
+import * as GlueService from 'services/MDP/glueService';
+import { DUsedGlue, DGlue } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
-type UsedEdgeBandingModalProps = {
-    usedEdgeBanding?: DUsedEdgeBanding;
+type UsedGlueModalProps = {
+    usedGlue?: DUsedGlue;
     isOpen: boolean;
     isEditing: boolean;
     onClose: () => void;
@@ -18,51 +18,51 @@ type UsedEdgeBandingModalProps = {
     mdpSonCode : number;
 }
 
-const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBanding, isOpen, isEditing, onClose, onDeleteOrEdit, mdpSonCode }) => {
+const UsedGlueModal: React.FC<UsedGlueModalProps> = ({ usedGlue, isOpen, isEditing, onClose, onDeleteOrEdit, mdpSonCode }) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DUsedEdgeBanding>();
-  const [selectEdgeBandings, setSelectEdgeBandings] = useState<DEdgeBanding[]>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DUsedGlue>();
+  const [selectGlues, setSelectGlues] = useState<DGlue[]>();
 
   // load inputs
 
   useEffect(() => {
-    if(isEditing && usedEdgeBanding){
-        usedEdgeBandingService.findById(usedEdgeBanding.id)
+    if(isEditing && usedGlue){
+        usedGlueService.findById(usedGlue.id)
         .then((response) => {
-            const fetchedUsedEdgeBanding = response.data as DUsedEdgeBanding;
+            const fetchedUsedGlue = response.data as DUsedGlue;
 
-            setValue('id', fetchedUsedEdgeBanding.id);
-            setValue('edgeBandingCode', fetchedUsedEdgeBanding.edgeBandingCode);
+            setValue('id', fetchedUsedGlue.id);
+            setValue('glueCode', fetchedUsedGlue.glueCode);
             setValue('mdpSonCode', mdpSonCode);
-            setValue('grossQuantity', fetchedUsedEdgeBanding.grossQuantity);
-            setValue('netQuantity', fetchedUsedEdgeBanding.netQuantity);
-            setValue('measurementUnit', fetchedUsedEdgeBanding.measurementUnit);
+            setValue('grossQuantity', fetchedUsedGlue.grossQuantity);
+            setValue('netQuantity', fetchedUsedGlue.netQuantity);
+            setValue('measurementUnit', fetchedUsedGlue.measurementUnit);
         });
-    } else if (!isEditing && usedEdgeBanding){
+    } else if (!isEditing && usedGlue){
         setValue('mdpSonCode', mdpSonCode);
     }
-  }, [isEditing, usedEdgeBanding, setValue, mdpSonCode]);
+  }, [isEditing, usedGlue, setValue, mdpSonCode]);
 
     // populate comboboxes
 
     useEffect(() => {
 
-        if(usedEdgeBanding?.edgeBandingCode){
-            EdgeBandingService.findAllActiveAndCurrentOne(usedEdgeBanding?.edgeBandingCode)
-                .then(response => setSelectEdgeBandings(response.data));
+        if(usedGlue?.glueCode){
+            GlueService.findAllActiveAndCurrentOne(usedGlue?.glueCode)
+                .then(response => setSelectGlues(response.data));
         } else{
-            EdgeBandingService.findAll('')
-                .then(response => setSelectEdgeBandings(response.data.content));
+            GlueService.findAll('')
+                .then(response => setSelectGlues(response.data.content));
         }
     
-    }, [usedEdgeBanding?.edgeBandingCode]);
+    }, [usedGlue?.glueCode]);
 
   // insert / update method
 
-  const insertOrUpdate = (formData: DUsedEdgeBanding) => {
+  const insertOrUpdate = (formData: DUsedGlue) => {
 
-    const serviceFunction = isEditing ? usedEdgeBandingService.update : usedEdgeBandingService.insert;
+    const serviceFunction = isEditing ? usedGlueService.update : usedGlueService.insert;
     const successMessage = isEditing ? 'Chapa utilizada editada!' : 'Chapa utilizada inserida!';
   
     serviceFunction(formData)
@@ -107,19 +107,19 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
                     <div className='invalid-feedback d-block'>{errors.mdpSonCode?.message}</div>
                 </div> 
                 <div className='margin-bottom-10'>
-                    <label htmlFor="">Fita Borda</label> 
+                    <label htmlFor="">Cola</label> 
                     <select
-                        {...register("edgeBandingCode", {
+                        {...register("glueCode", {
                             required: 'Campo obrigatório',
                         })}
-                        className={`form-control base-input ${errors.edgeBandingCode ? 'is-invalid' : ''}`}
-                        placeholder='Fita Borda' 
-                        name="edgeBandingCode"
+                        className={`form-control base-input ${errors.glueCode ? 'is-invalid' : ''}`}
+                        placeholder='Cola' 
+                        name="glueCode"
                     >
-                        {selectEdgeBandings && selectEdgeBandings.length > 0 ? (
-                            selectEdgeBandings.map(EdgeBanding => (
-                                <option key={EdgeBanding.code} value={EdgeBanding.code}>
-                                    {EdgeBanding.description}
+                        {selectGlues && selectGlues.length > 0 ? (
+                            selectGlues.map(Glue => (
+                                <option key={Glue.code} value={Glue.code}>
+                                    {Glue.description}
                                 </option>
                             ))
                         ) : (
@@ -128,7 +128,7 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
                             </option>
                         )}
                     </select>
-                    {errors.edgeBandingCode && (
+                    {errors.glueCode && (
                         <div className='invalid-feedback d-block'>Campo obrigatório</div>
                     )}
                 </div>
@@ -172,4 +172,4 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
   );
 };
 
-export default UsedEdgeBandingModal;
+export default UsedGlueModal;

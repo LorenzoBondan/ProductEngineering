@@ -12,6 +12,8 @@ import { IoMdAdd } from "react-icons/io";
 import UsedSheetRow from "./MDPMaterials/Sheets/UsedSheetRow";
 import UsedEdgeBandingRow from "./MDPMaterials/EdgeBandings/UsedEdgeBandingRow";
 import UsedEdgeBandingModal from "./MDPMaterials/EdgeBandings/UsedEdgeBandingModal";
+import UsedGlueRow from "./MDPMaterials/Glues/UsedGlueRow";
+import UsedGlueModal from "./MDPMaterials/Glues/UsedGlueModal";
 
 type UrlParams = {
     sonId: string;
@@ -97,9 +99,9 @@ const SonDetails = () => {
                         <ul className='father-sons-list'>
                             {son?.edgeBandings.map(edgeBanding => (
                                 <>
-                                <UsedEdgeBandingRow usedEdgeBanding={edgeBanding} onDeleteOrEdit={getSon} key={edgeBanding.id} />
-                                <UsedEdgeBandingModal usedEdgeBanding={edgeBanding} mdpSonCode={son.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
-                            </>
+                                    <UsedEdgeBandingRow usedEdgeBanding={edgeBanding} onDeleteOrEdit={getSon} key={edgeBanding.id} />
+                                    <UsedEdgeBandingModal usedEdgeBanding={edgeBanding} mdpSonCode={son.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                </>
                             ))}
                         </ul>
                     </div>
@@ -113,9 +115,10 @@ const SonDetails = () => {
                         </div>
                         <ul className='father-sons-list'>
                             {son?.glues.map(glue => (
-                                <li key={glue.id} className='son-list-item'>
-                                    {glue.glueCode} - {glue.netQuantity} {glue.measurementUnit}
-                                </li>
+                                <>
+                                    <UsedGlueRow usedGlue={glue} onDeleteOrEdit={getSon} key={glue.id} />
+                                    <UsedGlueModal usedGlue={glue} mdpSonCode={son.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                </>
                             ))}
                         </ul>
                     </div>
