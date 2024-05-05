@@ -217,7 +217,7 @@ const FatherModal: React.FC<FatherModalProps> = ({ father, isOpen, isEditing, on
                     <label htmlFor="">Fantasma</label> 
                     <Controller 
                         name = 'ghost'
-                        rules = {{required: true}}
+                        rules = {{required: false}}
                         control = {control}
                         render = {( {field} ) => (
                             <Select 

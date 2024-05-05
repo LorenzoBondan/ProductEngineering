@@ -83,7 +83,9 @@ const SonDetails = () => {
                     <div className='father-title crud-modal-title'>
                         <h4>{mdpSon?.code} - {mdpSon?.description}</h4>
                     </div>
-
+                    <div className="father-details">
+                        <span>Pai: {mdpSon?.fatherCode}</span>
+                    </div>
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Chapas</h5>
@@ -98,7 +100,6 @@ const SonDetails = () => {
                             )}
                         </ul>
                     </div>
-                
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Fitas Borda</h5>
@@ -113,7 +114,6 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-                
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Colas</h5>
@@ -128,7 +128,6 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-
                     { /* Roteiro */}
                     </>
                 }
@@ -140,12 +139,13 @@ const SonDetails = () => {
                         <h4>{paintingSon?.code} - {paintingSon?.description}</h4>
                     </div>
                     <div className="father-details">
-                    {
-                        paintingSon?.satin ? "Acetinada" :
-                        paintingSon?.highShine ? "Alto Brilho" :
-                        paintingSon?.satinGlass ? "Acetinada vidros" :
-                        ""
-                    }
+                        <span>Pai: {paintingSon?.fatherCode}</span>
+                        {
+                            paintingSon?.satin ? "Acetinada" :
+                            paintingSon?.highShine ? "Alto Brilho" :
+                            paintingSon?.satinGlass ? "Acetinada vidros" :
+                            ""
+                        }
                         <span>Faces: {paintingSon?.faces}</span>
                         <span className="special-span">Especial: {paintingSon?.special ? <img src={checkedImg} alt="" /> : <img src={uncheckedImg} alt="" />}</span>
                     </div>
@@ -166,7 +166,6 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Pinturas de Borda de Fundo</h5>
@@ -181,7 +180,6 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Poliésters</h5>
@@ -196,12 +194,12 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-
                     { /* Roteiro */}
                 </>
                 }
-                
 
+                { /* Aluminium Son */}
+                
             </div>
         </div>
     );

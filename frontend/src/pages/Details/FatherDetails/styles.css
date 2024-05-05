@@ -17,6 +17,13 @@
     background-color: var(--color-yellow-strong) !important;
 }
 
+.father-title{
+    display: flex;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+}
+
 .father-title h4{
     font-weight: 700;
 }

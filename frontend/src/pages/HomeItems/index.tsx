@@ -16,24 +16,29 @@ const HomeItems = () => {
                     </li>
                 </Link>
                 <Link to="/mdfsons">
-                <li>
-                    <span>Filhos MDF</span>
-                </li>
+                    <li>
+                        <span>Filhos MDF</span>
+                    </li>
                 </Link>
                 <Link to="/aluminiumsons">
-                <li>
-                    <span>Filhos Alumínio</span>
-                </li>
+                    <li>
+                        <span>Filhos Alumínio</span>
+                    </li>
+                </Link>
+                <Link to="/backs">
+                    <li>
+                        <span>Fundos</span>
+                    </li>
                 </Link>
                 <Link to="/ghosts">
-                <li>
-                    <span>Fantasmas</span>
-                </li>
+                    <li>
+                        <span>Fantasmas</span>
+                    </li>
                 </Link>
                 <Link to="/attachments">
-                <li>
-                    <span>Acessórios</span>
-                </li>
+                    <li>
+                        <span>Acessórios</span>
+                    </li>
                 </Link>
                 <Link to="/guides">
                     <li>
