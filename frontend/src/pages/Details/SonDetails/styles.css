@@ -13,17 +13,18 @@
     margin-bottom: 10px;
 }
 
-.btn-add {
-    height: 28px;
-    width: 28px;
-    border-radius: 50%;
+.son-material-top-menu svg{
+    height: 25px;
+    width: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid white;
+    border: 1px solid;
+    border-radius: 50% !important;
 }
 
-.btn-add img{
-    height: 20px;
-    width: 20px;
+.son-material-top-menu svg:hover{
+    background-color: white;
+    cursor: pointer;
 }
+

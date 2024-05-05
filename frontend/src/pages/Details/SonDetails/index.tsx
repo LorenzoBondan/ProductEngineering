@@ -4,12 +4,11 @@ import { useParams } from "react-router-dom";
 import * as mdpSonService from 'services/MDP/mdpSonService';
 import * as paintingSonService from 'services/MDF/paintingSonService';
 import * as aluminiumSonService from 'services/Aluminium/aluminiumSonService';
-import { IoMdAdd } from "react-icons/io";
-import {ReactComponent as AddSvg} from 'assets/images/add.svg';
 import plusIcon from 'assets/images/plus.png';
 import './styles.css';
 import Row from "./MDPMaterials/Sheets/Row";
 import UsedSheetModal from "./MDPMaterials/Sheets/UsedSheetModal";
+import { IoMdAdd } from "react-icons/io";
 
 type UrlParams = {
     sonId: string;
@@ -73,8 +72,7 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Chapas</h5>
-                            <button onClick={openModal} className="btn btn-primary text-white btn-add"><img src={plusIcon} alt="" /></button>
-                            
+                            <IoMdAdd onClick={openModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {son?.sheets.map(sheet => 
@@ -91,7 +89,7 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Fitas Borda</h5>
-                            <button className="btn btn-primary text-white btn-add"><img src={plusIcon} alt="" /></button>
+                            <IoMdAdd onClick={openModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {son?.edgeBandings.map(edgeBanding => (
@@ -107,7 +105,7 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Colas</h5>
-                            <button className="btn btn-primary text-white btn-add"><img src={plusIcon} alt="" /></button>
+                            <IoMdAdd onClick={openModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {son?.glues.map(glue => (
