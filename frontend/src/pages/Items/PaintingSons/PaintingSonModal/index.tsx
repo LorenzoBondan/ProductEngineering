@@ -5,9 +5,8 @@ import FlatPicker from 'react-flatpickr';
 import { toast } from 'react-toastify';
 import * as PaintingSonService from 'services/MDF/paintingSonService';
 import * as colorService from 'services/public/colorService';
-import * as fatherService from 'services/public/fatherService';
 import * as backService from 'services/MDF/backService';
-import { DColor, DPaintingSon, DGhost, DFather, DBack } from 'models/entities';
+import { DColor, DPaintingSon, DBack } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 import Select from 'react-select';
@@ -26,7 +25,6 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<DPaintingSon>();
   const [selectColors, setSelectColors] = useState<DColor[]>();
-  const [selectFathers, setSelectFathers] = useState<DFather[]>();
   const [selectBacks, setSelectBacks] = useState<DBack[]>();
   const [dateTime, setDateTime] = useState<Date | null>(null);
   const [special, setSpecial] = useState<boolean>(false);
@@ -58,6 +56,7 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
             setValue('special', fetchedPaintingSon.special);
             setValue('suffix', fetchedPaintingSon.suffix);
             setValue('back', fetchedPaintingSon.back);
+            setValue('value', fetchedPaintingSon.value);
 
             setDateTime(fetchedPaintingSon.implementation ? new Date(fetchedPaintingSon.implementation) : null);
         });
@@ -74,14 +73,6 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
         } else{
             colorService.findAll('')
                 .then(response => setSelectColors(response.data.content));
-        }
-    
-        if(PaintingSon?.fatherCode){
-            fatherService.findAllActiveAndCurrentOne(PaintingSon.fatherCode)
-                .then(response => setSelectFathers(response.data));
-        } else {
-            fatherService.findAll('')
-                .then(response => setSelectFathers(response.data.content));
         }
 
         if(PaintingSon?.back){

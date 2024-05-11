@@ -45,6 +45,7 @@ const FatherModal: React.FC<FatherModalProps> = ({ father, isOpen, isEditing, on
             setValue('value', fetchedFather.value);
             setValue('color', fetchedFather.color);
             setValue('ghost', fetchedFather.ghost);
+            setValue('value', fetchedFather.value);
 
             setDateTime(fetchedFather.implementation ? new Date(fetchedFather.implementation) : null);
         });

@@ -36,6 +36,7 @@ const NonwovenFabricModal: React.FC<NonwovenFabricModalProps> = ({ NonwovenFabri
             setValue('family', fetchedNonwovenFabric.family);
             setValue('implementation', fetchedNonwovenFabric.implementation);
             setValue('lostPercentage', fetchedNonwovenFabric.lostPercentage);
+            setValue('value', fetchedNonwovenFabric.value);
 
             setDateTime(fetchedNonwovenFabric.implementation ? new Date(fetchedNonwovenFabric.implementation) : null);
         });

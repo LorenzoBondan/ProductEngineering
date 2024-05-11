@@ -5,8 +5,7 @@ import FlatPicker from 'react-flatpickr';
 import { toast } from 'react-toastify';
 import * as MDPSonService from 'services/MDP/mdpSonService';
 import * as colorService from 'services/public/colorService';
-import * as fatherService from 'services/public/fatherService';
-import { DColor, DMDPSon, DGhost, DFather } from 'models/entities';
+import { DColor, DMDPSon } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 import Select from 'react-select';
@@ -25,7 +24,6 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<DMDPSon>();
   const [selectColors, setSelectColors] = useState<DColor[]>();
-  const [selectFathers, setSelectFathers] = useState<DFather[]>();
   const [dateTime, setDateTime] = useState<Date | null>(null);
 
   // load inputs
@@ -45,6 +43,7 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
             setValue('value', fetchedMDPSon.value);
             setValue('color', fetchedMDPSon.color);
             setValue('fatherCode', fetchedMDPSon.fatherCode);
+            setValue('value', fetchedMDPSon.value);
 
             setDateTime(fetchedMDPSon.implementation ? new Date(fetchedMDPSon.implementation) : null);
         });
@@ -63,15 +62,7 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
                 .then(response => setSelectColors(response.data.content));
         }
     
-        if(MDPSon?.fatherCode){
-            fatherService.findAllActiveAndCurrentOne(MDPSon.fatherCode)
-                .then(response => setSelectFathers(response.data));
-        } else {
-            fatherService.findAll('')
-                .then(response => setSelectFathers(response.data.content));
-        }
-    
-    }, [MDPSon?.color, MDPSon?.fatherCode]);
+    }, [MDPSon?.color]);
 
   // insert / update method
 
