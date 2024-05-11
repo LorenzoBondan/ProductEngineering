@@ -291,6 +291,14 @@ ul {
   background-color: var(--color-card-border);
 }
 
+.space-between{
+  justify-content: space-between;
+}
+
+.margin-top-20{
+  margin-top: 20px;
+}
+
 @media(min-width:1200px){
   .flex-direction-row{
     display: flex;

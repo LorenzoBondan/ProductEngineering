@@ -12,7 +12,7 @@ public class ItemDomainToEntityAdapter implements Convertable<Item, DItem> {
     public Item toEntity(DItem domain) {
         return Item.builder()
                 .code(domain.getCode())
-                .description(domain.getDescription())
+                .description(domain.getDescription().toUpperCase())
                 .measure1(domain.getMeasure1())
                 .measure2(domain.getMeasure2())
                 .measure3(domain.getMeasure3())
@@ -24,7 +24,7 @@ public class ItemDomainToEntityAdapter implements Convertable<Item, DItem> {
     public DItem toDomain(Item entity) {
         return DItem.builder()
                 .code(entity.getCode())
-                .description(entity.getDescription())
+                .description(entity.getDescription().toUpperCase())
                 .measure1(entity.getMeasure1())
                 .measure2(entity.getMeasure2())
                 .measure3(entity.getMeasure3())

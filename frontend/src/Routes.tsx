@@ -29,6 +29,8 @@ import MDPPage from "pages/Home/MainComponents/MDPPage";
 import HomeItems from "pages/HomeItems";
 import HomeStruct from "pages/HomeStructs";
 import Fathers from "pages/Items/Fathers";
+import MDPSons from "pages/Items/MDPSons";
+import PaintingSons from "pages/Items/PaintingSons";
 import Operations from "pages/Operations";
 import Profile from "pages/Profile";
 import MDPStruct from "pages/Structs/MDPStruct";
@@ -170,6 +172,14 @@ const Routes = () => {
 
                     <Route path="/fathers/:fatherId" exact>
                         <FatherDetails />
+                    </Route>
+
+                    <Route path="/mdpsons" exact>
+                        <MDPSons/>
+                    </Route>
+
+                    <Route path="/paintingsons" exact>
+                        <PaintingSons/>
                     </Route>
 
                     <Route path="/sons/:sonId" exact>

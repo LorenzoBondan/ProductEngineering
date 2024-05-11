@@ -55,8 +55,7 @@ public class UsedBackSheetServiceImpl implements UsedBackSheetService {
         if(crudUsedBackSheet.findByBackAndSheet(domain.getBackCode(), domain.getSheetCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Fundo e Chapa.";
-            throw new UniqueConstraintViolationException("chk_used_back_sheet_uk", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Fundo e Chapa.");
         }
     }
 }

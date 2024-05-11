@@ -12,7 +12,7 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
     public Material toEntity(DMaterial domain) {
         return Material.builder()
                 .id(domain.getId())
-                .name(domain.getName())
+                .name(domain.getName().toUpperCase())
                 .build();
     }
 
@@ -20,7 +20,7 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
     public DMaterial toDomain(Material entity) {
         return DMaterial.builder()
                 .id(entity.getId())
-                .name(entity.getName())
+                .name(entity.getName().toUpperCase())
                 .build();
     }
 }

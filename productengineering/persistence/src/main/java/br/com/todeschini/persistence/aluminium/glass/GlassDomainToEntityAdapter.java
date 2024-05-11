@@ -22,7 +22,7 @@ public class GlassDomainToEntityAdapter implements Convertable<Glass, DGlass> {
     public Glass toEntity(DGlass domain) {
         Glass entity = new Glass();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
@@ -36,7 +36,7 @@ public class GlassDomainToEntityAdapter implements Convertable<Glass, DGlass> {
     public DGlass toDomain(Glass entity) {
         DGlass domain = new DGlass();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setMeasure1(entity.getMeasure1());
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());

@@ -7,6 +7,7 @@ import * as materialService from 'services/public/materialService';
 import SheetModal from "../SheetModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     sheet: DSheet;
@@ -73,7 +74,7 @@ const SheetRow = ({sheet, onDeleteOrEdit} : Props) => {
             <td>{sheet.code}</td>
             <td>{sheet.description}</td>
             <td>{sheet.family}</td>
-            {sheet.implementation ? <td>{sheet.implementation.toString()}</td> : <td>-</td>}
+            {sheet.implementation ? <td>{convertDateTime(sheet.implementation.toString())}</td> : <td>-</td>}
             <td>{sheet.lostPercentage}</td>
             {sheet.color ? <td>{sheet.color.name}</td> : <td>-</td>}
             <td>{sheet.thickness}</td>

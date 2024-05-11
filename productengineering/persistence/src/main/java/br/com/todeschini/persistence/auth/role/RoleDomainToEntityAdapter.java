@@ -12,7 +12,7 @@ public class RoleDomainToEntityAdapter implements Convertable<Role, DRole> {
     public Role toEntity(DRole domain) {
         return Role.builder()
                 .id(domain.getId())
-                .authority(domain.getAuthority())
+                .authority(domain.getAuthority().toUpperCase())
                 .build();
     }
 
@@ -20,7 +20,7 @@ public class RoleDomainToEntityAdapter implements Convertable<Role, DRole> {
     public DRole toDomain(Role entity) {
         return DRole.builder()
                 .id(entity.getId())
-                .authority(entity.getAuthority())
+                .authority(entity.getAuthority().toUpperCase())
                 .build();
     }
 }

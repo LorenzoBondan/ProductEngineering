@@ -6,6 +6,7 @@ import * as ScrewService from 'services/Aluminium/screwService';
 import ScrewModal from "../ScrewModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     Screw: DScrew;
@@ -60,7 +61,7 @@ const ScrewRow = ({Screw, onDeleteOrEdit} : Props) => {
             <td>{Screw.measure2}</td>
             <td>{Screw.measure3}</td>
             <td>{Screw.measurementUnit}</td>
-            {Screw.implementation ? <td>{Screw.implementation.toString()}</td> : <td>-</td>}
+            {Screw.implementation ? <td>{convertDateTime(Screw.implementation.toString())}</td> : <td>-</td>}
             <td>R$ {Screw.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(Screw.code)}/></td>

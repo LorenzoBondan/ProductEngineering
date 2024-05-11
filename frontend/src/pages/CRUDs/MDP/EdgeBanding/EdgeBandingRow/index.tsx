@@ -6,6 +6,7 @@ import * as EdgeBandingService from 'services/MDP/edgeBandingService';
 import EdgeBandingModal from "../EdgeBandingModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     edgeBanding: DEdgeBanding;
@@ -57,7 +58,7 @@ const EdgeBandingRow = ({edgeBanding, onDeleteOrEdit} : Props) => {
             <td>{edgeBanding.code}</td>
             <td>{edgeBanding.description}</td>
             <td>{edgeBanding.family}</td>
-            {edgeBanding.implementation ? <td>{edgeBanding.implementation.toString()}</td> : <td>-</td>}
+            {edgeBanding.implementation ? <td>{convertDateTime(edgeBanding.implementation.toString())}</td> : <td>-</td>}
             <td>{edgeBanding.lostPercentage}</td>
             {edgeBanding.color ? <td>{edgeBanding.color.name}</td> : <td>-</td>}
             <td>{edgeBanding.height}</td>

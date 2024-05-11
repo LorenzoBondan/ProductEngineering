@@ -22,7 +22,7 @@ public class EdgeBandingDomainToEntityAdapter implements Convertable<EdgeBanding
     public EdgeBanding toEntity(DEdgeBanding domain) {
         EdgeBanding entity = new EdgeBanding();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -37,7 +37,7 @@ public class EdgeBandingDomainToEntityAdapter implements Convertable<EdgeBanding
     public DEdgeBanding toDomain(EdgeBanding entity) {
         DEdgeBanding domain = new DEdgeBanding();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));

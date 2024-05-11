@@ -55,8 +55,7 @@ public class UsedDrawerPullServiceImpl implements UsedDrawerPullService {
         if(crudUsedDrawerPull.findByDrawerPullAndAluminiumSon(domain.getDrawerPullCode(), domain.getAluminiumSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Puxador e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_drawer_pull_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Puxador e Filho.");
         }
     }
 }

@@ -12,7 +12,7 @@ public class PlasticDomainToEntityAdapter implements Convertable<Plastic, DPlast
     public Plastic toEntity(DPlastic domain) {
         Plastic entity = new Plastic();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -25,7 +25,7 @@ public class PlasticDomainToEntityAdapter implements Convertable<Plastic, DPlast
     public DPlastic toDomain(Plastic entity) {
         DPlastic domain = new DPlastic();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());

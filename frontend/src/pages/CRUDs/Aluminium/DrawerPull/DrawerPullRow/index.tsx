@@ -6,6 +6,7 @@ import * as drawerPullService from 'services/Aluminium/drawerPullService';
 import DrawerPullModal from "../DrawerPullModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     drawerPull: DDrawerPull;
@@ -60,7 +61,7 @@ const DrawerPullRow = ({drawerPull, onDeleteOrEdit} : Props) => {
             <td>{drawerPull.measure2}</td>
             <td>{drawerPull.measure3}</td>
             <td>{drawerPull.measurementUnit}</td>
-            {drawerPull.implementation ? <td>{drawerPull.implementation.toString()}</td> : <td>-</td>}
+            {drawerPull.implementation ? <td>{convertDateTime(drawerPull.implementation.toString())}</td> : <td>-</td>}
             <td>R$ {drawerPull.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(drawerPull.code)}/></td>

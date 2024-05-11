@@ -15,7 +15,7 @@ const HomeItems = () => {
                         <span>Filhos MDP</span>
                     </li>
                 </Link>
-                <Link to="/mdfsons">
+                <Link to="/paintingsons">
                     <li>
                         <span>Filhos MDF</span>
                     </li>

@@ -12,7 +12,7 @@ public class MoldingDomainToEntityAdapter implements Convertable<Molding, DMoldi
     public Molding toEntity(DMolding domain) {
         Molding entity = new Molding();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
@@ -25,7 +25,7 @@ public class MoldingDomainToEntityAdapter implements Convertable<Molding, DMoldi
     public DMolding toDomain(Molding entity) {
         DMolding domain = new DMolding();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setMeasure1(entity.getMeasure1());
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());

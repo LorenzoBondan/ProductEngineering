@@ -12,7 +12,7 @@ public class ColorDomainToEntityAdapter implements Convertable<Color, DColor> {
     public Color toEntity(DColor domain) {
         return Color.builder()
                 .code(domain.getCode())
-                .name(domain.getName())
+                .name(domain.getName().toUpperCase())
                 .build();
     }
 
@@ -20,7 +20,7 @@ public class ColorDomainToEntityAdapter implements Convertable<Color, DColor> {
     public DColor toDomain(Color entity) {
         return DColor.builder()
                 .code(entity.getCode())
-                .name(entity.getName())
+                .name(entity.getName().toUpperCase())
                 .build();
     }
 }

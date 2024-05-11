@@ -6,6 +6,7 @@ import * as CornerBracketService from 'services/Packaging/cornerBracketService';
 import CornerBracketModal from "../CornerBracketModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     CornerBracket: DCornerBracket;
@@ -57,7 +58,7 @@ const CornerBracketRow = ({CornerBracket, onDeleteOrEdit} : Props) => {
             <td>{CornerBracket.code}</td>
             <td>{CornerBracket.description}</td>
             <td>{CornerBracket.family}</td>
-            {CornerBracket.implementation ? <td>{CornerBracket.implementation.toString()}</td> : <td>-</td>}
+            {CornerBracket.implementation ? <td>{convertDateTime(CornerBracket.implementation.toString())}</td> : <td>-</td>}
             <td>{CornerBracket.lostPercentage}</td>
             <td>R$ {CornerBracket.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>

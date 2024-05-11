@@ -45,7 +45,7 @@ public class FatherDomainToEntityAdapter implements Convertable<Father, DFather>
     public Father toEntity(DFather domain) {
         Father entity = new Father();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
@@ -64,7 +64,7 @@ public class FatherDomainToEntityAdapter implements Convertable<Father, DFather>
     public DFather toDomain(Father entity) {
         DFather domain = new DFather();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setMeasure1(entity.getMeasure1());
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());

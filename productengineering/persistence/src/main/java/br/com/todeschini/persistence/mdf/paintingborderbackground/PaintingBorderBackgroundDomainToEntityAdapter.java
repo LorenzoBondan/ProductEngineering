@@ -12,7 +12,7 @@ public class PaintingBorderBackgroundDomainToEntityAdapter implements Convertabl
     public PaintingBorderBackground toEntity(DPaintingBorderBackground domain) {
         PaintingBorderBackground entity = new PaintingBorderBackground();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -24,7 +24,7 @@ public class PaintingBorderBackgroundDomainToEntityAdapter implements Convertabl
     public DPaintingBorderBackground toDomain(PaintingBorderBackground entity) {
         DPaintingBorderBackground domain = new DPaintingBorderBackground();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());

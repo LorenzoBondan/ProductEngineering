@@ -6,6 +6,7 @@ import * as glassService from 'services/Aluminium/glassService';
 import GlassModal from "../GlassModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     glass: DGlass;
@@ -60,7 +61,7 @@ const GlassRow = ({glass, onDeleteOrEdit} : Props) => {
             <td>{glass.measure2}</td>
             <td>{glass.measure3}</td>
             <td>{glass.measurementUnit}</td>
-            {glass.implementation ? <td>{glass.implementation.toString()}</td> : <td>-</td>}
+            {glass.implementation ? <td>{convertDateTime(glass.implementation.toString())}</td> : <td>-</td>}
             {glass.color ? <td>{glass.color.name}</td> : <td>-</td>}
             <td>R$ {glass.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>

@@ -6,6 +6,7 @@ import * as polyesterService from 'services/MDF/polyesterService';
 import PolyesterModal from "../PolyesterModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     polyester: DPolyester;
@@ -57,7 +58,7 @@ const PolyesterRow = ({polyester, onDeleteOrEdit} : Props) => {
             <td>{polyester.code}</td>
             <td>{polyester.description}</td>
             <td>{polyester.family}</td>
-            {polyester.implementation ? <td>{polyester.implementation.toString()}</td> : <td>-</td>}
+            {polyester.implementation ? <td>{convertDateTime(polyester.implementation.toString())}</td> : <td>-</td>}
             <td>{polyester.lostPercentage}</td>
             <td>{polyester.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>

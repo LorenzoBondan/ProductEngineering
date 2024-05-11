@@ -6,6 +6,7 @@ import * as paintingBorderBackgroundService from 'services/MDF/paintingBorderBac
 import PaintingBorderBackgroundModal from "../PaintingBorderBackgroundModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     paintingBorderBackground: DPaintingBorderBackground;
@@ -57,7 +58,7 @@ const PaintingBorderBackgroundRow = ({paintingBorderBackground, onDeleteOrEdit} 
             <td>{paintingBorderBackground.code}</td>
             <td>{paintingBorderBackground.description}</td>
             <td>{paintingBorderBackground.family}</td>
-            {paintingBorderBackground.implementation ? <td>{paintingBorderBackground.implementation.toString()}</td> : <td>-</td>}
+            {paintingBorderBackground.implementation ? <td>{convertDateTime(paintingBorderBackground.implementation.toString())}</td> : <td>-</td>}
             <td>{paintingBorderBackground.lostPercentage}</td>
             <td>R$ {paintingBorderBackground.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>

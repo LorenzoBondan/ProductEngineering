@@ -12,7 +12,7 @@ public class PolyesterDomainToEntityAdapter implements Convertable<Polyester, DP
     public Polyester toEntity(DPolyester domain) {
         Polyester entity = new Polyester();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -24,7 +24,7 @@ public class PolyesterDomainToEntityAdapter implements Convertable<Polyester, DP
     public DPolyester toDomain(Polyester entity) {
         DPolyester domain = new DPolyester();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());

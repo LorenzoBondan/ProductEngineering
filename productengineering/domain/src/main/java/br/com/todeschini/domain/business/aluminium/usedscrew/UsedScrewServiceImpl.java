@@ -55,8 +55,7 @@ public class UsedScrewServiceImpl implements UsedScrewService {
         if(crudUsedScrew.findByScrewAndAluminiumSon(domain.getScrewCode(), domain.getAluminiumSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Parafuso e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_screw_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Parafuso e Filho.");
         }
     }
 }

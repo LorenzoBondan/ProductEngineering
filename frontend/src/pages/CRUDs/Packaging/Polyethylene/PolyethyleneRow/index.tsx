@@ -6,6 +6,7 @@ import * as PolyethyleneService from 'services/Packaging/polyethyleneService';
 import PolyethyleneModal from "../PolyethyleneModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     Polyethylene: DPolyethylene;
@@ -57,7 +58,7 @@ const PolyethyleneRow = ({Polyethylene, onDeleteOrEdit} : Props) => {
             <td>{Polyethylene.code}</td>
             <td>{Polyethylene.description}</td>
             <td>{Polyethylene.family}</td>
-            {Polyethylene.implementation ? <td>{Polyethylene.implementation.toString()}</td> : <td>-</td>}
+            {Polyethylene.implementation ? <td>{convertDateTime(Polyethylene.implementation.toString())}</td> : <td>-</td>}
             <td>{Polyethylene.lostPercentage}</td>
             <td>R$ {Polyethylene.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>

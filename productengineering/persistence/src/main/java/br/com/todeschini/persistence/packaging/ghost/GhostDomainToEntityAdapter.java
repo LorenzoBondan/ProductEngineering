@@ -45,8 +45,8 @@ public class GhostDomainToEntityAdapter implements Convertable<Ghost, DGhost> {
     public Ghost toEntity(DGhost domain) {
         return Ghost.builder()
                 .code(domain.getCode())
-                .suffix(domain.getSuffix())
-                .description(domain.getDescription())
+                .suffix(domain.getSuffix().toUpperCase())
+                .description(domain.getDescription().toUpperCase())
                 .measure1(domain.getMeasure1())
                 .measure2(domain.getMeasure2())
                 .measure3(domain.getMeasure3())
@@ -63,8 +63,8 @@ public class GhostDomainToEntityAdapter implements Convertable<Ghost, DGhost> {
     public DGhost toDomain(Ghost entity) {
         return DGhost.builder()
                 .code(entity.getCode())
-                .suffix(entity.getSuffix())
-                .description(entity.getDescription())
+                .suffix(entity.getSuffix().toUpperCase())
+                .description(entity.getDescription().toUpperCase())
                 .measure1(entity.getMeasure1())
                 .measure2(entity.getMeasure2())
                 .measure3(entity.getMeasure3())

@@ -12,7 +12,7 @@ public class MachineGroupDomainToEntityAdapter implements Convertable<MachineGro
     public MachineGroup toEntity(DMachineGroup domain) {
         return MachineGroup.builder()
                 .id(domain.getId())
-                .name(domain.getName())
+                .name(domain.getName().toUpperCase())
                 .build();
     }
 
@@ -20,7 +20,7 @@ public class MachineGroupDomainToEntityAdapter implements Convertable<MachineGro
     public DMachineGroup toDomain(MachineGroup entity) {
         return DMachineGroup.builder()
                 .id(entity.getId())
-                .name(entity.getName())
+                .name(entity.getName().toUpperCase())
                 .build();
     }
 }

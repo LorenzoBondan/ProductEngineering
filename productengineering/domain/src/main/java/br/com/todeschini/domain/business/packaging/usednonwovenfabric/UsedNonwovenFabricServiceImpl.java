@@ -55,8 +55,7 @@ public class UsedNonwovenFabricServiceImpl implements UsedNonwovenFabricService 
         if(crudUsedNonwovenFabric.findByNonwovenFabricAndGhost(domain.getNonwovenFabricCode(), domain.getGhostCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Poliéster e Fantasma.";
-            throw new UniqueConstraintViolationException("chk_used_nonwoven_fabric_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Poliéster e Fantasma.");
         }
     }
 }

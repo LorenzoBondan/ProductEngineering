@@ -65,7 +65,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
     public PaintingSon toEntity(DPaintingSon domain) {
         PaintingSon entity = new PaintingSon();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setMeasure1(domain.getMeasure1());
         entity.setMeasure2(domain.getMeasure2());
         entity.setMeasure3(domain.getMeasure3());
@@ -99,7 +99,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
     public DPaintingSon toDomain(PaintingSon entity) {
         DPaintingSon domain = new DPaintingSon();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setMeasure1(entity.getMeasure1());
         domain.setMeasure2(entity.getMeasure2());
         domain.setMeasure3(entity.getMeasure3());

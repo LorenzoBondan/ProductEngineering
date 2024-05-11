@@ -55,8 +55,7 @@ public class UsedMoldingServiceImpl implements UsedMoldingService {
         if(crudUsedMolding.findByMoldingAndAluminiumSon(domain.getMoldingCode(), domain.getAluminiumSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Perfil e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_molding_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Perfil e Filho.");
         }
     }
 }

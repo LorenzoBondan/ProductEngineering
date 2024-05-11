@@ -6,6 +6,7 @@ import * as NonwovenFabricService from 'services/Packaging/nonwovenFabricService
 import NonwovenFabricModal from "../NonwovenFabricModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     NonwovenFabric: DNonwovenFabric;
@@ -57,7 +58,7 @@ const NonwovenFabricRow = ({NonwovenFabric, onDeleteOrEdit} : Props) => {
             <td>{NonwovenFabric.code}</td>
             <td>{NonwovenFabric.description}</td>
             <td>{NonwovenFabric.family}</td>
-            {NonwovenFabric.implementation ? <td>{NonwovenFabric.implementation.toString()}</td> : <td>-</td>}
+            {NonwovenFabric.implementation ? <td>{convertDateTime(NonwovenFabric.implementation.toString())}</td> : <td>-</td>}
             <td>{NonwovenFabric.lostPercentage}</td>
             <td>R$ {NonwovenFabric.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>

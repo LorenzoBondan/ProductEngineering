@@ -6,6 +6,7 @@ import * as PlasticService from 'services/Packaging/plasticService';
 import PlasticModal from "../PlasticModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     Plastic: DPlastic;
@@ -57,7 +58,7 @@ const PlasticRow = ({Plastic, onDeleteOrEdit} : Props) => {
             <td>{Plastic.code}</td>
             <td>{Plastic.description}</td>
             <td>{Plastic.family}</td>
-            {Plastic.implementation ? <td>{Plastic.implementation.toString()}</td> : <td>-</td>}
+            {Plastic.implementation ? <td>{convertDateTime(Plastic.implementation.toString())}</td> : <td>-</td>}
             <td>{Plastic.lostPercentage}</td>
             <td>{Plastic.grammage}</td>
             <td>{Plastic.value}</td>

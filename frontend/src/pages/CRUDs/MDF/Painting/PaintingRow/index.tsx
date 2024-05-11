@@ -6,6 +6,7 @@ import * as paintingService from 'services/MDF/paintingService';
 import PaintingModal from "../PaintingModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     painting: DPainting;
@@ -57,7 +58,7 @@ const PaintingRow = ({painting, onDeleteOrEdit} : Props) => {
             <td>{painting.code}</td>
             <td>{painting.description}</td>
             <td>{painting.family}</td>
-            {painting.implementation ? <td>{painting.implementation.toString()}</td> : <td>-</td>}
+            {painting.implementation ? <td>{convertDateTime(painting.implementation.toString())}</td> : <td>-</td>}
             <td>{painting.lostPercentage}</td>
             {painting.color ? <td>{painting.color.name}</td> : <td>-</td>}
             <td>{painting.paintingType.description}</td>

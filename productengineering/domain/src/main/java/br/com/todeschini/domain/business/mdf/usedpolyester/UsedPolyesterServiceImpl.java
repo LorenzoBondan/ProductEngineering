@@ -55,8 +55,7 @@ public class UsedPolyesterServiceImpl implements UsedPolyesterService {
         if(crudUsedPolyester.findByPolyesterAndPaintingSon(domain.getPolyesterCode(), domain.getPolyesterCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Poliéster e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_polyester_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Poliéster e Filho.");
         }
     }
 }

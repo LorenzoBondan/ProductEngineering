@@ -55,8 +55,7 @@ public class UsedGlueServiceImpl implements UsedGlueService {
         if(crudUsedGlue.findByGlueAndMDPSon(domain.getGlueCode(), domain.getMdpSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Cola e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_glue_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Cola e Filho.");
         }
     }
 }

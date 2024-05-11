@@ -25,7 +25,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
     public Sheet toEntity(DSheet domain) {
         Sheet entity = new Sheet();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -42,7 +42,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
     public DSheet toDomain(Sheet entity) {
         DSheet domain = new DSheet();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());

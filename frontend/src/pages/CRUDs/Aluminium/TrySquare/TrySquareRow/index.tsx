@@ -6,6 +6,7 @@ import * as TrySquareService from 'services/Aluminium/trySquareService';
 import TrySquareModal from "../TrySquareModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     TrySquare: DTrySquare;
@@ -60,7 +61,7 @@ const TrySquareRow = ({TrySquare, onDeleteOrEdit} : Props) => {
             <td>{TrySquare.measure2}</td>
             <td>{TrySquare.measure3}</td>
             <td>{TrySquare.measurementUnit}</td>
-            {TrySquare.implementation ? <td>{TrySquare.implementation.toString()}</td> : <td>-</td>}
+            {TrySquare.implementation ? <td>{convertDateTime(TrySquare.implementation.toString())}</td> : <td>-</td>}
             <td>R$ {TrySquare.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(TrySquare.code)}/></td>

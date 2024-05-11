@@ -25,7 +25,7 @@ public class MachineDomainToEntityAdapter implements Convertable<Machine, DMachi
     public Machine toEntity(DMachine domain) {
         return Machine.builder()
                 .id(domain.getId())
-                .name(domain.getName())
+                .name(domain.getName().toUpperCase())
                 .formula(domain.getFormula())
                 .value(domain.getValue())
                 .machineGroup(machineGroupRepository.findById(domain.getMachineGroupId()).get())
@@ -39,7 +39,7 @@ public class MachineDomainToEntityAdapter implements Convertable<Machine, DMachi
     public DMachine toDomain(Machine entity) {
         return DMachine.builder()
                 .id(entity.getId())
-                .name(entity.getName())
+                .name(entity.getName().toUpperCase())
                 .formula(entity.getFormula())
                 .value(entity.getValue())
                 .machineGroupId(entity.getMachineGroup().getId())

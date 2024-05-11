@@ -55,8 +55,7 @@ public class UsedTrySquareServiceImpl implements UsedTrySquareService {
         if(crudUsedTrySquare.findByTrySquareAndAluminiumSon(domain.getTrySquareCode(), domain.getAluminiumSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Esquadreta e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_try_square_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Esquadreta e Filho.");
         }
     }
 }

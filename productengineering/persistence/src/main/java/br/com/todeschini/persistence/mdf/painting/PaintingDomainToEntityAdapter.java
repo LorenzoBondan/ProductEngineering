@@ -29,7 +29,7 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
     public Painting toEntity(DPainting domain) {
         Painting entity = new Painting();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -45,7 +45,7 @@ public class PaintingDomainToEntityAdapter implements Convertable<Painting, DPai
     public DPainting toDomain(Painting entity) {
         DPainting domain = new DPainting();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());

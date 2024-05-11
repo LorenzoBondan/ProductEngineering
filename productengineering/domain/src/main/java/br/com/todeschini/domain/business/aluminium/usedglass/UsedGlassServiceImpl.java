@@ -55,8 +55,7 @@ public class UsedGlassServiceImpl implements UsedGlassService {
         if(crudUsedGlass.findByGlassAndAluminiumSon(domain.getGlassCode(), domain.getAluminiumSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Vidro e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_glass_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Vidro e Filho.");
         }
     }
 }

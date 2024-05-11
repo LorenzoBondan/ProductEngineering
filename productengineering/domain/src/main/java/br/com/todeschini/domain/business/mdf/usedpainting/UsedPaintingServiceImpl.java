@@ -55,8 +55,7 @@ public class UsedPaintingServiceImpl implements UsedPaintingService {
         if(crudUsedPainting.findByPaintingAndPaintingSon(domain.getPaintingCode(), domain.getPaintingSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Pintura e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_painting_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Pintura e Filho.");
         }
     }
 }

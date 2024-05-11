@@ -6,6 +6,7 @@ import * as glueService from 'services/MDP/glueService';
 import GlueModal from "../GlueModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     glue: DGlue;
@@ -57,7 +58,7 @@ const GlueRow = ({glue, onDeleteOrEdit} : Props) => {
             <td>{glue.code}</td>
             <td>{glue.description}</td>
             <td>{glue.family}</td>
-            {glue.implementation ? <td>{glue.implementation.toString()}</td> : <td>-</td>}
+            {glue.implementation ? <td>{convertDateTime(glue.implementation.toString())}</td> : <td>-</td>}
             <td>{glue.lostPercentage}</td>
             <td>{glue.grammage}</td>
             <td>R$ {glue.value}</td>

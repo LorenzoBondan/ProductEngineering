@@ -55,8 +55,7 @@ public class PaintingServiceImpl implements PaintingService {
         if(crudPainting.findByColorAndPaintingType(domain.getColor().getCode(), domain.getPaintingType().getId())
                 .stream()
                 .anyMatch(t -> !t.getCode().equals(Optional.ofNullable(domain.getCode()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Cor e Tipo de Pintura.";
-            throw new UniqueConstraintViolationException("chk_painting_type_uk", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Cor e Tipo de Pintura.");
         }
     }
 }

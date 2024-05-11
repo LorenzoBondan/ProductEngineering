@@ -6,6 +6,7 @@ import * as MoldingService from 'services/Aluminium/moldingService';
 import MoldingModal from "../MoldingModal";
 import { toast } from "react-toastify";
 import { RiShutDownLine } from "react-icons/ri";
+import { convertDateTime } from "helpers";
 
 type Props = {
     Molding: DMolding;
@@ -60,7 +61,7 @@ const MoldingRow = ({Molding, onDeleteOrEdit} : Props) => {
             <td>{Molding.measure2}</td>
             <td>{Molding.measure3}</td>
             <td>{Molding.measurementUnit}</td>
-            {Molding.implementation ? <td>{Molding.implementation.toString()}</td> : <td>-</td>}
+            {Molding.implementation ? <td>{convertDateTime(Molding.implementation.toString())}</td> : <td>-</td>}
             <td>R$ {Molding.value}</td>
             <td><EditSvg onClick={() => openModal()}/></td>
             <td><RiShutDownLine onClick={() => inactivateObject(Molding.code)}/></td>

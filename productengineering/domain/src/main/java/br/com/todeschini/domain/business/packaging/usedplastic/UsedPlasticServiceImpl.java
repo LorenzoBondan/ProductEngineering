@@ -55,8 +55,7 @@ public class UsedPlasticServiceImpl implements UsedPlasticService {
         if(crudUsedPlastic.findByPlasticAndGhost(domain.getPlasticCode(), domain.getGhostCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Plástico e Fantasma.";
-            throw new UniqueConstraintViolationException("chk_used_plastic_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Plástico e Fantasma.");
         }
     }
 }

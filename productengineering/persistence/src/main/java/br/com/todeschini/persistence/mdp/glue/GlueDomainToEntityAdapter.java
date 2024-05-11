@@ -12,7 +12,7 @@ public class GlueDomainToEntityAdapter implements Convertable<Glue, DGlue> {
     public Glue toEntity(DGlue domain) {
         Glue entity = new Glue();
         entity.setCode(domain.getCode());
-        entity.setDescription(domain.getDescription());
+        entity.setDescription(domain.getDescription().toUpperCase());
         entity.setFamily(domain.getFamily());
         entity.setImplementation(domain.getImplementation());
         entity.setLostPercentage(domain.getLostPercentage());
@@ -25,7 +25,7 @@ public class GlueDomainToEntityAdapter implements Convertable<Glue, DGlue> {
     public DGlue toDomain(Glue entity) {
         DGlue domain = new DGlue();
         domain.setCode(entity.getCode());
-        domain.setDescription(entity.getDescription());
+        domain.setDescription(entity.getDescription().toUpperCase());
         domain.setFamily(entity.getFamily());
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());

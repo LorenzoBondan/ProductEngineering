@@ -55,8 +55,7 @@ public class UsedCornerBracketServiceImpl implements UsedCornerBracketService {
         if(crudUsedCornerBracket.findByCornerBracketAndGhost(domain.getCornerBracketCode(), domain.getGhostCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Cantoneira e Fantasma.";
-            throw new UniqueConstraintViolationException("chk_used_corner_bracket_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Cantoneira e Fantasma.");
         }
     }
 }

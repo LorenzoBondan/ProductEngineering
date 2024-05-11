@@ -55,8 +55,7 @@ public class UsedPaintingBorderBackgroundServiceImpl implements UsedPaintingBord
         if(crudUsedPaintingBorderBackground.findByPaintingBorderBackgroundAndPaintingSon(domain.getPaintingBorderBackgroundCode(), domain.getPaintingSonCode())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de PaintingBorderBackground e Filho.";
-            throw new UniqueConstraintViolationException("chk_used_painting_border_background_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de PaintingBorderBackground e Filho.");
         }
     }
 }

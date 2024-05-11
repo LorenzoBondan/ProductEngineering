@@ -55,8 +55,7 @@ public class GuideMachineServiceImpl implements GuideMachineService {
         if(crudGuideMachine.findByGuideAndMachine(domain.getGuideId(), domain.getMachineId())
                 .stream()
                 .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1L)))){
-            String detailedMessage = "Registro duplicado para a combinação de Guia e Máquina.";
-            throw new UniqueConstraintViolationException("chk_guide_machine_unq", detailedMessage);
+            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Guia e Máquina.");
         }
     }
 }
