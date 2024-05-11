@@ -94,12 +94,26 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
     
     }, [PaintingSon?.color, PaintingSon?.fatherCode, PaintingSon?.back]);
 
+    useEffect(() => {
+        // Definir os estados das checkboxes com base no valor de PaintingSon
+        if (PaintingSon) {
+            setSpecial(PaintingSon.special || false);
+            setSatin(PaintingSon.satin || false);
+            setHighShine(PaintingSon.highShine || false);
+            setSatinGlass(PaintingSon.satinGlass || false);
+        }
+    }, [PaintingSon]);
+
   // insert / update method
 
   const insertOrUpdate = (formData: DPaintingSon) => {
     if (dateTime !== null) {
       formData.implementation = dateTime;
     }
+    formData.special = special;
+    formData.satin = satin;
+    formData.highShine = highShine;
+    formData.satinGlass = satinGlass;
   
     const serviceFunction = isEditing ? PaintingSonService.update : PaintingSonService.insert;
     const successMessage = isEditing ? 'Filho editado!' : 'Filho Inserido!';
@@ -210,6 +224,7 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
                                 classNamePrefix="margin-bottom-20"
                                 className="margin-bottom-20"
                                 placeholder="Fundo"
+                                isClearable
                                 getOptionLabel={(back: DBack) => back.description}
                                 getOptionValue={(back: DBack) => back.code.toString()}
                             />    
@@ -284,6 +299,8 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
                     <label htmlFor="special-checkbox" className="checkbox-label">
                         <input
                             type="checkbox"
+                            
+                            checked={special}
                             onChange={(e) => setSpecial(e.target.checked)}
                             className="checkbox-input"
                             id="special-checkbox"
@@ -302,7 +319,11 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
                                 value="satin"
                                 checked={satin}
                                 name="satin"
-                                onChange={() => setSatin(true)}
+                                onChange={() => {
+                                    setHighShine(false);
+                                    setSatin(true);
+                                    setSatinGlass(false);
+                                }}
                             />
                             Acetinada
                         </label>
@@ -313,7 +334,11 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
                                 value="high-shine"
                                 checked={highShine}
                                 name="highShine"
-                                onChange={() => setHighShine(true)}
+                                onChange={() => {
+                                    setHighShine(true);
+                                    setSatin(false);
+                                    setSatinGlass(false);
+                                }}
                             />
                             Alto Brilho
                         </label>
@@ -324,7 +349,11 @@ const PaintingSonModal: React.FC<PaintingSonModalProps> = ({ PaintingSon, isOpen
                                 value="satin-glass"
                                 checked={satinGlass}
                                 name="satinGlass"
-                                onChange={() => setSatinGlass(true)}
+                                onChange={() => {
+                                    setHighShine(false);
+                                    setSatin(false);
+                                    setSatinGlass(true);
+                                }}
                             />
                             Acetinada Vidros
                         </label>

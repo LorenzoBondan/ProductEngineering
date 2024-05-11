@@ -1,6 +1,6 @@
 import { DAluminiumSon, DMDPSon, DPaintingSon, DSon } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as mdpSonService from 'services/MDP/mdpSonService';
 import * as paintingSonService from 'services/MDF/paintingSonService';
 import * as aluminiumSonService from 'services/Aluminium/aluminiumSonService';
@@ -62,16 +62,48 @@ const SonDetails = () => {
         getSon();
     }, [getSon]);
 
-    // modal functions
+    // Estados dos modais
+    const [sheetModalIsOpen, setSheetModalIsOpen] = useState(false);
+    const [edgeBandingModalIsOpen, setEdgeBandingModalIsOpen] = useState(false);
+    const [glueModalIsOpen, setGlueModalIsOpen] = useState(false);
 
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [paintingModalIsOpen, setPaintingModalIsOpen] = useState(false);
+    const [paintingBorderBackgroundModalIsOpen, setPaintingBorderBackgroundModalIsOpen] = useState(false);
+    const [polyesterModalIsOpen, setPolyesterModalIsOpen] = useState(false);
 
-    const openModal = () => {
-        setIsOpen(true);
+    // Funções para abrir os modais específicos
+    const openSheetModal = () => {
+        setSheetModalIsOpen(true);
     }
-        
+
+    const openEdgeBandingModal = () => {
+        setEdgeBandingModalIsOpen(true);
+    }
+
+    const openGlueModal = () => {
+        setGlueModalIsOpen(true);
+    }
+
+    const openPaintingModal = () => {
+        setPaintingModalIsOpen(true);
+    }
+
+    const openPaintingBorderBackgroundModal = () => {
+        setPaintingBorderBackgroundModalIsOpen(true);
+    }
+
+    const openPolyesterModal = () => {
+        setPolyesterModalIsOpen(true);
+    }
+
+    // Funções para fechar os modais
     const closeModal = () => {
-        setIsOpen(false);
+        setSheetModalIsOpen(false);
+        setEdgeBandingModalIsOpen(false);
+        setGlueModalIsOpen(false);
+        setPaintingModalIsOpen(false);
+        setPaintingBorderBackgroundModalIsOpen(false);
+        setPolyesterModalIsOpen(false);
     }
 
     return(
@@ -89,13 +121,13 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Chapas</h5>
-                            <IoMdAdd onClick={openModal} /> 
+                            <IoMdAdd onClick={openSheetModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {mdpSon?.sheets.map(sheet => 
                                 <>
                                     <UsedSheetRow usedSheet={sheet} onDeleteOrEdit={getSon} key={sheet.id} />
-                                    <UsedSheetModal usedSheet={sheet} mdpSonCode={mdpSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                    <UsedSheetModal usedSheet={sheet} mdpSonCode={mdpSon.code} isOpen={sheetModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             )}
                         </ul>
@@ -103,13 +135,13 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Fitas Borda</h5>
-                            <IoMdAdd onClick={openModal} /> 
+                            <IoMdAdd onClick={openEdgeBandingModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {mdpSon?.edgeBandings.map(edgeBanding => (
                                 <>
                                     <UsedEdgeBandingRow usedEdgeBanding={edgeBanding} onDeleteOrEdit={getSon} key={edgeBanding.id} />
-                                    <UsedEdgeBandingModal usedEdgeBanding={edgeBanding} mdpSonCode={mdpSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                    <UsedEdgeBandingModal usedEdgeBanding={edgeBanding} mdpSonCode={mdpSon.code} isOpen={edgeBandingModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
                         </ul>
@@ -117,13 +149,13 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Colas</h5>
-                            <IoMdAdd onClick={openModal} /> 
+                            <IoMdAdd onClick={openGlueModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {mdpSon?.glues.map(glue => (
                                 <>
                                     <UsedGlueRow usedGlue={glue} onDeleteOrEdit={getSon} key={glue.id} />
-                                    <UsedGlueModal usedGlue={glue} mdpSonCode={mdpSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                    <UsedGlueModal usedGlue={glue} mdpSonCode={mdpSon.code} isOpen={glueModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
                         </ul>
@@ -150,18 +182,29 @@ const SonDetails = () => {
                         <span className="special-span">Especial: {paintingSon?.special ? <img src={checkedImg} alt="" /> : <img src={uncheckedImg} alt="" />}</span>
                     </div>
 
-                    { /* Fundo */}
+                    <div className="son-material-container">
+                        <div className="son-material-top-menu">
+                            <h5>Fundo</h5>
+                        </div>
+                        <ul className='father-sons-list'>
+                            <Link to={`/backs/${paintingSon?.back.code}`}>
+                                <li className='son-list-item'>
+                                    {paintingSon?.back.code} - {paintingSon?.back.description}
+                                </li>
+                            </Link>
+                        </ul>
+                    </div>
 
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Pinturas</h5>
-                            <IoMdAdd onClick={openModal} /> 
+                            <IoMdAdd onClick={openPaintingModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {paintingSon?.paintings.map(painting => (
                                 <>
                                     <UsedPaintingRow usedPainting={painting} onDeleteOrEdit={getSon} key={painting.id} />
-                                    <UsedPaintingModal usedPainting={painting} paintingSonCode={paintingSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                    <UsedPaintingModal usedPainting={painting} paintingSonCode={paintingSon.code} isOpen={paintingModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
                         </ul>
@@ -169,13 +212,13 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Pinturas de Borda de Fundo</h5>
-                            <IoMdAdd onClick={openModal} /> 
+                            <IoMdAdd onClick={openPaintingBorderBackgroundModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {paintingSon?.paintingBorderBackgrounds.map(paintingBorderBackground => (
                                 <>
                                     <UsedPaintingBorderBackgroundRow usedPaintingBorderBackground={paintingBorderBackground} onDeleteOrEdit={getSon} key={paintingBorderBackground.id} />
-                                    <UsedPaintingBorderBackgroundModal usedPaintingBorderBackground={paintingBorderBackground} paintingSonCode={paintingSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                    <UsedPaintingBorderBackgroundModal usedPaintingBorderBackground={paintingBorderBackground} paintingSonCode={paintingSon.code} isOpen={paintingBorderBackgroundModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
                         </ul>
@@ -183,13 +226,13 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Poliésters</h5>
-                            <IoMdAdd onClick={openModal} /> 
+                            <IoMdAdd onClick={openPolyesterModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {paintingSon?.polyesters.map(polyester => (
                                 <>
                                     <UsedPolyesterRow usedPolyester={polyester} onDeleteOrEdit={getSon} key={polyester.id} />
-                                    <UsedPolyesterModal usedPolyester={polyester} paintingSonCode={paintingSon.code} isOpen={modalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
+                                    <UsedPolyesterModal usedPolyester={polyester} paintingSonCode={paintingSon.code} isOpen={polyesterModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
                         </ul>
