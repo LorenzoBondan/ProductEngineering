@@ -4,6 +4,7 @@ import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
 import br.com.todeschini.domain.business.auth.user.DUser;
 import br.com.todeschini.domain.business.auth.user.api.UserService;
 import br.com.todeschini.persistence.auth.user.UserRepository;
+import br.com.todeschini.persistence.entities.auth.User;
 import br.com.todeschini.persistence.entities.enums.Status;
 import br.com.todeschini.webapi.api.v1.rest.auth.user.projection.UserDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -73,6 +74,21 @@ public class UserController {
     public ResponseEntity<DUser> findById(@PathVariable Long id) {
         authService.validateSelfOrAdmin(id);
         return ResponseEntity.ok().body(service.find(id));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Request successfully executed"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"), // when not logged
+            @ApiResponse(responseCode = "403", description = "Forbidden"), // when nonAdmin try to execute the request
+            @ApiResponse(responseCode = "404", description = "Not found"), // when nonExisting id
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
+    @GetMapping(value = "/email/{email}")
+    public ResponseEntity<?> findByEmail(@PathVariable String email) {
+        User user = repository.findByEmail(email).iterator().next();
+        authService.validateSelfOrAdmin(user.getId());
+        return ResponseEntity.ok().body(user);
     }
 
     @ApiResponses(value = {

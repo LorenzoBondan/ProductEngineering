@@ -28,7 +28,7 @@ const HomeStruct = () => {
                     </NavLink>
                 </div>
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-3 modules-column'>
-                    <NavLink to="/modulationstruct">
+                    <NavLink to="/aluminiumstruct">
                         <ModuleCard title='Alumínios' imgUrl={aluminiumImage}/>
                     </NavLink>
                 </div>

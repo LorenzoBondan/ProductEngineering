@@ -1,5 +1,6 @@
 package br.com.todeschini.webapi.api.v1.rest.auth.user.projection;
 
+import br.com.todeschini.persistence.entities.enums.Status;
 import br.com.todeschini.webapi.api.v1.rest.auth.role.projection.RoleDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,4 +18,6 @@ public interface UserDTO {
     String getImgUrl();
     @JsonProperty(value = "roles", index = 5)
     List<RoleDTO> getRoles();
+    @JsonProperty(value = "status", index = 6)
+    Status getStatus();
 }
