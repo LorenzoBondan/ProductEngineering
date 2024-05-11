@@ -2,68 +2,68 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
-import * as usedEdgeBandingService from 'services/MDP/usedEdgeBandingService';
-import * as EdgeBandingService from 'services/MDP/edgeBandingService';
-import { DUsedEdgeBanding, DEdgeBanding } from 'models/entities';
+import * as usedBackSheetService from 'services/MDF/usedBackSheetService';
+import * as sheetService from 'services/MDP/sheetService';
+import { DUsedBackSheet, DSheet } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 
-type UsedEdgeBandingModalProps = {
-    usedEdgeBanding?: DUsedEdgeBanding;
+type UsedBackSheetModalProps = {
+    usedBackSheet?: DUsedBackSheet;
     isOpen: boolean;
     isEditing: boolean;
     onClose: () => void;
     onDeleteOrEdit: () => void;
     children?: ReactNode;
-    mdpSonCode : number;
+    backCode : number;
 }
 
-const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBanding, isOpen, isEditing, onClose, onDeleteOrEdit, mdpSonCode }) => {
+const UsedBackSheetModal: React.FC<UsedBackSheetModalProps> = ({ usedBackSheet, isOpen, isEditing, onClose, onDeleteOrEdit, backCode }) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DUsedEdgeBanding>();
-  const [selectEdgeBandings, setSelectEdgeBandings] = useState<DEdgeBanding[]>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<DUsedBackSheet>();
+  const [selectSheets, setSelectSheets] = useState<DSheet[]>();
 
   // load inputs
 
   useEffect(() => {
-    if(isEditing && usedEdgeBanding){
-        usedEdgeBandingService.findById(usedEdgeBanding.id)
+    if(isEditing && usedBackSheet){
+        usedBackSheetService.findById(usedBackSheet.id)
         .then((response) => {
-            const fetchedUsedEdgeBanding = response.data as DUsedEdgeBanding;
+            const fetchedUsedBackSheet = response.data as DUsedBackSheet;
 
-            setValue('id', fetchedUsedEdgeBanding.id);
-            setValue('edgeBandingCode', fetchedUsedEdgeBanding.edgeBandingCode);
-            setValue('mdpSonCode', mdpSonCode);
-            setValue('grossQuantity', fetchedUsedEdgeBanding.grossQuantity);
-            setValue('netQuantity', fetchedUsedEdgeBanding.netQuantity);
-            setValue('measurementUnit', fetchedUsedEdgeBanding.measurementUnit);
+            setValue('id', fetchedUsedBackSheet.id);
+            setValue('backCode', backCode);
+            setValue('sheetCode', fetchedUsedBackSheet.sheetCode);
+            setValue('grossQuantity', fetchedUsedBackSheet.grossQuantity);
+            setValue('netQuantity', fetchedUsedBackSheet.netQuantity);
+            setValue('measurementUnit', fetchedUsedBackSheet.measurementUnit);
         });
-    } else if (!isEditing && usedEdgeBanding){
-        setValue('mdpSonCode', mdpSonCode);
+    } else if (!isEditing && usedBackSheet){
+        setValue('backCode', backCode);
     }
-  }, [isEditing, usedEdgeBanding, setValue, mdpSonCode]);
+  }, [isEditing, usedBackSheet, setValue, backCode]);
 
     // populate comboboxes
 
     useEffect(() => {
 
-        if(usedEdgeBanding?.edgeBandingCode){
-            EdgeBandingService.findAllActiveAndCurrentOne(usedEdgeBanding?.edgeBandingCode)
-                .then(response => setSelectEdgeBandings(response.data));
+        if(usedBackSheet?.sheetCode){
+            sheetService.findAllActiveAndCurrentOne(usedBackSheet?.sheetCode)
+                .then(response => setSelectSheets(response.data));
         } else{
-            EdgeBandingService.findAll('')
-                .then(response => setSelectEdgeBandings(response.data.content));
+            sheetService.findAll('')
+                .then(response => setSelectSheets(response.data.content));
         }
     
-    }, [usedEdgeBanding?.edgeBandingCode]);
+    }, [usedBackSheet?.sheetCode]);
 
   // insert / update method
 
-  const insertOrUpdate = (formData: DUsedEdgeBanding) => {
+  const insertOrUpdate = (formData: DUsedBackSheet) => {
 
-    const serviceFunction = isEditing ? usedEdgeBandingService.update : usedEdgeBandingService.insert;
-    const successMessage = isEditing ? 'Fita Borda utilizada editada!' : 'Fita Borda utilizada inserida!';
+    const serviceFunction = isEditing ? usedBackSheetService.update : usedBackSheetService.insert;
+    const successMessage = isEditing ? 'Chapa utilizada editada!' : 'Chapa utilizada inserida!';
   
     serviceFunction(formData)
       .then(response => {
@@ -92,34 +92,34 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
         <div className="row crud-modal-inputs-container">
             <div className="col-lg-6 crud-modal-half-container">
                 <div className='margin-bottom-10'>
-                    <label htmlFor="">Código do Filho</label>
+                    <label htmlFor="">Código do Fundo</label>
                     <input 
-                        {...register("mdpSonCode", {
-                        required: 'Campo obrigatório', minLength: 7
+                        {...register("backCode", {
+                        required: 'Campo obrigatório', minLength: 8
                         })}
                         type="number"
                         inputMode="numeric"
-                        className={`form-control base-input ${errors.mdpSonCode ? 'is-invalid' : ''}`}
-                        placeholder="Código do Filho"
-                        name="mdpSonCode"
+                        className={`form-control base-input ${errors.backCode ? 'is-invalid' : ''}`}
+                        placeholder="Código do Fundo"
+                        name="backCode"
                         disabled
                     />
-                    <div className='invalid-feedback d-block'>{errors.mdpSonCode?.message}</div>
+                    <div className='invalid-feedback d-block'>{errors.backCode?.message}</div>
                 </div> 
                 <div className='margin-bottom-10'>
-                    <label htmlFor="">Fita Borda</label> 
+                    <label htmlFor="">Chapa</label> 
                     <select
-                        {...register("edgeBandingCode", {
+                        {...register("sheetCode", {
                             required: 'Campo obrigatório',
                         })}
-                        className={`form-control base-input ${errors.edgeBandingCode ? 'is-invalid' : ''}`}
-                        placeholder='Fita Borda' 
-                        name="edgeBandingCode"
+                        className={`form-control base-input ${errors.sheetCode ? 'is-invalid' : ''}`}
+                        placeholder='Chapa' 
+                        name="sheetCode"
                     >
-                        {selectEdgeBandings && selectEdgeBandings.length > 0 ? (
-                            selectEdgeBandings.map(EdgeBanding => (
-                                <option key={EdgeBanding.code} value={EdgeBanding.code}>
-                                    {EdgeBanding.description}
+                        {selectSheets && selectSheets.length > 0 ? (
+                            selectSheets.map(sheet => (
+                                <option key={sheet.code} value={sheet.code}>
+                                    {sheet.description}
                                 </option>
                             ))
                         ) : (
@@ -128,7 +128,7 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
                             </option>
                         )}
                     </select>
-                    {errors.edgeBandingCode && (
+                    {errors.sheetCode && (
                         <div className='invalid-feedback d-block'>Campo obrigatório</div>
                     )}
                 </div>
@@ -172,4 +172,4 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
   );
 };
 
-export default UsedEdgeBandingModal;
+export default UsedBackSheetModal;

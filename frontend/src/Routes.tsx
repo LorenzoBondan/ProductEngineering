@@ -22,6 +22,7 @@ import Plastics from "pages/CRUDs/Packaging/Plastic";
 import Polyethylenes from "pages/CRUDs/Packaging/Polyethylene";
 import Colors from "pages/CRUDs/Public/Color";
 import Materials from "pages/CRUDs/Public/Materials";
+import BackDetails from "pages/Details/BackDetails";
 import FatherDetails from "pages/Details/FatherDetails";
 import SonDetails from "pages/Details/SonDetails";
 import HomeBaseMaterials from "pages/Home";
@@ -189,6 +190,10 @@ const Routes = () => {
 
                     <Route path="/backs" exact>
                         <Backs/>
+                    </Route>
+
+                    <Route path="/backs/:backId" exact>
+                        <BackDetails/>
                     </Route>
 
                 </Switch>
