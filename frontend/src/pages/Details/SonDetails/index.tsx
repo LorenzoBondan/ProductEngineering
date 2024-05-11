@@ -1,4 +1,4 @@
-import { DAluminiumSon, DMDPSon, DPaintingSon, DSon } from "models/entities";
+import { DAluminiumSon, DMDPSon, DPaintingSon } from "models/entities";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as mdpSonService from 'services/MDP/mdpSonService';

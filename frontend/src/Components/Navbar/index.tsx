@@ -13,6 +13,7 @@ import trash from 'assets/images/recycle.png';
 import profileIcon from 'assets/images/profile.png';
 import adminIcon from 'assets/images/admin.png';
 import logoutIcon from 'assets/images/logout.png';
+import printIcon from 'assets/images/print.png';
 import './styles.css';
 
 const Navbar = () => {
@@ -91,6 +92,12 @@ const Navbar = () => {
                         </NavLink>
                     </li>   
                 )}
+                <li>
+                    <NavLink to="/reports" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/reports" ? "active-nav-item" : "")}>
+                        <img src={printIcon} alt="" />
+                        {isExpanded && <p>Relatórios</p>}
+                    </NavLink>
+                </li>
                 <li>
                     <NavLink to="/profile" className={isExpanded ? "admin-nav-item " : "admin-nav-item-expanded " + (location.pathname === "/profile" ? "active-nav-item" : "")}>
                         <img src={profileIcon} alt="" />
