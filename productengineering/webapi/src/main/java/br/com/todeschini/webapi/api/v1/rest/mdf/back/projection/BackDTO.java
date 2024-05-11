@@ -24,4 +24,6 @@ public interface BackDTO {
     Integer getMeasure1();
     @JsonProperty(value = "measure2", index = 9)
     Integer getMeasure2();
+    @JsonProperty(value = "value", index = 10)
+    Double getValue();
 }

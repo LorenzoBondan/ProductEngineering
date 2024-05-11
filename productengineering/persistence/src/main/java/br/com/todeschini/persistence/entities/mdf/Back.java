@@ -1,12 +1,12 @@
 package br.com.todeschini.persistence.entities.mdf;
 
 import br.com.todeschini.persistence.entities.baseentities.BaseMaterial;
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,4 +28,14 @@ public class Back extends BaseMaterial {
 
     @OneToMany(mappedBy = "back", fetch = FetchType.EAGER)
     private List<UsedBackSheet> sheets = new ArrayList<>();
+
+    public Double calculateValue(){
+        double value = 0.0;
+        for(UsedBackSheet usedBackSheet : this.getSheets()){
+            value += usedBackSheet.calculateValue();
+        }
+        value = Math.round(value * 1e2) / 1e2;
+        this.setValue(value);
+        return value;
+    }
 }

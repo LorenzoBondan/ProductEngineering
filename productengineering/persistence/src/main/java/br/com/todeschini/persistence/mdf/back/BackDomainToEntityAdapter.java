@@ -53,6 +53,7 @@ public class BackDomainToEntityAdapter implements Convertable<Back, DBack> {
 
         domain.setUsedBackSheets(entity.getSheets().stream().map(usedBackSheetAdapter::toDomain).collect(Collectors.toList()));
 
+        domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
         return domain;
     }
 }

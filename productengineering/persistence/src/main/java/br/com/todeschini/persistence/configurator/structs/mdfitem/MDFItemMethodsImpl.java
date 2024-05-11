@@ -120,6 +120,7 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
         back.setThickness(paintingSon.getMeasure3().doubleValue());
         back.setMeasure1(paintingSon.getMeasure1());
         back.setMeasure2(paintingSon.getMeasure2());
+        back.setImplementation(paintingSon.getImplementation());
         paintingSonRepository.save(paintingSon);
         back.getSons().add(paintingSon);
         backRepository.save(back);
@@ -138,6 +139,7 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
             usedBackSheet.calculateGrossQuantity();
             paintingSon.getBack().getSheets().add(usedBackSheet);
             usedBackSheetRepository.save(usedBackSheet);
+            paintingSon.getBack().calculateValue();
             backRepository.save(paintingSon.getBack());
         }
     }

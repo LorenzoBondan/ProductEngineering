@@ -28,6 +28,7 @@ import HomeBaseMaterials from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
 import HomeItems from "pages/HomeItems";
 import HomeStruct from "pages/HomeStructs";
+import Backs from "pages/Items/Backs";
 import Fathers from "pages/Items/Fathers";
 import MDPSons from "pages/Items/MDPSons";
 import PaintingSons from "pages/Items/PaintingSons";
@@ -184,6 +185,10 @@ const Routes = () => {
 
                     <Route path="/sons/:sonId" exact>
                         <SonDetails />
+                    </Route>
+
+                    <Route path="/backs" exact>
+                        <Backs/>
                     </Route>
 
                 </Switch>
