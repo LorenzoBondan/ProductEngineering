@@ -9,5 +9,5 @@ import java.io.IOException;
 @Service
 public interface FatherReportMethods {
 
-    ByteArrayOutputStream generatePdfReport(Long id) throws IOException;
+    ByteArrayOutputStream generatePdfReport(Long id);
 }

@@ -17,7 +17,7 @@ public class FatherReportServiceImpl implements FatherReportService {
     }
 
     @Override
-    public ByteArrayOutputStream generatePdfReport(Long id) throws IOException {
+    public ByteArrayOutputStream generatePdfReport(Long id) {
         return fatherReportMethods.generatePdfReport(id);
     }
 }

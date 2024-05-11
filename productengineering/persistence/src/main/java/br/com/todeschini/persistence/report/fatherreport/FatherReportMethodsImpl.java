@@ -33,10 +33,13 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Component
@@ -48,8 +51,9 @@ public class FatherReportMethodsImpl implements FatherReportMethods {
         this.fatherRepository = fatherRepository;
     }
 
+    @SneakyThrows
     @Override
-    public ByteArrayOutputStream generatePdfReport(Long id) throws IOException {
+    public ByteArrayOutputStream generatePdfReport(Long id) {
         Father father = fatherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pai não encontrado: " + id));
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -65,8 +69,9 @@ public class FatherReportMethodsImpl implements FatherReportMethods {
         pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new MyEventHandler());
 
         // Adiciona nome e logo da empresa no topo
-        Image logo = new Image(ImageDataFactory.create("persistence/src/main/resources/todeschini-heart.png"));
-        logo.setWidth(50);
+        Image logo = new Image(ImageDataFactory.create("persistence/src/main/resources/todeschini-header.png"));
+        logo.setWidth(125);
+        logo.setMarginBottom(10);
         document.add(logo);
 
         // Adiciona uma linha sólida para separar o topo do conteúdo
@@ -353,7 +358,7 @@ public class FatherReportMethodsImpl implements FatherReportMethods {
 
     private void generateGuideReport(Guide guide, Document document, PdfFont font, PdfFont boldFont, float pageSize){
         document.add(new Paragraph("ROTEIRO").setFont(boldFont));
-        document.add(new Paragraph("Implementação: " + guide.getImplementation() + ". Data limite: " + guide.getFinalDate() + ".").setFont(font));
+        document.add(new Paragraph("Implementação: " + formatDate(guide.getImplementation().toString()) + ". Data limite: " + formatDate(guide.getFinalDate().toString()) + ".").setFont(font));
 
         Table table = new Table(4);
 
@@ -373,6 +378,13 @@ public class FatherReportMethodsImpl implements FatherReportMethods {
         table.setWidth(pageSize);
         document.add(table);
         document.add(new Paragraph(""));
+    }
+
+    private String formatDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
     }
 }
 
