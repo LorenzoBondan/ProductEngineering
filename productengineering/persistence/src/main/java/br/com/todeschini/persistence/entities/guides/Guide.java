@@ -24,6 +24,7 @@ public class Guide extends AuditInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String description;
     private LocalDate implementation;
     private LocalDate finalDate;
 

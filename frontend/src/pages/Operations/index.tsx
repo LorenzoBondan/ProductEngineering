@@ -17,7 +17,7 @@ const Operations = () => {
             </div>
             <div className='operations-items-container operation-section operation-section-middle'>
                 <div className='operation-section-text operation-section-text-middle'>
-                    <p>Crie e altere manualmente itens e materiais utilizados nas estruturas de MDP, MDF, Modulação, Alumínios e Embalagem</p>
+                    <p>Crie e altere manualmente itens, materiais e roteiros utilizados nas estruturas de MDP, MDF, Modulação, Alumínios e Embalagem</p>
                 </div>
                 <div className='operation-section-button-container'>
                     <Link to={"/homeitems"}>

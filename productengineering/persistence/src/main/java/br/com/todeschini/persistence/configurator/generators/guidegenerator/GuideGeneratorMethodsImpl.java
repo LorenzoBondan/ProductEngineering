@@ -38,14 +38,16 @@ public class GuideGeneratorMethodsImpl implements GuideGeneratorMethods {
     public void generateGuideSon(DGuideGenerator guideGenerator) {
         if(((Son) guideGenerator.getSon()).getGuide() == null){
             Guide existingGuide = repository.findGuideBySixDigitCode(((Son) guideGenerator.getSon()).getCode().toString().substring(0,6));
-            Guide guide = existingGuide != null ? existingGuide : createNewGuide(guideGenerator.getImplementation(), guideGenerator.getFinalDate());
+            String description = ((Son) guideGenerator.getSon()).getDescription().substring(0, ((Son) guideGenerator.getSon()).getDescription().indexOf("-")).trim();
+            Guide guide = existingGuide != null ? existingGuide : createNewGuide(description, guideGenerator.getImplementation(), guideGenerator.getFinalDate());
             associateSonWithGuide(((Son) guideGenerator.getSon()), guide);
             associateMachinesWithGuide(guide, guideGenerator.getMachinesIds(), ((Son) guideGenerator.getSon()).getMeasure1(), ((Son) guideGenerator.getSon()).getMeasure2(), ((Son) guideGenerator.getSon()).getMeasure3());
         }
     }
 
-    private Guide createNewGuide(LocalDate implementation, LocalDate finalDate) {
+    private Guide createNewGuide(String description, LocalDate implementation, LocalDate finalDate) {
         Guide guide = new Guide();
+        guide.setDescription(description);
         guide.setImplementation(implementation);
         guide.setFinalDate(finalDate);
         return repository.save(guide);

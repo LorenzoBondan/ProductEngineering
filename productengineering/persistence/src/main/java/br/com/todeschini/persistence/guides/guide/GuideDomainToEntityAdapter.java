@@ -24,6 +24,7 @@ public class GuideDomainToEntityAdapter implements Convertable<Guide, DGuide> {
     public Guide toEntity(DGuide domain) {
         return Guide.builder()
                 .id(domain.getId())
+                .description(domain.getDescription())
                 .finalDate(domain.getFinalDate())
                 .implementation(domain.getImplementation())
 
@@ -36,6 +37,7 @@ public class GuideDomainToEntityAdapter implements Convertable<Guide, DGuide> {
     public DGuide toDomain(Guide entity) {
         return DGuide.builder()
                 .id(entity.getId())
+                .description(entity.getDescription())
                 .finalDate(entity.getFinalDate())
                 .implementation(entity.getImplementation())
 

@@ -4,8 +4,7 @@ import br.com.todeschini.domain.business.guides.guidemachine.DGuideMachine;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
-import br.com.todeschini.domain.validation.impl.DataFuturaValidator;
-import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
+import br.com.todeschini.domain.validation.impl.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,6 +21,7 @@ public class DGuide {
 
     @EqualsAndHashCode.Include
     private Long id;
+    private String description;
     private LocalDate implementation;
     private LocalDate finalDate;
     private Double value;
@@ -34,6 +34,10 @@ public class DGuide {
 
     public void validate() throws ValidationException {
         new ValidationBuilder()
+                .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)
+                .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(50)), this.description)
                 .add(new NamedValidator<>("Implementação", new ObjetoNaoNuloValidator()), this.implementation)
                 .add(new NamedValidator<>("Implementação", new DataFuturaValidator()), this.implementation)
                 .add(new NamedValidator<>("Data final", new ObjetoNaoNuloValidator()), this.finalDate)
