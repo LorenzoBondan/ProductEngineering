@@ -6,7 +6,6 @@ import * as paintingSonService from 'services/MDF/paintingSonService';
 import * as aluminiumSonService from 'services/Aluminium/aluminiumSonService';
 import checkedImg from 'assets/images/checked.png';
 import uncheckedImg from 'assets/images/unchecked.png';
-import './styles.css';
 import UsedSheetModal from "./MDPMaterials/Sheets/UsedSheetModal";
 import { IoMdAdd } from "react-icons/io";
 import UsedSheetRow from "./MDPMaterials/Sheets/UsedSheetRow";
@@ -20,6 +19,7 @@ import UsedPaintingBorderBackgroundRow from "./MDFMaterials/PaintingBorderBackgr
 import UsedPaintingBorderBackgroundModal from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundModal";
 import UsedPolyesterRow from "./MDFMaterials/Polyesters/UsedPolyestersRow";
 import UsedPolyesterModal from "./MDFMaterials/Polyesters/UsedPolyesterModal";
+import './styles.css';
 
 type UrlParams = {
     sonId: string;
@@ -71,8 +71,6 @@ const SonDetails = () => {
     const [paintingBorderBackgroundModalIsOpen, setPaintingBorderBackgroundModalIsOpen] = useState(false);
     const [polyesterModalIsOpen, setPolyesterModalIsOpen] = useState(false);
 
-    const [guideModalIsOpen, setGuideModalIsOpen] = useState(false);
-
     // Funções para abrir os modais específicos
     const openSheetModal = () => {
         setSheetModalIsOpen(true);
@@ -97,10 +95,6 @@ const SonDetails = () => {
     const openPolyesterModal = () => {
         setPolyesterModalIsOpen(true);
     }
-    
-    const openGuideModal = () => {
-        setGuideModalIsOpen(true);
-    }
 
     // Funções para fechar os modais
     const closeModal = () => {
@@ -110,7 +104,6 @@ const SonDetails = () => {
         setPaintingModalIsOpen(false);
         setPaintingBorderBackgroundModalIsOpen(false);
         setPolyesterModalIsOpen(false);
-        setGuideModalIsOpen(false);
     }
 
     return(

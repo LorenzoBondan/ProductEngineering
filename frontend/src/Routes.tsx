@@ -37,6 +37,7 @@ import MDPSons from "pages/Items/MDPSons";
 import PaintingSons from "pages/Items/PaintingSons";
 import Operations from "pages/Operations";
 import Profile from "pages/Profile";
+import Reports from "pages/Reports";
 import MDPStruct from "pages/Structs/MDPStruct";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { isAuthenticated } from "util/auth";
@@ -70,6 +71,10 @@ const Routes = () => {
 
                     <PrivateRoute path="/profile">
                         <Profile/>
+                    </PrivateRoute>
+
+                    <PrivateRoute path="/reports">
+                        <Reports/>
                     </PrivateRoute>
 
                     <Redirect from='/auth' to='/auth/login' exact />
