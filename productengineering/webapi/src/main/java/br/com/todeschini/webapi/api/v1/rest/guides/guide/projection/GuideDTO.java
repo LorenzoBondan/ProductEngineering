@@ -14,4 +14,6 @@ public interface GuideDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "finalDate", index = 4)
     LocalDate getFinalDate();
+    @JsonProperty(value = "value", index = 5)
+    Double getValue();
 }

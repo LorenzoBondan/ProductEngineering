@@ -16,8 +16,7 @@ import org.springframework.http.HttpMethod;
 
 import java.time.LocalDate;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,7 +41,7 @@ public class GuideControllerIT extends BaseControllerIT<DGuide> {
         setCrudBehavior(factoryObject, nonExistingObject, crud);
 
         // findAll
-        when(repository.findByStatusIn(anyList(), any(), any()))
+        when(repository.findByStatusInAndDescriptionContainingIgnoreCase(anyList(), anyString(), any(), any()))
                 .thenReturn(Page.empty());
     }
 

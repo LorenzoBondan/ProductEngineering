@@ -28,7 +28,7 @@ public interface GuideRepository extends JpaRepository<Guide, Long> {
     @Query("SELECT c FROM Guide c WHERE c.status = 'ACTIVE' OR (:id IS NOT NULL AND c.id = :id)")
     List<Guide> findAllActiveAndCurrentOne(@Param("id") Long id);
 
-    <T> Page<T> findByStatusIn(List<Status> statusList, Pageable pageable, Class<T> type);
+    <T> Page<T> findByStatusInAndDescriptionContainingIgnoreCase(List<Status> statusList, String description, Pageable pageable, Class<T> type);
 
     @Query(nativeQuery = true, value = """
             SELECT created_by FROM tb_guide WHERE id = :id

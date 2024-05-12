@@ -202,6 +202,7 @@ export type DGuide = {
   description: string;
   implementation: Date;
   finalDate: Date;
+  value: number;
   guideMachines: DGuideMachine[];
 };
 

@@ -54,7 +54,7 @@ public class GuideControllerTests {
         nonExistingObject = new DGuide(nonExistingId);
 
         // findAll
-        when(repository.findByStatusIn(anyList(), any(), any()))
+        when(repository.findByStatusInAndDescriptionContainingIgnoreCase(anyList(), anyString(), any(), any()))
                 .thenReturn(Page.empty());
 
         // findAllAndCurrent
@@ -87,7 +87,7 @@ public class GuideControllerTests {
         // Arrange
 
         // Act
-        ResponseEntity<?> responseEntity = controller.findByStatusIn("ACTIVE", pageable);
+        ResponseEntity<?> responseEntity = controller.findByStatusInAndDescriptionContainingIgnoreCase("ACTIVE", "description" ,pageable);
 
         // Assert
         assertNotNull(responseEntity.getBody());
@@ -98,8 +98,8 @@ public class GuideControllerTests {
         boolean allMatch = responseBody.stream().allMatch(obj -> obj instanceof GuideDTO);
         assertThat(allMatch).isTrue();
 
-        verify(repository, times(1)).findByStatusIn(eq(statusList),
-                eq(pageable), eq(GuideDTO.class));
+        verify(repository, times(1)).findByStatusInAndDescriptionContainingIgnoreCase(eq(statusList),
+                eq("description"), eq(pageable), eq(GuideDTO.class));
     }
 
     @Test

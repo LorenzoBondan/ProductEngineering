@@ -2,11 +2,12 @@ import { AxiosRequestConfig } from "axios";
 import { DGuide } from "models/entities";
 import { requestBackend } from "util/requests";
 
-export function findAll(page?: number, size?: number, status?: string, sort = "id") {
+export function findAll(description?: string, page?: number, size?: number, status?: string, sort = "id") {
     const config : AxiosRequestConfig = {
         method: "GET",
         url: "/guides",
         params: {
+            description,
             page,
             size,
             sort,

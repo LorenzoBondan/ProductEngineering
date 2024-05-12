@@ -5,6 +5,7 @@ import br.com.todeschini.domain.business.guides.guide.api.GuideService;
 import br.com.todeschini.persistence.entities.enums.Status;
 import br.com.todeschini.persistence.guides.guide.GuideRepository;
 import br.com.todeschini.webapi.api.v1.rest.guides.guide.projection.GuideDTO;
+import br.com.todeschini.webapi.api.v1.rest.guides.machine.projection.MachineDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,14 +41,15 @@ public class GuideController {
     })
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping
-    public ResponseEntity<?> findByStatusIn(@RequestParam(value = "status", required = false) String statusParam,
-                                            Pageable pageable){
+    public ResponseEntity<?> findByStatusInAndDescriptionContainingIgnoreCase(@RequestParam(value = "status", required = false) String statusParam,
+                                                                              @RequestParam(value = "description", required = false) String description,
+                                                                              Pageable pageable){
         List<Status> statusList = (statusParam != null) ?
                 Arrays.stream(statusParam.split(","))
                         .map(Status::valueOf)
                         .collect(Collectors.toList()) :
                 List.of(Status.ACTIVE);
-        return ResponseEntity.ok().body(repository.findByStatusIn(statusList, pageable, GuideDTO.class));
+        return ResponseEntity.ok().body(repository.findByStatusInAndDescriptionContainingIgnoreCase(statusList, description, pageable, GuideDTO.class));
     }
 
     @ApiResponses(value = {

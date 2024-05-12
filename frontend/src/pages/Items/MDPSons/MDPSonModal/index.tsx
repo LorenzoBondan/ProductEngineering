@@ -68,7 +68,7 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
             guideService.findAllActiveAndCurrentOne(MDPSon?.guide.id)
                 .then(response => setSelectGuides(response.data));
         } else{
-            guideService.findAll()
+            guideService.findAll('')
                 .then(response => setSelectGuides(response.data.content));
         }
     

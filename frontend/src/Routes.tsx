@@ -31,6 +31,7 @@ import HomeItems from "pages/HomeItems";
 import HomeStruct from "pages/HomeStructs";
 import Backs from "pages/Items/Backs";
 import Fathers from "pages/Items/Fathers";
+import Guides from "pages/Items/Guides";
 import MDPSons from "pages/Items/MDPSons";
 import PaintingSons from "pages/Items/PaintingSons";
 import Operations from "pages/Operations";
@@ -194,6 +195,10 @@ const Routes = () => {
 
                     <Route path="/backs/:backId" exact>
                         <BackDetails/>
+                    </Route>
+                    
+                    <Route path="/guides" exact>
+                        <Guides/>
                     </Route>
 
                 </Switch>
