@@ -29,7 +29,7 @@ public class GuideDomainToEntityAdapter implements Convertable<Guide, DGuide> {
                 .implementation(domain.getImplementation())
 
                 .guideMachines(domain.getGuideMachines().stream().map(guideMachine -> guideMachineRepository.findById(guideMachine.getId()).get()).collect(Collectors.toSet()))
-
+                .value(domain.getValue())
                 .build();
     }
 

@@ -71,6 +71,7 @@ public class MDPSonDomainToEntityAdapter implements Convertable<MDPSon, DMDPSon>
         entity.setEdgeBandings(domain.getEdgeBandings().stream().map(edgeBanding -> usedEdgeBandingRepository.findById(edgeBanding.getId()).get()).collect(Collectors.toSet()));
         entity.setGlues(domain.getGlues().stream().map(glue -> usedGlueRepository.findById(glue.getId()).get()).collect(Collectors.toSet()));
 
+        entity.setValue(domain.getValue());
         return entity;
     }
 

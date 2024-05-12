@@ -34,7 +34,7 @@ public class BackDomainToEntityAdapter implements Convertable<Back, DBack> {
         entity.setMeasure2(domain.getMeasure2());
 
         entity.setSheets(domain.getUsedBackSheets().stream().map(usedBackSheet -> usedBackSheetRepository.findById(usedBackSheet.getId()).get()).collect(Collectors.toList()));
-
+        entity.setValue(domain.getValue());
         return entity;
     }
 

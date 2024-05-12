@@ -199,6 +199,7 @@ export type DUsedTrySquare = DBaseUsedAluminiumMaterial & {
 
 export type DGuide = {
   id: number;
+  description: string;
   implementation: Date;
   finalDate: Date;
   guideMachines: DGuideMachine[];

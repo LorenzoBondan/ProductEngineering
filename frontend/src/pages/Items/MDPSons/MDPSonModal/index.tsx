@@ -43,7 +43,7 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
             setValue('value', fetchedMDPSon.value);
             setValue('color', fetchedMDPSon.color);
             setValue('fatherCode', fetchedMDPSon.fatherCode);
-            setValue('value', fetchedMDPSon.value);
+            setValue('guide', fetchedMDPSon.guide);
 
             setDateTime(fetchedMDPSon.implementation ? new Date(fetchedMDPSon.implementation) : null);
         });
@@ -215,9 +215,25 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
                         className={`form-control base-input ${errors.fatherCode ? 'is-invalid' : ''}`}
                         placeholder="Código do Pai"
                         name="fatherCode"
-                        disabled
                     />
                     <div className='invalid-feedback d-block'>{errors.fatherCode?.message}</div>
+                </div> 
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Valor</label>
+                    <input 
+                        {...register("value", {
+                            pattern: {
+                                value: /^\d+(\.\d{1,2})?$/, 
+                                message: 'Por favor, insira um número válido'
+                            }
+                        })}
+                        type="text" 
+                        inputMode="numeric" 
+                        className={`form-control base-input ${errors.value ? 'is-invalid' : ''}`}
+                        placeholder="Valor"
+                        name="value"
+                    />
+                    {errors.value && <div className='invalid-feedback d-block'>{errors.value.message}</div>}
                 </div> 
             </div>
             {errorMessage && <div className='invalid-feedback d-block'>{errorMessage}</div>}

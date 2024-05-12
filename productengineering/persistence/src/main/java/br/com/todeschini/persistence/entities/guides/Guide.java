@@ -27,6 +27,7 @@ public class Guide extends AuditInfo {
     private String description;
     private LocalDate implementation;
     private LocalDate finalDate;
+    private Double value;
 
     @OneToMany(mappedBy = "guide", fetch = FetchType.EAGER)
     private List<Son> sons = new ArrayList<>();
@@ -40,6 +41,7 @@ public class Guide extends AuditInfo {
             value += guideMachine.calculateMachineValue();
             value += guideMachine.calculateManValue();
         }
+        this.value = value;
         return value;
     }
 }

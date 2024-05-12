@@ -56,6 +56,7 @@ public class GhostDomainToEntityAdapter implements Convertable<Ghost, DGhost> {
                 .plastics(domain.getPlastics().stream().map(plastic -> usedPlasticRepository.findById(plastic.getId()).get()).collect(Collectors.toSet()))
                 .polyethylenes(domain.getPolyethylenes().stream().map(polyethylene -> usedPolyethyleneRepository.findById(polyethylene.getId()).get()).collect(Collectors.toSet()))
 
+                .value(domain.getValue())
                 .build();
     }
 

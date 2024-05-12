@@ -96,7 +96,7 @@ const List = () => {
                         </thead>
                         <tbody>
                             {page?.content.map((item) => (
-                                <MDPSonRow MDPSon={item} onDeleteOrEdit={getMDPSons} handleRowClick={handleRowClick} />
+                                <MDPSonRow MDPSon={item} onDeleteOrEdit={getMDPSons} handleRowClick={handleRowClick} key={item.code}/>
                             ))}
                         </tbody>
                     </table>

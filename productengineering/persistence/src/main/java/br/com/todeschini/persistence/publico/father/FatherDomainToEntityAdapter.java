@@ -57,6 +57,7 @@ public class FatherDomainToEntityAdapter implements Convertable<Father, DFather>
         }
         entity.setSons(domain.getSons().stream().map(son -> sonRepository.findById(son.getCode()).get()).collect(Collectors.toList()));
         entity.setAttachments(domain.getAttachments().stream().map(attachment -> attachmentRepository.findById(attachment.getCode()).get()).collect(Collectors.toSet()));
+        entity.setValue(domain.getValue());
         return entity;
     }
 

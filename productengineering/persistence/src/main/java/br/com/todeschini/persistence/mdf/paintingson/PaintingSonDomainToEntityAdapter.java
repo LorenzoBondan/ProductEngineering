@@ -91,7 +91,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
         entity.setPaintings(domain.getPaintings().stream().map(painting -> usedPaintingRepository.findById(painting.getId()).get()).collect(Collectors.toList()));
         entity.setPaintingBorderBackgrounds(domain.getPaintingBorderBackgrounds().stream().map(paintingBorderBackground -> usedPaintingBorderBackgroundRepository.findById(paintingBorderBackground.getId()).get()).collect(Collectors.toList()));
         entity.setPolyesters(domain.getPolyesters().stream().map(polyester -> usedPolyesterRepository.findById(polyester.getId()).get()).collect(Collectors.toList()));
-
+        entity.setValue(domain.getValue());
         return entity;
     }
 

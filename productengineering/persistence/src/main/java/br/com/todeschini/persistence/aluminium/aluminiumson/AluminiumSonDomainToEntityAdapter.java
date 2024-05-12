@@ -115,7 +115,7 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
         if(domain.getGlass() != null){
             entity.setGlass(usedGlassRepository.findById(domain.getGlass().getId()).orElse(null));
         }
-
+        entity.setValue(domain.getValue());
         return entity;
     }
 
