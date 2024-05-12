@@ -39,7 +39,7 @@ const UsedEdgeBandingModal: React.FC<UsedEdgeBandingModalProps> = ({ usedEdgeBan
             setValue('netQuantity', fetchedUsedEdgeBanding.netQuantity);
             setValue('measurementUnit', fetchedUsedEdgeBanding.measurementUnit);
         });
-    } else if (!isEditing && usedEdgeBanding){
+    } else if (!isEditing){
         setValue('mdpSonCode', mdpSonCode);
     }
   }, [isEditing, usedEdgeBanding, setValue, mdpSonCode]);

@@ -39,7 +39,7 @@ const UsedPaintingModal: React.FC<UsedPaintingModalProps> = ({ usedPainting, isO
             setValue('netQuantity', fetchedUsedPainting.netQuantity);
             setValue('measurementUnit', fetchedUsedPainting.measurementUnit);
         });
-    } else if (!isEditing && usedPainting){
+    } else if (!isEditing){
         setValue('paintingSonCode', paintingSonCode);
     }
   }, [isEditing, usedPainting, setValue, paintingSonCode]);

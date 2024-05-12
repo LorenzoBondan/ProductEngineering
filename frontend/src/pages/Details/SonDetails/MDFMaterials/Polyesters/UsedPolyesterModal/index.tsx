@@ -39,7 +39,7 @@ const UsedPolyesterModal: React.FC<UsedPolyesterModalProps> = ({ usedPolyester, 
             setValue('netQuantity', fetchedUsedPolyester.netQuantity);
             setValue('measurementUnit', fetchedUsedPolyester.measurementUnit);
         });
-    } else if (!isEditing && usedPolyester){
+    } else if (!isEditing){
         setValue('paintingSonCode', paintingSonCode);
     }
   }, [isEditing, usedPolyester, setValue, paintingSonCode]);

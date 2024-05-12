@@ -130,6 +130,7 @@ const SonDetails = () => {
                                     <UsedSheetModal usedSheet={sheet} mdpSonCode={mdpSon.code} isOpen={sheetModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             )}
+                            {mdpSon && <UsedSheetModal usedSheet={undefined} mdpSonCode={mdpSon.code} isOpen={sheetModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />}
                         </ul>
                     </div>
                     <div className="son-material-container">
@@ -144,6 +145,7 @@ const SonDetails = () => {
                                     <UsedEdgeBandingModal usedEdgeBanding={edgeBanding} mdpSonCode={mdpSon.code} isOpen={edgeBandingModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
+                            {mdpSon && <UsedEdgeBandingModal usedEdgeBanding={undefined} mdpSonCode={mdpSon.code} isOpen={edgeBandingModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />}
                         </ul>
                     </div>
                     <div className="son-material-container">
@@ -158,6 +160,7 @@ const SonDetails = () => {
                                     <UsedGlueModal usedGlue={glue} mdpSonCode={mdpSon.code} isOpen={glueModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
+                            {mdpSon && <UsedGlueModal usedGlue={undefined} mdpSonCode={mdpSon.code} isOpen={glueModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />}
                         </ul>
                     </div>
                     <div className="son-material-container">
@@ -218,6 +221,7 @@ const SonDetails = () => {
                                     <UsedPaintingModal usedPainting={painting} paintingSonCode={paintingSon.code} isOpen={paintingModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
+                            {paintingSon && <UsedPaintingModal usedPainting={undefined} paintingSonCode={paintingSon.code} isOpen={paintingModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />}
                         </ul>
                     </div>
                     <div className="son-material-container">
@@ -232,6 +236,7 @@ const SonDetails = () => {
                                     <UsedPaintingBorderBackgroundModal usedPaintingBorderBackground={paintingBorderBackground} paintingSonCode={paintingSon.code} isOpen={paintingBorderBackgroundModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
+                            {paintingSon && <UsedPaintingBorderBackgroundModal usedPaintingBorderBackground={undefined} paintingSonCode={paintingSon.code} isOpen={paintingBorderBackgroundModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />}
                         </ul>
                     </div>
                     <div className="son-material-container">
@@ -246,6 +251,7 @@ const SonDetails = () => {
                                     <UsedPolyesterModal usedPolyester={polyester} paintingSonCode={paintingSon.code} isOpen={polyesterModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />
                                 </>
                             ))}
+                            {paintingSon && <UsedPolyesterModal usedPolyester={undefined} paintingSonCode={paintingSon.code} isOpen={polyesterModalIsOpen} isEditing={false} onClose={closeModal} onDeleteOrEdit={() => getSon()} />}
                         </ul>
                     </div>
                     <div className="son-material-container">

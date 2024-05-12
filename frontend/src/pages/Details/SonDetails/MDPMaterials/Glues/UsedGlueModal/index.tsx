@@ -39,7 +39,7 @@ const UsedGlueModal: React.FC<UsedGlueModalProps> = ({ usedGlue, isOpen, isEditi
             setValue('netQuantity', fetchedUsedGlue.netQuantity);
             setValue('measurementUnit', fetchedUsedGlue.measurementUnit);
         });
-    } else if (!isEditing && usedGlue){
+    } else if (!isEditing){
         setValue('mdpSonCode', mdpSonCode);
     }
   }, [isEditing, usedGlue, setValue, mdpSonCode]);

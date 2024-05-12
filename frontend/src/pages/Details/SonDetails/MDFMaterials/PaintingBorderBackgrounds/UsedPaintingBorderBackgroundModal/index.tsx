@@ -39,7 +39,7 @@ const UsedPaintingBorderBackgroundModal: React.FC<UsedPaintingBorderBackgroundMo
             setValue('netQuantity', fetchedUsedPaintingBorderBackground.netQuantity);
             setValue('measurementUnit', fetchedUsedPaintingBorderBackground.measurementUnit);
         });
-    } else if (!isEditing && usedPaintingBorderBackground){
+    } else if (!isEditing){
         setValue('paintingSonCode', paintingSonCode);
     }
   }, [isEditing, usedPaintingBorderBackground, setValue, paintingSonCode]);

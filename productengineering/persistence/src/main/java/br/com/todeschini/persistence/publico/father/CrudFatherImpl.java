@@ -64,6 +64,7 @@ public class CrudFatherImpl implements CrudFather {
         }
         Father entity = adapter.toEntity(obj);
         setCreationProperties(entity);
+        entity.calculateValue();
         repository.save(entity);
         return adapter.toDomain(entity);
     }

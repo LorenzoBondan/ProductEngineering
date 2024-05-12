@@ -39,7 +39,7 @@ const UsedSheetModal: React.FC<UsedSheetModalProps> = ({ usedSheet, isOpen, isEd
             setValue('netQuantity', fetchedUsedSheet.netQuantity);
             setValue('measurementUnit', fetchedUsedSheet.measurementUnit);
         });
-    } else if (!isEditing && usedSheet){
+    } else if (!isEditing){
         setValue('mdpSonCode', mdpSonCode);
     }
   }, [isEditing, usedSheet, setValue, mdpSonCode]);

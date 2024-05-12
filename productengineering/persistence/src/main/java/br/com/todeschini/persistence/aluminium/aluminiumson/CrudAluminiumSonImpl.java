@@ -70,6 +70,7 @@ public class CrudAluminiumSonImpl implements CrudAluminiumSon {
         AluminiumSon entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
         setCreationProperties(entity);
+        entity.calculateValue();
         repository.save(entity);
         return adapter.toDomain(entity);
     }
