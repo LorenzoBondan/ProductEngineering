@@ -5,7 +5,8 @@ import FlatPicker from 'react-flatpickr';
 import { toast } from 'react-toastify';
 import * as MDPSonService from 'services/MDP/mdpSonService';
 import * as colorService from 'services/public/colorService';
-import { DColor, DMDPSon } from 'models/entities';
+import * as guideService from 'services/Guides/guideService';
+import { DColor, DGuide, DMDPSon } from 'models/entities';
 import {ReactComponent as EditSvg} from "assets/images/edit.svg";
 import {ReactComponent as AddSvg} from "assets/images/add.svg";
 import Select from 'react-select';
@@ -24,6 +25,7 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<DMDPSon>();
   const [selectColors, setSelectColors] = useState<DColor[]>();
+  const [selectGuides, setSelectGuides] = useState<DGuide[]>();
   const [dateTime, setDateTime] = useState<Date | null>(null);
 
   // load inputs
@@ -61,8 +63,16 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
             colorService.findAll('')
                 .then(response => setSelectColors(response.data.content));
         }
+
+        if(MDPSon?.guide){
+            guideService.findAllActiveAndCurrentOne(MDPSon?.guide.id)
+                .then(response => setSelectGuides(response.data));
+        } else{
+            guideService.findAll()
+                .then(response => setSelectGuides(response.data.content));
+        }
     
-    }, [MDPSon?.color]);
+    }, [MDPSon?.color, MDPSon?.guide]);
 
   // insert / update method
 
@@ -218,6 +228,26 @@ const MDPSonModal: React.FC<MDPSonModalProps> = ({ MDPSon, isOpen, isEditing, on
                     />
                     <div className='invalid-feedback d-block'>{errors.fatherCode?.message}</div>
                 </div> 
+                <div className='margin-bottom-10'>
+                    <label htmlFor="">Roteiro</label> 
+                    <Controller 
+                        name = 'guide'
+                        rules = {{required: false}}
+                        control = {control}
+                        render = {( {field} ) => (
+                            <Select 
+                                {...field}
+                                options={selectGuides}
+                                classNamePrefix="margin-bottom-20"
+                                className="margin-bottom-20"
+                                placeholder="Roteiro"
+                                isClearable
+                                getOptionLabel={(guide: DGuide) => guide.description}
+                                getOptionValue={(guide: DGuide) => guide.id.toString()}
+                            />    
+                        )}
+                    />
+                </div>
                 <div className='margin-bottom-10'>
                     <label htmlFor="">Valor</label>
                     <input 

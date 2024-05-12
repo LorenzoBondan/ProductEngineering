@@ -20,6 +20,7 @@ import UsedPaintingBorderBackgroundRow from "./MDFMaterials/PaintingBorderBackgr
 import UsedPaintingBorderBackgroundModal from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundModal";
 import UsedPolyesterRow from "./MDFMaterials/Polyesters/UsedPolyestersRow";
 import UsedPolyesterModal from "./MDFMaterials/Polyesters/UsedPolyesterModal";
+import UsedGuideRow from "../GuideDetails/GuideRow";
 
 type UrlParams = {
     sonId: string;
@@ -71,6 +72,8 @@ const SonDetails = () => {
     const [paintingBorderBackgroundModalIsOpen, setPaintingBorderBackgroundModalIsOpen] = useState(false);
     const [polyesterModalIsOpen, setPolyesterModalIsOpen] = useState(false);
 
+    const [guideModalIsOpen, setGuideModalIsOpen] = useState(false);
+
     // Funções para abrir os modais específicos
     const openSheetModal = () => {
         setSheetModalIsOpen(true);
@@ -95,6 +98,10 @@ const SonDetails = () => {
     const openPolyesterModal = () => {
         setPolyesterModalIsOpen(true);
     }
+    
+    const openGuideModal = () => {
+        setGuideModalIsOpen(true);
+    }
 
     // Funções para fechar os modais
     const closeModal = () => {
@@ -104,6 +111,7 @@ const SonDetails = () => {
         setPaintingModalIsOpen(false);
         setPaintingBorderBackgroundModalIsOpen(false);
         setPolyesterModalIsOpen(false);
+        setGuideModalIsOpen(false);
     }
 
     return(
@@ -160,7 +168,17 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-                    { /* Roteiro */}
+                    <div className="son-material-container">
+                        <div className="son-material-top-menu">
+                            <h5>Roteiro</h5>
+                            <IoMdAdd onClick={openGuideModal} /> 
+                        </div>
+                        <ul className='father-sons-list'>
+                            {mdpSon?.guide && 
+                                <UsedGuideRow guide={mdpSon.guide} onDeleteOrEdit={getSon} key={mdpSon.guide.id} />
+                            }
+                        </ul>
+                    </div>
                     </>
                 }
 
@@ -237,7 +255,17 @@ const SonDetails = () => {
                             ))}
                         </ul>
                     </div>
-                    { /* Roteiro */}
+                    <div className="son-material-container">
+                        <div className="son-material-top-menu">
+                            <h5>Roteiro</h5>
+                            <IoMdAdd onClick={openGuideModal} /> 
+                        </div>
+                        <ul className='father-sons-list'>
+                            {mdpSon?.guide && 
+                                <UsedGuideRow guide={mdpSon.guide} onDeleteOrEdit={getSon} key={mdpSon.guide.id} />
+                            }
+                        </ul>
+                    </div>
                 </>
                 }
 

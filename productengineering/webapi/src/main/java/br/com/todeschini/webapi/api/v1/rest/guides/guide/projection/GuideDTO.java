@@ -8,8 +8,10 @@ public interface GuideDTO {
 
     @JsonProperty(value = "id", index = 1)
     Long getId();
-    @JsonProperty(value = "implementation", index = 2)
+    @JsonProperty(value = "description", index = 2)
+    String getDescription();
+    @JsonProperty(value = "implementation", index = 3)
     LocalDate getImplementation();
-    @JsonProperty(value = "finalDate", index = 3)
+    @JsonProperty(value = "finalDate", index = 4)
     LocalDate getFinalDate();
 }
