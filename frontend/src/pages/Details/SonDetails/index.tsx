@@ -20,7 +20,6 @@ import UsedPaintingBorderBackgroundRow from "./MDFMaterials/PaintingBorderBackgr
 import UsedPaintingBorderBackgroundModal from "./MDFMaterials/PaintingBorderBackgrounds/UsedPaintingBorderBackgroundModal";
 import UsedPolyesterRow from "./MDFMaterials/Polyesters/UsedPolyestersRow";
 import UsedPolyesterModal from "./MDFMaterials/Polyesters/UsedPolyesterModal";
-import UsedGuideRow from "../GuideDetails/GuideRow";
 
 type UrlParams = {
     sonId: string;
@@ -171,11 +170,12 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Roteiro</h5>
-                            <IoMdAdd onClick={openGuideModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {mdpSon?.guide && 
-                                <UsedGuideRow guide={mdpSon.guide} onDeleteOrEdit={getSon} key={mdpSon.guide.id} />
+                                <Link to={`/guides/${mdpSon?.guide.id}`}>
+                                    {mdpSon?.guide.description}
+                                </Link>
                             }
                         </ul>
                     </div>
@@ -258,11 +258,12 @@ const SonDetails = () => {
                     <div className="son-material-container">
                         <div className="son-material-top-menu">
                             <h5>Roteiro</h5>
-                            <IoMdAdd onClick={openGuideModal} /> 
                         </div>
                         <ul className='father-sons-list'>
                             {mdpSon?.guide && 
-                                <UsedGuideRow guide={mdpSon.guide} onDeleteOrEdit={getSon} key={mdpSon.guide.id} />
+                                <Link to={`/guides/${mdpSon?.guide.id}`}>
+                                    {mdpSon?.guide.description}
+                                </Link>
                             }
                         </ul>
                     </div>

@@ -3,12 +3,8 @@ import { DGuide } from "models/entities";
 import {useCallback, useEffect, useState } from "react";
 import Pagination from "Components/Pagination";
 import { SpringPage } from "types";
-
 import * as GuideService from 'services/Guides/guideService';
-
 import { useHistory } from "react-router-dom";
-import UsedGuideRow from "pages/Details/GuideDetails/GuideRow";
-import UsedGuideModal from "pages/Details/GuideDetails/GuideModal";
 import GuideRow from "../GuideRow";
 import GuideModal from "../GuideModal";
 

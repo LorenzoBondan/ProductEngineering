@@ -24,6 +24,7 @@ import Colors from "pages/CRUDs/Public/Color";
 import Materials from "pages/CRUDs/Public/Materials";
 import BackDetails from "pages/Details/BackDetails";
 import FatherDetails from "pages/Details/FatherDetails";
+import GuideDetails from "pages/Details/GuideDetails";
 import SonDetails from "pages/Details/SonDetails";
 import HomeBaseMaterials from "pages/Home";
 import MDPPage from "pages/Home/MainComponents/MDPPage";
@@ -199,6 +200,10 @@ const Routes = () => {
                     
                     <Route path="/guides" exact>
                         <Guides/>
+                    </Route>
+
+                    <Route path="/guides/:guideId" exact>
+                        <GuideDetails/>
                     </Route>
 
                 </Switch>
