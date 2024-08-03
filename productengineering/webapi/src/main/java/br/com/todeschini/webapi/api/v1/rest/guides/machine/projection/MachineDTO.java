@@ -14,4 +14,6 @@ public interface MachineDTO {
     Long getMachineGroupId();
     @JsonProperty(value = "value", index = 5)
     Double getValue();
+    @JsonProperty(value = "status", index = 6)
+    String getStatus();
 }

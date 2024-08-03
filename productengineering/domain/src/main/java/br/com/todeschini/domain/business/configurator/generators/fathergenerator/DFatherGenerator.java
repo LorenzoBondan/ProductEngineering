@@ -24,6 +24,7 @@ public class DFatherGenerator {
                 .add(new NamedValidator<>("Código pai", new NumeroMaiorQueZeroValidator()), this.fatherCode)
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.fatherDescription)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.fatherDescription)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.fatherDescription)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(10)), this.fatherDescription)
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(100)), this.fatherDescription)
                 .add(new NamedValidator<>("Cor", new ObjetoNaoNuloValidator()), this.color)

@@ -27,4 +27,6 @@ public interface FatherDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "value", index = 10)
     Double getValue();
+    @JsonProperty(value = "status", index = 11)
+    String getStatus();
 }

@@ -4,6 +4,7 @@ import br.com.todeschini.domain.business.configurator.DBaseGhostConfigurator;
 import br.com.todeschini.domain.configurator.AluminiumConfigurator;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
+import br.com.todeschini.domain.validation.impl.CaracteresEspeciaisValidator;
 import br.com.todeschini.domain.validation.impl.DataFuturaValidator;
 import br.com.todeschini.domain.validation.impl.NumeroMaiorQueZeroValidator;
 import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
@@ -56,6 +57,7 @@ public class DAluminiumConfigurator extends DBaseGhostConfigurator {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Configuração", new ObjetoNaoNuloValidator()), this.config)
                 .add(new NamedValidator<>("Sufixo do Fantasma", new ObjetoNaoNuloValidator()), this.ghostSuffix)
+                .add(new NamedValidator<>("Sufixo do Fantasma", new CaracteresEspeciaisValidator()), this.ghostSuffix)
                 .add(new NamedValidator<>("Tipo de Alumínio", new ObjetoNaoNuloValidator()), this.aluminiumTypeId)
                 .add(new NamedValidator<>("Código do Puxador", new ObjetoNaoNuloValidator()), this.drawerPullCode)
                 .add(new NamedValidator<>("Código do Puxador", new NumeroMaiorQueZeroValidator()), this.drawerPullCode)

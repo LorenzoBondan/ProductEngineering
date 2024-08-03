@@ -26,6 +26,7 @@ public class DSonGenerator {
                 .add(new NamedValidator<>("Código do Filho", new NumeroMaiorQueZeroValidator()), this.sonCode)
                 .add(new NamedValidator<>("Descrição do Filho", new ObjetoNaoNuloValidator()), this.sonDescription)
                 .add(new NamedValidator<>("Descrição do Filho", new NaoBrancoValidator()), this.sonDescription)
+                .add(new NamedValidator<>("Descrição do Filho", new CaracteresEspeciaisValidator()), this.sonDescription)
                 .add(new NamedValidator<>("Descrição do Filho", new TamanhoMinimoValidator(10)), this.sonDescription)
                 .add(new NamedValidator<>("Descrição do Filho", new TamanhoMaximoValidator(100)), this.sonDescription)
                 .add(new NamedValidator<>("Cor", new ObjetoNaoNuloValidator()), this.color)

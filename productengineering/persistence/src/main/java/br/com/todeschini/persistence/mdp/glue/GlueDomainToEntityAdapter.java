@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdp.glue;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdp.glue.DGlue;
 import br.com.todeschini.persistence.entities.mdp.Glue;
 import br.com.todeschini.persistence.util.Convertable;
@@ -31,6 +32,7 @@ public class GlueDomainToEntityAdapter implements Convertable<Glue, DGlue> {
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setGrammage(entity.getGrammage());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

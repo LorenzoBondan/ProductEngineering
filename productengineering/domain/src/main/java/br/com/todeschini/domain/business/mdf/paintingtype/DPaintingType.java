@@ -1,12 +1,10 @@
 package br.com.todeschini.domain.business.mdf.paintingtype;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
-import br.com.todeschini.domain.validation.impl.NaoBrancoValidator;
-import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
-import br.com.todeschini.domain.validation.impl.TamanhoMaximoValidator;
-import br.com.todeschini.domain.validation.impl.TamanhoMinimoValidator;
+import br.com.todeschini.domain.validation.impl.*;
 import lombok.*;
 
 @Getter
@@ -20,6 +18,7 @@ public class DPaintingType {
     @EqualsAndHashCode.Include
     private Long id;
     private String description;
+    private DStatus status;
 
     public DPaintingType(Long id){
         this.id = id;
@@ -29,6 +28,7 @@ public class DPaintingType {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(30)), this.description)
                 .validate();

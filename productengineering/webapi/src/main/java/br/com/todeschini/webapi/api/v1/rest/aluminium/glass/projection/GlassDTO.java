@@ -25,4 +25,6 @@ public interface GlassDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "value", index = 9)
     Double getValue();
+    @JsonProperty(value = "status", index = 10)
+    String getStatus();
 }

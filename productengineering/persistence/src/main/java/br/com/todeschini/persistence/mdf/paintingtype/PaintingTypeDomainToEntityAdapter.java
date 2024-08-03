@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdf.paintingtype;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdf.paintingtype.DPaintingType;
 import br.com.todeschini.persistence.entities.mdf.PaintingType;
 import br.com.todeschini.persistence.util.Convertable;
@@ -21,6 +22,7 @@ public class PaintingTypeDomainToEntityAdapter implements Convertable<PaintingTy
         DPaintingType domain = new DPaintingType();
         domain.setId(entity.getId());
         domain.setDescription(entity.getDescription());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

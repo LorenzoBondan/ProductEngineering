@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.guides.machine;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
@@ -24,6 +25,7 @@ public class DMachine {
     private Double value;
     private Long machineGroupId;
     private List<Long> guideMachinesIds = new ArrayList<>();
+    private DStatus status;
 
     public DMachine(Long id){
         this.id = id;
@@ -33,6 +35,7 @@ public class DMachine {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Nome", new ObjetoNaoNuloValidator()), this.name)
                 .add(new NamedValidator<>("Nome", new NaoBrancoValidator()), this.name)
+                .add(new NamedValidator<>("Nome", new CaracteresEspeciaisValidator()), this.name)
                 .add(new NamedValidator<>("Nome", new TamanhoMinimoValidator(3)), this.name)
                 .add(new NamedValidator<>("Nome", new TamanhoMaximoValidator(30)), this.name)
                 .add(new NamedValidator<>("Grupo", new ObjetoNaoNuloValidator()), this.machineGroupId)

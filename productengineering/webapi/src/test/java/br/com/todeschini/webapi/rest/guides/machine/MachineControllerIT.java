@@ -5,7 +5,7 @@ import br.com.todeschini.persistence.guides.machine.CrudMachineImpl;
 import br.com.todeschini.persistence.guides.machine.MachineRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -111,23 +113,20 @@ public class MachineControllerIT extends BaseControllerIT<DMachine> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
         factoryObject = MachineFactory.createDMachine();
         factoryObject.setName(null);
         validate(factoryObject);
 
         factoryObject = MachineFactory.createDMachine();
-        factoryObject.setName(blank);
+        factoryObject.setName(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = MachineFactory.createDMachine();
-        factoryObject.setName(smallerSize);
+        factoryObject.setName(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = MachineFactory.createDMachine();
-        factoryObject.setName(biggerSize);
+        factoryObject.setName(ValidationConstants.biggerSize);
         validate(factoryObject);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.publico.son;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.publico.son.DSon;
 import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.entities.publico.Son;
@@ -59,6 +60,7 @@ public class SonDomainToEntityAdapter implements Convertable<Son, DSon> {
         if(entity.getGuide() != null){
             domain.setGuide(guideAdapter.toDomain(entity.getGuide()));
         }
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

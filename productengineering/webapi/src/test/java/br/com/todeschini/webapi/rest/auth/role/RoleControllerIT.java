@@ -5,6 +5,7 @@ import br.com.todeschini.persistence.auth.role.CrudRoleImpl;
 import br.com.todeschini.persistence.auth.role.RoleRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -100,23 +101,20 @@ public class RoleControllerIT extends BaseControllerIT<DRole> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
         factoryObject = RoleFactory.createDRole();
         factoryObject.setAuthority(null);
         validate(factoryObject);
 
         factoryObject = RoleFactory.createDRole();
-        factoryObject.setAuthority(blank);
+        factoryObject.setAuthority(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = RoleFactory.createDRole();
-        factoryObject.setAuthority(smallerSize);
+        factoryObject.setAuthority(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = RoleFactory.createDRole();
-        factoryObject.setAuthority(biggerSize);
+        factoryObject.setAuthority(ValidationConstants.biggerSize);
         validate(factoryObject);
     }
 }

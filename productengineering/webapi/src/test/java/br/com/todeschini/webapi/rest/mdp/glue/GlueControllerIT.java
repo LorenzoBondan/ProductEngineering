@@ -5,9 +5,7 @@ import br.com.todeschini.persistence.mdp.glue.CrudGlueImpl;
 import br.com.todeschini.persistence.mdp.glue.GlueRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -115,23 +113,20 @@ public class GlueControllerIT extends BaseControllerIT<DGlue> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
         factoryObject = GlueFactory.createDGlue();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
@@ -139,35 +134,35 @@ public class GlueControllerIT extends BaseControllerIT<DGlue> {
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setFamily("");
+        factoryObject.setFamily(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setFamily(smallerSize);
+        factoryObject.setFamily(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setFamily(biggerSize);
+        factoryObject.setFamily(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setImplementation(LocalDate.of(1000,1,1));
+        factoryObject.setImplementation(ValidationConstants.pastDate);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setLostPercentage(-1.0);
+        factoryObject.setLostPercentage(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
@@ -175,7 +170,7 @@ public class GlueControllerIT extends BaseControllerIT<DGlue> {
         validate(factoryObject);
 
         factoryObject = GlueFactory.createDGlue();
-        factoryObject.setGrammage(-1.0);
+        factoryObject.setGrammage(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

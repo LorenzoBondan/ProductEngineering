@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.aluminium.trysquare;
 
 import br.com.todeschini.domain.business.aluminium.trysquare.DTrySquare;
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.persistence.entities.aluminium.TrySquare;
 import br.com.todeschini.persistence.util.Convertable;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class TrySquareDomainToEntityAdapter implements Convertable<TrySquare, DT
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setImplementation(entity.getImplementation());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

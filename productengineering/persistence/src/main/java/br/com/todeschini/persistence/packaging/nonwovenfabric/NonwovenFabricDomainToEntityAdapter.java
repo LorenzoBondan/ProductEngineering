@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.packaging.nonwovenfabric;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.packaging.nonwovenfabric.DNonwovenFabric;
 import br.com.todeschini.persistence.entities.packaging.NonwovenFabric;
 import br.com.todeschini.persistence.util.Convertable;
@@ -29,6 +30,7 @@ public class NonwovenFabricDomainToEntityAdapter implements Convertable<Nonwoven
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

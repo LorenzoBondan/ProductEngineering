@@ -1,5 +1,10 @@
 package br.com.todeschini.persistence.configurator.structs.aluminiumitem;
 
+import br.com.todeschini.domain.business.aluminium.useddrawerpull.api.UsedDrawerPullService;
+import br.com.todeschini.domain.business.aluminium.usedglass.api.UsedGlassService;
+import br.com.todeschini.domain.business.aluminium.usedmolding.api.UsedMoldingService;
+import br.com.todeschini.domain.business.aluminium.usedscrew.api.UsedScrewService;
+import br.com.todeschini.domain.business.aluminium.usedtrysquare.api.UsedTrySquareService;
 import br.com.todeschini.domain.business.configurator.generators.fathergenerator.DFatherGenerator;
 import br.com.todeschini.domain.business.configurator.generators.fathergenerator.api.FatherGeneratorService;
 import br.com.todeschini.domain.business.configurator.generators.ghostgenerator.api.GhostGeneratorService;
@@ -18,16 +23,17 @@ import br.com.todeschini.persistence.aluminium.glass.GlassRepository;
 import br.com.todeschini.persistence.aluminium.molding.MoldingRepository;
 import br.com.todeschini.persistence.aluminium.screw.ScrewRepository;
 import br.com.todeschini.persistence.aluminium.trysquare.TrySquareRepository;
-import br.com.todeschini.persistence.aluminium.useddrawerpull.UsedDrawerPullRepository;
-import br.com.todeschini.persistence.aluminium.usedglass.UsedGlassRepository;
-import br.com.todeschini.persistence.aluminium.usedmolding.UsedMoldingRepository;
-import br.com.todeschini.persistence.aluminium.usedscrew.UsedScrewRepository;
-import br.com.todeschini.persistence.aluminium.usedtrysquare.UsedTrySquareRepository;
+import br.com.todeschini.persistence.aluminium.useddrawerpull.UsedDrawerPullDomainToEntityAdapter;
+import br.com.todeschini.persistence.aluminium.usedglass.UsedGlassDomainToEntityAdapter;
+import br.com.todeschini.persistence.aluminium.usedmolding.UsedMoldingDomainToEntityAdapter;
+import br.com.todeschini.persistence.aluminium.usedscrew.UsedScrewDomainToEntityAdapter;
+import br.com.todeschini.persistence.aluminium.usedtrysquare.UsedTrySquareDomainToEntityAdapter;
 import br.com.todeschini.persistence.entities.aluminium.*;
 import br.com.todeschini.persistence.entities.publico.Color;
 import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.entities.publico.Son;
 import br.com.todeschini.persistence.publico.color.ColorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +45,6 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
 
     private final ColorRepository colorRepository;
     private final GlassRepository glassRepository;
-    private final UsedTrySquareRepository usedTrySquareRepository;
-    private final UsedMoldingRepository usedMoldingRepository;
-    private final UsedScrewRepository usedScrewRepository;
-    private final UsedDrawerPullRepository usedDrawerPullRepository;
-    private final UsedGlassRepository usedGlassRepository;
     private final AluminiumTypeRepository aluminiumTypeRepository;
     private final MDPItemService mdpItemService;
     private final GhostGeneratorService ghostGeneratorService;
@@ -55,14 +56,30 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
     private final AluminiumSonRepository aluminiumSonRepository;
     private final MoldingRepository moldingRepository;
 
-    public AluminiumItemMethodsImpl(ColorRepository colorRepository, GlassRepository glassRepository, UsedTrySquareRepository usedTrySquareRepository, UsedMoldingRepository usedMoldingRepository, UsedScrewRepository usedScrewRepository, UsedDrawerPullRepository usedDrawerPullRepository, UsedGlassRepository usedGlassRepository, AluminiumTypeRepository aluminiumTypeRepository, MDPItemService mdpItemService, GhostGeneratorService ghostGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, DrawerPullRepository drawerPullRepository, TrySquareRepository trySquareRepository, ScrewRepository screwRepository, AluminiumSonRepository aluminiumSonRepository, MoldingRepository moldingRepository) {
+    @Autowired
+    private UsedGlassService usedGlassService;
+    @Autowired
+    private UsedDrawerPullService usedDrawerPullService;
+    @Autowired
+    private UsedMoldingService usedMoldingService;
+    @Autowired
+    private UsedScrewService usedScrewService;
+    @Autowired
+    private UsedTrySquareService usedTrySquareService;
+    @Autowired
+    private UsedDrawerPullDomainToEntityAdapter usedDrawerPullDomainToEntityAdapter;
+    @Autowired
+    private UsedGlassDomainToEntityAdapter usedGlassDomainToEntityAdapter;
+    @Autowired
+    private UsedMoldingDomainToEntityAdapter usedMoldingDomainToEntityAdapter;
+    @Autowired
+    private UsedTrySquareDomainToEntityAdapter usedTrySquareDomainToEntityAdapter;
+    @Autowired
+    private UsedScrewDomainToEntityAdapter usedScrewDomainToEntityAdapter;
+
+    public AluminiumItemMethodsImpl(ColorRepository colorRepository, GlassRepository glassRepository, AluminiumTypeRepository aluminiumTypeRepository, MDPItemService mdpItemService, GhostGeneratorService ghostGeneratorService, FatherGeneratorService fatherGeneratorService, SonGeneratorService sonGeneratorService, DrawerPullRepository drawerPullRepository, TrySquareRepository trySquareRepository, ScrewRepository screwRepository, AluminiumSonRepository aluminiumSonRepository, MoldingRepository moldingRepository) {
         this.colorRepository = colorRepository;
         this.glassRepository = glassRepository;
-        this.usedTrySquareRepository = usedTrySquareRepository;
-        this.usedMoldingRepository = usedMoldingRepository;
-        this.usedScrewRepository = usedScrewRepository;
-        this.usedDrawerPullRepository = usedDrawerPullRepository;
-        this.usedGlassRepository = usedGlassRepository;
         this.aluminiumTypeRepository = aluminiumTypeRepository;
         this.mdpItemService = mdpItemService;
         this.ghostGeneratorService = ghostGeneratorService;
@@ -159,8 +176,7 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
         usedDrawerPull.setDrawerPull(drawerPull);
         usedDrawerPull.setAluminiumSon(son);
         usedDrawerPull.calculateQuantity();
-        son.setDrawerPull(usedDrawerPull);
-        usedDrawerPullRepository.save(usedDrawerPull);
+        usedDrawerPullService.insert(usedDrawerPullDomainToEntityAdapter.toDomain(usedDrawerPull));
     }
 
     private void setGlass(AluminiumSon son) {
@@ -169,8 +185,7 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
         usedGlass.setGlass(glass);
         usedGlass.setAluminiumSon(son);
         usedGlass.calculateQuantity();
-        son.setGlass(usedGlass);
-        usedGlassRepository.save(usedGlass);
+        usedGlassService.insert(usedGlassDomainToEntityAdapter.toDomain(usedGlass));
     }
 
     private void addUsedMolding(AluminiumSon son, Long moldingCode) {
@@ -179,8 +194,7 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
         usedMolding.setMolding(moldingRepository.findById(moldingCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Perfil não encontrado")));
         usedMolding.calculateQuantity();
-        son.getMoldings().add(usedMolding);
-        usedMoldingRepository.save(usedMolding);
+        usedMoldingService.insert(usedMoldingDomainToEntityAdapter.toDomain(usedMolding));
     }
 
     private void addUsedTrySquare(AluminiumSon son, Long trySquareCode, Integer trySquareQuantity) {
@@ -190,8 +204,7 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
                 .orElseThrow(() -> new ResourceNotFoundException("Esquadreta não encontrada")));
         usedTrySquare.setQuantity(Double.valueOf(trySquareQuantity));
         usedTrySquare.calculateQuantity();
-        son.getTrySquares().add(usedTrySquare);
-        usedTrySquareRepository.save(usedTrySquare);
+        usedTrySquareService.insert(usedTrySquareDomainToEntityAdapter.toDomain(usedTrySquare));
     }
 
     private void addUsedScrews(AluminiumSon son, List<ScrewConfigurator> screws) {
@@ -202,8 +215,7 @@ public class AluminiumItemMethodsImpl implements AluminiumItemMethods {
                     .orElseThrow(() -> new ResourceNotFoundException("Parafuso não encontrado")));
             usedScrew.setQuantity(Double.valueOf(screw.getQuantity()));
             usedScrew.calculateQuantity();
-            son.getScrews().add(usedScrew);
-            usedScrewRepository.save(usedScrew);
+            usedScrewService.insert(usedScrewDomainToEntityAdapter.toDomain(usedScrew));
         }
     }
 }

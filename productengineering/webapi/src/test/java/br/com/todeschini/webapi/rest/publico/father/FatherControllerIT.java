@@ -5,6 +5,7 @@ import br.com.todeschini.persistence.publico.father.CrudFatherImpl;
 import br.com.todeschini.persistence.publico.father.FatherRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -112,24 +113,20 @@ public class FatherControllerIT extends BaseControllerIT<DFather> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        Integer negative = -1;
-
         factoryObject = FatherFactory.createDFather();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
@@ -137,27 +134,27 @@ public class FatherControllerIT extends BaseControllerIT<DFather> {
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setMeasure1(negative);
+        factoryObject.setMeasure1(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setMeasure2(negative);
+        factoryObject.setMeasure2(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();
-        factoryObject.setMeasure3(negative);
+        factoryObject.setMeasure3(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = FatherFactory.createDFather();

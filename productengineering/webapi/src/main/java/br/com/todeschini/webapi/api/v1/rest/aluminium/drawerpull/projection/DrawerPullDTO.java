@@ -22,4 +22,6 @@ public interface DrawerPullDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "value", index = 8)
     Double getValue();
+    @JsonProperty(value = "status", index = 9)
+    String getStatus();
 }

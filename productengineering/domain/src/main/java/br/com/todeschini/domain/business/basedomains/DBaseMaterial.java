@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.basedomains;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.publico.color.DColor;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -25,6 +26,7 @@ public class DBaseMaterial {
     private Double lostPercentage;
     private DColor color;
     private Double value;
+    private DStatus status;
 
     public void validate() throws ValidationException {
         new ValidationBuilder()
@@ -34,14 +36,16 @@ public class DBaseMaterial {
                 .add(new NamedValidator<>("Código", new LongTamanhoMaximoValidator(10)), this.code)
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(100)), this.description)
                 .add(new NamedValidator<>("Família", new NaoBrancoValidator()), this.family)
+                .add(new NamedValidator<>("Família", new CaracteresEspeciaisValidator()), this.family)
                 .add(new NamedValidator<>("Família", new TamanhoMinimoValidator(3)), this.family)
                 .add(new NamedValidator<>("Família", new TamanhoMaximoValidator(10)), this.family)
                 .add(new NamedValidator<>("Implementação", new DataFuturaValidator()), this.implementation)
                 .add(new NamedValidator<>("Porcentagem de perda", new NumeroMaiorOuIgualAZeroValidator()), this.lostPercentage)
-                .add(new NamedValidator<>("Valor", new NumeroMaiorQueZeroValidator()), this.value)
+                .add(new NamedValidator<>("Valor", new NumeroMaiorOuIgualAZeroValidator()), this.value)
                 .validate();
     }
 }

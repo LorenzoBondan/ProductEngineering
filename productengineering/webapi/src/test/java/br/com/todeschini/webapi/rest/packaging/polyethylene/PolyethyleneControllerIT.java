@@ -5,8 +5,7 @@ import br.com.todeschini.persistence.packaging.polyethylene.CrudPolyethyleneImpl
 import br.com.todeschini.persistence.packaging.polyethylene.PolyethyleneRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -114,23 +113,20 @@ public class PolyethyleneControllerIT extends BaseControllerIT<DPolyethylene> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
         factoryObject = PolyethyleneFactory.createDPolyethylene();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
@@ -138,35 +134,35 @@ public class PolyethyleneControllerIT extends BaseControllerIT<DPolyethylene> {
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setFamily("");
+        factoryObject.setFamily(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setFamily(smallerSize);
+        factoryObject.setFamily(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setFamily(biggerSize);
+        factoryObject.setFamily(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setImplementation(LocalDate.of(1000,1,1));
+        factoryObject.setImplementation(ValidationConstants.pastDate);
         validate(factoryObject);
 
         factoryObject = PolyethyleneFactory.createDPolyethylene();
-        factoryObject.setLostPercentage(-1.0);
+        factoryObject.setLostPercentage(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

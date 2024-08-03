@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.publico.attachment;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.publico.attachment.DAttachment;
 import br.com.todeschini.persistence.entities.publico.Attachment;
 import br.com.todeschini.persistence.util.Convertable;
@@ -32,6 +33,7 @@ public class AttachmentDomainToEntityAdapter implements Convertable<Attachment, 
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setImplementation(domain.getImplementation());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

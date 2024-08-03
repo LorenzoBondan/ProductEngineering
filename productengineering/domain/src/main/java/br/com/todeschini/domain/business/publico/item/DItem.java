@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.publico.item;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
 import br.com.todeschini.domain.validation.impl.*;
@@ -24,6 +25,7 @@ public class DItem {
     private String measurementUnit;
     private LocalDate implementation;
     private Double value;
+    private DStatus status;
 
     public DItem(Long code){
         this.code = code;
@@ -36,6 +38,7 @@ public class DItem {
                 .add(new NamedValidator<>("Código", new LongTamanhoMaximoValidator(18)), this.code)
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(100)), this.description)
                 .add(new NamedValidator<>("Medida 1", new NumeroMaiorQueZeroValidator()), this.measure1)

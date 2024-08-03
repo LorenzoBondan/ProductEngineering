@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.guides.guide;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.guides.guidemachine.DGuideMachine;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -25,6 +26,7 @@ public class DGuide {
     private LocalDate implementation;
     private LocalDate finalDate;
     private Double value;
+    private DStatus status;
 
     private List<DGuideMachine> guideMachines = new ArrayList<>();
 
@@ -36,6 +38,7 @@ public class DGuide {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(50)), this.description)
                 .add(new NamedValidator<>("Implementação", new ObjetoNaoNuloValidator()), this.implementation)

@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.publico.material;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
 import br.com.todeschini.persistence.entities.publico.Material;
 import br.com.todeschini.persistence.util.Convertable;
@@ -21,6 +22,7 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
         return DMaterial.builder()
                 .id(entity.getId())
                 .name(entity.getName().toUpperCase())
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

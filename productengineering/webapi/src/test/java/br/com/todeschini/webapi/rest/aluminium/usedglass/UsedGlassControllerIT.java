@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.aluminium.usedglass.CrudUsedGlassImpl;
 import br.com.todeschini.persistence.aluminium.usedglass.UsedGlassRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -119,8 +121,6 @@ public class UsedGlassControllerIT extends BaseControllerIT<DUsedGlass> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedGlassFactory.createDUsedGlass();
         factoryObject.setAluminiumSonCode(null);
         validate(factoryObject);
@@ -130,7 +130,7 @@ public class UsedGlassControllerIT extends BaseControllerIT<DUsedGlass> {
         validate(factoryObject);
 
         factoryObject = UsedGlassFactory.createDUsedGlass();
-        factoryObject.setGlassCode(-1L);
+        factoryObject.setGlassCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedGlassFactory.createDUsedGlass();
@@ -138,7 +138,7 @@ public class UsedGlassControllerIT extends BaseControllerIT<DUsedGlass> {
         validate(factoryObject);
 
         factoryObject = UsedGlassFactory.createDUsedGlass();
-        factoryObject.setQuantity(negative);
+        factoryObject.setQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

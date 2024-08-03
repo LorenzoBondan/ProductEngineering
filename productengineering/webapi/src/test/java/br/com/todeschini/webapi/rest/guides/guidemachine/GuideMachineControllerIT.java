@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.guides.guidemachine.CrudGuideMachineImpl;
 import br.com.todeschini.persistence.guides.guidemachine.GuideMachineRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -128,11 +130,11 @@ public class GuideMachineControllerIT extends BaseControllerIT<DGuideMachine> {
         validate(factoryObject);
 
         factoryObject = GuideMachineFactory.createDGuideMachine();
-        factoryObject.setMachineTime(-1.0);
+        factoryObject.setMachineTime(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = GuideMachineFactory.createDGuideMachine();
-        factoryObject.setManTime(-1.0);
+        factoryObject.setManTime(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

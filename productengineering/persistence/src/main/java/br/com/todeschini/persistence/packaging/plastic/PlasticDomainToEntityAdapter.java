@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.packaging.plastic;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.packaging.plastic.DPlastic;
 import br.com.todeschini.persistence.entities.packaging.Plastic;
 import br.com.todeschini.persistence.util.Convertable;
@@ -31,6 +32,7 @@ public class PlasticDomainToEntityAdapter implements Convertable<Plastic, DPlast
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setGrammage(entity.getGrammage());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

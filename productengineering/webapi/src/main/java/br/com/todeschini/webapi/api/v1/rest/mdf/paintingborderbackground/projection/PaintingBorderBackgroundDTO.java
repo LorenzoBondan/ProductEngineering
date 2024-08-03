@@ -18,4 +18,6 @@ public interface PaintingBorderBackgroundDTO {
     Double getLostPercentage();
     @JsonProperty(value = "value", index = 6)
     Double getValue();
+    @JsonProperty(value = "status", index = 7)
+    String getStatus();
 }

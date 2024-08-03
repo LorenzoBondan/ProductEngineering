@@ -4,10 +4,7 @@ import br.com.todeschini.domain.business.configurator.DBaseGhostConfigurator;
 import br.com.todeschini.domain.configurator.BPConfigurator;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
-import br.com.todeschini.domain.validation.impl.DataFuturaValidator;
-import br.com.todeschini.domain.validation.impl.NumeroMaiorOuIgualAZeroValidator;
-import br.com.todeschini.domain.validation.impl.NumeroMaiorQueZeroValidator;
-import br.com.todeschini.domain.validation.impl.ObjetoNaoNuloValidator;
+import br.com.todeschini.domain.validation.impl.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +48,7 @@ public class DMDPConfigurator extends DBaseGhostConfigurator {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Configuração", new ObjetoNaoNuloValidator()), this.config)
                 .add(new NamedValidator<>("Sufixo do Fantasma", new ObjetoNaoNuloValidator()), this.ghostSuffix)
+                .add(new NamedValidator<>("Sufixo do Fantasma", new CaracteresEspeciaisValidator()), this.ghostSuffix)
                 .add(new NamedValidator<>("Bordas no comprimento", new ObjetoNaoNuloValidator()), this.edgeLength)
                 .add(new NamedValidator<>("Bordas no comprimento", new NumeroMaiorOuIgualAZeroValidator()), this.edgeLength)
                 .add(new NamedValidator<>("Bordas na largura", new ObjetoNaoNuloValidator()), this.edgeWidth)

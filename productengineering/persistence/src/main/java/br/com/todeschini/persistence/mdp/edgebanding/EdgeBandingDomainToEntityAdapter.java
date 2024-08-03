@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdp.edgebanding;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdp.edgebanding.DEdgeBanding;
 import br.com.todeschini.persistence.entities.mdp.EdgeBanding;
 import br.com.todeschini.persistence.publico.color.ColorDomainToEntityAdapter;
@@ -45,6 +46,7 @@ public class EdgeBandingDomainToEntityAdapter implements Convertable<EdgeBanding
         domain.setHeight(entity.getHeight());
         domain.setThickness(entity.getThickness());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

@@ -10,4 +10,6 @@ public interface AluminiumTypeDTO {
     String getName();
     @JsonProperty(value = "lessQuantity", index = 3)
     Double getLessQuantity();
+    @JsonProperty(value = "status", index = 4)
+    String getStatus();
 }

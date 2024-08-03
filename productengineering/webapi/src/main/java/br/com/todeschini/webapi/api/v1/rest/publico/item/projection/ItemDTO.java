@@ -20,4 +20,6 @@ public interface ItemDTO {
     String getMeasurementUnit();
     @JsonProperty(value = "implementation", index = 7)
     LocalDate getImplementation();
+    @JsonProperty(value = "status", index = 8)
+    String getStatus();
 }

@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.aluminium.screw;
 
 import br.com.todeschini.domain.business.aluminium.screw.DScrew;
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.persistence.entities.aluminium.Screw;
 import br.com.todeschini.persistence.util.Convertable;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class ScrewDomainToEntityAdapter implements Convertable<Screw, DScrew> {
         domain.setMeasurementUnit(entity.getMeasurementUnit());
         domain.setImplementation(entity.getImplementation());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

@@ -25,4 +25,6 @@ public interface EdgeBandingDTO {
     ColorDTO getColor();
     @JsonProperty(value = "value", index = 9)
     Double getValue();
+    @JsonProperty(value = "status", index = 10)
+    String getStatus();
 }

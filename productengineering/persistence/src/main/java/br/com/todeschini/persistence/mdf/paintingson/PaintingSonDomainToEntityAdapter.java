@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdf.paintingson;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdf.paintingson.DPaintingSon;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.mdf.PaintingSon;
@@ -124,6 +125,7 @@ public class PaintingSonDomainToEntityAdapter implements Convertable<PaintingSon
         domain.setPolyesters(entity.getPolyesters().stream().map(usedPolyesterAdapter::toDomain).collect(Collectors.toList()));
 
         domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

@@ -1,0 +1,995 @@
+
+create table public.trash (
+                              id bigint generated always as identity,
+                              table_name varchar(50) not null,
+                              date timestamp not null,
+                              entity_id jsonb not null,
+                              username varchar(50) not null,
+                              status varchar(255) not null,
+                              referenced_table varchar(200) not null,
+                              CONSTRAINT pk_trash PRIMARY KEY (id),
+                              CONSTRAINT uk_trash UNIQUE (entity_id)
+);
+
+create table public.tb_color (
+                          code bigint not null,
+                          name varchar(255),
+                          created_by varchar(50),
+                          creation_date timestamp,
+                          last_modified_by varchar(50),
+                          last_modified_date timestamp,
+                          status varchar(255),
+                          CONSTRAINT tb_color_pk primary key (code),
+                          CONSTRAINT tb_color_uk UNIQUE (name)
+);
+
+create table public.tb_guide (
+                          id bigint generated always as identity,
+                          description varchar(255),
+                          final_date date,
+                          implementation date,
+                          value double precision,
+                          created_by varchar(50),
+                          creation_date timestamp,
+                          last_modified_by varchar(50),
+                          last_modified_date timestamp,
+                          status varchar(255),
+                          CONSTRAINT tb_guide_pk primary key (id)
+);
+
+create table public.tb_item (
+                         dtype varchar(31) not null,
+                         code bigint not null,
+                         description varchar(255) not null,
+                         measure1 integer,
+                         measure2 integer,
+                         measure3 integer,
+                         measurement_unit varchar(255),
+                         faces integer,
+                         high_shine boolean,
+                         satin boolean,
+                         satin_glass boolean,
+                         special boolean,
+                         suffix integer,
+                         color_id bigint,
+                         father_id bigint,
+                         guide_id bigint,
+                         aluminium_type_id bigint,
+                         used_drawer_pull_id bigint,
+                         used_glass_id bigint,
+                         back_id bigint,
+                         ghost_id varchar(255),
+                         implementation date,
+                         value double precision,
+                         created_by varchar(50),
+                         creation_date timestamp,
+                         last_modified_by varchar(50),
+                         last_modified_date timestamp,
+                         status varchar(255),
+                         CONSTRAINT tb_item_pk PRIMARY KEY (code)
+);
+
+create table public.tb_aluminium_son_son (
+                                      aluminium_son_id bigint not null,
+                                      son_id bigint not null,
+                                      CONSTRAINT tb_aluminium_son_son_pk PRIMARY KEY (aluminium_son_id, son_id)
+);
+
+create table public.tb_aluminium_type (
+                                   id bigint generated always as identity,
+                                   name varchar(255),
+                                   less_quantity double precision,
+                                   created_by varchar(50),
+                                   creation_date timestamp,
+                                   last_modified_by varchar(50),
+                                   last_modified_date timestamp,
+                                   status varchar(255),
+                                   CONSTRAINT tb_aluminium_type_pk primary key (id),
+                                   CONSTRAINT tb_aluminium_type_uk UNIQUE (name)
+);
+
+create table public.tb_back (
+                         code bigint not null,
+                         description varchar(255) not null,
+                         family varchar(255),
+                         implementation date,
+                         lost_percentage double precision,
+                         measure1 integer,
+                         measure2 integer,
+                         suffix integer,
+                         thickness double precision,
+                         color_id bigint,
+                         value double precision,
+                         created_by varchar(50),
+                         creation_date timestamp,
+                         last_modified_by varchar(50),
+                         last_modified_date timestamp,
+                         status varchar(255),
+                         CONSTRAINT tb_back_pk primary key (code),
+                         CONSTRAINT tb_back_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                         CONSTRAINT tb_back_uk UNIQUE (description)
+);
+
+create table public.tb_corner_bracket (
+                                   code bigint not null,
+                                   description varchar(255) not null,
+                                   family varchar(255),
+                                   implementation date,
+                                   lost_percentage double precision,
+                                   color_id bigint,
+                                   value double precision,
+                                   created_by varchar(50),
+                                   creation_date timestamp,
+                                   last_modified_by varchar(50),
+                                   last_modified_date timestamp,
+                                   status varchar(255),
+                                   CONSTRAINT tb_corner_bracket_pk primary key (code),
+                                   CONSTRAINT tb_corner_bracket_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                                   CONSTRAINT tb_corner_bracket_uk UNIQUE (description)
+);
+
+create table public.tb_edge_banding (
+                                 code bigint not null,
+                                 description varchar(255) not null,
+                                 family varchar(255),
+                                 implementation date,
+                                 lost_percentage double precision,
+                                 height integer,
+                                 thickness integer,
+                                 color_id bigint,
+                                 value double precision,
+                                 created_by varchar(50),
+                                 creation_date timestamp,
+                                 last_modified_by varchar(50),
+                                 last_modified_date timestamp,
+                                 status varchar(255),
+                                 CONSTRAINT tb_edge_banding_pk primary key (code),
+                                 CONSTRAINT tb_edge_banding_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                                 CONSTRAINT tb_edge_banding_uk UNIQUE (description)
+);
+
+create table public.tb_father_attachment (
+                                      father_id bigint not null,
+                                      attachment_id bigint not null,
+                                      CONSTRAINT tb_father_attachment_pk primary key (father_id, attachment_id),
+                                      CONSTRAINT tb_father_attachment_fk_father FOREIGN KEY (father_id) REFERENCES tb_item (code),
+                                      CONSTRAINT tb_father_attachment_fk_attachment FOREIGN KEY (attachment_id) REFERENCES tb_item (code)
+);
+
+create table public.tb_ghost (
+                          code varchar(255) not null,
+                          description varchar(255) not null,
+                          measure1 integer,
+                          measure2 integer,
+                          measure3 integer,
+                          suffix varchar(255),
+                          value double precision,
+                          created_by varchar(50),
+                          creation_date timestamp,
+                          last_modified_by varchar(50),
+                          last_modified_date timestamp,
+                          status varchar(255),
+                          CONSTRAINT tb_ghost_pk primary key (code),
+                          CONSTRAINT tb_ghost_uk UNIQUE (description)
+);
+
+create table public.tb_glue (
+                         code bigint not null,
+                         description varchar(255) not null,
+                         family varchar(255),
+                         implementation date,
+                         lost_percentage double precision,
+                         grammage double precision,
+                         color_id bigint,
+                         value double precision,
+                         created_by varchar(50),
+                         creation_date timestamp,
+                         last_modified_by varchar(50),
+                         last_modified_date timestamp,
+                         status varchar(255),
+                         CONSTRAINT tb_glue_pk primary key (code),
+                         CONSTRAINT tb_glue_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                         CONSTRAINT tb_glue_uk UNIQUE (description)
+);
+
+create table public.tb_machine_group (
+                                  id bigint generated always as identity,
+                                  name varchar(255),
+                                  created_by varchar(50),
+                                  creation_date timestamp,
+                                  last_modified_by varchar(50),
+                                  last_modified_date timestamp,
+                                  status varchar(255),
+                                  CONSTRAINT tb_machine_group_pk primary key (id),
+                                  CONSTRAINT tb_machine_group_uk UNIQUE (name)
+);
+
+create table public.tb_machine (
+                            id bigint generated always as identity,
+                            name varchar(255),
+                            formula character varying(255)[],
+                            machine_group_id bigint,
+                            value double precision,
+                            created_by varchar(50),
+                            creation_date timestamp,
+                            last_modified_by varchar(50),
+                            last_modified_date timestamp,
+                            status varchar(255),
+                            CONSTRAINT tb_machine_pk primary key (id),
+                            CONSTRAINT tb_machine_fk_machine_group FOREIGN KEY (machine_group_id) REFERENCES tb_machine_group (id),
+                            CONSTRAINT tb_machine_uk UNIQUE (name)
+);
+
+create table public.tb_guide_machine (
+                                  id bigint generated always as identity,
+                                  guide_id bigint not null,
+                                  machine_id bigint not null,
+                                  machine_time double precision,
+                                  man_time double precision,
+                                  measurement_unit varchar(255),
+                                  created_by varchar(50),
+                                  creation_date timestamp,
+                                  last_modified_by varchar(50),
+                                  last_modified_date timestamp,
+                                  status varchar(255),
+                                  CONSTRAINT tb_guide_machine_pk primary key (id),
+                                  CONSTRAINT tb_guide_machine_fk_guide FOREIGN KEY (guide_id) REFERENCES tb_guide (id),
+                                  CONSTRAINT tb_guide_machine_fk_machine FOREIGN KEY (machine_id) REFERENCES tb_machine (id),
+                                  CONSTRAINT tb_guide_machine_uk UNIQUE (guide_id, machine_id)
+);
+
+create table public.tb_material (
+                             id bigint generated always as identity,
+                             name varchar(255),
+                             created_by varchar(50),
+                             creation_date timestamp,
+                             last_modified_by varchar(50),
+                             last_modified_date timestamp,
+                             status varchar(255),
+                             CONSTRAINT tb_material_pk primary key (id),
+                             CONSTRAINT tb_material_uk UNIQUE (name)
+);
+
+create table public.tb_nonwoven_fabric (
+                                    code bigint not null,
+                                    description varchar(255) not null,
+                                    family varchar(255),
+                                    implementation date,
+                                    lost_percentage double precision,
+                                    color_id bigint,
+                                    value double precision,
+                                    created_by varchar(50),
+                                    creation_date timestamp,
+                                    last_modified_by varchar(50),
+                                    last_modified_date timestamp,
+                                    status varchar(255),
+                                    CONSTRAINT tb_nonwoven_fabric_pk primary key (code),
+                                    CONSTRAINT tb_nonwoven_fabric_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                                    CONSTRAINT tb_nonwoven_fabric_uk UNIQUE (description)
+);
+
+create table public.tb_painting_type (
+                                  id bigint generated always as identity,
+                                  description varchar(255) not null,
+                                  created_by varchar(50),
+                                  creation_date timestamp,
+                                  last_modified_by varchar(50),
+                                  last_modified_date timestamp,
+                                  status varchar(255),
+                                  CONSTRAINT tb_painting_type_pk primary key (id),
+                                  CONSTRAINT tb_painting_type_uk UNIQUE (description)
+);
+
+create table public.tb_painting (
+                             code bigint not null,
+                             description varchar(255) not null,
+                             family varchar(255),
+                             implementation date,
+                             lost_percentage double precision,
+                             color_id bigint,
+                             painting_type_id bigint not null,
+                             value double precision,
+                             created_by varchar(50),
+                             creation_date timestamp,
+                             last_modified_by varchar(50),
+                             last_modified_date timestamp,
+                             status varchar(255),
+                             CONSTRAINT tb_painting_pk primary key (code),
+                             CONSTRAINT tb_painting_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                             CONSTRAINT tb_painting_fk_painting_type FOREIGN KEY (painting_type_id) REFERENCES tb_painting_type (id),
+                             CONSTRAINT tb_painting_uk UNIQUE (description, painting_type_id)
+);
+
+create table public.tb_painting_border_background (
+                                               code bigint not null,
+                                               description varchar(255) not null,
+                                               family varchar(255),
+                                               implementation date,
+                                               lost_percentage double precision,
+                                               color_id bigint,
+                                               value double precision,
+                                               created_by varchar(50),
+                                               creation_date timestamp,
+                                               last_modified_by varchar(50),
+                                               last_modified_date timestamp,
+                                               status varchar(255),
+                                               CONSTRAINT tb_painting_border_background_pk primary key (code),
+                                               CONSTRAINT tb_painting_border_background_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                                               CONSTRAINT tb_painting_border_background_uk UNIQUE (description)
+);
+
+create table public.tb_plastic (
+                            code bigint not null,
+                            description varchar(255) not null,
+                            family varchar(255),
+                            implementation date,
+                            lost_percentage double precision,
+                            grammage double precision,
+                            color_id bigint,
+                            value double precision,
+                            created_by varchar(50),
+                            creation_date timestamp,
+                            last_modified_by varchar(50),
+                            last_modified_date timestamp,
+                            status varchar(255),
+                            CONSTRAINT tb_plastic_pk primary key (code),
+                            CONSTRAINT tb_plastic_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                            CONSTRAINT tb_plastic_uk UNIQUE (description)
+);
+
+create table public.tb_polyester (
+                              code bigint not null,
+                              description varchar(255) not null,
+                              family varchar(255),
+                              implementation date,
+                              lost_percentage double precision,
+                              color_id bigint,
+                              value double precision,
+                              created_by varchar(50),
+                              creation_date timestamp,
+                              last_modified_by varchar(50),
+                              last_modified_date timestamp,
+                              status varchar(255),
+                              CONSTRAINT tb_polyester_pk primary key (code),
+                              CONSTRAINT tb_polyester_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                              CONSTRAINT tb_polyester_uk UNIQUE (description)
+);
+
+create table public.tb_polyethylene (
+                                 code bigint not null,
+                                 description varchar(255) not null,
+                                 family varchar(255),
+                                 implementation date,
+                                 lost_percentage double precision,
+                                 color_id bigint,
+                                 value double precision,
+                                 created_by varchar(50),
+                                 creation_date timestamp,
+                                 last_modified_by varchar(50),
+                                 last_modified_date timestamp,
+                                 status varchar(255),
+                                 CONSTRAINT tb_polyethylene_pk primary key (code),
+                                 CONSTRAINT tb_polyethylene_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                                 CONSTRAINT tb_polyethylene_uk UNIQUE (description)
+);
+
+create table public.tb_role (
+                         id bigint generated always as identity,
+                         authority varchar(255),
+                         CONSTRAINT tb_role_pk primary key (id),
+                         CONSTRAINT tb_role_uk UNIQUE (authority)
+);
+
+create table public.tb_sheet (
+                          code bigint not null,
+                          description varchar(255) not null,
+                          family varchar(255),
+                          implementation date,
+                          lost_percentage double precision,
+                          faces integer,
+                          thickness double precision,
+                          color_id bigint,
+                          material_id bigint,
+                          value double precision,
+                          created_by varchar(50),
+                          creation_date timestamp,
+                          last_modified_by varchar(50),
+                          last_modified_date timestamp,
+                          status varchar(255),
+                          CONSTRAINT tb_sheet_pk primary key (code),
+                          CONSTRAINT tb_sheet_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+                          CONSTRAINT tb_sheet_fk_material FOREIGN KEY (material_id) REFERENCES tb_material (id)
+);
+
+create table public.tb_used_back_sheet (
+                                    id bigint generated always as identity,
+                                    back_id bigint not null,
+                                    sheet_id bigint not null,
+                                    net_quantity double precision,
+                                    gross_quantity double precision,
+                                    measurement_unit varchar(255),
+                                    created_by varchar(50),
+                                    creation_date timestamp,
+                                    last_modified_by varchar(50),
+                                    last_modified_date timestamp,
+                                    status varchar(255),
+                                    CONSTRAINT tb_used_back_sheet_pk primary key (id),
+                                    CONSTRAINT tb_used_back_sheet_fk_back FOREIGN KEY (back_id) REFERENCES tb_back (code),
+                                    CONSTRAINT tb_used_back_sheet_fk_sheet FOREIGN KEY (sheet_id) REFERENCES tb_sheet (code),
+                                    CONSTRAINT tb_used_back_sheet_uk UNIQUE (back_id, sheet_id)
+);
+
+create table public.tb_used_corner_bracket (
+                                        id bigint generated always as identity,
+                                        corner_bracket_id bigint not null,
+                                        ghost_id varchar(255) not null,
+                                        net_quantity double precision,
+                                        gross_quantity double precision,
+                                        measurement_unit varchar(255),
+                                        quantity integer,
+                                        created_by varchar(50),
+                                        creation_date timestamp,
+                                        last_modified_by varchar(50),
+                                        last_modified_date timestamp,
+                                        status varchar(255),
+                                        CONSTRAINT tb_used_corner_bracket_pk primary key (id),
+                                        CONSTRAINT tb_used_corner_bracket_fk_ghost FOREIGN KEY (ghost_id) REFERENCES tb_ghost (code),
+                                        CONSTRAINT tb_used_corner_bracket_fk_corner_bracket FOREIGN KEY (corner_bracket_id) REFERENCES tb_corner_bracket (code),
+                                        CONSTRAINT tb_used_corner_bracket_uk UNIQUE (ghost_id, corner_bracket_id)
+);
+
+create table public.tb_used_drawer_pull (
+                                     id bigint generated always as identity,
+                                     drawer_pull_id bigint not null,
+                                     aluminium_son_id bigint not null,
+                                     quantity double precision,
+                                     measurement_unit varchar(255),
+                                     created_by varchar(50),
+                                     creation_date timestamp,
+                                     last_modified_by varchar(50),
+                                     last_modified_date timestamp,
+                                     status varchar(255),
+                                     CONSTRAINT tb_used_drawer_pull_pk primary key (id),
+                                     CONSTRAINT tb_used_drawer_pull_fk_aluminium_son FOREIGN KEY (aluminium_son_id) REFERENCES tb_item (code),
+                                     CONSTRAINT tb_used_drawer_pull_fk_drawer_pull FOREIGN KEY (drawer_pull_id) REFERENCES tb_item (code),
+                                     CONSTRAINT tb_used_drawer_pull_uk UNIQUE (aluminium_son_id, drawer_pull_id)
+);
+
+create table public.tb_used_edge_banding (
+                                      id bigint generated always as identity,
+                                      edge_banding_id bigint not null,
+                                      son_id bigint not null,
+                                      net_quantity double precision,
+                                      gross_quantity double precision,
+                                      edge_length integer,
+                                      edge_width integer,
+                                      measurement_unit varchar(255),
+                                      created_by varchar(50),
+                                      creation_date timestamp,
+                                      last_modified_by varchar(50),
+                                      last_modified_date timestamp,
+                                      status varchar(255),
+                                      CONSTRAINT tb_used_edge_banding_pk primary key (id),
+                                      CONSTRAINT tb_used_edge_banding_fk_edge_banding FOREIGN KEY (edge_banding_id) REFERENCES tb_edge_banding (code),
+                                      CONSTRAINT tb_used_edge_banding_fk_son FOREIGN KEY (son_id) REFERENCES tb_item (code),
+                                      CONSTRAINT tb_used_edge_banding_uk UNIQUE (edge_banding_id, son_id)
+);
+
+create table public.tb_used_glass (
+                               id bigint generated always as identity,
+                               glass_id bigint not null,
+                               aluminium_son_id bigint not null,
+                               quantity double precision,
+                               measurement_unit varchar(255),
+                               created_by varchar(50),
+                               creation_date timestamp,
+                               last_modified_by varchar(50),
+                               last_modified_date timestamp,
+                               status varchar(255),
+                               CONSTRAINT tb_used_glass_id primary key (id),
+                               CONSTRAINT tb_used_glass_fk_glass FOREIGN KEY (glass_id) REFERENCES tb_item (code),
+                               CONSTRAINT tb_used_glass_fk_aluminium_son FOREIGN KEY (aluminium_son_id) REFERENCES tb_item (code),
+                               CONSTRAINT tb_used_glass_uk UNIQUE (glass_id, aluminium_son_id)
+);
+
+create table public.tb_used_glue (
+                              id bigint generated always as identity,
+                              glue_id bigint not null,
+                              son_id bigint not null,
+                              net_quantity double precision,
+                              gross_quantity double precision,
+                              measurement_unit varchar(255),
+                              created_by varchar(50),
+                              creation_date timestamp,
+                              last_modified_by varchar(50),
+                              last_modified_date timestamp,
+                              status varchar(255),
+                              CONSTRAINT tb_used_glue_pk primary key (id),
+                              CONSTRAINT tb_used_glue_fk_glue FOREIGN KEY (glue_id) REFERENCES tb_glue (code),
+                              CONSTRAINT tb_used_glue_fk_son FOREIGN KEY (son_id) REFERENCES tb_item (code),
+                              CONSTRAINT tb_used_glue_uk UNIQUE (glue_id, son_id)
+);
+
+create table public.tb_used_molding (
+                                 id bigint generated always as identity,
+                                 molding_id bigint not null,
+                                 aluminium_son_id bigint not null,
+                                 quantity double precision,
+                                 measurement_unit varchar(255),
+                                 created_by varchar(50),
+                                 creation_date timestamp,
+                                 last_modified_by varchar(50),
+                                 last_modified_date timestamp,
+                                 status varchar(255),
+                                 CONSTRAINT tb_used_molding_pk primary key (id),
+                                 CONSTRAINT tb_used_molding_fk_molding FOREIGN KEY (molding_id) REFERENCES tb_item (code),
+                                 CONSTRAINT tb_used_molding_fk_aluminium_son FOREIGN KEY (aluminium_son_id) REFERENCES tb_item (code),
+                                 CONSTRAINT tb_used_molding_uk UNIQUE (molding_id, aluminium_son_id)
+);
+
+create table public.tb_used_nonwoven_fabric (
+                                         id bigint generated always as identity,
+                                         nonwoven_fabric_id bigint not null,
+                                         ghost_id varchar(255) not null,
+                                         net_quantity double precision,
+                                         gross_quantity double precision,
+                                         one_face boolean,
+                                         measurement_unit varchar(255),
+                                         created_by varchar(50),
+                                         creation_date timestamp,
+                                         last_modified_by varchar(50),
+                                         last_modified_date timestamp,
+                                         status varchar(255),
+                                         CONSTRAINT tb_used_nonwoven_fabric_pk primary key (id),
+                                         CONSTRAINT tb_used_nonwoven_fabric_fk_nonwoven_fabric FOREIGN KEY (nonwoven_fabric_id) REFERENCES tb_nonwoven_fabric (code),
+                                         CONSTRAINT tb_used_nonwoven_fabric_fk_ghost FOREIGN KEY (ghost_id) REFERENCES tb_ghost (code),
+                                         CONSTRAINT tb_used_nonwoven_fabric_uk UNIQUE (nonwoven_fabric_id, ghost_id)
+);
+
+create table public.tb_used_painting (
+                                  id bigint generated always as identity,
+                                  painting_id bigint not null,
+                                  painting_son_id bigint not null,
+                                  net_quantity double precision,
+                                  gross_quantity double precision,
+                                  measurement_unit varchar(255),
+                                  created_by varchar(50),
+                                  creation_date timestamp,
+                                  last_modified_by varchar(50),
+                                  last_modified_date timestamp,
+                                  status varchar(255),
+                                  CONSTRAINT tb_used_painting_pk primary key (id),
+                                  CONSTRAINT tb_used_painting_fk_painting FOREIGN KEY (painting_id) REFERENCES tb_painting (code),
+                                  CONSTRAINT tb_used_painting_fk_painting_son FOREIGN KEY (painting_son_id) REFERENCES tb_item (code)
+                                  --CONSTRAINT tb_used_painting_uk UNIQUE (painting_id, painting_son_id)
+);
+
+create table public.tb_used_painting_border_background (
+                                                    id bigint generated always as identity,
+                                                    painting_border_background_id bigint not null,
+                                                    painting_son_id bigint not null,
+                                                    net_quantity double precision,
+                                                    gross_quantity double precision,
+                                                    measurement_unit varchar(255),
+                                                    created_by varchar(50),
+                                                    creation_date timestamp,
+                                                    last_modified_by varchar(50),
+                                                    last_modified_date timestamp,
+                                                    status varchar(255),
+                                                    CONSTRAINT tb_used_painting_border_background_pk primary key (id),
+                                                    CONSTRAINT tb_used_painting_border_background_fk_pb_background FOREIGN KEY (painting_border_background_id) REFERENCES tb_painting_border_background (code),
+                                                    CONSTRAINT tb_used_painting_border_background_fk_painting_son FOREIGN KEY (painting_son_id) REFERENCES tb_item (code),
+                                                    CONSTRAINT tb_used_painting_border_background_uk UNIQUE (painting_border_background_id, painting_son_id)
+);
+
+create table public.tb_used_plastic (
+                                 id bigint generated always as identity,
+                                 plastic_id bigint not null,
+                                 ghost_id varchar(255) not null,
+                                 net_quantity double precision,
+                                 gross_quantity double precision,
+                                 additional double precision,
+                                 upper boolean,
+                                 width integer,
+                                 measurement_unit varchar(255),
+                                 created_by varchar(50),
+                                 creation_date timestamp,
+                                 last_modified_by varchar(50),
+                                 last_modified_date timestamp,
+                                 status varchar(255),
+                                 CONSTRAINT tb_used_plastic_pk primary key (id),
+                                 CONSTRAINT tb_used_plastic_fk_plastic FOREIGN KEY (plastic_id) REFERENCES tb_plastic (code),
+                                 CONSTRAINT tb_used_plastic_fk_ghost FOREIGN KEY (ghost_id) REFERENCES tb_ghost (code),
+                                 CONSTRAINT tb_used_plastic_uk UNIQUE (plastic_id, ghost_id)
+);
+
+create table public.tb_used_polyester (
+                                   id bigint generated always as identity,
+                                   polyester_id bigint not null,
+                                   painting_son_id bigint not null,
+                                   net_quantity double precision,
+                                   gross_quantity double precision,
+                                   measurement_unit varchar(255),
+                                   created_by varchar(50),
+                                   creation_date timestamp,
+                                   last_modified_by varchar(50),
+                                   last_modified_date timestamp,
+                                   status varchar(255),
+                                   CONSTRAINT tb_used_polyester_pk primary key (id),
+                                   CONSTRAINT tb_used_polyester_fk_polyester FOREIGN KEY (polyester_id) REFERENCES tb_polyester (code),
+                                   CONSTRAINT tb_used_polyester_fk_painting_son FOREIGN KEY (painting_son_id) REFERENCES tb_item (code),
+                                   CONSTRAINT tb_used_polyester_uk UNIQUE (polyester_id, painting_son_id)
+);
+
+create table public.tb_used_polyethylene (
+                                      id bigint generated always as identity,
+                                      polyethylene_id bigint not null,
+                                      ghost_id varchar(255) not null,
+                                      net_quantity double precision,
+                                      gross_quantity double precision,
+                                      measurement_unit varchar(255),
+                                      created_by varchar(50),
+                                      creation_date timestamp,
+                                      last_modified_by varchar(50),
+                                      last_modified_date timestamp,
+                                      status varchar(255),
+                                      CONSTRAINT tb_used_polyethylene_pk primary key (id),
+                                      CONSTRAINT tb_used_polyethylene_fk_polyethylene FOREIGN KEY (polyethylene_id) REFERENCES tb_polyethylene (code),
+                                      CONSTRAINT tb_used_polyethylene_fk_ghost FOREIGN KEY (ghost_id) REFERENCES tb_ghost (code),
+                                      CONSTRAINT tb_used_polyethylene_uk UNIQUE (polyethylene_id, ghost_id)
+);
+
+create table public.tb_used_screw (
+                               id bigint generated always as identity,
+                               screw_id bigint not null,
+                               aluminium_son_id bigint not null,
+                               quantity double precision,
+                               measurement_unit varchar(255),
+                               created_by varchar(50),
+                               creation_date timestamp,
+                               last_modified_by varchar(50),
+                               last_modified_date timestamp,
+                               status varchar(255),
+                               CONSTRAINT tb_used_screw_pk primary key (id),
+                               CONSTRAINT tb_used_screw_fk_screw FOREIGN KEY (screw_id) REFERENCES tb_item (code),
+                               CONSTRAINT tb_used_screw_fk_aluminium_son FOREIGN KEY (aluminium_son_id) REFERENCES tb_item (code),
+                               CONSTRAINT tb_used_screw_uk UNIQUE (screw_id, aluminium_son_id)
+);
+
+create table public.tb_used_sheet (
+                               id bigint generated always as identity,
+                               sheet_id bigint not null,
+                               son_id bigint not null,
+                               net_quantity double precision,
+                               gross_quantity double precision,
+                               measurement_unit varchar(255),
+                               created_by varchar(50),
+                               creation_date timestamp,
+                               last_modified_by varchar(50),
+                               last_modified_date timestamp,
+                               status varchar(255),
+                               CONSTRAINT tb_used_sheet_pk primary key (id),
+                               CONSTRAINT tb_used_sheet_fk_sheet FOREIGN KEY (sheet_id) REFERENCES tb_sheet (code),
+                               CONSTRAINT tb_used_sheet_fk_son FOREIGN KEY (son_id) REFERENCES tb_item (code),
+                               CONSTRAINT tb_used_sheet_uk UNIQUE (sheet_id, son_id)
+);
+
+create table public.tb_used_try_square (
+                                    id bigint generated always as identity,
+                                    try_square_id bigint not null,
+                                    aluminium_son_id bigint not null,
+                                    quantity double precision,
+                                    measurement_unit varchar(255),
+                                    created_by varchar(50),
+                                    creation_date timestamp,
+                                    last_modified_by varchar(50),
+                                    last_modified_date timestamp,
+                                    status varchar(255),
+                                    CONSTRAINT tb_used_try_square_pk primary key (id),
+                                    CONSTRAINT tb_used_try_square_fk_try_square FOREIGN KEY (try_square_id) REFERENCES tb_item (code),
+                                    CONSTRAINT tb_used_try_square_fk_aluminium_son FOREIGN KEY (aluminium_son_id) REFERENCES tb_item (code),
+                                    CONSTRAINT tb_used_try_square_uk UNIQUE (try_square_id, aluminium_son_id)
+);
+
+create table public.tb_user (
+                         id bigint generated always as identity,
+                         name varchar(255),
+                         email varchar(255),
+                         password varchar(255),
+                         img_url TEXT,
+                         created_by varchar(50),
+                         creation_date timestamp,
+                         last_modified_by varchar(50),
+                         last_modified_date timestamp,
+                         status varchar(255),
+                         CONSTRAINT tb_user_pk primary key (id),
+                         CONSTRAINT tb_user_uk UNIQUE (email)
+);
+
+create table public.tb_user_role (
+                              user_id bigint not null,
+                              role_id bigint not null,
+                              CONSTRAINT tb_user_role_pk primary key (user_id, role_id),
+                              CONSTRAINT tb_user_role_fk_user FOREIGN KEY (user_id) REFERENCES tb_user (id),
+                              CONSTRAINT tb_user_role_fk_role FOREIGN KEY (role_id) REFERENCES tb_role (id)
+);
+
+ALTER TABLE tb_item
+    ADD CONSTRAINT tb_item_fk_color FOREIGN KEY (color_id) REFERENCES tb_color (code),
+    ADD CONSTRAINT tb_item_fk_father FOREIGN KEY (father_id) REFERENCES tb_item (code),
+    ADD CONSTRAINT tb_item_fk_guide FOREIGN KEY (guide_id) REFERENCES tb_guide (id),
+    ADD CONSTRAINT tb_item_fk_aluminium_type FOREIGN KEY (aluminium_type_id) REFERENCES tb_aluminium_type (id),
+    ADD CONSTRAINT tb_item_fk_used_drawer_pull FOREIGN KEY (used_drawer_pull_id) REFERENCES tb_used_drawer_pull (id),
+    ADD CONSTRAINT tb_item_fk_used_glass FOREIGN KEY (used_glass_id) REFERENCES tb_used_glass (id),
+    ADD CONSTRAINT tb_item_fk_back FOREIGN KEY (back_id) REFERENCES tb_back (code),
+    ADD CONSTRAINT tb_item_fk_ghost FOREIGN KEY (ghost_id) REFERENCES tb_ghost (code);
+
+ALTER TABLE tb_aluminium_son_son
+    ADD CONSTRAINT tb_aluminium_son_son_fk_mdp_son FOREIGN KEY (son_id) REFERENCES tb_item (code),
+    ADD CONSTRAINT tb_aluminium_son_son_fk_aluminium_son FOREIGN KEY (aluminium_son_id) REFERENCES tb_item (code),
+    ADD CONSTRAINT tb_aluminium_son_son_uk UNIQUE (aluminium_son_id, son_id);
+
+create table IF NOT EXISTS public.t_history
+(
+    id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    tstamp timestamp without time zone DEFAULT now(),
+    schemaname text,
+    tabname text,
+    operation text,
+    old_val jsonb
+);
+
+CREATE OR REPLACE FUNCTION change_trigger()
+    RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'UPDATE' THEN
+        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
+            INSERT INTO t_history (tabname, schemaname, operation, old_val)
+            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
+        END IF;
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        INSERT INTO t_history (tabname, schemaname, operation, old_val)
+        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
+        RETURN OLD;
+    ELSIF TG_OP = 'INSERT' THEN
+        INSERT INTO t_history (tabname, schemaname, operation, old_val)
+        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON trash
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_color
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_guide
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_item
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_aluminium_type
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_back
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_corner_bracket
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_edge_banding
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_ghost
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_glue
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_machine_group
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_machine
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_guide_machine
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_material
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_nonwoven_fabric
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_painting_type
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_painting
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_painting_border_background
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_plastic
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_polyester
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_polyethylene
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_role
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_sheet
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_back_sheet
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_corner_bracket
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_drawer_pull
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_edge_banding
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_glass
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_glue
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_molding
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_nonwoven_fabric
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_painting
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_painting_border_background
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_plastic
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_polyester
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_screw
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_sheet
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_used_try_square
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();
+
+CREATE TRIGGER change_trigger
+    AFTER INSERT OR UPDATE OR DELETE
+    ON tb_user
+    FOR EACH ROW
+EXECUTE FUNCTION change_trigger();

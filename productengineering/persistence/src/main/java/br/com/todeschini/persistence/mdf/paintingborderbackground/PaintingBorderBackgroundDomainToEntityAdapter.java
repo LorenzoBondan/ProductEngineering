@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdf.paintingborderbackground;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdf.paintingborderbackground.DPaintingBorderBackground;
 import br.com.todeschini.persistence.entities.mdf.PaintingBorderBackground;
 import br.com.todeschini.persistence.util.Convertable;
@@ -29,6 +30,7 @@ public class PaintingBorderBackgroundDomainToEntityAdapter implements Convertabl
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

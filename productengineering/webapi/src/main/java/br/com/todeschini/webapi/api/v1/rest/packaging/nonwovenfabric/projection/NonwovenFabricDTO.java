@@ -21,4 +21,6 @@ public interface NonwovenFabricDTO {
     ColorDTO getColor();
     @JsonProperty(value = "value", index = 7)
     Double getValue();
+    @JsonProperty(value = "status", index = 8)
+    String getStatus();
 }

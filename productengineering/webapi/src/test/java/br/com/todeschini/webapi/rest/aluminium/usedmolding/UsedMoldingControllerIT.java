@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.aluminium.usedmolding.CrudUsedMoldingImpl;
 import br.com.todeschini.persistence.aluminium.usedmolding.UsedMoldingRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -119,8 +121,6 @@ public class UsedMoldingControllerIT extends BaseControllerIT<DUsedMolding> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedMoldingFactory.createDUsedMolding();
         factoryObject.setAluminiumSonCode(null);
         validate(factoryObject);
@@ -130,7 +130,7 @@ public class UsedMoldingControllerIT extends BaseControllerIT<DUsedMolding> {
         validate(factoryObject);
 
         factoryObject = UsedMoldingFactory.createDUsedMolding();
-        factoryObject.setMoldingCode(-1L);
+        factoryObject.setMoldingCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedMoldingFactory.createDUsedMolding();
@@ -138,7 +138,7 @@ public class UsedMoldingControllerIT extends BaseControllerIT<DUsedMolding> {
         validate(factoryObject);
 
         factoryObject = UsedMoldingFactory.createDUsedMolding();
-        factoryObject.setQuantity(negative);
+        factoryObject.setQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

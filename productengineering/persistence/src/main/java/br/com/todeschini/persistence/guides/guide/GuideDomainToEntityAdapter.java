@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.guides.guide;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.guides.guide.DGuide;
 import br.com.todeschini.persistence.entities.guides.Guide;
 import br.com.todeschini.persistence.guides.guidemachine.GuideMachineDomainToEntityAdapter;
@@ -43,6 +44,7 @@ public class GuideDomainToEntityAdapter implements Convertable<Guide, DGuide> {
 
                 .guideMachines(entity.getGuideMachines().stream().map(guideMachineAdapter::toDomain).collect(Collectors.toList()))
                 .value(Math.round(entity.calculateValue() * 1e2) / 1e2)
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

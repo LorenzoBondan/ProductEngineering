@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.packaging.cornerbracket;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.packaging.cornerbracket.DCornerBracket;
 import br.com.todeschini.persistence.entities.packaging.CornerBracket;
 import br.com.todeschini.persistence.util.Convertable;
@@ -29,6 +30,7 @@ public class CornerBracketDomainToEntityAdapter implements Convertable<CornerBra
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

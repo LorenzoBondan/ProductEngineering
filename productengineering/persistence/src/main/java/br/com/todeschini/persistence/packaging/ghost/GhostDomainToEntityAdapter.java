@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.packaging.ghost;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.packaging.ghost.DGhost;
 import br.com.todeschini.persistence.entities.packaging.Ghost;
 import br.com.todeschini.persistence.packaging.usedcornerbracket.UsedCornerBracketDomainToEntityAdapter;
@@ -76,6 +77,7 @@ public class GhostDomainToEntityAdapter implements Convertable<Ghost, DGhost> {
                 .polyethylenes(entity.getPolyethylenes().stream().map(usedPolyethyleneAdapter::toDomain).collect(Collectors.toList()))
 
                 .value(Math.round(entity.calculateValue() * 1e2) / 1e2)
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

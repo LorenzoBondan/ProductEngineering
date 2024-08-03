@@ -104,6 +104,7 @@ public class SonGeneratorMethodsImpl implements SonGeneratorMethods {
     private void saveOrUpdatePaintingSonAndFather(PaintingSon son, Father father) {
         setFatherCreationData(father);
         setPaintingSonCreationData(son);
+        son.setImplementation(father.getImplementation());
         paintingSonRepository.save(son);
         father.getSons().add(son);
         fatherRepository.save(father);
@@ -114,6 +115,7 @@ public class SonGeneratorMethodsImpl implements SonGeneratorMethods {
     private void saveOrUpdateSonAndAluminiumSon(MDPSon son, AluminiumSon aluminiumSon) {
         setMDPSonCreationData(son);
         setAluminiumSonCreationData(aluminiumSon);
+        son.setImplementation(aluminiumSon.getImplementation());
         mdpSonRepository.save(son);
         aluminiumSon.getSons().add(son);
         aluminiumSonRepository.save(aluminiumSon);
@@ -124,6 +126,7 @@ public class SonGeneratorMethodsImpl implements SonGeneratorMethods {
     private void saveOrUpdateFatherAndAluminiumSon(Father father, AluminiumSon aluminiumSon) {
         setFatherCreationData(father);
         setAluminiumSonCreationData(aluminiumSon);
+        aluminiumSon.setImplementation(father.getImplementation());
         fatherRepository.save(father);
         aluminiumSon.setFather(father);
         aluminiumSonRepository.save(aluminiumSon);

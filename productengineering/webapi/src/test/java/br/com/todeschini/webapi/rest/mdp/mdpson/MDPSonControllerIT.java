@@ -5,6 +5,7 @@ import br.com.todeschini.persistence.mdp.mdpson.CrudMDPSonImpl;
 import br.com.todeschini.persistence.mdp.mdpson.MDPSonRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -112,24 +113,20 @@ public class MDPSonControllerIT extends BaseControllerIT<DMDPSon> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        Integer negative = -1;
-
         factoryObject = MDPSonFactory.createDMDPSon();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
@@ -137,27 +134,27 @@ public class MDPSonControllerIT extends BaseControllerIT<DMDPSon> {
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setMeasure1(negative);
+        factoryObject.setMeasure1(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setMeasure2(negative);
+        factoryObject.setMeasure2(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setMeasure3(negative);
+        factoryObject.setMeasure3(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
@@ -165,7 +162,7 @@ public class MDPSonControllerIT extends BaseControllerIT<DMDPSon> {
         validate(factoryObject);
 
         factoryObject = MDPSonFactory.createDMDPSon();
-        factoryObject.setFatherCode(-1L);
+        factoryObject.setFatherCode(ValidationConstants.longNegative);
         validate(factoryObject);
     }
 }

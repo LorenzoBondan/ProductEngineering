@@ -25,4 +25,6 @@ public interface SonDTO {
     Long getFatherCode();
     @JsonProperty(value = "implementation", index = 9)
     LocalDate getImplementation();
+    @JsonProperty(value = "status", index = 10)
+    String getStatus();
 }

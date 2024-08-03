@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdp.sheet;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdp.sheet.DSheet;
 import br.com.todeschini.persistence.entities.mdp.Sheet;
 import br.com.todeschini.persistence.publico.color.ColorDomainToEntityAdapter;
@@ -52,6 +53,7 @@ public class SheetDomainToEntityAdapter implements Convertable<Sheet, DSheet> {
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         domain.setMaterialId(entity.getMaterial().getId());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

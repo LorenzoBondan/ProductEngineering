@@ -5,9 +5,7 @@ import br.com.todeschini.persistence.publico.attachment.AttachmentRepository;
 import br.com.todeschini.persistence.publico.attachment.CrudAttachmentImpl;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.publico.father.FatherFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -113,24 +113,20 @@ public class AttachmentControllerIT extends BaseControllerIT<DAttachment> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        Integer negative = -1;
-
         factoryObject = AttachmentFactory.createDAttachment();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
@@ -138,27 +134,27 @@ public class AttachmentControllerIT extends BaseControllerIT<DAttachment> {
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setMeasure1(negative);
+        factoryObject.setMeasure1(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setMeasure2(negative);
+        factoryObject.setMeasure2(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = AttachmentFactory.createDAttachment();
-        factoryObject.setMeasure3(negative);
+        factoryObject.setMeasure3(ValidationConstants.intNegative);
         validate(factoryObject);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.aluminium.aluminiumtype;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
 import br.com.todeschini.domain.validation.impl.*;
@@ -17,6 +18,7 @@ public class DAluminiumType {
     private Long id;
     private String name;
     private Double lessQuantity;
+    private DStatus status;
 
     public DAluminiumType(Long id){
         this.id = id;
@@ -26,6 +28,7 @@ public class DAluminiumType {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Name", new ObjetoNaoNuloValidator()), this.name)
                 .add(new NamedValidator<>("Name", new NaoBrancoValidator()), this.name)
+                .add(new NamedValidator<>("Name", new CaracteresEspeciaisValidator()), this.name)
                 .add(new NamedValidator<>("Name", new TamanhoMinimoValidator(3)), this.name)
                 .add(new NamedValidator<>("Name", new TamanhoMaximoValidator(30)), this.name)
                 .add(new NamedValidator<>("Quantidade a menos", new ObjetoNaoNuloValidator()), this.lessQuantity)

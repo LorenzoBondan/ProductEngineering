@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.guides.machinegroup;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.guides.machinegroup.DMachineGroup;
 import br.com.todeschini.persistence.entities.guides.MachineGroup;
 import br.com.todeschini.persistence.util.Convertable;
@@ -21,6 +22,7 @@ public class MachineGroupDomainToEntityAdapter implements Convertable<MachineGro
         return DMachineGroup.builder()
                 .id(entity.getId())
                 .name(entity.getName().toUpperCase())
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

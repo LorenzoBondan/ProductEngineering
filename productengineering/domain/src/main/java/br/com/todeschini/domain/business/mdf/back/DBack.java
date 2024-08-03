@@ -1,6 +1,7 @@
 package br.com.todeschini.domain.business.mdf.back;
 
 import br.com.todeschini.domain.business.basedomains.DBaseMaterial;
+import br.com.todeschini.domain.business.mdf.paintingson.DPaintingSon;
 import br.com.todeschini.domain.business.mdf.usedbacksheet.DUsedBackSheet;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;

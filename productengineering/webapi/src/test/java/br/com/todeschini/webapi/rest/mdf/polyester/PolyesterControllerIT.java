@@ -5,9 +5,7 @@ import br.com.todeschini.persistence.mdf.polyester.CrudPolyesterImpl;
 import br.com.todeschini.persistence.mdf.polyester.PolyesterRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -123,15 +121,15 @@ public class PolyesterControllerIT extends BaseControllerIT<DPolyester> {
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
@@ -139,35 +137,35 @@ public class PolyesterControllerIT extends BaseControllerIT<DPolyester> {
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setFamily("");
+        factoryObject.setFamily(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setFamily(smallerSize);
+        factoryObject.setFamily(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setFamily(biggerSize);
+        factoryObject.setFamily(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setImplementation(LocalDate.of(1000,1,1));
+        factoryObject.setImplementation(ValidationConstants.pastDate);
         validate(factoryObject);
 
         factoryObject = PolyesterFactory.createDPolyester();
-        factoryObject.setLostPercentage(-1.0);
+        factoryObject.setLostPercentage(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

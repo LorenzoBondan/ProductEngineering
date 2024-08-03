@@ -8,4 +8,6 @@ public interface ColorDTO {
     Long getCode();
     @JsonProperty(value = "name", index = 2)
     String getName();
+    @JsonProperty(value = "status", index = 3)
+    String getStatus();
 }

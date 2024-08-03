@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.aluminium.aluminiumson;
 
 import br.com.todeschini.domain.business.aluminium.aluminiumson.DAluminiumSon;
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.aluminium.aluminiumtype.AluminiumTypeDomainToEntityAdapter;
 import br.com.todeschini.persistence.aluminium.aluminiumtype.AluminiumTypeRepository;
@@ -157,6 +158,7 @@ public class AluminiumSonDomainToEntityAdapter implements Convertable<AluminiumS
         }
 
         domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

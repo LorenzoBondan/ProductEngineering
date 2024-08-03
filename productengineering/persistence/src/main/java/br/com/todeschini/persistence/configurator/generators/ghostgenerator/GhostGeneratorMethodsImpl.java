@@ -2,18 +2,28 @@ package br.com.todeschini.persistence.configurator.generators.ghostgenerator;
 
 import br.com.todeschini.domain.business.configurator.generators.ghostgenerator.DGhostGenerator;
 import br.com.todeschini.domain.business.configurator.generators.ghostgenerator.spi.GhostGeneratorMethods;
+import br.com.todeschini.domain.business.packaging.usedcornerbracket.api.UsedCornerBracketService;
+import br.com.todeschini.domain.business.packaging.usednonwovenfabric.api.UsedNonwovenFabricService;
+import br.com.todeschini.domain.business.packaging.usedplastic.api.UsedPlasticService;
+import br.com.todeschini.domain.business.packaging.usedpolyethylene.api.UsedPolyethyleneService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.packaging.*;
 import br.com.todeschini.persistence.entities.publico.Father;
+import br.com.todeschini.persistence.packaging.cornerbracket.CornerBracketDomainToEntityAdapter;
 import br.com.todeschini.persistence.packaging.cornerbracket.CornerBracketRepository;
 import br.com.todeschini.persistence.packaging.ghost.GhostRepository;
 import br.com.todeschini.persistence.packaging.nonwovenfabric.NonwovenFabricRepository;
 import br.com.todeschini.persistence.packaging.plastic.PlasticRepository;
 import br.com.todeschini.persistence.packaging.polyethylene.PolyethyleneRepository;
+import br.com.todeschini.persistence.packaging.usedcornerbracket.UsedCornerBracketDomainToEntityAdapter;
 import br.com.todeschini.persistence.packaging.usedcornerbracket.UsedCornerBracketRepository;
+import br.com.todeschini.persistence.packaging.usednonwovenfabric.UsedNonwovenFabricDomainToEntityAdapter;
 import br.com.todeschini.persistence.packaging.usednonwovenfabric.UsedNonwovenFabricRepository;
+import br.com.todeschini.persistence.packaging.usedplastic.UsedPlasticDomainToEntityAdapter;
 import br.com.todeschini.persistence.packaging.usedplastic.UsedPlasticRepository;
+import br.com.todeschini.persistence.packaging.usedpolyethylene.UsedPolyethyleneDomainToEntityAdapter;
 import br.com.todeschini.persistence.packaging.usedpolyethylene.UsedPolyethyleneRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +39,23 @@ public class GhostGeneratorMethodsImpl implements GhostGeneratorMethods {
     private final UsedNonwovenFabricRepository usedNonwovenFabricRepository;
     private final UsedPlasticRepository usedPlasticRepository;
     private final UsedPolyethyleneRepository usedPolyethyleneRepository;
+
+    @Autowired
+    private UsedCornerBracketService usedCornerBracketService;
+    @Autowired
+    private UsedNonwovenFabricService usedNonwovenFabricService;
+    @Autowired
+    private UsedPlasticService usedPlasticService;
+    @Autowired
+    private UsedPolyethyleneService usedPolyethyleneService;
+    @Autowired
+    private UsedCornerBracketDomainToEntityAdapter usedCornerBracketDomainToEntityAdapter;
+    @Autowired
+    private UsedNonwovenFabricDomainToEntityAdapter usedNonwovenFabricDomainToEntityAdapter;
+    @Autowired
+    private UsedPlasticDomainToEntityAdapter usedPlasticDomainToEntityAdapter;
+    @Autowired
+    private UsedPolyethyleneDomainToEntityAdapter usedPolyethyleneDomainToEntityAdapter;
 
     public GhostGeneratorMethodsImpl(GhostRepository repository, CornerBracketRepository cornerBracketRepository,
                                      NonwovenFabricRepository nonwovenFabricRepository, PlasticRepository plasticRepository,
@@ -93,8 +120,9 @@ public class GhostGeneratorMethodsImpl implements GhostGeneratorMethods {
             usedCornerBracket.setQuantity(quantity);
             usedCornerBracket.calculateNetQuantity();
             usedCornerBracket.calculateGrossQuantity();
-            ghost.getCornerBrackets().add(usedCornerBracket);
-            usedCornerBracketRepository.save(usedCornerBracket);
+            usedCornerBracketService.insert(usedCornerBracketDomainToEntityAdapter.toDomain(usedCornerBracket));
+            //ghost.getCornerBrackets().add(usedCornerBracket);
+            //usedCornerBracketRepository.save(usedCornerBracket);
         }
     }
 
@@ -108,8 +136,9 @@ public class GhostGeneratorMethodsImpl implements GhostGeneratorMethods {
             usedNonwovenFabric.setOneFace(oneFace);
             usedNonwovenFabric.calculateNetQuantity();
             usedNonwovenFabric.calculateGrossQuantity();
-            ghost.getNonwovenFabrics().add(usedNonwovenFabric);
-            usedNonwovenFabricRepository.save(usedNonwovenFabric);
+            usedNonwovenFabricService.insert(usedNonwovenFabricDomainToEntityAdapter.toDomain(usedNonwovenFabric));
+            //ghost.getNonwovenFabrics().add(usedNonwovenFabric);
+            //usedNonwovenFabricRepository.save(usedNonwovenFabric);
         }
     }
 
@@ -125,8 +154,9 @@ public class GhostGeneratorMethodsImpl implements GhostGeneratorMethods {
             usedPlastic.setWidth(width);
             usedPlastic.calculateNetQuantity();
             usedPlastic.calculateGrossQuantity();
-            ghost.getPlastics().add(usedPlastic);
-            usedPlasticRepository.save(usedPlastic);
+            usedPlasticService.insert(usedPlasticDomainToEntityAdapter.toDomain(usedPlastic));
+            //ghost.getPlastics().add(usedPlastic);
+            //usedPlasticRepository.save(usedPlastic);
         }
     }
 
@@ -139,8 +169,9 @@ public class GhostGeneratorMethodsImpl implements GhostGeneratorMethods {
             usedPolyethylene.setPolyethylene(polyethylene);
             usedPolyethylene.calculateNetQuantity();
             usedPolyethylene.calculateGrossQuantity();
-            ghost.getPolyethylenes().add(usedPolyethylene);
-            usedPolyethyleneRepository.save(usedPolyethylene);
+            usedPolyethyleneService.insert(usedPolyethyleneDomainToEntityAdapter.toDomain(usedPolyethylene));
+            //ghost.getPolyethylenes().add(usedPolyethylene);
+            //usedPolyethyleneRepository.save(usedPolyethylene);
         }
     }
 }

@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.guides.machine;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.guides.machine.DMachine;
 import br.com.todeschini.persistence.entities.guides.GuideMachine;
 import br.com.todeschini.persistence.entities.guides.Machine;
@@ -45,7 +46,7 @@ public class MachineDomainToEntityAdapter implements Convertable<Machine, DMachi
                 .machineGroupId(entity.getMachineGroup().getId())
 
                 .guideMachinesIds(entity.getGuideMachines().stream().map(GuideMachine::getId).collect(Collectors.toList()))
-
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

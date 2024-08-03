@@ -2,6 +2,10 @@ package br.com.todeschini.persistence.configurator.structs.mdfitem;
 
 import br.com.todeschini.domain.business.configurator.structs.mdfitem.DMDFItem;
 import br.com.todeschini.domain.business.configurator.structs.mdfitem.spi.MDFItemMethods;
+import br.com.todeschini.domain.business.mdf.usedbacksheet.api.UsedBackSheetService;
+import br.com.todeschini.domain.business.mdf.usedpainting.api.UsedPaintingService;
+import br.com.todeschini.domain.business.mdf.usedpaintingborderbackground.api.UsedPaintingBorderBackgroundService;
+import br.com.todeschini.domain.business.mdf.usedpolyester.api.UsedPolyesterService;
 import br.com.todeschini.domain.exceptions.DatabaseException;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.mdf.*;
@@ -12,16 +16,16 @@ import br.com.todeschini.persistence.mdf.paintingborderbackground.PaintingBorder
 import br.com.todeschini.persistence.mdf.paintingson.PaintingSonRepository;
 import br.com.todeschini.persistence.mdf.paintingtype.PaintingTypeRepository;
 import br.com.todeschini.persistence.mdf.polyester.PolyesterRepository;
+import br.com.todeschini.persistence.mdf.usedbacksheet.UsedBackSheetDomainToEntityAdapter;
 import br.com.todeschini.persistence.mdf.usedbacksheet.UsedBackSheetRepository;
-import br.com.todeschini.persistence.mdf.usedpainting.UsedPaintingRepository;
-import br.com.todeschini.persistence.mdf.usedpaintingborderbackground.UsedPaintingBorderBackgroundRepository;
-import br.com.todeschini.persistence.mdf.usedpolyester.UsedPolyesterRepository;
+import br.com.todeschini.persistence.mdf.usedpainting.UsedPaintingDomainToEntityAdapter;
+import br.com.todeschini.persistence.mdf.usedpaintingborderbackground.UsedPaintingBorderBackgroundDomainToEntityAdapter;
+import br.com.todeschini.persistence.mdf.usedpolyester.UsedPolyesterDomainToEntityAdapter;
 import br.com.todeschini.persistence.mdp.sheet.SheetRepository;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NonUniqueResultException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,11 +41,25 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
     private final PolyesterRepository polyesterRepository;
     private final PaintingTypeRepository paintingTypeRepository;
     private final UsedBackSheetRepository usedBackSheetRepository;
-    private final UsedPaintingRepository usedPaintingRepository;
-    private final UsedPaintingBorderBackgroundRepository usedPaintingBorderBackGroundRepository;
-    private final UsedPolyesterRepository usedPolyesterRepository;
 
-    public MDFItemMethodsImpl(SheetRepository sheetRepository, PaintingSonRepository paintingSonRepository, BackRepository backRepository, PaintingRepository paintingRepository, PaintingBorderBackgroundRepository paintingBorderBackGroundRepository, PolyesterRepository polyesterRepository, PaintingTypeRepository paintingTypeRepository, UsedBackSheetRepository usedBackSheetRepository, UsedPaintingRepository usedPaintingRepository, UsedPaintingBorderBackgroundRepository usedPaintingBorderBackGroundRepository, UsedPolyesterRepository usedPolyesterRepository) {
+    @Autowired
+    private UsedPaintingService usedPaintingService;
+    @Autowired
+    private UsedPaintingDomainToEntityAdapter usedPaintingDomainToEntityAdapter;
+    @Autowired
+    private UsedPaintingBorderBackgroundService usedPaintingBorderBackgroundService;
+    @Autowired
+    private UsedPaintingBorderBackgroundDomainToEntityAdapter usedPaintingBorderBackgroundDomainToEntityAdapter;
+    @Autowired
+    private UsedPolyesterService usedPolyesterService;
+    @Autowired
+    private UsedPolyesterDomainToEntityAdapter usedPolyesterDomainToEntityAdapter;
+    @Autowired
+    private UsedBackSheetService usedBackSheetService;
+    @Autowired
+    private UsedBackSheetDomainToEntityAdapter usedBackSheetDomainToEntityAdapter;
+
+    public MDFItemMethodsImpl(SheetRepository sheetRepository, PaintingSonRepository paintingSonRepository, BackRepository backRepository, PaintingRepository paintingRepository, PaintingBorderBackgroundRepository paintingBorderBackGroundRepository, PolyesterRepository polyesterRepository, PaintingTypeRepository paintingTypeRepository, UsedBackSheetRepository usedBackSheetRepository) {
         this.sheetRepository = sheetRepository;
         this.paintingSonRepository = paintingSonRepository;
         this.backRepository = backRepository;
@@ -50,9 +68,6 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
         this.polyesterRepository = polyesterRepository;
         this.paintingTypeRepository = paintingTypeRepository;
         this.usedBackSheetRepository = usedBackSheetRepository;
-        this.usedPaintingRepository = usedPaintingRepository;
-        this.usedPaintingBorderBackGroundRepository = usedPaintingBorderBackGroundRepository;
-        this.usedPolyesterRepository = usedPolyesterRepository;
     }
 
     @Override
@@ -121,6 +136,8 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
         back.setMeasure1(paintingSon.getMeasure1());
         back.setMeasure2(paintingSon.getMeasure2());
         back.setImplementation(paintingSon.getImplementation());
+        back.calculateValue();
+
         paintingSonRepository.save(paintingSon);
         back.getSons().add(paintingSon);
         backRepository.save(back);
@@ -137,10 +154,7 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
             usedBackSheet.setSheet(sheet);
             usedBackSheet.calculateNetQuantity();
             usedBackSheet.calculateGrossQuantity();
-            paintingSon.getBack().getSheets().add(usedBackSheet);
-            usedBackSheetRepository.save(usedBackSheet);
-            paintingSon.getBack().calculateValue();
-            backRepository.save(paintingSon.getBack());
+            usedBackSheetService.insert(usedBackSheetDomainToEntityAdapter.toDomain(usedBackSheet));
         }
     }
 
@@ -178,8 +192,7 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
         usedPainting.setPainting(painting);
         usedPainting.calculateNetQuantity();
         usedPainting.calculateGrossQuantity();
-        usedPainting.setPaintingSon(paintingSon);
-        usedPaintingRepository.save(usedPainting);
+        usedPaintingService.insert(usedPaintingDomainToEntityAdapter.toDomain(usedPainting));
         return usedPainting;
     }
 
@@ -189,8 +202,7 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
         usedPaintingBorderBackground.setPaintingBorderBackground(paintingBorderBackGroundRepository.findById(paintingBorderBackgroundId).get());
         usedPaintingBorderBackground.calculateNetQuantity();
         usedPaintingBorderBackground.calculateGrossQuantity();
-        paintingSon.getPaintingBorderBackgrounds().add(usedPaintingBorderBackground);
-        usedPaintingBorderBackGroundRepository.save(usedPaintingBorderBackground);
+        usedPaintingBorderBackgroundService.insert(usedPaintingBorderBackgroundDomainToEntityAdapter.toDomain(usedPaintingBorderBackground));
     }
 
     private void createAndLinkUsedPolyester(PaintingSon paintingSon, Long polyesterId) {
@@ -200,8 +212,7 @@ public class MDFItemMethodsImpl implements MDFItemMethods {
             usedPolyester.setPolyester(polyesterRepository.findById(polyesterId).get());
             usedPolyester.calculateNetQuantity();
             usedPolyester.calculateGrossQuantity();
-            paintingSon.getPolyesters().add(usedPolyester);
-            usedPolyesterRepository.save(usedPolyester);
+            usedPolyesterService.insert(usedPolyesterDomainToEntityAdapter.toDomain(usedPolyester));
         }
     }
 }

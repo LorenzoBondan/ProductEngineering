@@ -6,9 +6,7 @@ import br.com.todeschini.persistence.mdf.painting.CrudPaintingImpl;
 import br.com.todeschini.persistence.mdf.painting.PaintingRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.mdf.back.BackFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
@@ -122,23 +120,20 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
         factoryObject = PaintingFactory.createDPainting();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
@@ -146,35 +141,35 @@ public class PaintingControllerIT extends BaseControllerIT<DPainting> {
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setFamily("");
+        factoryObject.setFamily(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setFamily(smallerSize);
+        factoryObject.setFamily(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setFamily(biggerSize);
+        factoryObject.setFamily(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setImplementation(LocalDate.of(1000,1,1));
+        factoryObject.setImplementation(ValidationConstants.pastDate);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();
-        factoryObject.setLostPercentage(-1.0);
+        factoryObject.setLostPercentage(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = PaintingFactory.createDPainting();

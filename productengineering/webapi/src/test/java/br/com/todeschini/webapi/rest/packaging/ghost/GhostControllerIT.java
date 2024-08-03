@@ -7,7 +7,7 @@ import br.com.todeschini.persistence.packaging.ghost.CrudGhostImpl;
 import br.com.todeschini.persistence.packaging.ghost.GhostRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import br.com.todeschini.webapi.rest.publico.son.SonFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -145,20 +145,16 @@ public class GhostControllerIT extends BaseControllerIT<DGhost> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        Integer negative = -1;
-
         factoryObject = GhostFactory.createDGhost();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setCode("1");
+        factoryObject.setCode(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setCode("1111111111111111111L");
+        factoryObject.setCode(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
@@ -166,27 +162,27 @@ public class GhostControllerIT extends BaseControllerIT<DGhost> {
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setMeasure1(negative);
+        factoryObject.setMeasure1(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setMeasure2(negative);
+        factoryObject.setMeasure2(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = GhostFactory.createDGhost();
-        factoryObject.setMeasure3(negative);
+        factoryObject.setMeasure3(ValidationConstants.intNegative);
         validate(factoryObject);
     }
 }

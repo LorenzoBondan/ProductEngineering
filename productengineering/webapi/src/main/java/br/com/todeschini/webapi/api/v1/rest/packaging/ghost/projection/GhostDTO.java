@@ -18,4 +18,6 @@ public interface GhostDTO {
     Integer getMeasure3();
     @JsonProperty(value = "value", index = 7)
     Double getValue();
+    @JsonProperty(value = "status", index = 8)
+    String getStatus();
 }

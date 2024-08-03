@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdf.polyester;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdf.polyester.DPolyester;
 import br.com.todeschini.persistence.entities.mdf.Polyester;
 import br.com.todeschini.persistence.util.Convertable;
@@ -29,6 +30,7 @@ public class PolyesterDomainToEntityAdapter implements Convertable<Polyester, DP
         domain.setImplementation(entity.getImplementation());
         domain.setLostPercentage(entity.getLostPercentage());
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

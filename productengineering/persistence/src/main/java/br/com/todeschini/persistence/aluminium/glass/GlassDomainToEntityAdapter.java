@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.aluminium.glass;
 
 import br.com.todeschini.domain.business.aluminium.glass.DGlass;
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.persistence.entities.aluminium.Glass;
 import br.com.todeschini.persistence.publico.color.ColorDomainToEntityAdapter;
 import br.com.todeschini.persistence.publico.color.ColorRepository;
@@ -44,6 +45,7 @@ public class GlassDomainToEntityAdapter implements Convertable<Glass, DGlass> {
         domain.setImplementation(entity.getImplementation());
         domain.setColor(colorAdapter.toDomain(entity.getColor()));
         domain.setValue(entity.getValue());
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

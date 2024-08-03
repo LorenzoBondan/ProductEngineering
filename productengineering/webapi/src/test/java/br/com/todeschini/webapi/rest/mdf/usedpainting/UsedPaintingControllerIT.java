@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.mdf.usedpainting.CrudUsedPaintingImpl;
 import br.com.todeschini.persistence.mdf.usedpainting.UsedPaintingRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -119,8 +121,6 @@ public class UsedPaintingControllerIT extends BaseControllerIT<DUsedPainting> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedPaintingFactory.createDUsedPainting();
         factoryObject.setPaintingSonCode(null);
         validate(factoryObject);
@@ -130,15 +130,15 @@ public class UsedPaintingControllerIT extends BaseControllerIT<DUsedPainting> {
         validate(factoryObject);
 
         factoryObject = UsedPaintingFactory.createDUsedPainting();
-        factoryObject.setPaintingCode(-1L);
+        factoryObject.setPaintingCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedPaintingFactory.createDUsedPainting();
-        factoryObject.setNetQuantity(negative);
+        factoryObject.setNetQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = UsedPaintingFactory.createDUsedPainting();
-        factoryObject.setGrossQuantity(negative);
+        factoryObject.setGrossQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

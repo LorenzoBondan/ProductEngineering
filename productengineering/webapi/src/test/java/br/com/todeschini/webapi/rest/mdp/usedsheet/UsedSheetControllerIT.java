@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.mdp.usedsheet.CrudUsedSheetImpl;
 import br.com.todeschini.persistence.mdp.usedsheet.UsedSheetRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -119,8 +121,6 @@ public class UsedSheetControllerIT extends BaseControllerIT<DUsedSheet> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedSheetFactory.createDUsedSheet();
         factoryObject.setMdpSonCode(null);
         validate(factoryObject);
@@ -130,15 +130,15 @@ public class UsedSheetControllerIT extends BaseControllerIT<DUsedSheet> {
         validate(factoryObject);
 
         factoryObject = UsedSheetFactory.createDUsedSheet();
-        factoryObject.setSheetCode(-1L);
+        factoryObject.setSheetCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedSheetFactory.createDUsedSheet();
-        factoryObject.setNetQuantity(negative);
+        factoryObject.setNetQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = UsedSheetFactory.createDUsedSheet();
-        factoryObject.setGrossQuantity(negative);
+        factoryObject.setGrossQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

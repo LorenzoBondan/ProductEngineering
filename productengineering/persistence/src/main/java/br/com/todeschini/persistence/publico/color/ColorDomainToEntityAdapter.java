@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.publico.color;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.publico.color.DColor;
 import br.com.todeschini.persistence.entities.publico.Color;
 import br.com.todeschini.persistence.util.Convertable;
@@ -21,6 +22,7 @@ public class ColorDomainToEntityAdapter implements Convertable<Color, DColor> {
         return DColor.builder()
                 .code(entity.getCode())
                 .name(entity.getName().toUpperCase())
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

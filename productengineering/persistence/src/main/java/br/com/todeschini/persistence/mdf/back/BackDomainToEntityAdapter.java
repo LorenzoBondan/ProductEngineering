@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdf.back;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdf.back.DBack;
 import br.com.todeschini.persistence.entities.mdf.Back;
 import br.com.todeschini.persistence.mdf.usedbacksheet.UsedBackSheetDomainToEntityAdapter;
@@ -54,6 +55,7 @@ public class BackDomainToEntityAdapter implements Convertable<Back, DBack> {
         domain.setUsedBackSheets(entity.getSheets().stream().map(usedBackSheetAdapter::toDomain).collect(Collectors.toList()));
 
         domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

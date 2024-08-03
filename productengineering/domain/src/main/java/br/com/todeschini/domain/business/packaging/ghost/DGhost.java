@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.packaging.ghost;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.packaging.usedcornerbracket.DUsedCornerBracket;
 import br.com.todeschini.domain.business.packaging.usednonwovenfabric.DUsedNonwovenFabric;
 import br.com.todeschini.domain.business.packaging.usedplastic.DUsedPlastic;
@@ -29,6 +30,7 @@ public class DGhost {
     private Integer measure2;
     private Integer measure3;
     private Double value;
+    private DStatus status;
 
     private List<DUsedCornerBracket> cornerBrackets = new ArrayList<>();
     private List<DUsedNonwovenFabric> nonwovenFabrics = new ArrayList<>();
@@ -43,10 +45,12 @@ public class DGhost {
         new ValidationBuilder()
                 .add(new NamedValidator<>("Código", new ObjetoNaoNuloValidator()), this.code)
                 .add(new NamedValidator<>("Código", new NaoBrancoValidator()), this.code)
+                .add(new NamedValidator<>("Código", new CaracteresEspeciaisValidator()), this.code)
                 .add(new NamedValidator<>("Código", new TamanhoMinimoValidator(9)), this.code)
                 .add(new NamedValidator<>("Código", new TamanhoMaximoValidator(12)), this.code)
                 .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.description)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.description)
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(100)), this.description)
                 .add(new NamedValidator<>("Medida 1", new NumeroMaiorQueZeroValidator()), this.measure1)

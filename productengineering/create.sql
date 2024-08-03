@@ -778,7 +778,7 @@ BEGIN
     IF TG_OP = 'UPDATE' THEN
         IF to_jsonb(OLD) != to_jsonb(NEW) THEN
             INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
+            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
         END IF;
         RETURN NEW;
     ELSIF TG_OP = 'DELETE' THEN
@@ -799,53 +799,11 @@ ON trash
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_color
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -853,53 +811,11 @@ ON tb_guide
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_item
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -907,53 +823,11 @@ ON tb_aluminium_type
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_back
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -961,53 +835,11 @@ ON tb_corner_bracket
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_edge_banding
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1015,53 +847,11 @@ ON tb_ghost
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_glue
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1069,53 +859,11 @@ ON tb_machine_group
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_machine
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1123,53 +871,11 @@ ON tb_guide_machine
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_material
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1177,53 +883,11 @@ ON tb_nonwoven_fabric
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_painting_type
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1231,53 +895,11 @@ ON tb_painting
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_painting_border_background
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1285,53 +907,11 @@ ON tb_plastic
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_polyester
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1339,53 +919,11 @@ ON tb_polyethylene
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_role
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1393,53 +931,11 @@ ON tb_sheet
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_back_sheet
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1447,53 +943,11 @@ ON tb_used_corner_bracket
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_drawer_pull
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1501,53 +955,11 @@ ON tb_used_edge_banding
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_glass
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1555,53 +967,11 @@ ON tb_used_glue
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_molding
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1609,53 +979,11 @@ ON tb_used_nonwoven_fabric
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_painting
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1663,53 +991,11 @@ ON tb_used_painting_border_background
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_plastic
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1717,53 +1003,11 @@ ON tb_used_polyester
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_screw
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
@@ -1771,53 +1015,11 @@ ON tb_used_sheet
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
 
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON tb_used_try_square
 FOR EACH ROW
 EXECUTE FUNCTION change_trigger();
-
-CREATE OR REPLACE FUNCTION change_trigger()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        IF to_jsonb(OLD) != to_jsonb(NEW) THEN
-            INSERT INTO t_history (tabname, schemaname, operation, old_val)
-            VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        END IF;
-        RETURN NEW;
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(OLD));
-        RETURN OLD;
-    ELSIF TG_OP = 'INSERT' THEN
-        INSERT INTO t_history (tabname, schemaname, operation, old_val)
-        VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, to_jsonb(NEW));
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER change_trigger
 AFTER INSERT OR UPDATE OR DELETE

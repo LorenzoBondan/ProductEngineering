@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.aluminium.aluminiumtype;
 
 import br.com.todeschini.domain.business.aluminium.aluminiumtype.DAluminiumType;
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.persistence.entities.aluminium.AluminiumType;
 import br.com.todeschini.persistence.util.Convertable;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class AluminiumTypeDomainToEntityAdapter implements Convertable<Aluminium
                 .id(entity.getId())
                 .name(entity.getName())
                 .lessQuantity(entity.getLessQuantity())
+                .status(DStatus.valueOf(entity.getStatus().name()))
                 .build();
     }
 }

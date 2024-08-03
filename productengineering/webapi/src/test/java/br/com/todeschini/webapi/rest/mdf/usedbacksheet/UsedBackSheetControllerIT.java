@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.mdf.usedbacksheet.CrudUsedBackSheetImpl;
 import br.com.todeschini.persistence.mdf.usedbacksheet.UsedBackSheetRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -119,14 +121,12 @@ public class UsedBackSheetControllerIT extends BaseControllerIT<DUsedBackSheet> 
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedBackSheetFactory.createDUsedBackSheet();
         factoryObject.setSheetCode(null);
         validate(factoryObject);
 
         factoryObject = UsedBackSheetFactory.createDUsedBackSheet();
-        factoryObject.setSheetCode(-1L);
+        factoryObject.setSheetCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedBackSheetFactory.createDUsedBackSheet();
@@ -134,15 +134,15 @@ public class UsedBackSheetControllerIT extends BaseControllerIT<DUsedBackSheet> 
         validate(factoryObject);
 
         factoryObject = UsedBackSheetFactory.createDUsedBackSheet();
-        factoryObject.setBackCode(-1L);
+        factoryObject.setBackCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedBackSheetFactory.createDUsedBackSheet();
-        factoryObject.setNetQuantity(negative);
+        factoryObject.setNetQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = UsedBackSheetFactory.createDUsedBackSheet();
-        factoryObject.setGrossQuantity(negative);
+        factoryObject.setGrossQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

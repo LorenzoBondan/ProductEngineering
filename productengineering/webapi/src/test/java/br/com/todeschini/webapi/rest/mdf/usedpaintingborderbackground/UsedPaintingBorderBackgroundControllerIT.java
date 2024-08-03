@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.mdf.usedpaintingborderbackground.CrudUsedPa
 import br.com.todeschini.persistence.mdf.usedpaintingborderbackground.UsedPaintingBorderBackgroundRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -119,8 +121,6 @@ public class UsedPaintingBorderBackgroundControllerIT extends BaseControllerIT<D
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedPaintingBorderBackgroundFactory.createDUsedPaintingBorderBackground();
         factoryObject.setPaintingSonCode(null);
         validate(factoryObject);
@@ -130,15 +130,15 @@ public class UsedPaintingBorderBackgroundControllerIT extends BaseControllerIT<D
         validate(factoryObject);
 
         factoryObject = UsedPaintingBorderBackgroundFactory.createDUsedPaintingBorderBackground();
-        factoryObject.setPaintingBorderBackgroundCode(-1L);
+        factoryObject.setPaintingBorderBackgroundCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedPaintingBorderBackgroundFactory.createDUsedPaintingBorderBackground();
-        factoryObject.setNetQuantity(negative);
+        factoryObject.setNetQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = UsedPaintingBorderBackgroundFactory.createDUsedPaintingBorderBackground();
-        factoryObject.setGrossQuantity(negative);
+        factoryObject.setGrossQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }

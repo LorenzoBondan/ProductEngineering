@@ -2,10 +2,9 @@ package br.com.todeschini.persistence.entities.baseentities;
 
 import br.com.todeschini.persistence.entities.audit.AuditInfo;
 import br.com.todeschini.persistence.entities.publico.Color;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+
+import javax.persistence.*;
+
 import lombok.*;
 
 import java.time.LocalDate;
@@ -24,6 +23,7 @@ public class BaseMaterial extends AuditInfo {
     private String family;
     private LocalDate implementation;
     private Double lostPercentage;
+    @Column(name = "value")
     private Double value;
 
     @ManyToOne

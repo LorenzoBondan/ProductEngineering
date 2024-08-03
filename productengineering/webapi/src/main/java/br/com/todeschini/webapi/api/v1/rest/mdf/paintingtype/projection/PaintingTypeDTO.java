@@ -8,4 +8,6 @@ public interface PaintingTypeDTO {
     Long getId();
     @JsonProperty(value = "description", index = 2)
     String getDescription();
+    @JsonProperty(value = "status", index = 3)
+    String getStatus();
 }

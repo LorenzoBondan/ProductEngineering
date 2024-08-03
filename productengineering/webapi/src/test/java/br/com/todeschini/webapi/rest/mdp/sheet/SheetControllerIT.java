@@ -5,9 +5,7 @@ import br.com.todeschini.persistence.mdp.sheet.CrudSheetImpl;
 import br.com.todeschini.persistence.mdp.sheet.SheetRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -115,23 +113,20 @@ public class SheetControllerIT extends BaseControllerIT<DSheet> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
         factoryObject = SheetFactory.createDSheet();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
@@ -139,35 +134,35 @@ public class SheetControllerIT extends BaseControllerIT<DSheet> {
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setFamily("");
+        factoryObject.setFamily(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setFamily(smallerSize);
+        factoryObject.setFamily(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setFamily(biggerSize);
+        factoryObject.setFamily(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setImplementation(LocalDate.of(1000,1,1));
+        factoryObject.setImplementation(ValidationConstants.pastDate);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setLostPercentage(-1.0);
+        factoryObject.setLostPercentage(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
@@ -175,7 +170,7 @@ public class SheetControllerIT extends BaseControllerIT<DSheet> {
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setFaces(-1);
+        factoryObject.setFaces(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
@@ -183,7 +178,7 @@ public class SheetControllerIT extends BaseControllerIT<DSheet> {
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();
-        factoryObject.setThickness(-1.0);
+        factoryObject.setThickness(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = SheetFactory.createDSheet();

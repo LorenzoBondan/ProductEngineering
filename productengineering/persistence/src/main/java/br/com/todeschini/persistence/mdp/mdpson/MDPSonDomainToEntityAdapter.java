@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.mdp.mdpson;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdp.mdpson.DMDPSon;
 import br.com.todeschini.persistence.entities.mdp.MDPSon;
 import br.com.todeschini.persistence.entities.publico.Father;
@@ -98,6 +99,7 @@ public class MDPSonDomainToEntityAdapter implements Convertable<MDPSon, DMDPSon>
         domain.setGlues(entity.getGlues().stream().map(usedGlueAdapter::toDomain).collect(Collectors.toList()));
 
         domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

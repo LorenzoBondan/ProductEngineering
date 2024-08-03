@@ -5,9 +5,7 @@ import br.com.todeschini.persistence.aluminium.drawerpull.CrudDrawerPullImpl;
 import br.com.todeschini.persistence.aluminium.drawerpull.DrawerPullRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.packaging.plastic.PlasticFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -113,24 +113,20 @@ public class DrawerPullControllerIT extends BaseControllerIT<DDrawerPull> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        Integer negative = -1;
-
         factoryObject = DrawerPullFactory.createDDrawerPull();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
@@ -138,27 +134,27 @@ public class DrawerPullControllerIT extends BaseControllerIT<DDrawerPull> {
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setMeasure1(negative);
+        factoryObject.setMeasure1(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setMeasure2(negative);
+        factoryObject.setMeasure2(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = DrawerPullFactory.createDDrawerPull();
-        factoryObject.setMeasure3(negative);
+        factoryObject.setMeasure3(ValidationConstants.intNegative);
         validate(factoryObject);
     }
 }

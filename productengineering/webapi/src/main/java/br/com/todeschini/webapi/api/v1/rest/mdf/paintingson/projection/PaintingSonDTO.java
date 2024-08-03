@@ -43,4 +43,6 @@ public interface PaintingSonDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "value", index = 18)
     Double getValue();
+    @JsonProperty(value = "status", index = 19)
+    String getStatus();
 }

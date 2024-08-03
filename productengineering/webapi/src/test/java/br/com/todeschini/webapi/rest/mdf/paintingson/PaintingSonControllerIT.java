@@ -5,9 +5,7 @@ import br.com.todeschini.persistence.mdf.paintingson.CrudPaintingSonImpl;
 import br.com.todeschini.persistence.mdf.paintingson.PaintingSonRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
-
-import br.com.todeschini.webapi.rest.publico.son.SonFactory;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -113,24 +113,20 @@ public class PaintingSonControllerIT extends BaseControllerIT<DPaintingSon> {
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        String blank = "", smallerSize = "a", biggerSize = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        Integer negative = -1;
-
         factoryObject = PaintingSonFactory.createDPaintingSon();
         factoryObject.setCode(null);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setCode(-1L);
+        factoryObject.setCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setCode(1L);
+        factoryObject.setCode(ValidationConstants.longOneDigit);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setCode(1111111111111111111L);
+        factoryObject.setCode(ValidationConstants.longManyDigits);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
@@ -138,27 +134,27 @@ public class PaintingSonControllerIT extends BaseControllerIT<DPaintingSon> {
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setDescription(blank);
+        factoryObject.setDescription(ValidationConstants.blank);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setDescription(smallerSize);
+        factoryObject.setDescription(ValidationConstants.smallerSize);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setDescription(biggerSize);
+        factoryObject.setDescription(ValidationConstants.biggerSize);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setMeasure1(negative);
+        factoryObject.setMeasure1(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setMeasure2(negative);
+        factoryObject.setMeasure2(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setMeasure3(negative);
+        factoryObject.setMeasure3(ValidationConstants.intNegative);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
@@ -166,7 +162,7 @@ public class PaintingSonControllerIT extends BaseControllerIT<DPaintingSon> {
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setFatherCode(-1L);
+        factoryObject.setFatherCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
@@ -190,7 +186,7 @@ public class PaintingSonControllerIT extends BaseControllerIT<DPaintingSon> {
         validate(factoryObject);
 
         factoryObject = PaintingSonFactory.createDPaintingSon();
-        factoryObject.setFaces(-1);
+        factoryObject.setFaces(ValidationConstants.intNegative);
         validate(factoryObject);
     }
 }

@@ -6,6 +6,7 @@ import br.com.todeschini.domain.business.aluminium.usedglass.DUsedGlass;
 import br.com.todeschini.domain.business.aluminium.usedmolding.DUsedMolding;
 import br.com.todeschini.domain.business.aluminium.usedscrew.DUsedScrew;
 import br.com.todeschini.domain.business.aluminium.usedtrysquare.DUsedTrySquare;
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.mdp.mdpson.DMDPSon;
 import br.com.todeschini.domain.business.publico.son.DSon;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -30,6 +31,7 @@ public class DAluminiumSon extends DSon {
     private List<DUsedScrew> screws = new ArrayList<>();
     private List<DUsedMolding> moldings = new ArrayList<>();
     private DUsedGlass glass;
+    private DStatus status;
 
     public DAluminiumSon(Long code){
         this.setCode(code);

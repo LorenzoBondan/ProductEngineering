@@ -1,5 +1,6 @@
 package br.com.todeschini.persistence.publico.father;
 
+import br.com.todeschini.domain.business.enums.DStatus;
 import br.com.todeschini.domain.business.publico.father.DFather;
 import br.com.todeschini.persistence.entities.publico.Father;
 import br.com.todeschini.persistence.packaging.ghost.GhostDomainToEntityAdapter;
@@ -78,6 +79,7 @@ public class FatherDomainToEntityAdapter implements Convertable<Father, DFather>
         domain.setSons(entity.getSons().stream().map(sonAdapter::toDomain).collect(Collectors.toList()));
         domain.setAttachments(entity.getAttachments().stream().map(attachmentAdapter::toDomain).collect(Collectors.toList()));
         domain.setValue(Math.round(entity.calculateValue() * 1e2) / 1e2);
+        domain.setStatus(DStatus.valueOf(entity.getStatus().name()));
         return domain;
     }
 }

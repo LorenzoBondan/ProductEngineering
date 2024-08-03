@@ -29,4 +29,6 @@ public interface MDPSonDTO {
     LocalDate getImplementation();
     @JsonProperty(value = "value", index = 11)
     Double getValue();
+    @JsonProperty(value = "status", index = 12)
+    String getStatus();
 }

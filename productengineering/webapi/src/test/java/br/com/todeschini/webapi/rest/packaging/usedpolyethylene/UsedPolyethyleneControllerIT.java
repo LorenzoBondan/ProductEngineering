@@ -6,7 +6,7 @@ import br.com.todeschini.persistence.packaging.usedpolyethylene.CrudUsedPolyethy
 import br.com.todeschini.persistence.packaging.usedpolyethylene.UsedPolyethyleneRepository;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;
-import javax.transaction.Transactional;
+import br.com.todeschini.webapi.ValidationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
+
+import javax.transaction.Transactional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -120,8 +122,6 @@ public class UsedPolyethyleneControllerIT extends BaseControllerIT<DUsedPolyethy
 
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
-        Double negative = -1.0;
-
         factoryObject = UsedPolyethyleneFactory.createDUsedPolyethylene();
         factoryObject.setGhostCode(null);
         validate(factoryObject);
@@ -131,15 +131,15 @@ public class UsedPolyethyleneControllerIT extends BaseControllerIT<DUsedPolyethy
         validate(factoryObject);
 
         factoryObject = UsedPolyethyleneFactory.createDUsedPolyethylene();
-        factoryObject.setPolyethyleneCode(-1L);
+        factoryObject.setPolyethyleneCode(ValidationConstants.longNegative);
         validate(factoryObject);
 
         factoryObject = UsedPolyethyleneFactory.createDUsedPolyethylene();
-        factoryObject.setNetQuantity(negative);
+        factoryObject.setNetQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
 
         factoryObject = UsedPolyethyleneFactory.createDUsedPolyethylene();
-        factoryObject.setGrossQuantity(negative);
+        factoryObject.setGrossQuantity(ValidationConstants.doubleNegative);
         validate(factoryObject);
     }
 }
