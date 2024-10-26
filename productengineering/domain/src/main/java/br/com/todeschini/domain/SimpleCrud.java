@@ -1,5 +1,7 @@
 package br.com.todeschini.domain;
 
+import br.com.todeschini.domain.business.publico.history.DHistory;
+
 import java.util.List;
 
 /**
@@ -9,15 +11,25 @@ import java.util.List;
  */
 public interface SimpleCrud<T, J>{
 
-    T insert(T obj);
+    Paged<T> buscarTodos(PageableRequest request);
 
-    T update(J id, T obj);
+    T inserir(T obj);
 
-    void delete(J obj);
+    T atualizar(T obj);
 
-    T find(J obj);
+    void remover(J obj);
 
-    void inactivate(J obj);
+    T buscar(J obj);
 
-    List<T> findAllActiveAndCurrentOne(J obj);
+    void inativar(J obj);
+
+    List<T> buscarTodosAtivosMaisAtual(J obj);
+
+    List<DHistory<T>> buscarHistorico(J id);
+
+    T substituirPorVersaoAntiga(J id, J versionId);
+
+    List<String> buscarAtributosEditaveisEmLote();
+
+    List<T> atualizarEmLote(List<T> obj);
 }

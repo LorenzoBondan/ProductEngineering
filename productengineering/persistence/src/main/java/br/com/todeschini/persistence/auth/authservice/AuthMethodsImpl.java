@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.auth.authservice;
 
 import br.com.todeschini.domain.business.auth.authservice.spi.AuthMethods;
-import br.com.todeschini.domain.business.auth.user.DUser;
+import br.com.todeschini.domain.business.publico.user.DUser;
 import br.com.todeschini.domain.exceptions.ForbiddenException;
-import br.com.todeschini.persistence.auth.user.UserDomainToEntityAdapter;
-import br.com.todeschini.persistence.auth.user.UserRepository;
-import br.com.todeschini.persistence.entities.auth.User;
+import br.com.todeschini.persistence.entities.publico.User;
+import br.com.todeschini.persistence.publico.user.UserDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.user.UserRepository;
 import br.com.todeschini.persistence.util.CustomUserUtil;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;

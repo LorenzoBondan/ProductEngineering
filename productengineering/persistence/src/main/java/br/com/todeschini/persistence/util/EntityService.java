@@ -2,18 +2,19 @@ package br.com.todeschini.persistence.util;
 
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.domain.exceptions.ValidationException;
-import br.com.todeschini.persistence.entities.enums.Status;
-import br.com.todeschini.persistence.entities.trash.Trash;
-import br.com.todeschini.persistence.trash.TrashRepository;
+import br.com.todeschini.domain.metadata.BatchEditable;
+import br.com.todeschini.persistence.entities.enums.Situacao;
+import br.com.todeschini.persistence.entities.publico.Lixeira;
+import br.com.todeschini.persistence.publico.lixeira.LixeiraRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -28,24 +29,24 @@ public class EntityService {
     private DynamicRepositoryFactory dynamicRepositoryFactory;
 
     @Autowired
-    private TrashRepository trashRepository;
+    private LixeiraRepository lixeiraRepository;
 
     @Transactional
     @SneakyThrows
-    public <T> void changeStatusToAtivo(T entity, Status status, Boolean retrieveDependencies) {
-        updateStatusAtivoRecursively(entity, status, new HashSet<>(), retrieveDependencies);
+    public <T> void changeStatusToAtivo(T entity, Situacao situacao, Boolean retrieveDependencies) {
+        updateStatusAtivoRecursively(entity, situacao, new HashSet<>(), retrieveDependencies);
         saveEntity(entity);
     }
 
     @Transactional
     @SneakyThrows
-    public <T> void changeStatusToOther(T entity, Status status) {
-        updateStatusOtherRecursively(entity, status, new HashSet<>());
+    public <T> void changeStatusToOther(T entity, Situacao situacao) {
+        updateStatusOtherRecursively(entity, situacao, new HashSet<>());
         saveEntity(entity);
     }
 
     @SneakyThrows
-    private <T> void updateStatusAtivoRecursively(T entity, Status newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) {
+    private <T> void updateStatusAtivoRecursively(T entity, Situacao newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) {
         if (entity != null && !processedEntities.contains(entity)) {
             processedEntities.add(entity); // Adiciona o objeto atual ao conjunto de objetos processados
 
@@ -82,7 +83,7 @@ public class EntityService {
     }
 
     @SneakyThrows
-    private <T> void updateStatus(T entity, Status newStatus) {
+    private <T> void updateStatus(T entity, Situacao newStatus) {
         if (entity != null) {
             Class<?> currentClass = entity.getClass();
             while (currentClass != null) {
@@ -98,18 +99,18 @@ public class EntityService {
                 }
             }
 
-            if(newStatus.equals(Status.ACTIVE)){
+            if(newStatus.equals(Situacao.ATIVO)){
                 removerLixeira(entity);
             }
         }
     }
 
     @SneakyThrows
-    private <T> void updateStatusOtherRecursively(T entity, Status newStatus, Set<Object> processedEntities) {
+    private <T> void updateStatusOtherRecursively(T entity, Situacao newStatus, Set<Object> processedEntities) {
         if (entity != null && !processedEntities.contains(entity)) {
             processedEntities.add(entity); // Adiciona o objeto atual ao conjunto de objetos processados
 
-            if (newStatus.equals(Status.DELETED)) {
+            if (newStatus.equals(Situacao.LIXEIRA)) {
                 inserirLixeira(entity);
             }
 
@@ -146,7 +147,7 @@ public class EntityService {
     }
 
     @SneakyThrows
-    private <T> void updateAuditFields(T entity, Status newStatus, Class<?> currentClass) {
+    private <T> void updateAuditFields(T entity, Situacao newStatus, Class<?> currentClass) {
         Field statusField = getFieldByName(currentClass);
         if (statusField != null) {
             statusField.setAccessible(true);
@@ -156,13 +157,13 @@ public class EntityService {
 
     private <T> void saveEntity(T entity) {
         Class<?> entityType = entity.getClass();
-        CrudRepository<T, Long> repository = dynamicRepositoryFactory.createRepository(entityType);
+        CrudRepository<T, Integer> repository = dynamicRepositoryFactory.createRepository(entityType);
         repository.save(entity);
     }
 
     private Field getFieldByName(Class<?> clazz) {
         for (Field field : clazz.getDeclaredFields()) {
-            if (field.getName().equals("status")) {
+            if (field.getName().equals("situacao")) {
                 return field;
             }
         }
@@ -194,10 +195,10 @@ public class EntityService {
             dependencyField.setAccessible(true);
             if (isIdField(dependencyField)) {
                 Object id = dependencyField.get(fieldValue);
-                ResolvableType resolvableType = ResolvableType.forClassWithGenerics(Repository.class, currentClass, Long.class);
+                ResolvableType resolvableType = ResolvableType.forClassWithGenerics(Repository.class, currentClass, Integer.class);
                 Class<?> entityType = resolvableType.resolveGeneric(0);
-                CrudRepository<T, Long> repository = dynamicRepositoryFactory.createRepository(entityType);
-                Object obj = repository.findById((Long) id).orElseThrow(() -> new ValidationException("Dependência " + currentClass.getSimpleName() + " não encontrada"));
+                CrudRepository<T, Integer> repository = dynamicRepositoryFactory.createRepository(entityType);
+                Object obj = repository.findById((Integer) id).orElseThrow(() -> new ValidationException("Dependência " + currentClass.getSimpleName() + " não encontrada"));
 
                 validateSituacao(obj);
                 break;
@@ -210,11 +211,11 @@ public class EntityService {
         Class<?> currentClass = obj.getClass().getSuperclass();
 
         for (Field field : getFields(currentClass)) {
-            if ("status".equals(field.getName())) {
+            if ("situacao".equals(field.getName())) {
                 field.setAccessible(true);
                 Object situacaoValue = field.get(obj);
                 if (!isValidSituacao(situacaoValue)) {
-                    throw new ValidationException("Dependência " + obj.getClass().getSimpleName() + " excluída ou com status nulo");
+                    throw new ValidationException("Dependência " + obj.getClass().getSimpleName() + " na lixeira ou excluída");
                 }
                 break;
             }
@@ -222,7 +223,7 @@ public class EntityService {
     }
 
     private boolean isValidSituacao(Object situacaoValue) {
-        return situacaoValue != null && (situacaoValue.equals(Status.ACTIVE) || situacaoValue.equals(Status.INACTIVE));
+        return situacaoValue.equals(Situacao.ATIVO) || situacaoValue.equals(Situacao.INATIVO);
     }
 
     private boolean isManyToOneOrOneToOne(Field field) {
@@ -230,7 +231,7 @@ public class EntityService {
     }
 
     private boolean isIdField(Field field) {
-        return field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(EmbeddedId.class);
+        return field.isAnnotationPresent(Id.class);
     }
 
     private Field[] getFields(Class<?> clazz) {
@@ -243,46 +244,38 @@ public class EntityService {
     @SneakyThrows
     public <T> void inserirLixeira(T entity) { // chamado pelos métodos para incluir o objeto excluido na tabela Lixeira
         Class<?> currentClass = entity.getClass();
-        Class<?> superClass = currentClass.getSuperclass();
-        boolean idFound = false;
 
         Map<String, Object> entidadeIdMap = new HashMap<>();
 
-        for (Field field : getFields(superClass)) {
+        for (Field field : getFields(currentClass)) {
             field.setAccessible(true);
             if (isIdField(field)) {
                 Object id = field.get(entity);
                 entidadeIdMap.put(field.getName(), id);
-                idFound = true;
                 break;
             }
         }
-        if(!idFound){
-            for (Field field : getFields(currentClass)) {
-                field.setAccessible(true);
-                if (isIdField(field)) {
-                    Object id = field.get(entity);
-                    entidadeIdMap.put(field.getName(), id);
-                    break;
-                }
-            }
+
+        String loggedUser = customUserUtil.getLoggedUsername();
+        if(loggedUser.length() > 50){
+            loggedUser = loggedUser.substring(0, 50);
         }
 
-        if(trashRepository.existsByEntityId(entidadeIdMap)){
-            Trash trash = trashRepository.findByEntityId(entidadeIdMap);
-            trash.setDate(LocalDateTime.now());
-            trash.setUsername(customUserUtil.getLoggedUsername());
-            trash.setStatus(Status.DELETED);
-            trashRepository.save(trash);
+        if(lixeiraRepository.existsByEntidadeid(entidadeIdMap)){
+            Lixeira lixeira = lixeiraRepository.findByEntidadeid(entidadeIdMap);
+            lixeira.setData(LocalDateTime.now());
+            lixeira.setUsuario(loggedUser);
+            lixeira.setSituacao(Situacao.LIXEIRA);
+            lixeiraRepository.save(lixeira);
         } else{
-            Trash trash = new Trash();
-            trash.setDate(LocalDateTime.now());
-            trash.setTableName(entity.getClass().getSimpleName());
-            trash.setReferencedTable(String.valueOf(entity.getClass()));
-            trash.setUsername(customUserUtil.getLoggedUsername());
-            trash.setStatus(Status.DELETED);
-            trash.setEntityId(entidadeIdMap);
-            trashRepository.save(trash);
+            Lixeira lixeira = new Lixeira();
+            lixeira.setData(LocalDateTime.now());
+            lixeira.setNometabela(entity.getClass().getSimpleName());
+            lixeira.setTabela(String.valueOf(entity.getClass()));
+            lixeira.setUsuario(loggedUser);
+            lixeira.setSituacao(Situacao.LIXEIRA);
+            lixeira.setEntidadeid(entidadeIdMap);
+            lixeiraRepository.save(lixeira);
         }
     }
 
@@ -290,44 +283,30 @@ public class EntityService {
     @SneakyThrows
     public <T> void removerLixeira(T entity) { // chamado pelos métodos para remover o objeto recuperado da tabela Lixeira
         Class<?> currentClass = entity.getClass();
-        Class<?> superClass = currentClass.getSuperclass();
-        boolean idFound = false;
         Map<String, Object> entidadeIdMap = new HashMap<>();
 
-        for (Field field : getFields(superClass)) {
+        for (Field field : getFields(currentClass)) {
             field.setAccessible(true);
             if (isIdField(field)) {
                 Object id = field.get(entity);
                 entidadeIdMap.put(field.getName(), id);
-                idFound = true;
                 break;
             }
         }
-        if(!idFound){
-            for (Field field : getFields(currentClass)) {
-                field.setAccessible(true);
-                if (isIdField(field)) {
-                    Object id = field.get(entity);
-                    entidadeIdMap.put(field.getName(), id);
-                    break;
-                }
-            }
-        }
 
-
-        Trash trash = trashRepository.findByEntityId(entidadeIdMap);
-        if(trash != null){
-            trashRepository.delete(trash);
+        Lixeira lixeira = lixeiraRepository.findByEntidadeid(entidadeIdMap);
+        if(lixeira != null){
+            lixeiraRepository.delete(lixeira);
         }
     }
 
     @Transactional
-    public <T> void retrieve(Long id, Boolean retrieveDependencies) { // método para reativar o item da lixeira, bem como seus dependentes (listas)
-        if(trashRepository.existsById(id)){
+    public <T> void recuperarDaLixeira(Integer id, Boolean retrieveDependencies) { // método para reativar o item da lixeira, bem como seus dependentes (listas)
+        if(lixeiraRepository.existsById(id)){
 
-            Trash trash = trashRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
-            String entityClassName = trash.getReferencedTable().replace("class ", "");
-            Map<String, Object> entityIds = trash.getEntityId();
+            Lixeira lixeira = lixeiraRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
+            String entityClassName = lixeira.getTabela().replace("class ", "");
+            Map<String, Object> entityIds = lixeira.getEntidadeid();
 
             Class<T> entityType;
             try {
@@ -335,17 +314,39 @@ public class EntityService {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("Tipo de entidade não encontrado: " + entityClassName, e);
             }
-            CrudRepository<T, Long> repository = dynamicRepositoryFactory.createRepository(entityType);
+            CrudRepository<T, Integer> repository = dynamicRepositoryFactory.createRepository(entityType);
 
             for (Map.Entry<String, Object> entry : entityIds.entrySet()) {
                 Object fieldValue = entry.getValue();
-                Long entityId = fieldValue instanceof Integer ? ((Integer) fieldValue).longValue() : (Long) fieldValue;
+                Integer entityId = fieldValue instanceof Integer ? ((Integer) fieldValue).intValue() : (Integer) fieldValue;
                 T entity = repository.findById(entityId).orElseThrow(() -> new ResourceNotFoundException("Entidade não encontrada com ID: " + entityId));
 
-                updateStatusAtivoRecursively(entity, Status.ACTIVE, new HashSet<>(), retrieveDependencies);
+                updateStatusAtivoRecursively(entity, Situacao.ATIVO, new HashSet<>(), retrieveDependencies);
             }
 
         }
+    }
+
+    /**
+     * Obter uma lista de atributos de uma entidade que são anotados com a anotação de edição em lote
+     */
+    public List<String> obterAtributosEditaveis(Class<?> currentClass) {
+        List<String> atributosEditaveis = new ArrayList<>();
+
+        // enquanto houver uma superclasse, percorre a hierarquia
+        while (currentClass != null && currentClass != Object.class) {
+            Field[] fields = currentClass.getDeclaredFields();
+
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(BatchEditable.class)) {
+                    atributosEditaveis.add(field.getName());
+                }
+            }
+
+            currentClass = currentClass.getSuperclass();
+        }
+
+        return atributosEditaveis;
     }
 
 }

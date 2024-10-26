@@ -1,9 +1,9 @@
 package br.com.todeschini.webapi.config;
 
 import br.com.todeschini.domain.projections.UserDetailsProjection;
-import br.com.todeschini.persistence.auth.user.UserRepository;
-import br.com.todeschini.persistence.entities.auth.Role;
-import br.com.todeschini.persistence.entities.auth.User;
+import br.com.todeschini.persistence.entities.publico.Role;
+import br.com.todeschini.persistence.entities.publico.User;
+import br.com.todeschini.persistence.publico.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

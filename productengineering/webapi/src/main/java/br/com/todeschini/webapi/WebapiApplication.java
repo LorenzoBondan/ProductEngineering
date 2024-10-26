@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(value = "br.com.todeschini")
+@ComponentScan(value = {"br.com.todeschini", "org.graalvm"})
 @EnableJpaRepositories("br.com.todeschini.persistence.*")
 @EntityScan("br.com.todeschini.persistence.*")
 @OpenAPIDefinition(info = @Info(title = "ProductEngineering API", version = "1"))

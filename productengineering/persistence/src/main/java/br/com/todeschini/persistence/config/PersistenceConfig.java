@@ -1,31 +1,6 @@
 package br.com.todeschini.persistence.config;
 
-import br.com.todeschini.domain.business.configurator.generators.fathergenerator.FatherGeneratorServiceImpl;
-import br.com.todeschini.domain.business.configurator.generators.fathergenerator.api.FatherGeneratorService;
-import br.com.todeschini.domain.business.configurator.generators.fathergenerator.spi.FatherGeneratorMethods;
-import br.com.todeschini.domain.business.configurator.generators.ghostgenerator.GhostGeneratorServiceImpl;
-import br.com.todeschini.domain.business.configurator.generators.ghostgenerator.api.GhostGeneratorService;
-import br.com.todeschini.domain.business.configurator.generators.ghostgenerator.spi.GhostGeneratorMethods;
-import br.com.todeschini.domain.business.configurator.generators.guidegenerator.GuideGeneratorServiceImpl;
-import br.com.todeschini.domain.business.configurator.generators.guidegenerator.api.GuideGeneratorService;
-import br.com.todeschini.domain.business.configurator.generators.guidegenerator.spi.GuideGeneratorMethods;
-import br.com.todeschini.domain.business.configurator.generators.songenerator.SonGeneratorServiceImpl;
-import br.com.todeschini.domain.business.configurator.generators.songenerator.api.SonGeneratorService;
-import br.com.todeschini.domain.business.configurator.generators.songenerator.spi.SonGeneratorMethods;
-import br.com.todeschini.domain.business.configurator.structs.aluminiumitem.AluminiumItemServiceImpl;
-import br.com.todeschini.domain.business.configurator.structs.aluminiumitem.api.AluminiumItemService;
-import br.com.todeschini.domain.business.configurator.structs.aluminiumitem.spi.AluminiumItemMethods;
-import br.com.todeschini.domain.business.configurator.structs.mdfitem.MDFItemServiceImpl;
-import br.com.todeschini.domain.business.configurator.structs.mdfitem.api.MDFItemService;
-import br.com.todeschini.domain.business.configurator.structs.mdfitem.spi.MDFItemMethods;
-import br.com.todeschini.domain.business.configurator.structs.mdpitem.MDPItemServiceImpl;
-import br.com.todeschini.domain.business.configurator.structs.mdpitem.api.MDPItemService;
-import br.com.todeschini.domain.business.configurator.structs.mdpitem.spi.MDPItemMethods;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class PersistenceConfig {

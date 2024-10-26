@@ -1,10 +1,12 @@
 package br.com.todeschini.persistence.entities.publico;
 
-import br.com.todeschini.persistence.entities.audit.AuditInfo;
-import br.com.todeschini.persistence.entities.mdp.Sheet;
-import javax.persistence.*;
+import br.com.todeschini.domain.metadata.Entidade;
+import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.converters.TipoMaterialConverter;
 import lombok.*;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +15,34 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "cdmaterial", callSuper = false)
 @Entity
 @Table(name = "tb_material")
-public class Material extends AuditInfo {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
+@Entidade
+public class Material extends AuditoriaInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private Integer cdmaterial;
+    private String descricao;
 
-    @OneToMany(mappedBy = "material")
-    private List<Sheet> sheets = new ArrayList<>();
+    @Convert(converter = TipoMaterialConverter.class)
+    private TipoMaterial tipoMaterial;
+
+    private LocalDate implantacao;
+    private Double porcentagemPerda;
+    private Double valor;
+
+    @ManyToOne
+    @JoinColumn(name = "cdcor")
+    private Cor cor;
+
+    @OneToMany(mappedBy = "material", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<MaterialUsado> materiaisUsados = new ArrayList<>();
+
+    public Material(Integer cdmaterial) {
+        this.cdmaterial = cdmaterial;
+    }
 }

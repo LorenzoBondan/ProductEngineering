@@ -19,6 +19,8 @@ public class ApiTestUtil {
             request = post(url).content(jsonBody);
         } else if (method.equals(HttpMethod.PUT)) {
             request = put(url).content(jsonBody);
+        } else if (method.equals(HttpMethod.PATCH)) {
+            request = patch(url).content(jsonBody);
         } else if (method.equals(HttpMethod.DELETE)) {
             request = delete(url);
         } else {

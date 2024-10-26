@@ -21,9 +21,9 @@ public class ControllerExceptionHandler {
         return ErrorResponseBuilder.buildErrorResponse(e, HttpStatus.NOT_FOUND, e.getMessage(), request);
     }
 
-    @ExceptionHandler(DuplicatedResourceException.class)
-    public ResponseEntity<CustomError> duplicatedResource(DuplicatedResourceException e, HttpServletRequest request){
-        return ErrorResponseBuilder.buildErrorResponse(e, HttpStatus.CONFLICT, e.getMessage(), request);
+    @ExceptionHandler(RegistroDuplicadoException.class)
+    public ResponseEntity<CustomError> registroDuplicado(RegistroDuplicadoException e, HttpServletRequest request) {
+        return ErrorResponseBuilder.buildErrorResponse(e, HttpStatus.CONFLICT, e.getMessage() + " " + e.getDetail(), request);
     }
 
     @ExceptionHandler(DatabaseException.class)
@@ -44,6 +44,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
         return ErrorResponseBuilder.buildErrorResponse(e, HttpStatus.FORBIDDEN, e.getMessage(), request);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<CustomError> badRequest(BadRequestException e, HttpServletRequest request) {
+        return ErrorResponseBuilder.buildErrorResponse(e, HttpStatus.BAD_REQUEST, e.getMessage(), request);
     }
 
     @ExceptionHandler(ValidationException.class)

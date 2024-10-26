@@ -2,7 +2,7 @@ package br.com.todeschini.domain.business.auth.authservice;
 
 import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
 import br.com.todeschini.domain.business.auth.authservice.spi.AuthMethods;
-import br.com.todeschini.domain.business.auth.user.DUser;
+import br.com.todeschini.domain.business.publico.user.DUser;
 import br.com.todeschini.domain.metadata.DomainService;
 
 @DomainService

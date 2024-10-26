@@ -1,27 +1,46 @@
 package br.com.todeschini.webapi.rest.publico.material;
 
+import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
+
+import java.time.LocalDate;
 
 public class MaterialFactory {
 
     public static DMaterial createDMaterial() {
         DMaterial material = new DMaterial();
-        material.setId(1L);
-        material.setName("Material");
+        material.setCodigo(1);
+        material.setDescricao("Descrição");
+        material.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        material.setImplantacao(LocalDate.of(3000,1,1));
+        material.setPorcentagemPerda(12.0);
+        material.setValor(10.0);
+        material.setCor(new DCor(1));
         return material;
     }
 
-    public static DMaterial createDuplicatedDMaterial() {
+    public static DMaterial createDuplicatedDMaterial(String duplicatedDescription) {
         DMaterial material = new DMaterial();
-        material.setId(2L);
-        material.setName("Material");
+        material.setCodigo(2);
+        material.setDescricao(duplicatedDescription);
+        material.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        material.setImplantacao(LocalDate.of(3000,1,1));
+        material.setPorcentagemPerda(12.0);
+        material.setValor(10.0);
+        material.setCor(new DCor(1));
         return material;
     }
 
-    public static DMaterial createNonExistingDMaterial(Long nonExistingId) {
+    public static DMaterial createNonExistingDMaterial(Integer nonExistingId) {
         DMaterial material = new DMaterial();
-        material.setId(nonExistingId);
-        material.setName("Material");
+        material.setCodigo(nonExistingId);
+        material.setDescricao("Descrição");
+        material.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        material.setImplantacao(LocalDate.of(3000,1,1));
+        material.setPorcentagemPerda(12.0);
+        material.setValor(10.0);
+        material.setCor(new DCor(1));
         return material;
     }
 }

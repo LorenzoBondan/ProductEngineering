@@ -22,7 +22,7 @@ public class CaracteresEspeciaisValidator implements Validator<String> {
                 }
             }
             if (!invalidCharacters.isEmpty()) {
-                validationResult = new ValidationResult(false, "A string contém caracteres inválidos: " + invalidCharacters.toString());
+                validationResult = new ValidationResult(false, "O campo contém caracteres inválidos: " + invalidCharacters.toString());
             }
         }
         return validationResult;

@@ -1,35 +1,65 @@
 package br.com.todeschini.domain.business.publico.material;
 
-import br.com.todeschini.domain.business.enums.DStatus;
+import br.com.todeschini.domain.Descritivel;
+import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.publico.cor.DCor;
+import br.com.todeschini.domain.exceptions.ValidationException;
+import br.com.todeschini.domain.metadata.BatchEditable;
+import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
 import br.com.todeschini.domain.validation.impl.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class DMaterial {
+@Domain
+public class DMaterial implements Descritivel {
 
     @EqualsAndHashCode.Include
-    private Long id;
-    private String name;
-    private DStatus status;
+    private Integer codigo;
+    private String descricao;
+    @BatchEditable
+    private DTipoMaterial tipoMaterial;
+    @BatchEditable
+    private LocalDate implantacao;
+    @BatchEditable
+    private Double porcentagemPerda;
+    @BatchEditable
+    private Double valor;
+    @BatchEditable
+    private DCor cor;
+    private DSituacao situacao;
 
-    public DMaterial(Long id){
-        this.id = id;
+    public DMaterial(Integer codigo){
+        this.codigo = codigo;
     }
 
-    public void validate(){
+    public void validar() throws ValidationException {
         new ValidationBuilder()
-                .add(new NamedValidator<>("Name", new ObjetoNaoNuloValidator()), this.name)
-                .add(new NamedValidator<>("Name", new NaoBrancoValidator()), this.name)
-                .add(new NamedValidator<>("Name", new CaracteresEspeciaisValidator()), this.name)
-                .add(new NamedValidator<>("Name", new TamanhoMinimoValidator(3)), this.name)
-                .add(new NamedValidator<>("Name", new TamanhoMaximoValidator(30)), this.name)
+                .add(new NamedValidator<>("Descrição", new ObjetoNaoNuloValidator()), this.descricao)
+                .add(new NamedValidator<>("Descrição", new NaoBrancoValidator()), this.descricao)
+                .add(new NamedValidator<>("Descrição", new CaracteresEspeciaisValidator()), this.descricao)
+                .add(new NamedValidator<>("Descrição", new TamanhoMinimoValidator(3)), this.descricao)
+                .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(50)), this.descricao)
+                .add(new NamedValidator<>("Tipo material", new ObjetoNaoNuloValidator()), this.tipoMaterial)
+                //.add(new NamedValidator<>("Implantação", new DataFuturaValidator()), this.implantacao)
+                .add(new NamedValidator<>("Porcentagem de perda", new ObjetoNaoNuloValidator()), this.porcentagemPerda)
+                .add(new NamedValidator<>("Porcentagem de perda", new NumeroMaiorOuIgualAZeroValidator()), this.porcentagemPerda)
+                .add(new NamedValidator<>("Valor", new ObjetoNaoNuloValidator()), this.valor)
+                .add(new NamedValidator<>("Valor", new NumeroMaiorOuIgualAZeroValidator()), this.valor)
                 .validate();
+    }
+
+    @Override
+    public String getDescricao() {
+        return this.descricao;
     }
 }

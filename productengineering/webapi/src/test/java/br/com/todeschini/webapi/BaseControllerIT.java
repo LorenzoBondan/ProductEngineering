@@ -1,18 +1,22 @@
 package br.com.todeschini.webapi;
 
+import br.com.todeschini.domain.PageableRequest;
+import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.PagedBuilder;
 import br.com.todeschini.domain.SimpleCrud;
-import br.com.todeschini.domain.exceptions.DuplicatedResourceException;
+import br.com.todeschini.domain.business.publico.history.DHistory;
+import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.entities.enums.Status;
+import br.com.todeschini.persistence.entities.enums.Situacao;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +34,9 @@ public class BaseControllerIT<D> {
     private String adminEmail;
     @Value("${todeschini.users.admin.password}")
     private String adminPassword;
-    @Value("${todeschini.users.readOnly.email}")
+    @Value("${todeschini.users.operator.email}")
     private String readOnlyEmail;
-    @Value("${todeschini.users.readOnly.password}")
+    @Value("${todeschini.users.operator.password}")
     private String readOnlyPassword;
 
     @Autowired
@@ -44,111 +48,176 @@ public class BaseControllerIT<D> {
 
     protected String baseUrl;
 
-    protected static final Long existingId = 1L, nonExistingId = 999999999L;
-    protected String statusListBody, adminAccessToken, readOnlyAccessToken;
+    protected static final Integer existingId = 1, nonExistingId = 99999999;
+    protected String situacaoListBody, adminAccessToken, readOnlyAccessToken;
     protected D factoryObject, duplicatedObject, nonExistingObject;
     protected final List<D> objectList = new ArrayList<>();
-    protected final List<Status> statusList = new ArrayList<>();
+    protected final List<Situacao> situacaoList = new ArrayList<>();
+    protected List<DHistory<D>> historyList = new ArrayList<>();
+    protected SimpleCrud<D, Integer> crud;
+    protected Paged<D> pagedResult;
+    protected PageableRequest pageableRequest = new PageableRequest();
 
     public void setConfiguration(String baseUrl) throws Exception { // define configurações de autenticação e situação
         this.baseUrl = baseUrl;
-        statusList.add(Status.ACTIVE);
-        statusListBody = new ObjectMapper().writeValueAsString(statusList);
+        situacaoList.add(Situacao.ATIVO);
+        situacaoListBody = new ObjectMapper().writeValueAsString(situacaoList);
+
+        historyList = List.of(new DHistory<>(existingId, factoryObject));
 
         adminAccessToken = tokenUtil.obtainAccessToken(mockMvc, new UserTest(adminEmail, adminPassword));
         readOnlyAccessToken = tokenUtil.obtainAccessToken(mockMvc, new UserTest(readOnlyEmail, readOnlyPassword));
     }
 
-    public void setCrudBehavior(D factoryObject, D nonExistingObject, SimpleCrud<D, Long> crud){ // define o comportamento dos métodos do CRUD
+    public void setCrudBehavior(D factoryObject, D nonExistingObject, SimpleCrud<D, Integer> crud){ // define o comportamento dos métodos do CRUD
+        this.crud = crud;
+
+        // findAll
+        pagedResult = new PagedBuilder<D>()
+                .withContent(List.of(factoryObject))
+                .withPage(0)
+                .withSize(10)
+                .withTotalPages(1)
+                .withNumberOfElements(1)
+                .build();
+
+        pageableRequest.setPage(0);
+        pageableRequest.setPageSize(10);
+        String[] sort = {"codigo;d"};
+        pageableRequest.setSort(sort);
+
+        when(crud.buscarTodos(any(PageableRequest.class))).thenReturn(pagedResult);
+
         // findAllAndCurrent
-        when(crud.findAllActiveAndCurrentOne(existingId)).thenReturn(objectList);
-        when(crud.findAllActiveAndCurrentOne(nonExistingId)).thenReturn(objectList);
-        when(crud.findAllActiveAndCurrentOne(null)).thenReturn(objectList);
+        when(crud.buscarTodosAtivosMaisAtual(existingId)).thenReturn(objectList);
+        when(crud.buscarTodosAtivosMaisAtual(nonExistingId)).thenReturn(objectList);
+        when(crud.buscarTodosAtivosMaisAtual(null)).thenReturn(objectList);
 
         // findById
-        when(crud.find(existingId)).thenReturn(factoryObject);
-        doThrow(ResourceNotFoundException.class).when(crud).find(nonExistingId);
+        when(crud.buscar(existingId)).thenReturn(factoryObject);
+        doThrow(ResourceNotFoundException.class).when(crud).buscar(nonExistingId);
+
+        // findHistory
+        when(crud.buscarHistorico(existingId)).thenReturn(historyList);
 
         // insert
-        when(crud.insert(any())).thenReturn(factoryObject);
-        doThrow(DuplicatedResourceException.class).when(crud).insert(duplicatedObject);
+        when(crud.inserir(any())).thenReturn(factoryObject);
+        doThrow(RegistroDuplicadoException.class).when(crud).inserir(duplicatedObject);
 
         // update
-        when(crud.update(existingId, factoryObject)).thenReturn(factoryObject);
-        doThrow(ResourceNotFoundException.class).when(crud).update(nonExistingId, nonExistingObject);
-        doThrow(DuplicatedResourceException.class).when(crud).update(existingId, duplicatedObject);
+        when(crud.atualizar(any())).thenReturn(factoryObject);
+        doThrow(ResourceNotFoundException.class).when(crud).atualizar(nonExistingObject);
+        doThrow(RegistroDuplicadoException.class).when(crud).atualizar(duplicatedObject);
 
-        // delete
-        doNothing().when(crud).delete(existingId);
-        doThrow(ResourceNotFoundException.class).when(crud).delete(nonExistingId);
+        // replaceVersion
+        when(crud.substituirPorVersaoAntiga(existingId, 1)).thenReturn(factoryObject);
+        doThrow(ResourceNotFoundException.class).when(crud).substituirPorVersaoAntiga(nonExistingId, nonExistingId);
 
         // inactivate
-        doNothing().when(crud).inactivate(existingId);
-        doThrow(ResourceNotFoundException.class).when(crud).inactivate(nonExistingId);
+        doNothing().when(crud).inativar(existingId);
+        doThrow(ResourceNotFoundException.class).when(crud).inativar(nonExistingId);
+
+        // delete
+        doNothing().when(crud).remover(existingId);
+        doThrow(ResourceNotFoundException.class).when(crud).remover(nonExistingId);
     }
 
-    public void findAllActiveAndCurrentOneShouldReturnList() throws Exception {
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/activeAndCurrentOne?id=" + existingId, "{}", adminAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/activeAndCurrentOne?id=" + nonExistingId, "{}", adminAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/activeAndCurrentOne?id=", "{}", adminAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/activeAndCurrentOne?id=" + existingId, "{}", readOnlyAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/activeAndCurrentOne?id=" + nonExistingId, "{}", readOnlyAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/activeAndCurrentOne?id=", "{}", readOnlyAccessToken, status().isOk());
+    public void pesquisarTodosShouldReturnPagedList() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(pageableRequest);
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "?colunas=&operacoes=&valores=&sort=codigo;d", jsonBody, adminAccessToken, status().isOk());
+        verify(crud, times(1)).buscarTodos(any(PageableRequest.class));
     }
 
-    public void findShouldReturnObject() throws Exception {
+    public void pesquisarTodosAtivosMaisAtualShouldReturnList() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + existingId, "{}", adminAccessToken, status().isOk());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + nonExistingId, "{}", adminAccessToken, status().isOk());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=", "{}", adminAccessToken, status().isOk());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + existingId, "{}", readOnlyAccessToken, status().isOk());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + nonExistingId, "{}", readOnlyAccessToken, status().isOk());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=", "{}", readOnlyAccessToken, status().isOk());
+        verify(crud, times(2)).buscarTodosAtivosMaisAtual(existingId);
+        verify(crud, times(2)).buscarTodosAtivosMaisAtual(nonExistingId);
+    }
+
+    public void pesquisarPorIdShouldReturnObject() throws Exception {
         ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/" + existingId, "{}", adminAccessToken, status().isOk());
         ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/" + existingId, "{}", readOnlyAccessToken, status().isOk());
+        verify(crud, times(2)).buscar(existingId);
     }
 
-    public void findShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() throws Exception {
+    public void pesquisarPorIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() throws Exception {
         ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/" + nonExistingId, "{}", adminAccessToken, status().isNotFound());
         ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/" + nonExistingId, "{}", readOnlyAccessToken, status().isNotFound());
+        verify(crud, times(2)).buscar(nonExistingId);
     }
 
-    public void insertShouldReturnObject() throws Exception {
+    public void pesquisarHistoricoShouldReturnHistoryList() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/historico?codigo=" + existingId, "{}", adminAccessToken, status().isOk());
+        verify(crud, times(1)).buscarHistorico(existingId);
+    }
+
+    public void criarShouldReturnObject() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(factoryObject);
         ApiTestUtil.performRequest(mockMvc, HttpMethod.POST, baseUrl, jsonBody, adminAccessToken, status().isCreated());
+        verify(crud, times(1)).inserir(factoryObject);
     }
 
-    public void insertShouldThrowDuplicatedResourceExceptionWhenObjectHasDuplicatedDescription() throws Exception {
+    public void criarShouldThrowRegistroDuplicadoExceptionWhenObjectHasDuplicatedDescription() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(duplicatedObject);
         ApiTestUtil.performRequest(mockMvc, HttpMethod.POST, baseUrl, jsonBody, adminAccessToken, status().isConflict());
+        verify(crud, times(0)).inserir(duplicatedObject);
     }
 
-    public void updateShouldReturnOkWhenValidData() throws Exception {
+    public void atualizarShouldReturnOkWhenValidData() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(factoryObject);
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/" + existingId, jsonBody, adminAccessToken, status().isOk());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl, jsonBody, adminAccessToken, status().isOk());
+        verify(crud, times(1)).atualizar(factoryObject);
     }
 
-    public void updateShouldThrowResourceNotFoundExceptionWhenObjectIdDoesNotExists() throws Exception {
+    public void atualizarShouldThrowResourceNotFoundExceptionWhenObjectIdDoesNotExists() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(nonExistingObject);
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/" + nonExistingId, jsonBody, adminAccessToken, status().isNotFound());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl, jsonBody, adminAccessToken, status().isNotFound());
+        verify(crud, times(1)).atualizar(nonExistingObject);
     }
 
-    public void updateShouldThrowDuplicatedResourceExceptionWhenObjectHasDuplicatedDescription() throws Exception {
+    public void atualizarShouldThrowRegistroDuplicadoExceptionWhenObjectHasDuplicatedDescription() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(duplicatedObject);
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/" + existingId, jsonBody, adminAccessToken,status().isConflict());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl, jsonBody, adminAccessToken,status().isConflict());
+        verify(crud, times(0)).atualizar(duplicatedObject);
     }
 
-    public void inactivateShouldReturnOkWhenIdExists() throws Exception {
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/inactivate/" + existingId, "{}", adminAccessToken, status().isOk());
+    public void substituirPorVersaoAntigaShouldReturnObject() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/substituir?codigoRegistro=" + existingId + "&codigoVersao=" + existingId, "{}", adminAccessToken, status().isOk());
+        verify(crud, times(1)).substituirPorVersaoAntiga(existingId, existingId);
     }
 
-    public void inactivateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() throws Exception {
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/inactivate/" + nonExistingId, "{}", adminAccessToken, status().isNotFound());
+    public void substituirPorVersaoAntigaShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/substituir?codigoRegistro=" + nonExistingId + "&codigoVersao=" + nonExistingId, "{}", adminAccessToken, status().isNotFound());
+        verify(crud, times(1)).substituirPorVersaoAntiga(nonExistingId, nonExistingId);
     }
 
-    public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.DELETE, baseUrl + "/" + existingId, "{}", adminAccessToken, status().isNoContent());
+    public void inativarShouldReturnOkWhenIdExists() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PATCH, baseUrl + "/inativar?codigo=" + existingId, "{}", adminAccessToken, status().isOk());
+        verify(crud, times(1)).inativar(existingId);
     }
 
-    public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() throws Exception {
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.DELETE, baseUrl + "/" + nonExistingId, "{}", adminAccessToken, status().isNotFound());
+    public void inativarShouldThrowPartialContentExceptionWhenIdDoesNotExists() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PATCH, baseUrl + "/inativar?codigo=" + nonExistingId, "{}", adminAccessToken, status().isPartialContent());
+        verify(crud, times(1)).inativar(nonExistingId);
+    }
+
+    public void deletarShouldReturnOkWhenIdExists() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.DELETE, baseUrl + "?codigo=" + existingId, "{}", adminAccessToken, status().isOk());
+        verify(crud, times(1)).remover(existingId);
+    }
+
+    public void deletarShouldThrowPartialContentExceptionWhenIdDoesNotExists() throws Exception {
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.DELETE, baseUrl + "?codigo=" + nonExistingId, "{}", adminAccessToken, status().isPartialContent());
+        verify(crud, times(1)).remover(nonExistingId);
     }
 
     protected void validate(D object) throws Exception {
         String jsonBody = objectMapper.writeValueAsString(object);
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl + "/" + existingId, jsonBody, adminAccessToken, status().isUnprocessableEntity());
+        ApiTestUtil.performRequest(mockMvc, HttpMethod.PUT, baseUrl, jsonBody, adminAccessToken, status().isUnprocessableEntity());
     }
 }
