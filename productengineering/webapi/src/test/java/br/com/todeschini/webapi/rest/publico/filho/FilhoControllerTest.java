@@ -2,8 +2,10 @@ package br.com.todeschini.webapi.rest.publico.filho;
 
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.persistence.entities.publico.Filho;
+import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.filho.FilhoRepository;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;
+import br.com.todeschini.persistence.publico.lixeira.LixeiraRepository;
 import br.com.todeschini.webapi.BaseControllerTest;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,6 +26,8 @@ public class FilhoControllerTest extends BaseControllerTest<DFilho, Filho> {
 
     @Autowired
     private FilhoRepository filhoRepository;
+    @Autowired
+    private LixeiraRepository lixeiraRepository;
 
     @Autowired
     public FilhoControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, HistoryRepository historyRepository, TokenUtil tokenUtil) {
@@ -113,6 +120,10 @@ public class FilhoControllerTest extends BaseControllerTest<DFilho, Filho> {
     void tearDown() {
         if (idCriado != null) {
             filhoRepository.deleteById(idCriado);
+            Map<String, Object> id = new HashMap<>();
+            id.put("cdfilho", idCriado);
+            Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
+            lixeiraRepository.deleteById(lixeira.getId());
         }
     }
 }

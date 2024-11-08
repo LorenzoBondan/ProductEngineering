@@ -3,12 +3,11 @@ package br.com.todeschini.persistence.publico.pai;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
 import br.com.todeschini.domain.PagedBuilder;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoFilho;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoFilhoEnum;
 import br.com.todeschini.domain.business.publico.acessorio.api.AcessorioService;
 import br.com.todeschini.domain.business.publico.acessoriousado.DAcessorioUsado;
 import br.com.todeschini.domain.business.publico.acessoriousado.api.AcessorioUsadoService;
-import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
 import br.com.todeschini.domain.business.publico.categoriacomponente.api.CategoriaComponenteService;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.cor.api.CorService;
@@ -23,7 +22,6 @@ import br.com.todeschini.domain.business.publico.material.api.MaterialService;
 import br.com.todeschini.domain.business.publico.materialusado.api.MaterialUsadoService;
 import br.com.todeschini.domain.business.publico.medidas.DMedidas;
 import br.com.todeschini.domain.business.publico.medidas.api.MedidasService;
-import br.com.todeschini.domain.business.publico.modelo.DModelo;
 import br.com.todeschini.domain.business.publico.modelo.api.ModeloService;
 import br.com.todeschini.domain.business.publico.pai.DPai;
 import br.com.todeschini.domain.business.publico.pai.montadores.DAcessorioQuantidade;
@@ -36,9 +34,8 @@ import br.com.todeschini.domain.business.publico.roteiro.api.RoteiroService;
 import br.com.todeschini.domain.business.publico.roteiromaquina.DRoteiroMaquina;
 import br.com.todeschini.domain.business.publico.roteiromaquina.api.RoteiroMaquinaService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.entities.enums.Situacao;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
-import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Pai;
 import br.com.todeschini.persistence.processadores.MaterialProcessador;
 import br.com.todeschini.persistence.processadores.MaterialProcessadorFactory;
@@ -192,7 +189,7 @@ public class CrudPaiImpl implements CrudPai {
     @Transactional
     public void inativar(Integer id) {
         Pai entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
-        Situacao situacao = entity.getSituacao() == Situacao.ATIVO ? Situacao.INATIVO : Situacao.ATIVO;
+        SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
         entity.setSituacao(situacao);
         repository.save(entity);
     }
@@ -200,7 +197,7 @@ public class CrudPaiImpl implements CrudPai {
     @Override
     @Transactional
     public void remover(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), Situacao.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 
     @Override
@@ -222,7 +219,7 @@ public class CrudPaiImpl implements CrudPai {
                 montadorEstruturaPaiModulacao.getCores(),
                 new ArrayList<>(Collections.singletonList(montadorEstruturaPaiModulacao.getMedidasPaiPrincipal())),
                 montadorEstruturaPaiModulacao.getImplantacao(),
-                DTipoFilho.MDP
+                DTipoFilhoEnum.MDP
         );
         DPai paiPrincipal = montarPai(montadorEstruturaPai);
         paiPrincipal = validarEInserirPai(paiPrincipal);
@@ -240,7 +237,7 @@ public class CrudPaiImpl implements CrudPai {
                         montadorEstruturaPaiModulacao.getMateriais(),
                         paiSecundario.getMaquinas(),
                         montadorEstruturaPaiModulacao.getImplantacao(),
-                        DTipoFilho.MDP,
+                        DTipoFilhoEnum.MDP,
                         paiSecundario.getPai().getBordasComprimento(),
                         paiSecundario.getPai().getBordasLargura(),
                         paiSecundario.getPai().getPlasticoAcima(),
@@ -341,7 +338,7 @@ public class CrudPaiImpl implements CrudPai {
 
         if (!medidaExistente.isEmpty()) {
             medida.setCodigo(medidaExistente.iterator().next().getCodigo());
-            medida.setSituacao(DSituacao.valueOf(medidaExistente.iterator().next().getSituacao().name()));
+            medida.setSituacao(DSituacaoEnum.valueOf(medidaExistente.iterator().next().getSituacao().name()));
         } else {
             montadorEstruturaPai.getMedidas().remove(medida);
             medida = medidasService.incluir(medida);
@@ -352,15 +349,15 @@ public class CrudPaiImpl implements CrudPai {
     }
 
     private void processarFilhoComMateriais(DMontadorEstruturaPai montadorEstruturaPai, DFilho filho) {
-        if (filho.getTipo().equals(DTipoFilho.MDP)) {
+        if (filho.getTipo().equals(DTipoFilhoEnum.MDP)) {
             processarMateriaisMDP(filho, montadorEstruturaPai.getMateriais());
-        } else if (filho.getTipo().equals(DTipoFilho.MDF)) {
+        } else if (filho.getTipo().equals(DTipoFilhoEnum.MDF)) {
             processarMateriaisMDF(filho, montadorEstruturaPai.getMateriais());
         }
     }
 
     private DFilho criarFilho(DPai pai, String descricao, DCor cor, DMedidas medida, LocalDate implantacao,
-                              DTipoFilho tipoFilho) {
+                              DTipoFilhoEnum tipoFilho) {
         return DFilho.builder()
                 .codigo(null)
                 .descricao(descricao)
@@ -380,9 +377,9 @@ public class CrudPaiImpl implements CrudPai {
 
     private void processarMateriaisMDP(DFilho filho, List<DMaterial> materiais) {
         // Materiais acrescentados automaticamente com base em cores e medidas
-        MaterialProcessador chapaMDPProcessador = materialProcessadorFactory.getProcessador(TipoMaterial.CHAPA_MDP.toString());
+        MaterialProcessador chapaMDPProcessador = materialProcessadorFactory.getProcessador(TipoMaterialEnum.CHAPA_MDP.toString());
         chapaMDPProcessador.processarMaterial(filho, null);
-        MaterialProcessador fitaBordaProcessador = materialProcessadorFactory.getProcessador(TipoMaterial.FITA_BORDA.toString());
+        MaterialProcessador fitaBordaProcessador = materialProcessadorFactory.getProcessador(TipoMaterialEnum.FITA_BORDA.toString());
         fitaBordaProcessador.processarMaterial(filho, null);
 
         // Materiais acrescentados via configurador por código
@@ -399,7 +396,7 @@ public class CrudPaiImpl implements CrudPai {
         filho.getFilhos().add(fundo);
 
         // Materiais acrescentados automaticamente com base em cores e medidas
-        MaterialProcessador pinturaProcessador = materialProcessadorFactory.getProcessador(TipoMaterial.PINTURA.toString());
+        MaterialProcessador pinturaProcessador = materialProcessadorFactory.getProcessador(TipoMaterialEnum.PINTURA.toString());
         pinturaProcessador.processarMaterial(filho, null);
 
         // Materiais acrescentados via configurador por código
@@ -417,9 +414,9 @@ public class CrudPaiImpl implements CrudPai {
 
         if (fundos.isEmpty()) {
             fundo = filhoService.incluir(criarFilho(filho.getPai(), descricao,
-                    corService.buscar(4), filho.getMedidas(), filho.getImplantacao(), DTipoFilho.FUNDO));
+                    corService.buscar(4), filho.getMedidas(), filho.getImplantacao(), DTipoFilhoEnum.FUNDO));
             // colocar a chapa dentro do fundo
-            MaterialProcessador chapaMDFProcessador = materialProcessadorFactory.getProcessador(TipoMaterial.CHAPA_MDF.toString());
+            MaterialProcessador chapaMDFProcessador = materialProcessadorFactory.getProcessador(TipoMaterialEnum.CHAPA_MDF.toString());
             chapaMDFProcessador.processarMaterial(fundo, null);
             fundo.calcularValor();
             filhoService.atualizar(fundo);

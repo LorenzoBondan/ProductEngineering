@@ -1,12 +1,8 @@
 package br.com.todeschini.webapi.rest.publico.acessoriousado;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
 import br.com.todeschini.domain.business.publico.acessorio.DAcessorio;
 import br.com.todeschini.domain.business.publico.acessoriousado.DAcessorioUsado;
-import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
-
-import java.time.LocalDate;
 
 public class AcessorioUsadoFactory {
 

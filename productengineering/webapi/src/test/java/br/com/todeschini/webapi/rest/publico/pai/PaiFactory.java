@@ -1,5 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.pai;
 
+import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
+import br.com.todeschini.domain.business.publico.modelo.DModelo;
 import br.com.todeschini.domain.business.publico.pai.DPai;
 
 public class PaiFactory {
@@ -7,6 +9,8 @@ public class PaiFactory {
     public static DPai createDPai() {
         DPai pai = new DPai();
         pai.setCodigo(1);
+        pai.setModelo(new DModelo(1));
+        pai.setCategoriaComponente(new DCategoriaComponente(1));
         pai.setDescricao("Descrição");
         pai.setBordasComprimento(1);
         pai.setBordasLargura(1);
@@ -21,6 +25,8 @@ public class PaiFactory {
     public static DPai createDuplicatedDPai(String duplicatedDescription) {
         DPai pai = new DPai();
         pai.setCodigo(2);
+        pai.setModelo(new DModelo(1));
+        pai.setCategoriaComponente(new DCategoriaComponente(1));
         pai.setDescricao(duplicatedDescription);
         pai.setBordasComprimento(1);
         pai.setBordasLargura(1);
@@ -35,6 +41,8 @@ public class PaiFactory {
     public static DPai createNonExistingDPai(Integer nonExistingId) {
         DPai pai = new DPai();
         pai.setCodigo(nonExistingId);
+        pai.setModelo(new DModelo(1));
+        pai.setCategoriaComponente(new DCategoriaComponente(1));
         pai.setDescricao("Descrição");
         pai.setBordasComprimento(1);
         pai.setBordasLargura(1);

@@ -1,7 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.pintura;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
+import br.com.todeschini.domain.business.enums.DTipoPinturaEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.pintura.DPintura;
 
@@ -13,12 +13,12 @@ public class PinturaFactory {
         DPintura Pintura = new DPintura();
         Pintura.setCodigo(1);
         Pintura.setDescricao("Descrição");
-        Pintura.setTipoMaterial(DTipoMaterial.PINTURA);
+        Pintura.setTipoMaterial(DTipoMaterialEnum.PINTURA);
         Pintura.setImplantacao(LocalDate.of(3000,1,1));
         Pintura.setPorcentagemPerda(12.0);
         Pintura.setValor(10.0);
         Pintura.setCor(new DCor(1));
-        Pintura.setTipoPintura(DTipoPintura.ACETINADA);
+        Pintura.setTipoPintura(DTipoPinturaEnum.ACETINADA);
         return Pintura;
     }
 
@@ -26,12 +26,12 @@ public class PinturaFactory {
         DPintura Pintura = new DPintura();
         Pintura.setCodigo(2);
         Pintura.setDescricao(duplicatedDescription);
-        Pintura.setTipoMaterial(DTipoMaterial.PINTURA);
+        Pintura.setTipoMaterial(DTipoMaterialEnum.PINTURA);
         Pintura.setImplantacao(LocalDate.of(3000,1,1));
         Pintura.setPorcentagemPerda(12.0);
         Pintura.setValor(10.0);
         Pintura.setCor(new DCor(1));
-        Pintura.setTipoPintura(DTipoPintura.ACETINADA);
+        Pintura.setTipoPintura(DTipoPinturaEnum.ACETINADA);
         return Pintura;
     }
 
@@ -39,12 +39,12 @@ public class PinturaFactory {
         DPintura Pintura = new DPintura();
         Pintura.setCodigo(nonExistingId);
         Pintura.setDescricao("Descrição");
-        Pintura.setTipoMaterial(DTipoMaterial.PINTURA);
+        Pintura.setTipoMaterial(DTipoMaterialEnum.PINTURA);
         Pintura.setImplantacao(LocalDate.of(3000,1,1));
         Pintura.setPorcentagemPerda(12.0);
         Pintura.setValor(10.0);
         Pintura.setCor(new DCor(1));
-        Pintura.setTipoPintura(DTipoPintura.ACETINADA);
+        Pintura.setTipoPintura(DTipoPinturaEnum.ACETINADA);
         return Pintura;
     }
 }

@@ -1,8 +1,8 @@
 package br.com.todeschini.persistence.entities.publico;
 
 import br.com.todeschini.domain.metadata.Entidade;
-import br.com.todeschini.persistence.entities.enums.TipoFilho;
-import br.com.todeschini.persistence.entities.enums.converters.TipoFilhoConverter;
+import br.com.todeschini.persistence.entities.enums.TipoFilhoEnum;
+import br.com.todeschini.persistence.entities.enums.converters.TipoFilhoEnumConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -48,8 +48,8 @@ public class Filho extends AuditoriaInfo {
     private LocalDate implantacao;
     private Double valor;
 
-    @Convert(converter = TipoFilhoConverter.class)
-    private TipoFilho tipo;
+    @Convert(converter = TipoFilhoEnumConverter.class)
+    private TipoFilhoEnum tipo;
 
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinTable(name = "tb_item_filho",

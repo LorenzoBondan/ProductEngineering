@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.categoriacomponente;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -21,7 +21,7 @@ public class DCategoriaComponente implements Descritivel {
     @EqualsAndHashCode.Include
     private Integer codigo;
     private String descricao;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DCategoriaComponente(Integer codigo){
         this.codigo = codigo;

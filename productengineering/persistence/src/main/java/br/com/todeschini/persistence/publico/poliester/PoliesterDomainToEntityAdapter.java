@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.poliester;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.poliester.DPoliester;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Poliester;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class PoliesterDomainToEntityAdapter implements Convertable<Poliester, DP
         Poliester Poliester = new Poliester();
         Poliester.setCdmaterial(domain.getCodigo());
         Poliester.setDescricao(domain.getDescricao());
-        Poliester.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Poliester.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Poliester.setImplantacao(domain.getImplantacao());
         Poliester.setPorcentagemPerda(domain.getPorcentagemPerda());
         Poliester.setValor(domain.getValor());
@@ -42,7 +42,7 @@ public class PoliesterDomainToEntityAdapter implements Convertable<Poliester, DP
         Poliester.setCodigo(entity.getCdmaterial());
         Poliester.setDescricao(entity.getDescricao());
         Poliester.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Poliester.setImplantacao(entity.getImplantacao());
         Poliester.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -50,7 +50,7 @@ public class PoliesterDomainToEntityAdapter implements Convertable<Poliester, DP
         Poliester.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Poliester.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Poliester.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Poliester;
     }
 }

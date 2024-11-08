@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.medidas;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.BatchEditable;
 import br.com.todeschini.domain.metadata.Domain;
@@ -28,7 +28,7 @@ public class DMedidas implements Descritivel {
     private Integer largura;
     @BatchEditable
     private Integer espessura;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DMedidas(Integer codigo){
         this.codigo = codigo;

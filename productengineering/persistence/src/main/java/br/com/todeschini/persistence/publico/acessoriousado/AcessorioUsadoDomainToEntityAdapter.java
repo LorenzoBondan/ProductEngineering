@@ -1,12 +1,10 @@
 package br.com.todeschini.persistence.publico.acessoriousado;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.publico.acessorio.DAcessorio;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.acessoriousado.DAcessorioUsado;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.publico.Acessorio;
 import br.com.todeschini.persistence.entities.publico.AcessorioUsado;
 import br.com.todeschini.persistence.entities.publico.Filho;
 import br.com.todeschini.persistence.publico.acessorio.AcessorioDomainToEntityAdapter;
@@ -51,7 +49,7 @@ public class AcessorioUsadoDomainToEntityAdapter implements Convertable<Acessori
         acessorioUsado.setQuantidade(entity.getQuantidade());
         acessorioUsado.setValor(entity.getValor());
         acessorioUsado.setUnidadeMedida(Optional.ofNullable(entity.getUnidadeMedida()).orElse("UN"));
-        acessorioUsado.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        acessorioUsado.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return acessorioUsado;
     }
 }

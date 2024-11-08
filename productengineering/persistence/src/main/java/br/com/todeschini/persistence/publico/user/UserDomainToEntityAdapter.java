@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.publico.user;
 
 import br.com.todeschini.domain.Convertable;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.role.DRole;
 import br.com.todeschini.domain.business.publico.user.DUser;
 import br.com.todeschini.domain.metadata.EntityAdapter;
@@ -36,6 +37,7 @@ public class UserDomainToEntityAdapter implements Convertable<User, DUser> {
                 .password(entity.getPassword())
                 .email(entity.getEmail())
                 .imgUrl(entity.getImgUrl())
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
 
                 .roles(entity.getRoles().stream().map(role -> new DRole(role.getId(), role.getAuthority())).collect(Collectors.toList()))
 

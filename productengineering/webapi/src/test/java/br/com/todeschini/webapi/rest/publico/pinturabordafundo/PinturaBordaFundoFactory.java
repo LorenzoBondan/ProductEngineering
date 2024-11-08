@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.pinturabordafundo;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.pinturabordafundo.DPinturaBordaFundo;
 
@@ -12,7 +12,7 @@ public class PinturaBordaFundoFactory {
         DPinturaBordaFundo PinturaBordaFundo = new DPinturaBordaFundo();
         PinturaBordaFundo.setCodigo(1);
         PinturaBordaFundo.setDescricao("Descrição");
-        PinturaBordaFundo.setTipoMaterial(DTipoMaterial.PINTURA_DE_BORDA_DE_FUNDO);
+        PinturaBordaFundo.setTipoMaterial(DTipoMaterialEnum.PINTURA_DE_BORDA_DE_FUNDO);
         PinturaBordaFundo.setImplantacao(LocalDate.of(3000,1,1));
         PinturaBordaFundo.setPorcentagemPerda(12.0);
         PinturaBordaFundo.setValor(10.0);
@@ -24,7 +24,7 @@ public class PinturaBordaFundoFactory {
         DPinturaBordaFundo PinturaBordaFundo = new DPinturaBordaFundo();
         PinturaBordaFundo.setCodigo(2);
         PinturaBordaFundo.setDescricao(duplicatedDescription);
-        PinturaBordaFundo.setTipoMaterial(DTipoMaterial.PINTURA_DE_BORDA_DE_FUNDO);
+        PinturaBordaFundo.setTipoMaterial(DTipoMaterialEnum.PINTURA_DE_BORDA_DE_FUNDO);
         PinturaBordaFundo.setImplantacao(LocalDate.of(3000,1,1));
         PinturaBordaFundo.setPorcentagemPerda(12.0);
         PinturaBordaFundo.setValor(10.0);
@@ -36,7 +36,7 @@ public class PinturaBordaFundoFactory {
         DPinturaBordaFundo PinturaBordaFundo = new DPinturaBordaFundo();
         PinturaBordaFundo.setCodigo(nonExistingId);
         PinturaBordaFundo.setDescricao("Descrição");
-        PinturaBordaFundo.setTipoMaterial(DTipoMaterial.PINTURA_DE_BORDA_DE_FUNDO);
+        PinturaBordaFundo.setTipoMaterial(DTipoMaterialEnum.PINTURA_DE_BORDA_DE_FUNDO);
         PinturaBordaFundo.setImplantacao(LocalDate.of(3000,1,1));
         PinturaBordaFundo.setPorcentagemPerda(12.0);
         PinturaBordaFundo.setValor(10.0);

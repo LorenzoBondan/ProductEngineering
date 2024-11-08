@@ -3,6 +3,7 @@ package br.com.todeschini.persistence.publico.history;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.history.spi.HistoryOperations;
 import br.com.todeschini.persistence.entities.enums.MappableEnum;
+import br.com.todeschini.persistence.entities.enums.MappableStringEnum;
 import br.com.todeschini.persistence.entities.publico.History;
 import br.com.todeschini.persistence.util.DynamicRepositoryFactory;
 import br.com.todeschini.persistence.util.ReflectionUtils;
@@ -12,11 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -60,36 +64,45 @@ public class HistoryOperationsImpl implements HistoryOperations {
                 .map(history -> new DHistory<>(
                         history.getId(),
                         history.getTstamp(),
-                        retirarAutorDoMap(history.getOldVal()),
+                        retirarAutorDoJson(history.getOldVal()),
                         convertToEntity(history.getOldVal(), entityType, attributeMappings)))
                 .collect(Collectors.toList());
     }
 
-    private String retirarAutorDoMap(Map<String, Object> oldVal) {
-        if (oldVal != null && oldVal.containsKey("modificadopor")) {
-            return oldVal.get("modificadopor").toString();
+    private String retirarAutorDoJson(Map<String, Object> jsonMap) {
+        try {
+            Object modificadopor = jsonMap.get("modificadopor");
+            return modificadopor != null ? modificadopor.toString() : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**
      * Converte um JSON de histórico para uma entidade do tipo especificado.
      *
      * @param <T> Tipo da entidade a ser convertida.
-     * @param oldVal JSON contendo os campos da entidade.
+     * @param jsonMap Mapa contendo os campos da entidade.
      * @param entityType Tipo da entidade para a qual o JSON será convertido.
      * @param attributeMappings Mapeamentos que relacionam campos com suas respectivas classes de entidade.
      * @return Um objeto da entidade convertido a partir do JSON.
      */
-    private <T> T convertToEntity(Map<String, Object> oldVal, Class<T> entityType, Map<String, Class<?>> attributeMappings) {
+    private <T> T convertToEntity(Map<String, Object> jsonMap, Class<T> entityType, Map<String, Class<?>> attributeMappings) {
         try {
-            JsonNode node = objectMapper.valueToTree(oldVal);
+            // Converte o Map<String, Object> para um JsonNode para processar
+            JsonNode node = objectMapper.valueToTree(jsonMap);
+
+            // Realiza as transformações no JsonNode
             JsonNode transformedNode = transformNode(node, attributeMappings, entityType);
+
+            // Converte snake_case para camelCase
             JsonNode camelCaseNode = convertSnakeToCamel(transformedNode);
 
+            // Converte o JsonNode final para a entidade especificada
             return objectMapper.treeToValue(camelCaseNode, entityType);
         } catch (Exception e) {
-            throw new RuntimeException("Error converting Map to entity: " + entityType.getSimpleName(), e);
+            throw new RuntimeException("Error converting JSON to entity: " + entityType.getSimpleName(), e);
         }
     }
 
@@ -135,7 +148,7 @@ public class HistoryOperationsImpl implements HistoryOperations {
                     Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) enumField.getType();
 
                     // Solução para o problema de incompatibilidade de tipos
-                    Enum<?> enumValue = convertToEnumWildcard(enumClass, fieldValue.asInt());
+                    Enum<?> enumValue = convertToEnumWildcard(enumClass, fieldValue.asInt(), fieldValue.textValue());
                     newNode.set(fieldName, mapper.valueToTree(enumValue));
                 } else {
                     newNode.set(fieldName, fieldValue);
@@ -144,23 +157,6 @@ public class HistoryOperationsImpl implements HistoryOperations {
         }
 
         return newNode;
-    }
-
-    // Método auxiliar para converter um valor inteiro em um enum correspondente
-    private <E extends Enum<E>> E convertToEnum(Class<E> enumClass, int value) {
-        for (E enumConstant : enumClass.getEnumConstants()) {
-            if (enumConstant instanceof MappableEnum && ((MappableEnum) enumConstant).getValue() == value) {
-                return enumConstant;
-            }
-        }
-        return null;
-    }
-
-    // Método para lidar com a captura de wildcard
-    private <E extends Enum<E>> E convertToEnumWildcard(Class<? extends Enum<?>> enumClass, int value) {
-        @SuppressWarnings("unchecked")
-        Class<E> castedEnumClass = (Class<E>) enumClass;
-        return convertToEnum(castedEnumClass, value);
     }
 
     /**
@@ -227,11 +223,34 @@ public class HistoryOperationsImpl implements HistoryOperations {
     }
 
     private Field findFieldByName(Class<?> clazz, String fieldName) {
-        try {
-            return clazz.getDeclaredField(fieldName);
-        } catch (NoSuchFieldException e) {
-            return null;
+        while (clazz != null) {
+            try {
+                return clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                // Campo não encontrado, passar para a superclasse
+                clazz = clazz.getSuperclass();
+            }
         }
+        return null;
+    }
+
+    // Método auxiliar para converter um valor inteiro em um enum correspondente
+    private <E extends Enum<E>> E convertToEnum(Class<E> enumClass, int value, String label) {
+        for (E enumConstant : enumClass.getEnumConstants()) {
+            if (enumConstant instanceof MappableEnum && ((MappableEnum) enumConstant).getValue() == value) {
+                return enumConstant;
+            } else if (enumConstant instanceof MappableStringEnum && Objects.equals(((MappableStringEnum) enumConstant).getLabel().toLowerCase(), label.toLowerCase())) {
+                return enumConstant;
+            }
+        }
+        return null;
+    }
+
+    // Método para lidar com a captura de wildcard
+    private <E extends Enum<E>> E convertToEnumWildcard(Class<? extends Enum<?>> enumClass, int value, String label) {
+        @SuppressWarnings("unchecked")
+        Class<E> castedEnumClass = (Class<E>) enumClass;
+        return convertToEnum(castedEnumClass, value, label);
     }
 
     private JsonNode convertSnakeToCamel(JsonNode originalNode) {

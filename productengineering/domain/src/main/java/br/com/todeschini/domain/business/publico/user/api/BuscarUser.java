@@ -7,5 +7,6 @@ import br.com.todeschini.domain.business.publico.user.DUser;
 public interface BuscarUser {
 
     DUser buscar (Integer id);
+    DUser buscar (String email);
     Paged<DUser> buscar(PageableRequest request);
 }

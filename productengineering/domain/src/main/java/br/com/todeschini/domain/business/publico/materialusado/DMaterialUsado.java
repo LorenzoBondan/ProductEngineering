@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.materialusado;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
 import br.com.todeschini.domain.exceptions.ValidationException;
@@ -37,7 +37,7 @@ public class DMaterialUsado implements Descritivel {
     private Double quantidadeBruta;
     @BatchEditable
     private String unidadeMedida;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DMaterialUsado(Integer codigo){
         this.codigo = codigo;

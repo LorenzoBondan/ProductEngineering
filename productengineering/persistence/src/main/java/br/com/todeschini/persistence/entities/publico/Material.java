@@ -1,8 +1,8 @@
 package br.com.todeschini.persistence.entities.publico;
 
 import br.com.todeschini.domain.metadata.Entidade;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
-import br.com.todeschini.persistence.entities.enums.converters.TipoMaterialConverter;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
+import br.com.todeschini.persistence.entities.enums.converters.TipoMaterialEnumConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,8 +28,8 @@ public class Material extends AuditoriaInfo {
     private Integer cdmaterial;
     private String descricao;
 
-    @Convert(converter = TipoMaterialConverter.class)
-    private TipoMaterial tipoMaterial;
+    @Convert(converter = TipoMaterialEnumConverter.class)
+    private TipoMaterialEnum tipoMaterial;
 
     private LocalDate implantacao;
     private Double porcentagemPerda;

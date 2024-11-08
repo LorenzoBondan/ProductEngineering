@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.processadores;
 
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,18 +21,18 @@ public class MaterialProcessadorFactory {
             ChapaMDFProcessador chapaMDFProcessador, BagueteProcessador bagueteProcessador
         ) {
         this.processadores = new HashMap<>();
-        processadores.put(TipoMaterial.CHAPA_MDP.toString(), chapaProcessor);
-        processadores.put(TipoMaterial.FITA_BORDA.toString(), fitaBordaProcessador);
-        processadores.put(TipoMaterial.COLA.toString(), colaProcessador);
-        processadores.put(TipoMaterial.CANTONEIRA.toString(), cantoneiraProcessador);
-        processadores.put(TipoMaterial.TNT.toString(), tntProcessador);
-        processadores.put(TipoMaterial.POLIETILENO.toString(), polietilenoProcessador);
-        processadores.put(TipoMaterial.PLASTICO.toString(), plasticoProcessador);
-        processadores.put(TipoMaterial.PINTURA.toString(), pinturaProcessador);
-        processadores.put(TipoMaterial.PINTURA_DE_BORDA_DE_FUNDO.toString(), pinturaBordaFundoProcessador);
-        processadores.put(TipoMaterial.POLIESTER.toString(), poliesterProcessador);
-        processadores.put(TipoMaterial.CHAPA_MDF.toString(), chapaMDFProcessador);
-        processadores.put(TipoMaterial.BAGUETE.toString(), bagueteProcessador);
+        processadores.put(TipoMaterialEnum.CHAPA_MDP.toString(), chapaProcessor);
+        processadores.put(TipoMaterialEnum.FITA_BORDA.toString(), fitaBordaProcessador);
+        processadores.put(TipoMaterialEnum.COLA.toString(), colaProcessador);
+        processadores.put(TipoMaterialEnum.CANTONEIRA.toString(), cantoneiraProcessador);
+        processadores.put(TipoMaterialEnum.TNT.toString(), tntProcessador);
+        processadores.put(TipoMaterialEnum.POLIETILENO.toString(), polietilenoProcessador);
+        processadores.put(TipoMaterialEnum.PLASTICO.toString(), plasticoProcessador);
+        processadores.put(TipoMaterialEnum.PINTURA.toString(), pinturaProcessador);
+        processadores.put(TipoMaterialEnum.PINTURA_DE_BORDA_DE_FUNDO.toString(), pinturaBordaFundoProcessador);
+        processadores.put(TipoMaterialEnum.POLIESTER.toString(), poliesterProcessador);
+        processadores.put(TipoMaterialEnum.CHAPA_MDF.toString(), chapaMDFProcessador);
+        processadores.put(TipoMaterialEnum.BAGUETE.toString(), bagueteProcessador);
     }
 
     public MaterialProcessador getProcessador(String materialType) {

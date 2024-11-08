@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.processadores;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.chapa.DChapa;
 import br.com.todeschini.domain.business.publico.chapausada.DChapaUsada;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
@@ -27,7 +27,7 @@ public class ChapaMDFProcessador implements MaterialProcessador {
     @Override
     public void processarMaterial(DFilho filho, DMaterial material) {
         DChapa chapa = adapter.toDomain(queryRepository.findByEspessuraAndFacesAndCorAndTipoMaterial(
-                filho.getMedidas().getEspessura(), filho.getPai().getFaces(), filho.getCor().getCodigo(), DTipoMaterial.CHAPA_MDF.getValue()));
+                filho.getMedidas().getEspessura(), filho.getPai().getFaces(), filho.getCor().getCodigo(), DTipoMaterialEnum.CHAPA_MDF.getValue()));
         incluirChapa(filho, chapa);
     }
 

@@ -8,7 +8,7 @@ import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.business.publico.modelo.DModelo;
 import br.com.todeschini.domain.business.publico.modelo.spi.CrudModelo;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.entities.enums.Situacao;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.Modelo;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
@@ -133,7 +133,7 @@ public class CrudModeloImpl implements CrudModelo {
     @Transactional
     public void inativar(Integer id) {
         Modelo entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
-        Situacao situacao = entity.getSituacao() == Situacao.ATIVO ? Situacao.INATIVO : Situacao.ATIVO;
+        SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
         entity.setSituacao(situacao);
         repository.save(entity);
     }
@@ -141,7 +141,7 @@ public class CrudModeloImpl implements CrudModelo {
     @Override
     @Transactional
     public void remover(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), Situacao.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 
     private void setCreationProperties(Modelo obj){

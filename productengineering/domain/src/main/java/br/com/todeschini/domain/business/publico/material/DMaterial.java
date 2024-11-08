@@ -1,8 +1,8 @@
 package br.com.todeschini.domain.business.publico.material;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.BatchEditable;
@@ -27,7 +27,7 @@ public class DMaterial implements Descritivel {
     private Integer codigo;
     private String descricao;
     @BatchEditable
-    private DTipoMaterial tipoMaterial;
+    private DTipoMaterialEnum tipoMaterial;
     @BatchEditable
     private LocalDate implantacao;
     @BatchEditable
@@ -36,7 +36,7 @@ public class DMaterial implements Descritivel {
     private Double valor;
     @BatchEditable
     private DCor cor;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DMaterial(Integer codigo){
         this.codigo = codigo;

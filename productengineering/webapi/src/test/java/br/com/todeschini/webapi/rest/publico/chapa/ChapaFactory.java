@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.chapa;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.chapa.DChapa;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 
@@ -12,7 +12,7 @@ public class ChapaFactory {
         DChapa chapa = new DChapa();
         chapa.setCodigo(1);
         chapa.setDescricao("Descrição");
-        chapa.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        chapa.setTipoMaterial(DTipoMaterialEnum.CHAPA_MDP);
         chapa.setImplantacao(LocalDate.of(3000,1,1));
         chapa.setPorcentagemPerda(12.0);
         chapa.setValor(10.0);
@@ -26,7 +26,7 @@ public class ChapaFactory {
         DChapa chapa = new DChapa();
         chapa.setCodigo(2);
         chapa.setDescricao(duplicatedDescription);
-        chapa.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        chapa.setTipoMaterial(DTipoMaterialEnum.CHAPA_MDP);
         chapa.setImplantacao(LocalDate.of(3000,1,1));
         chapa.setPorcentagemPerda(12.0);
         chapa.setValor(10.0);
@@ -40,7 +40,7 @@ public class ChapaFactory {
         DChapa chapa = new DChapa();
         chapa.setCodigo(nonExistingId);
         chapa.setDescricao("Descrição");
-        chapa.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        chapa.setTipoMaterial(DTipoMaterialEnum.CHAPA_MDP);
         chapa.setImplantacao(LocalDate.of(3000,1,1));
         chapa.setPorcentagemPerda(12.0);
         chapa.setValor(10.0);

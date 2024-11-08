@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.pinturabordafundo;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.pinturabordafundo.DPinturaBordaFundo;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.PinturaBordaFundo;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class PinturaBordaFundoDomainToEntityAdapter implements Convertable<Pintu
         PinturaBordaFundo PinturaBordaFundo = new PinturaBordaFundo();
         PinturaBordaFundo.setCdmaterial(domain.getCodigo());
         PinturaBordaFundo.setDescricao(domain.getDescricao());
-        PinturaBordaFundo.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        PinturaBordaFundo.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         PinturaBordaFundo.setImplantacao(domain.getImplantacao());
         PinturaBordaFundo.setPorcentagemPerda(domain.getPorcentagemPerda());
         PinturaBordaFundo.setValor(domain.getValor());
@@ -42,7 +42,7 @@ public class PinturaBordaFundoDomainToEntityAdapter implements Convertable<Pintu
         PinturaBordaFundo.setCodigo(entity.getCdmaterial());
         PinturaBordaFundo.setDescricao(entity.getDescricao());
         PinturaBordaFundo.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         PinturaBordaFundo.setImplantacao(entity.getImplantacao());
         PinturaBordaFundo.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -50,7 +50,7 @@ public class PinturaBordaFundoDomainToEntityAdapter implements Convertable<Pintu
         PinturaBordaFundo.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        PinturaBordaFundo.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        PinturaBordaFundo.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return PinturaBordaFundo;
     }
 }

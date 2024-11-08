@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.maquina;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.maquina.DMaquina;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.GrupoMaquina;
@@ -40,7 +40,7 @@ public class MaquinaDomainToEntityAdapter implements Convertable<Maquina, DMaqui
                 .grupoMaquina(Optional.ofNullable(entity.getGrupoMaquina())
                         .map(grupoMaquina -> grupoMaquinaDomainToEntityAdapter.toDomain(entity.getGrupoMaquina()))
                         .orElse(null))
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

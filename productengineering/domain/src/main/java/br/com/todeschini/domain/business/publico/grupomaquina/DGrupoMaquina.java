@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.grupomaquina;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -21,7 +21,7 @@ public class DGrupoMaquina implements Descritivel {
     @EqualsAndHashCode.Include
     private Integer codigo;
     private String nome;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DGrupoMaquina(Integer codigo){
         this.codigo = codigo;

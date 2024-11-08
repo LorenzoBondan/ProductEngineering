@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.polietileno;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.polietileno.DPolietileno;
 
@@ -12,7 +12,7 @@ public class PolietilenoFactory {
         DPolietileno Polietileno = new DPolietileno();
         Polietileno.setCodigo(1);
         Polietileno.setDescricao("Descrição");
-        Polietileno.setTipoMaterial(DTipoMaterial.POLIETILENO);
+        Polietileno.setTipoMaterial(DTipoMaterialEnum.POLIETILENO);
         Polietileno.setImplantacao(LocalDate.of(3000,1,1));
         Polietileno.setPorcentagemPerda(12.0);
         Polietileno.setValor(10.0);
@@ -24,7 +24,7 @@ public class PolietilenoFactory {
         DPolietileno Polietileno = new DPolietileno();
         Polietileno.setCodigo(2);
         Polietileno.setDescricao(duplicatedDescription);
-        Polietileno.setTipoMaterial(DTipoMaterial.POLIETILENO);
+        Polietileno.setTipoMaterial(DTipoMaterialEnum.POLIETILENO);
         Polietileno.setImplantacao(LocalDate.of(3000,1,1));
         Polietileno.setPorcentagemPerda(12.0);
         Polietileno.setValor(10.0);
@@ -36,7 +36,7 @@ public class PolietilenoFactory {
         DPolietileno Polietileno = new DPolietileno();
         Polietileno.setCodigo(nonExistingId);
         Polietileno.setDescricao("Descrição");
-        Polietileno.setTipoMaterial(DTipoMaterial.POLIETILENO);
+        Polietileno.setTipoMaterial(DTipoMaterialEnum.POLIETILENO);
         Polietileno.setImplantacao(LocalDate.of(3000,1,1));
         Polietileno.setPorcentagemPerda(12.0);
         Polietileno.setValor(10.0);

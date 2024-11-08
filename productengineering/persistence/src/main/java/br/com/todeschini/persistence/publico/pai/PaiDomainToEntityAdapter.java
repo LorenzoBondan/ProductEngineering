@@ -1,12 +1,12 @@
 package br.com.todeschini.persistence.publico.pai;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoPinturaEnum;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.business.publico.pai.DPai;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoPintura;
+import br.com.todeschini.persistence.entities.enums.TipoPinturaEnum;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
 import br.com.todeschini.persistence.entities.publico.Filho;
 import br.com.todeschini.persistence.entities.publico.Modelo;
@@ -59,7 +59,7 @@ public class PaiDomainToEntityAdapter implements Convertable<Pai, DPai> {
                 .faces(domain.getFaces())
                 .especial(domain.getEspecial())
                 .tipoPintura(Optional.ofNullable(domain.getTipoPintura())
-                        .map(tipoPintura -> TipoPintura.valueOf(tipoPintura.name()))
+                        .map(tipoPintura -> TipoPinturaEnum.valueOf(tipoPintura.name()))
                         .orElse(null))
 
                 .filhos(filhos)
@@ -97,9 +97,9 @@ public class PaiDomainToEntityAdapter implements Convertable<Pai, DPai> {
                 .faces(entity.getFaces())
                 .especial(entity.getEspecial())
                 .tipoPintura(Optional.ofNullable(entity.getTipoPintura())
-                        .map(tipoPintura -> DTipoPintura.valueOf(tipoPintura.name()))
+                        .map(tipoPintura -> DTipoPinturaEnum.valueOf(tipoPintura.name()))
                         .orElse(null))
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
 
                 .filhos(filhos)
 

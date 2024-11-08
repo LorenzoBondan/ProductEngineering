@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.tnt;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.tnt.DTnt;
 
@@ -12,7 +12,7 @@ public class TntFactory {
         DTnt Tnt = new DTnt();
         Tnt.setCodigo(1);
         Tnt.setDescricao("Descrição");
-        Tnt.setTipoMaterial(DTipoMaterial.TNT);
+        Tnt.setTipoMaterial(DTipoMaterialEnum.TNT);
         Tnt.setImplantacao(LocalDate.of(3000,1,1));
         Tnt.setPorcentagemPerda(12.0);
         Tnt.setValor(10.0);
@@ -24,7 +24,7 @@ public class TntFactory {
         DTnt Tnt = new DTnt();
         Tnt.setCodigo(2);
         Tnt.setDescricao(duplicatedDescription);
-        Tnt.setTipoMaterial(DTipoMaterial.TNT);
+        Tnt.setTipoMaterial(DTipoMaterialEnum.TNT);
         Tnt.setImplantacao(LocalDate.of(3000,1,1));
         Tnt.setPorcentagemPerda(12.0);
         Tnt.setValor(10.0);
@@ -36,7 +36,7 @@ public class TntFactory {
         DTnt Tnt = new DTnt();
         Tnt.setCodigo(nonExistingId);
         Tnt.setDescricao("Descrição");
-        Tnt.setTipoMaterial(DTipoMaterial.TNT);
+        Tnt.setTipoMaterial(DTipoMaterialEnum.TNT);
         Tnt.setImplantacao(LocalDate.of(3000,1,1));
         Tnt.setPorcentagemPerda(12.0);
         Tnt.setValor(10.0);

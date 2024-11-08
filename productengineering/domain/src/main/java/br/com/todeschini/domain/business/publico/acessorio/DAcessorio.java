@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.acessorio;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.medidas.DMedidas;
 import br.com.todeschini.domain.exceptions.ValidationException;
@@ -34,7 +34,7 @@ public class DAcessorio implements Descritivel {
     private LocalDate implantacao;
     @BatchEditable
     private Double valor;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DAcessorio(Integer codigo){
         this.codigo = codigo;

@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.roteiro;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.roteiromaquina.DRoteiroMaquina;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.BatchEditable;
@@ -34,7 +34,7 @@ public class DRoteiro implements Descritivel {
     private LocalDate dataFinal;
     @BatchEditable
     private Double valor;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     private List<DRoteiroMaquina> roteiroMaquinas = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class DRoteiro implements Descritivel {
         this.codigo = codigo;
     }
 
-    public DRoteiro(Integer codigo, String descricao, LocalDate implantacao, LocalDate dataFinal, Double valor, DSituacao situacao){
+    public DRoteiro(Integer codigo, String descricao, LocalDate implantacao, LocalDate dataFinal, Double valor, DSituacaoEnum situacao){
         this.codigo = codigo;
         this.descricao = descricao;
         this.implantacao = implantacao;

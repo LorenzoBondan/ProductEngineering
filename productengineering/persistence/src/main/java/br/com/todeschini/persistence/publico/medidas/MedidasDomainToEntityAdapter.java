@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.medidas;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.medidas.DMedidas;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Medidas;
@@ -28,7 +28,7 @@ public class MedidasDomainToEntityAdapter implements Convertable<Medidas, DMedid
                 .altura(entity.getAltura())
                 .largura(entity.getLargura())
                 .espessura(entity.getEspessura())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

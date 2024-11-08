@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.material;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Material;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
         return Material.builder()
                 .cdmaterial(domain.getCodigo())
                 .descricao(domain.getDescricao())
-                .tipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()))
+                .tipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()))
                 .implantacao(domain.getImplantacao())
                 .porcentagemPerda(domain.getPorcentagemPerda())
                 .valor(domain.getValor())
@@ -42,7 +42,7 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
                 .codigo(entity.getCdmaterial())
                 .descricao(entity.getDescricao())
                 .tipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                        .map(tipoMaterial -> DTipoMaterial.valueOf(tipoMaterial.name()))
+                        .map(tipoMaterial -> DTipoMaterialEnum.valueOf(tipoMaterial.name()))
                         .orElse(null))
                 .implantacao(entity.getImplantacao())
                 .porcentagemPerda(entity.getPorcentagemPerda())
@@ -50,7 +50,7 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
                 .cor(Optional.ofNullable(entity.getCor())
                         .map(cor -> corDomainToEntityAdapter.toDomain(entity.getCor()))
                         .orElse(null))
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

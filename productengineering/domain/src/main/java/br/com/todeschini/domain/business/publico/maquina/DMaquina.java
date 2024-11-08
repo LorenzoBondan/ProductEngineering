@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.maquina;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.grupomaquina.DGrupoMaquina;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.BatchEditable;
@@ -29,7 +29,7 @@ public class DMaquina implements Descritivel {
     private Double valor;
     @BatchEditable
     private DGrupoMaquina grupoMaquina;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DMaquina(Integer codigo){
         this.codigo = codigo;

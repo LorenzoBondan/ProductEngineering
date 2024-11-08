@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.plastico;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.plastico.DPlastico;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Plastico;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class PlasticoDomainToEntityAdapter implements Convertable<Plastico, DPla
         Plastico Plastico = new Plastico();
         Plastico.setCdmaterial(domain.getCodigo());
         Plastico.setDescricao(domain.getDescricao());
-        Plastico.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Plastico.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Plastico.setImplantacao(domain.getImplantacao());
         Plastico.setPorcentagemPerda(domain.getPorcentagemPerda());
         Plastico.setValor(domain.getValor());
@@ -43,7 +43,7 @@ public class PlasticoDomainToEntityAdapter implements Convertable<Plastico, DPla
         Plastico.setCodigo(entity.getCdmaterial());
         Plastico.setDescricao(entity.getDescricao());
         Plastico.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Plastico.setImplantacao(entity.getImplantacao());
         Plastico.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -52,7 +52,7 @@ public class PlasticoDomainToEntityAdapter implements Convertable<Plastico, DPla
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
         Plastico.setGramatura(entity.getGramatura());
-        Plastico.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Plastico.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Plastico;
     }
 }

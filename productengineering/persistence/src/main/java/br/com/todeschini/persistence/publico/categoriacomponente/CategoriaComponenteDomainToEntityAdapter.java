@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.categoriacomponente;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
@@ -24,7 +24,7 @@ public class CategoriaComponenteDomainToEntityAdapter implements Convertable<Cat
         return DCategoriaComponente.builder()
                 .codigo(entity.getCdcategoriaComponente())
                 .descricao(entity.getDescricao())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

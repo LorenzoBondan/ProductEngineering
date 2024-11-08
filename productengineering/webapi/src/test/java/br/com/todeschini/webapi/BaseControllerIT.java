@@ -7,7 +7,7 @@ import br.com.todeschini.domain.SimpleCrud;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.entities.enums.Situacao;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class BaseControllerIT<D> {
     protected String situacaoListBody, adminAccessToken, readOnlyAccessToken;
     protected D factoryObject, duplicatedObject, nonExistingObject;
     protected final List<D> objectList = new ArrayList<>();
-    protected final List<Situacao> situacaoList = new ArrayList<>();
+    protected final List<SituacaoEnum> situacaoList = new ArrayList<>();
     protected List<DHistory<D>> historyList = new ArrayList<>();
     protected SimpleCrud<D, Integer> crud;
     protected Paged<D> pagedResult;
@@ -60,7 +60,7 @@ public class BaseControllerIT<D> {
 
     public void setConfiguration(String baseUrl) throws Exception { // define configurações de autenticação e situação
         this.baseUrl = baseUrl;
-        situacaoList.add(Situacao.ATIVO);
+        situacaoList.add(SituacaoEnum.ATIVO);
         situacaoListBody = new ObjectMapper().writeValueAsString(situacaoList);
 
         historyList = List.of(new DHistory<>(existingId, factoryObject));

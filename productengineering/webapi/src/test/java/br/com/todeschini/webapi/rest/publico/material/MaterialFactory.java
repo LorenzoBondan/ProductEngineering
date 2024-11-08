@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.material;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
 
@@ -12,7 +12,7 @@ public class MaterialFactory {
         DMaterial material = new DMaterial();
         material.setCodigo(1);
         material.setDescricao("Descrição");
-        material.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        material.setTipoMaterial(DTipoMaterialEnum.CHAPA_MDP);
         material.setImplantacao(LocalDate.of(3000,1,1));
         material.setPorcentagemPerda(12.0);
         material.setValor(10.0);
@@ -24,7 +24,7 @@ public class MaterialFactory {
         DMaterial material = new DMaterial();
         material.setCodigo(2);
         material.setDescricao(duplicatedDescription);
-        material.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        material.setTipoMaterial(DTipoMaterialEnum.CHAPA_MDP);
         material.setImplantacao(LocalDate.of(3000,1,1));
         material.setPorcentagemPerda(12.0);
         material.setValor(10.0);
@@ -36,7 +36,7 @@ public class MaterialFactory {
         DMaterial material = new DMaterial();
         material.setCodigo(nonExistingId);
         material.setDescricao("Descrição");
-        material.setTipoMaterial(DTipoMaterial.CHAPA_MDP);
+        material.setTipoMaterial(DTipoMaterialEnum.CHAPA_MDP);
         material.setImplantacao(LocalDate.of(3000,1,1));
         material.setPorcentagemPerda(12.0);
         material.setValor(10.0);

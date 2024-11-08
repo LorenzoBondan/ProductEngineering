@@ -1,8 +1,8 @@
 package br.com.todeschini.domain.business.publico.pai;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoPinturaEnum;
 import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.business.publico.modelo.DModelo;
@@ -52,8 +52,8 @@ public class DPai implements Descritivel {
     @BatchEditable
     private Boolean especial;
     @BatchEditable
-    private DTipoPintura tipoPintura;
-    private DSituacao situacao;
+    private DTipoPinturaEnum tipoPintura;
+    private DSituacaoEnum situacao;
 
     private List<DFilho> filhos = new ArrayList<>();
 
@@ -72,7 +72,7 @@ public class DPai implements Descritivel {
                 .add(new NamedValidator<>("Descrição", new TamanhoMaximoValidator(50)), this.descricao)
                 .add(new NamedValidator<>("Bordas Comprimento", new NumeroMaiorOuIgualAZeroValidator()), this.bordasComprimento)
                 .add(new NamedValidator<>("Bordas Largura", new NumeroMaiorOuIgualAZeroValidator()), this.bordasLargura)
-                .add(new NamedValidator<>("Número Cantoneiras", new NumeroMaiorOuIgualAZeroValidator()), this.bordasLargura)
+                .add(new NamedValidator<>("Número Cantoneiras", new NumeroMaiorOuIgualAZeroValidator()), this.numeroCantoneiras)
                 .add(new NamedValidator<>("Plástico adicional", new NumeroMaiorOuIgualAZeroValidator()), this.plasticoAdicional)
                 .add(new NamedValidator<>("Largura Plástico", new NumeroMaiorOuIgualAZeroValidator()), this.larguraPlastico)
                 .add(new NamedValidator<>("Faces", new NumeroMaiorOuIgualAZeroValidator()), this.faces)

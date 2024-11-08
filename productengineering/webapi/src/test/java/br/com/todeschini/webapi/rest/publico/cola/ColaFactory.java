@@ -1,7 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.cola;
 
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cola.DCola;
 
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ public class ColaFactory {
         DCola cola = new DCola();
         cola.setCodigo(1);
         cola.setDescricao("Descrição");
-        cola.setTipoMaterial(DTipoMaterial.COLA);
+        cola.setTipoMaterial(DTipoMaterialEnum.COLA);
         cola.setImplantacao(LocalDate.of(3000,1,1));
         cola.setPorcentagemPerda(12.0);
         cola.setValor(10.0);
@@ -24,7 +24,7 @@ public class ColaFactory {
         DCola cola = new DCola();
         cola.setCodigo(2);
         cola.setDescricao(duplicatedDescription);
-        cola.setTipoMaterial(DTipoMaterial.COLA);
+        cola.setTipoMaterial(DTipoMaterialEnum.COLA);
         cola.setImplantacao(LocalDate.of(3000,1,1));
         cola.setPorcentagemPerda(12.0);
         cola.setValor(10.0);
@@ -36,7 +36,7 @@ public class ColaFactory {
         DCola cola = new DCola();
         cola.setCodigo(nonExistingId);
         cola.setDescricao("Descrição");
-        cola.setTipoMaterial(DTipoMaterial.COLA);
+        cola.setTipoMaterial(DTipoMaterialEnum.COLA);
         cola.setImplantacao(LocalDate.of(3000,1,1));
         cola.setPorcentagemPerda(12.0);
         cola.setValor(10.0);

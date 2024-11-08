@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.plastico;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.plastico.DPlastico;
 
@@ -12,7 +12,7 @@ public class PlasticoFactory {
         DPlastico Plastico = new DPlastico();
         Plastico.setCodigo(1);
         Plastico.setDescricao("Descrição");
-        Plastico.setTipoMaterial(DTipoMaterial.PLASTICO);
+        Plastico.setTipoMaterial(DTipoMaterialEnum.PLASTICO);
         Plastico.setImplantacao(LocalDate.of(3000,1,1));
         Plastico.setPorcentagemPerda(12.0);
         Plastico.setValor(10.0);
@@ -25,7 +25,7 @@ public class PlasticoFactory {
         DPlastico Plastico = new DPlastico();
         Plastico.setCodigo(2);
         Plastico.setDescricao(duplicatedDescription);
-        Plastico.setTipoMaterial(DTipoMaterial.PLASTICO);
+        Plastico.setTipoMaterial(DTipoMaterialEnum.PLASTICO);
         Plastico.setImplantacao(LocalDate.of(3000,1,1));
         Plastico.setPorcentagemPerda(12.0);
         Plastico.setValor(10.0);
@@ -38,7 +38,7 @@ public class PlasticoFactory {
         DPlastico Plastico = new DPlastico();
         Plastico.setCodigo(nonExistingId);
         Plastico.setDescricao("Descrição");
-        Plastico.setTipoMaterial(DTipoMaterial.PLASTICO);
+        Plastico.setTipoMaterial(DTipoMaterialEnum.PLASTICO);
         Plastico.setImplantacao(LocalDate.of(3000,1,1));
         Plastico.setPorcentagemPerda(12.0);
         Plastico.setValor(10.0);

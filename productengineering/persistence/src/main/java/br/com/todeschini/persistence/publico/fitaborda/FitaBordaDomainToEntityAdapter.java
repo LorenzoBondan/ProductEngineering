@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.fitaborda;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.fitaborda.DFitaBorda;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.FitaBorda;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class FitaBordaDomainToEntityAdapter implements Convertable<FitaBorda, DF
         FitaBorda fitaBorda = new FitaBorda();
         fitaBorda.setCdmaterial(domain.getCodigo());
         fitaBorda.setDescricao(domain.getDescricao());
-        fitaBorda.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        fitaBorda.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         fitaBorda.setImplantacao(domain.getImplantacao());
         fitaBorda.setPorcentagemPerda(domain.getPorcentagemPerda());
         fitaBorda.setValor(domain.getValor());
@@ -45,7 +45,7 @@ public class FitaBordaDomainToEntityAdapter implements Convertable<FitaBorda, DF
         fitaBorda.setCodigo(entity.getCdmaterial());
         fitaBorda.setDescricao(entity.getDescricao());
         fitaBorda.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         fitaBorda.setImplantacao(entity.getImplantacao());
         fitaBorda.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -55,7 +55,7 @@ public class FitaBordaDomainToEntityAdapter implements Convertable<FitaBorda, DF
                 .orElse(null));
         fitaBorda.setEspessura(entity.getEspessura());
         fitaBorda.setAltura(entity.getAltura());
-        fitaBorda.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        fitaBorda.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return fitaBorda;
     }
 }

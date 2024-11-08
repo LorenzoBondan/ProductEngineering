@@ -22,22 +22,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<DHistory<DUser>> buscarHistorico(Integer id) {
-        return List.of();
+        return crudUser.buscarHistorico(id);
     }
 
     @Override
     public List<DUser> buscarTodosMaisAtual(Integer id) {
-        return List.of();
+        return crudUser.buscarTodosAtivosMaisAtual(id);
     }
 
     @Override
     public DUser buscar(Integer id) {
-        return null;
+        return crudUser.buscar(id);
+    }
+
+    @Override
+    public DUser buscar(String email) {
+        return crudUser.findByEmail(email).stream().findFirst().orElse(null);
     }
 
     @Override
     public Paged<DUser> buscar(PageableRequest request) {
-        return null;
+        return crudUser.buscarTodos(request);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.cor;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Cor;
@@ -26,7 +26,7 @@ public class CorDomainToEntityAdapter implements Convertable<Cor, DCor> {
                 .codigo(entity.getCdcor())
                 .descricao(entity.getDescricao())
                 .hexa(entity.getHexa())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

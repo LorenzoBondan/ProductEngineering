@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.entities.publico;
 
-import br.com.todeschini.persistence.entities.enums.Situacao;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -40,7 +40,7 @@ public class Lixeira {
     private String usuario;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Situacao situacao;
+    private SituacaoEnum situacao;
     @NotNull
     @Size(max = 200)
     private String tabela;

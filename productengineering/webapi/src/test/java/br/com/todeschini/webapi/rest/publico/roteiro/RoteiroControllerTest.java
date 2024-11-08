@@ -1,8 +1,10 @@
 package br.com.todeschini.webapi.rest.publico.roteiro;
 
 import br.com.todeschini.domain.business.publico.roteiro.DRoteiro;
+import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Roteiro;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;
+import br.com.todeschini.persistence.publico.lixeira.LixeiraRepository;
 import br.com.todeschini.persistence.publico.roteiro.RoteiroRepository;
 import br.com.todeschini.webapi.BaseControllerTest;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
@@ -13,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,6 +26,8 @@ public class RoteiroControllerTest extends BaseControllerTest<DRoteiro, Roteiro>
 
     @Autowired
     private RoteiroRepository roteiroRepository;
+    @Autowired
+    private LixeiraRepository lixeiraRepository;
 
     @Autowired
     public RoteiroControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, HistoryRepository historyRepository, TokenUtil tokenUtil) {
@@ -113,6 +120,10 @@ public class RoteiroControllerTest extends BaseControllerTest<DRoteiro, Roteiro>
     void tearDown() {
         if (idCriado != null) {
             roteiroRepository.deleteById(idCriado);
+            Map<String, Object> id = new HashMap<>();
+            id.put("cdroteiro", idCriado);
+            Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
+            lixeiraRepository.deleteById(lixeira.getId());
         }
     }
 }

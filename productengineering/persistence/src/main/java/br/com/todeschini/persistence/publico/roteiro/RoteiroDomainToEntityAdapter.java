@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.roteiro;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.roteiro.DRoteiro;
 import br.com.todeschini.domain.business.publico.roteiromaquina.DRoteiroMaquina;
 import br.com.todeschini.domain.metadata.EntityAdapter;
@@ -61,7 +61,7 @@ public class RoteiroDomainToEntityAdapter implements Convertable<Roteiro, DRotei
                 .implantacao(entity.getImplantacao())
                 .dataFinal(Optional.ofNullable(entity.getDataFinal()).orElse(LocalDate.of(9999,12,31)))
                 .valor(entity.getValor())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
 
                 .roteiroMaquinas(roteiroMaquinas)
 

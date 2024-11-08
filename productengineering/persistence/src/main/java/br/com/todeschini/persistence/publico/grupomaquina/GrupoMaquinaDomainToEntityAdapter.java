@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.grupomaquina;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.grupomaquina.DGrupoMaquina;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.GrupoMaquina;
@@ -24,7 +24,7 @@ public class GrupoMaquinaDomainToEntityAdapter implements Convertable<GrupoMaqui
         return DGrupoMaquina.builder()
                 .codigo(entity.getCdgrupoMaquina())
                 .nome(entity.getNome())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

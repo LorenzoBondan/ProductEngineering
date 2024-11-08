@@ -120,6 +120,14 @@ public class PaiControllerMockTest extends BaseControllerIT<DPai> {
     @Test
     public void validationShouldThrowUnprocessableEntityWhenInvalidDataTest() throws Exception {
         factoryObject = PaiFactory.createDPai();
+        factoryObject.setModelo(null);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setCategoriaComponente(null);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
         factoryObject.setDescricao(null);
         validate(factoryObject);
 
@@ -137,6 +145,30 @@ public class PaiControllerMockTest extends BaseControllerIT<DPai> {
 
         factoryObject = PaiFactory.createDPai();
         factoryObject.setDescricao(ValidationConstants.tamanhoMaior);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setBordasComprimento(ValidationConstants.intNegativo);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setBordasLargura(ValidationConstants.intNegativo);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setNumeroCantoneiras(ValidationConstants.intNegativo);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setPlasticoAdicional(ValidationConstants.doubleNegativo);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setLarguraPlastico(ValidationConstants.intNegativo);
+        validate(factoryObject);
+
+        factoryObject = PaiFactory.createDPai();
+        factoryObject.setFaces(ValidationConstants.intNegativo);
         validate(factoryObject);
     }
 }

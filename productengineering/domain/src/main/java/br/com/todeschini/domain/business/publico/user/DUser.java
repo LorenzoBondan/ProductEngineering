@@ -1,5 +1,6 @@
 package br.com.todeschini.domain.business.publico.user;
 
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.role.DRole;
 import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -25,6 +26,7 @@ public class DUser {
     private String password;
     private String email;
     private String imgUrl;
+    private DSituacaoEnum situacao;
     private List<DRole> roles = new ArrayList<>();
 
     public DUser(Integer id){

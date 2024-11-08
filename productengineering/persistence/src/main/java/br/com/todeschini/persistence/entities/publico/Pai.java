@@ -1,8 +1,8 @@
 package br.com.todeschini.persistence.entities.publico;
 
 import br.com.todeschini.domain.metadata.Entidade;
-import br.com.todeschini.persistence.entities.enums.TipoPintura;
-import br.com.todeschini.persistence.entities.enums.converters.TipoPinturaConverter;
+import br.com.todeschini.persistence.entities.enums.TipoPinturaEnum;
+import br.com.todeschini.persistence.entities.enums.converters.TipoPinturaEnumConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -48,8 +48,8 @@ public class Pai extends AuditoriaInfo {
     // mdf
     private Integer faces;
     private Boolean especial;
-    @Convert(converter = TipoPinturaConverter.class)
-    private TipoPintura tipoPintura;
+    @Convert(converter = TipoPinturaEnumConverter.class)
+    private TipoPinturaEnum tipoPintura;
 
     @OneToMany(mappedBy = "pai", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Filho> filhos = new ArrayList<>();

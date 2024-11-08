@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.cor;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.validation.NamedValidator;
@@ -22,7 +22,7 @@ public class DCor implements Descritivel {
     private Integer codigo;
     private String descricao;
     private String hexa;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DCor(Integer codigo){
         this.codigo = codigo;

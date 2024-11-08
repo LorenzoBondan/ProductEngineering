@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.materialusado;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.business.publico.materialusado.DMaterialUsado;
 import br.com.todeschini.domain.metadata.EntityAdapter;
@@ -64,7 +64,7 @@ public class MaterialUsadoDomainToEntityAdapter implements Convertable<MaterialU
                 .quantidadeBruta(entity.getQuantidadeBruta())
                 .valor(entity.getValor())
                 .unidadeMedida(entity.getUnidadeMedida())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

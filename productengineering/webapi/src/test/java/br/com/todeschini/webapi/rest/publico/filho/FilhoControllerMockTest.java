@@ -155,25 +155,5 @@ public class FilhoControllerMockTest extends BaseControllerIT<DFilho> {
         factoryObject = FilhoFactory.createDFilho();
         factoryObject.setValor(ValidationConstants.doubleNegativo);
         validate(factoryObject);
-
-        factoryObject = FilhoFactory.createDFilho();
-        factoryObject.setBordasComprimento(ValidationConstants.intNegativo);
-        validate(factoryObject);
-
-        factoryObject = FilhoFactory.createDFilho();
-        factoryObject.setBordasLargura(ValidationConstants.intNegativo);
-        validate(factoryObject);
-
-        factoryObject = FilhoFactory.createDFilho();
-        factoryObject.setNumeroCantoneiras(ValidationConstants.intNegativo);
-        validate(factoryObject);
-
-        factoryObject = FilhoFactory.createDFilho();
-        factoryObject.setLarguraPlastico(ValidationConstants.intNegativo);
-        validate(factoryObject);
-
-        factoryObject = FilhoFactory.createDFilho();
-        factoryObject.setPlasticoAdicional(ValidationConstants.doubleNegativo);
-        validate(factoryObject);
     }
 }

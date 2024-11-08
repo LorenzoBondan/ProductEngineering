@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.polietileno;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.polietileno.DPolietileno;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Polietileno;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class PolietilenoDomainToEntityAdapter implements Convertable<Polietileno
         Polietileno Polietileno = new Polietileno();
         Polietileno.setCdmaterial(domain.getCodigo());
         Polietileno.setDescricao(domain.getDescricao());
-        Polietileno.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Polietileno.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Polietileno.setImplantacao(domain.getImplantacao());
         Polietileno.setPorcentagemPerda(domain.getPorcentagemPerda());
         Polietileno.setValor(domain.getValor());
@@ -42,7 +42,7 @@ public class PolietilenoDomainToEntityAdapter implements Convertable<Polietileno
         Polietileno.setCodigo(entity.getCdmaterial());
         Polietileno.setDescricao(entity.getDescricao());
         Polietileno.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Polietileno.setImplantacao(entity.getImplantacao());
         Polietileno.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -50,7 +50,7 @@ public class PolietilenoDomainToEntityAdapter implements Convertable<Polietileno
         Polietileno.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Polietileno.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Polietileno.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Polietileno;
     }
 }

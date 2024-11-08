@@ -8,12 +8,9 @@ import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.business.publico.user.DUser;
 import br.com.todeschini.domain.business.publico.user.spi.CrudUser;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.entities.enums.Situacao;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.User;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,15 +29,17 @@ public class CrudUserImpl implements CrudUser {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
+    private final CustomUserUtil customUserUtil;
 
     public CrudUserImpl(UserRepository repository, UserQueryRepository queryRepository, UserDomainToEntityAdapter adapter, EntityService entityService,
-                        PageRequestUtils pageRequestUtils, HistoryService historyService) {
+                        PageRequestUtils pageRequestUtils, HistoryService historyService, CustomUserUtil customUserUtil) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
+        this.customUserUtil = customUserUtil;
     }
 
     @Override
@@ -132,7 +131,7 @@ public class CrudUserImpl implements CrudUser {
     @Transactional
     public void inativar(Integer id) {
         User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
-        Situacao situacao = entity.getSituacao() == Situacao.ATIVO ? Situacao.INATIVO : Situacao.ATIVO;
+        SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
         entity.setSituacao(situacao);
         repository.save(entity);
     }
@@ -140,7 +139,7 @@ public class CrudUserImpl implements CrudUser {
     @Override
     @Transactional
     public void remover(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), Situacao.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 
     private void setCreationProperties(User obj){
@@ -148,10 +147,10 @@ public class CrudUserImpl implements CrudUser {
         obj.setCriadopor(repository.findCriadoporById(obj.getId()));
     }
 
-
-
     @Override
+    @Transactional
     public void updatePassword(String newPassword, String oldPassword) {
-
+        User me = repository.findByEmail(customUserUtil.getLoggedUsername()).stream().findFirst().get();
+        repository.updatePassword(newPassword, Long.valueOf(me.getId()));
     }
 }

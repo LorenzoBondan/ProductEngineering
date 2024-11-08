@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.filho;
 
-import br.com.todeschini.domain.business.enums.DTipoFilho;
+import br.com.todeschini.domain.business.enums.DTipoFilhoEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.business.publico.medidas.DMedidas;
@@ -22,7 +22,7 @@ public class FilhoFactory {
         filho.setImplantacao(LocalDate.of(3000,1,1));
         filho.setUnidadeMedida("UN");
         filho.setValor(50.0);
-        filho.setTipo(DTipoFilho.MDP);
+        filho.setTipo(DTipoFilhoEnum.MDP);
         return filho;
     }
 
@@ -37,7 +37,7 @@ public class FilhoFactory {
         filho.setImplantacao(LocalDate.of(3000,1,1));
         filho.setUnidadeMedida("UN");
         filho.setValor(50.0);
-        filho.setTipo(DTipoFilho.MDP);
+        filho.setTipo(DTipoFilhoEnum.MDP);
         return filho;
     }
 
@@ -52,7 +52,7 @@ public class FilhoFactory {
         filho.setImplantacao(LocalDate.of(3000,1,1));
         filho.setUnidadeMedida("UN");
         filho.setValor(50.0);
-        filho.setTipo(DTipoFilho.MDP);
+        filho.setTipo(DTipoFilhoEnum.MDP);
         return filho;
     }
 }

@@ -1,11 +1,7 @@
 package br.com.todeschini.persistence.entities.publico;
 
-import br.com.todeschini.persistence.entities.enums.Situacao;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import javax.persistence.*;
-import javax.persistence.MappedSuperclass;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
+import br.com.todeschini.persistence.entities.enums.converters.SituacaoEnumConverter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +12,12 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -45,6 +47,6 @@ public class AuditoriaInfo {
     private LocalDateTime modificadoem;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private Situacao situacao = Situacao.ATIVO;
+    @Convert(converter = SituacaoEnumConverter.class)
+    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 }

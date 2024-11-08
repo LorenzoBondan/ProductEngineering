@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.baguete;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.baguete.DBaguete;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 
@@ -12,7 +12,7 @@ public class BagueteFactory {
         DBaguete Baguete = new DBaguete();
         Baguete.setCodigo(1);
         Baguete.setDescricao("Descrição");
-        Baguete.setTipoMaterial(DTipoMaterial.BAGUETE);
+        Baguete.setTipoMaterial(DTipoMaterialEnum.BAGUETE);
         Baguete.setImplantacao(LocalDate.of(3000,1,1));
         Baguete.setPorcentagemPerda(12.0);
         Baguete.setValor(10.0);
@@ -24,7 +24,7 @@ public class BagueteFactory {
         DBaguete Baguete = new DBaguete();
         Baguete.setCodigo(2);
         Baguete.setDescricao(duplicatedDescription);
-        Baguete.setTipoMaterial(DTipoMaterial.BAGUETE);
+        Baguete.setTipoMaterial(DTipoMaterialEnum.BAGUETE);
         Baguete.setImplantacao(LocalDate.of(3000,1,1));
         Baguete.setPorcentagemPerda(12.0);
         Baguete.setValor(10.0);
@@ -36,7 +36,7 @@ public class BagueteFactory {
         DBaguete Baguete = new DBaguete();
         Baguete.setCodigo(nonExistingId);
         Baguete.setDescricao("Descrição");
-        Baguete.setTipoMaterial(DTipoMaterial.BAGUETE);
+        Baguete.setTipoMaterial(DTipoMaterialEnum.BAGUETE);
         Baguete.setImplantacao(LocalDate.of(3000,1,1));
         Baguete.setPorcentagemPerda(12.0);
         Baguete.setValor(10.0);

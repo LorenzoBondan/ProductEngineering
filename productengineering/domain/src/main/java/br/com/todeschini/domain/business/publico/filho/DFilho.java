@@ -1,9 +1,8 @@
 package br.com.todeschini.domain.business.publico.filho;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoFilho;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoFilhoEnum;
 import br.com.todeschini.domain.business.publico.acessoriousado.DAcessorioUsado;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.materialusado.DMaterialUsado;
@@ -50,8 +49,8 @@ public class DFilho implements Descritivel {
     @BatchEditable
     private Double valor;
     @BatchEditable
-    private DTipoFilho tipo;
-    private DSituacao situacao;
+    private DTipoFilhoEnum tipo;
+    private DSituacaoEnum situacao;
 
     private List<DFilho> filhos = new ArrayList<>();
     private List<DMaterialUsado> materiaisUsados = new ArrayList<>();

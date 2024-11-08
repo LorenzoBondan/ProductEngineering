@@ -1,8 +1,10 @@
 package br.com.todeschini.webapi.rest.publico.plastico;
 
 import br.com.todeschini.domain.business.publico.plastico.DPlastico;
+import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Plastico;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;
+import br.com.todeschini.persistence.publico.lixeira.LixeiraRepository;
 import br.com.todeschini.persistence.publico.plastico.PlasticoRepository;
 import br.com.todeschini.webapi.BaseControllerTest;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
@@ -13,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,6 +26,8 @@ public class PlasticoControllerTest extends BaseControllerTest<DPlastico, Plasti
 
     @Autowired
     private PlasticoRepository plasticoRepository;
+    @Autowired
+    private LixeiraRepository lixeiraRepository;
 
     @Autowired
     public PlasticoControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, HistoryRepository historyRepository, TokenUtil tokenUtil) {
@@ -113,6 +120,10 @@ public class PlasticoControllerTest extends BaseControllerTest<DPlastico, Plasti
     void tearDown() {
         if (idCriado != null) {
             plasticoRepository.deleteById(idCriado);
+            Map<String, Object> id = new HashMap<>();
+            id.put("cdmaterial", idCriado);
+            Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
+            lixeiraRepository.deleteById(lixeira.getId());
         }
     }
 }

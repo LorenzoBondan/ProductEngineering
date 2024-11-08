@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.pai.montadores;
 
-import br.com.todeschini.domain.business.enums.DTipoFilho;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DTipoFilhoEnum;
+import br.com.todeschini.domain.business.enums.DTipoPinturaEnum;
 import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.maquina.DMaquina;
@@ -31,7 +31,7 @@ public class DMontadorEstruturaPai {
     private List<DMaterial> materiais;
     private List<DMaquina> maquinas;
     private LocalDate implantacao;
-    private DTipoFilho tipoFilho;
+    private DTipoFilhoEnum tipoFilho;
 
     // fita borda
     private Integer bordasComprimento;
@@ -45,7 +45,7 @@ public class DMontadorEstruturaPai {
     private Boolean tntUmaFace;
 
     // pintura
-    private DTipoPintura tipoPintura;
+    private DTipoPinturaEnum tipoPintura;
     private Integer faces;
     private Boolean especial;
 
@@ -74,7 +74,7 @@ public class DMontadorEstruturaPai {
                 .validate();
     }
 
-    public DMontadorEstruturaPai(DModelo modelo, DCategoriaComponente categoriaComponente, List<DCor> cores, List<DMedidas> medidas, LocalDate implantacao, DTipoFilho tipoFilho){
+    public DMontadorEstruturaPai(DModelo modelo, DCategoriaComponente categoriaComponente, List<DCor> cores, List<DMedidas> medidas, LocalDate implantacao, DTipoFilhoEnum tipoFilho){
         this.modelo = modelo;
         this.categoriaComponente = categoriaComponente;
         this.cores = cores;

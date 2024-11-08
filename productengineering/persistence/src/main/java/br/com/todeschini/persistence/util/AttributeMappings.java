@@ -21,7 +21,13 @@ public enum AttributeMappings {
     )),
     MEDIDAS(Map.of(
     )),
-    PAI(Map.of(
+    PAI(AttributeMappingsUtil.combineMappings(
+            Map.of(
+                    "cdmodelo", Modelo.class,
+                    "cdcategoria_componente", CategoriaComponente.class
+            ),
+            MODELO.getMappings(),
+            CATEGORIACOMPONENTE.getMappings()
     )),
     GRUPOMAQUINA(Map.of(
     )),

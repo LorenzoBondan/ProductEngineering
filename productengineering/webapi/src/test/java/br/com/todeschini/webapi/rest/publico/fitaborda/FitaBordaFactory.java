@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.fitaborda;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.fitaborda.DFitaBorda;
 
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ public class FitaBordaFactory {
         DFitaBorda fitaBorda = new DFitaBorda();
         fitaBorda.setCodigo(1);
         fitaBorda.setDescricao("Descrição");
-        fitaBorda.setTipoMaterial(DTipoMaterial.FITA_BORDA);
+        fitaBorda.setTipoMaterial(DTipoMaterialEnum.FITA_BORDA);
         fitaBorda.setImplantacao(LocalDate.of(3000,1,1));
         fitaBorda.setPorcentagemPerda(12.0);
         fitaBorda.setValor(10.0);
@@ -24,7 +24,7 @@ public class FitaBordaFactory {
         DFitaBorda fitaBorda = new DFitaBorda();
         fitaBorda.setCodigo(2);
         fitaBorda.setDescricao(duplicatedDescription);
-        fitaBorda.setTipoMaterial(DTipoMaterial.FITA_BORDA);
+        fitaBorda.setTipoMaterial(DTipoMaterialEnum.FITA_BORDA);
         fitaBorda.setImplantacao(LocalDate.of(3000,1,1));
         fitaBorda.setPorcentagemPerda(12.0);
         fitaBorda.setValor(10.0);
@@ -37,7 +37,7 @@ public class FitaBordaFactory {
         DFitaBorda fitaBorda = new DFitaBorda();
         fitaBorda.setCodigo(nonExistingId);
         fitaBorda.setDescricao("Descrição");
-        fitaBorda.setTipoMaterial(DTipoMaterial.FITA_BORDA);
+        fitaBorda.setTipoMaterial(DTipoMaterialEnum.FITA_BORDA);
         fitaBorda.setImplantacao(LocalDate.of(3000,1,1));
         fitaBorda.setPorcentagemPerda(12.0);
         fitaBorda.setValor(10.0);

@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.pintura;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DTipoPinturaEnum;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.domain.metadata.BatchEditable;
@@ -22,7 +22,7 @@ import lombok.Setter;
 public class DPintura extends DMaterial implements Descritivel  {
 
     @BatchEditable
-    private DTipoPintura tipoPintura;
+    private DTipoPinturaEnum tipoPintura;
 
     public DPintura(Integer codigo){
         this.setCodigo(codigo);

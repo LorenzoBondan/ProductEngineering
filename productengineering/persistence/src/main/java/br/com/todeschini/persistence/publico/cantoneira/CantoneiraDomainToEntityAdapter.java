@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.cantoneira;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cantoneira.DCantoneira;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cantoneira;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class CantoneiraDomainToEntityAdapter implements Convertable<Cantoneira, 
         Cantoneira Cantoneira = new Cantoneira();
         Cantoneira.setCdmaterial(domain.getCodigo());
         Cantoneira.setDescricao(domain.getDescricao());
-        Cantoneira.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Cantoneira.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Cantoneira.setImplantacao(domain.getImplantacao());
         Cantoneira.setPorcentagemPerda(domain.getPorcentagemPerda());
         Cantoneira.setValor(domain.getValor());
@@ -42,7 +42,7 @@ public class CantoneiraDomainToEntityAdapter implements Convertable<Cantoneira, 
         Cantoneira.setCodigo(entity.getCdmaterial());
         Cantoneira.setDescricao(entity.getDescricao());
         Cantoneira.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Cantoneira.setImplantacao(entity.getImplantacao());
         Cantoneira.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -50,7 +50,7 @@ public class CantoneiraDomainToEntityAdapter implements Convertable<Cantoneira, 
         Cantoneira.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Cantoneira.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Cantoneira.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Cantoneira;
     }
 }

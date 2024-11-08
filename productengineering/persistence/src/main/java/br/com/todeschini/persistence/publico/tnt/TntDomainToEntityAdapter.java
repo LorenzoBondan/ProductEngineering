@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.tnt;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.tnt.DTnt;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Tnt;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class TntDomainToEntityAdapter implements Convertable<Tnt, DTnt> {
         Tnt Tnt = new Tnt();
         Tnt.setCdmaterial(domain.getCodigo());
         Tnt.setDescricao(domain.getDescricao());
-        Tnt.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Tnt.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Tnt.setImplantacao(domain.getImplantacao());
         Tnt.setPorcentagemPerda(domain.getPorcentagemPerda());
         Tnt.setValor(domain.getValor());
@@ -42,7 +42,7 @@ public class TntDomainToEntityAdapter implements Convertable<Tnt, DTnt> {
         Tnt.setCodigo(entity.getCdmaterial());
         Tnt.setDescricao(entity.getDescricao());
         Tnt.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Tnt.setImplantacao(entity.getImplantacao());
         Tnt.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -50,7 +50,7 @@ public class TntDomainToEntityAdapter implements Convertable<Tnt, DTnt> {
         Tnt.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Tnt.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Tnt.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Tnt;
     }
 }

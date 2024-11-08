@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.modelo;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.modelo.DModelo;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Modelo;
@@ -24,7 +24,7 @@ public class ModeloDomainToEntityAdapter implements Convertable<Modelo, DModelo>
         return DModelo.builder()
                 .codigo(entity.getCdmodelo())
                 .descricao(entity.getDescricao())
-                .situacao(DSituacao.valueOf(entity.getSituacao().name()))
+                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
                 .build();
     }
 }

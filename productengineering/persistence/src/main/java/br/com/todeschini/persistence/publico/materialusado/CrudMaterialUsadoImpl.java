@@ -8,7 +8,7 @@ import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.business.publico.materialusado.DMaterialUsado;
 import br.com.todeschini.domain.business.publico.materialusado.spi.CrudMaterialUsado;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
-import br.com.todeschini.persistence.entities.enums.Situacao;
+import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.MaterialUsado;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
@@ -135,7 +135,7 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     @Transactional
     public void inativar(Integer id) {
         MaterialUsado entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
-        Situacao situacao = entity.getSituacao() == Situacao.ATIVO ? Situacao.INATIVO : Situacao.ATIVO;
+        SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
         entity.setSituacao(situacao);
         repository.save(entity);
     }
@@ -143,7 +143,7 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     @Override
     @Transactional
     public void remover(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), Situacao.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 
     private void setCreationProperties(MaterialUsado obj){

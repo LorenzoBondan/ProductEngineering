@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
-CREATE TABLE IF NOT EXISTS public.lixeira (
+CREATE TABLE IF NOT EXISTS public.tb_lixeira (
                                               id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                                               nometabela character varying(50),
                                               data timestamp,

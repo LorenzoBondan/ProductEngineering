@@ -1,7 +1,7 @@
 package br.com.todeschini.domain.business.publico.roteiromaquina;
 
 import br.com.todeschini.domain.Descritivel;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.maquina.DMaquina;
 import br.com.todeschini.domain.business.publico.roteiro.DRoteiro;
 import br.com.todeschini.domain.exceptions.ValidationException;
@@ -37,7 +37,7 @@ public class DRoteiroMaquina implements Descritivel {
     private Double tempoHomem;
     @BatchEditable
     private String unidadeMedida;
-    private DSituacao situacao;
+    private DSituacaoEnum situacao;
 
     public DRoteiroMaquina(Integer codigo){
         this.codigo = codigo;

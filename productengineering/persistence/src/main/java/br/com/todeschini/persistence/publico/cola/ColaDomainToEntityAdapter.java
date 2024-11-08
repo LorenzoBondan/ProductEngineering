@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.cola;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cola.DCola;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Cola;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class ColaDomainToEntityAdapter implements Convertable<Cola, DCola> {
         Cola cola = new Cola();
         cola.setCdmaterial(domain.getCodigo());
         cola.setDescricao(domain.getDescricao());
-        cola.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        cola.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         cola.setImplantacao(domain.getImplantacao());
         cola.setPorcentagemPerda(domain.getPorcentagemPerda());
         cola.setValor(domain.getValor());
@@ -44,7 +44,7 @@ public class ColaDomainToEntityAdapter implements Convertable<Cola, DCola> {
         cola.setCodigo(entity.getCdmaterial());
         cola.setDescricao(entity.getDescricao());
         cola.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         cola.setImplantacao(entity.getImplantacao());
         cola.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -53,7 +53,7 @@ public class ColaDomainToEntityAdapter implements Convertable<Cola, DCola> {
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
         cola.setGramatura(entity.getGramatura());
-        cola.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        cola.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return cola;
     }
 }

@@ -2,8 +2,10 @@ package br.com.todeschini.webapi.rest.publico.acessorio;
 
 import br.com.todeschini.domain.business.publico.acessorio.DAcessorio;
 import br.com.todeschini.persistence.entities.publico.Acessorio;
+import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.acessorio.AcessorioRepository;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;
+import br.com.todeschini.persistence.publico.lixeira.LixeiraRepository;
 import br.com.todeschini.webapi.BaseControllerTest;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,6 +26,8 @@ public class AcessorioControllerTest extends BaseControllerTest<DAcessorio, Aces
 
     @Autowired
     private AcessorioRepository acessorioRepository;
+    @Autowired
+    private LixeiraRepository lixeiraRepository;
 
     @Autowired
     public AcessorioControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, HistoryRepository historyRepository, TokenUtil tokenUtil) {
@@ -113,6 +120,10 @@ public class AcessorioControllerTest extends BaseControllerTest<DAcessorio, Aces
     void tearDown() {
         if (idCriado != null) {
             acessorioRepository.deleteById(idCriado);
+            Map<String, Object> id = new HashMap<>();
+            id.put("cdacessorio", idCriado);
+            Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
+            lixeiraRepository.deleteById(lixeira.getId());
         }
     }
 }

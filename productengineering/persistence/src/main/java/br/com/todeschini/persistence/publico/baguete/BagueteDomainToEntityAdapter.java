@@ -1,11 +1,11 @@
 package br.com.todeschini.persistence.publico.baguete;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.baguete.DBaguete;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Baguete;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class BagueteDomainToEntityAdapter implements Convertable<Baguete, DBague
         Baguete Baguete = new Baguete();
         Baguete.setCdmaterial(domain.getCodigo());
         Baguete.setDescricao(domain.getDescricao());
-        Baguete.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Baguete.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Baguete.setImplantacao(domain.getImplantacao());
         Baguete.setPorcentagemPerda(domain.getPorcentagemPerda());
         Baguete.setValor(domain.getValor());
@@ -42,7 +42,7 @@ public class BagueteDomainToEntityAdapter implements Convertable<Baguete, DBague
         Baguete.setCodigo(entity.getCdmaterial());
         Baguete.setDescricao(entity.getDescricao());
         Baguete.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Baguete.setImplantacao(entity.getImplantacao());
         Baguete.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -50,7 +50,7 @@ public class BagueteDomainToEntityAdapter implements Convertable<Baguete, DBague
         Baguete.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Baguete.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Baguete.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Baguete;
     }
 }

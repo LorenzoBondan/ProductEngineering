@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.publico.acessorio;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.acessorio.DAcessorio;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Acessorio;
@@ -52,7 +52,7 @@ public class AcessorioDomainToEntityAdapter implements Convertable<Acessorio, DA
                 .orElse(null));
         acessorio.setImplantacao(entity.getImplantacao());
         acessorio.setValor(entity.getValor());
-        acessorio.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        acessorio.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return acessorio;
     }
 }

@@ -1,13 +1,13 @@
 package br.com.todeschini.persistence.publico.pintura;
 
 import br.com.todeschini.domain.Convertable;
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
-import br.com.todeschini.domain.business.enums.DTipoPintura;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
+import br.com.todeschini.domain.business.enums.DTipoPinturaEnum;
 import br.com.todeschini.domain.business.publico.pintura.DPintura;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
-import br.com.todeschini.persistence.entities.enums.TipoPintura;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
+import br.com.todeschini.persistence.entities.enums.TipoPinturaEnum;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Pintura;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -28,7 +28,7 @@ public class PinturaDomainToEntityAdapter implements Convertable<Pintura, DPintu
         Pintura Pintura = new Pintura();
         Pintura.setCdmaterial(domain.getCodigo());
         Pintura.setDescricao(domain.getDescricao());
-        Pintura.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        Pintura.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         Pintura.setImplantacao(domain.getImplantacao());
         Pintura.setPorcentagemPerda(domain.getPorcentagemPerda());
         Pintura.setValor(domain.getValor());
@@ -36,7 +36,7 @@ public class PinturaDomainToEntityAdapter implements Convertable<Pintura, DPintu
                 .map(cor -> new Cor(cor.getCodigo()))
                 .orElse(null));
         Pintura.setTipoPintura(Optional.ofNullable(domain.getTipoPintura())
-                .map(tipoPintura -> TipoPintura.valueOf(tipoPintura.name()))
+                .map(tipoPintura -> TipoPinturaEnum.valueOf(tipoPintura.name()))
                 .orElse(null));
         return Pintura;
     }
@@ -47,7 +47,7 @@ public class PinturaDomainToEntityAdapter implements Convertable<Pintura, DPintu
         Pintura.setCodigo(entity.getCdmaterial());
         Pintura.setDescricao(entity.getDescricao());
         Pintura.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         Pintura.setImplantacao(entity.getImplantacao());
         Pintura.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -56,9 +56,9 @@ public class PinturaDomainToEntityAdapter implements Convertable<Pintura, DPintu
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
         Pintura.setTipoPintura(Optional.ofNullable(entity.getTipoPintura())
-                .map(tipoPintura -> DTipoPintura.valueOf(tipoPintura.name()))
+                .map(tipoPintura -> DTipoPinturaEnum.valueOf(tipoPintura.name()))
                 .orElse(null));
-        Pintura.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        Pintura.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return Pintura;
     }
 }

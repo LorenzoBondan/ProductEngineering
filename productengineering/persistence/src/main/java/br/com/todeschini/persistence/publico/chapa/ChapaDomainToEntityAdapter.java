@@ -1,10 +1,10 @@
 package br.com.todeschini.persistence.publico.chapa;
 
-import br.com.todeschini.domain.business.enums.DSituacao;
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.chapa.DChapa;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import br.com.todeschini.persistence.entities.enums.TipoMaterial;
+import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Chapa;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
@@ -26,7 +26,7 @@ public class ChapaDomainToEntityAdapter implements Convertable<Chapa, DChapa> {
         Chapa chapa = new Chapa();
         chapa.setCdmaterial(domain.getCodigo());
         chapa.setDescricao(domain.getDescricao());
-        chapa.setTipoMaterial(TipoMaterial.valueOf(domain.getTipoMaterial().name()));
+        chapa.setTipoMaterial(TipoMaterialEnum.valueOf(domain.getTipoMaterial().name()));
         chapa.setImplantacao(domain.getImplantacao());
         chapa.setPorcentagemPerda(domain.getPorcentagemPerda());
         chapa.setValor(domain.getValor());
@@ -45,7 +45,7 @@ public class ChapaDomainToEntityAdapter implements Convertable<Chapa, DChapa> {
         chapa.setCodigo(entity.getCdmaterial());
         chapa.setDescricao(entity.getDescricao());
         chapa.setTipoMaterial(Optional.ofNullable(entity.getTipoMaterial())
-                .map(tipoMaterial -> DTipoMaterial.valueOf(entity.getTipoMaterial().name()))
+                .map(tipoMaterial -> DTipoMaterialEnum.valueOf(entity.getTipoMaterial().name()))
                 .orElse(null));
         chapa.setImplantacao(entity.getImplantacao());
         chapa.setPorcentagemPerda(entity.getPorcentagemPerda());
@@ -55,7 +55,7 @@ public class ChapaDomainToEntityAdapter implements Convertable<Chapa, DChapa> {
                 .orElse(null));
         chapa.setEspessura(entity.getEspessura());
         chapa.setFaces(entity.getFaces());
-        chapa.setSituacao(DSituacao.valueOf(entity.getSituacao().name()));
+        chapa.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
         return chapa;
     }
 }

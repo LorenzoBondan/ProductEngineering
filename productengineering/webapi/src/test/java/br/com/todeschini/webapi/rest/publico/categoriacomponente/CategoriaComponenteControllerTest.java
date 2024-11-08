@@ -2,8 +2,10 @@ package br.com.todeschini.webapi.rest.publico.categoriacomponente;
 
 import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
+import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.categoriacomponente.CategoriaComponenteRepository;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;
+import br.com.todeschini.persistence.publico.lixeira.LixeiraRepository;
 import br.com.todeschini.webapi.BaseControllerTest;
 import br.com.todeschini.webapi.rest.auth.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,6 +26,8 @@ public class CategoriaComponenteControllerTest extends BaseControllerTest<DCateg
 
     @Autowired
     private CategoriaComponenteRepository categoriaComponenteRepository;
+    @Autowired
+    private LixeiraRepository lixeiraRepository;
 
     @Autowired
     public CategoriaComponenteControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, HistoryRepository historyRepository, TokenUtil tokenUtil) {
@@ -94,7 +101,7 @@ public class CategoriaComponenteControllerTest extends BaseControllerTest<DCateg
     @Test
     @Order(7)
     void deveSubstituirVersaoTest() throws Exception {
-        super.deveSubstituirVersao("tb_CategoriaComponente", "cdCategoriaComponente");
+        super.deveSubstituirVersao("tb_categoria_componente", "cdcategoria_componente");
     }
 
     @Test
@@ -113,6 +120,10 @@ public class CategoriaComponenteControllerTest extends BaseControllerTest<DCateg
     void tearDown() {
         if (idCriado != null) {
             categoriaComponenteRepository.deleteById(idCriado);
+            Map<String, Object> id = new HashMap<>();
+            id.put("cdcategoria_componente", idCriado);
+            Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
+            lixeiraRepository.deleteById(lixeira.getId());
         }
     }
 }

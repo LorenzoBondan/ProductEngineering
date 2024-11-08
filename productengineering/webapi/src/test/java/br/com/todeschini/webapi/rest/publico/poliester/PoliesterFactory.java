@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.poliester;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.business.publico.poliester.DPoliester;
 
@@ -12,7 +12,7 @@ public class PoliesterFactory {
         DPoliester Poliester = new DPoliester();
         Poliester.setCodigo(1);
         Poliester.setDescricao("Descrição");
-        Poliester.setTipoMaterial(DTipoMaterial.POLIESTER);
+        Poliester.setTipoMaterial(DTipoMaterialEnum.POLIESTER);
         Poliester.setImplantacao(LocalDate.of(3000,1,1));
         Poliester.setPorcentagemPerda(12.0);
         Poliester.setValor(10.0);
@@ -24,7 +24,7 @@ public class PoliesterFactory {
         DPoliester Poliester = new DPoliester();
         Poliester.setCodigo(2);
         Poliester.setDescricao(duplicatedDescription);
-        Poliester.setTipoMaterial(DTipoMaterial.POLIESTER);
+        Poliester.setTipoMaterial(DTipoMaterialEnum.POLIESTER);
         Poliester.setImplantacao(LocalDate.of(3000,1,1));
         Poliester.setPorcentagemPerda(12.0);
         Poliester.setValor(10.0);
@@ -36,7 +36,7 @@ public class PoliesterFactory {
         DPoliester Poliester = new DPoliester();
         Poliester.setCodigo(nonExistingId);
         Poliester.setDescricao("Descrição");
-        Poliester.setTipoMaterial(DTipoMaterial.POLIESTER);
+        Poliester.setTipoMaterial(DTipoMaterialEnum.POLIESTER);
         Poliester.setImplantacao(LocalDate.of(3000,1,1));
         Poliester.setPorcentagemPerda(12.0);
         Poliester.setValor(10.0);

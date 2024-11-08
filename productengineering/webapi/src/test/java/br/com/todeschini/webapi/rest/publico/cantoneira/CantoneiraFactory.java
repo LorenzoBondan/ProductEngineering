@@ -1,6 +1,6 @@
 package br.com.todeschini.webapi.rest.publico.cantoneira;
 
-import br.com.todeschini.domain.business.enums.DTipoMaterial;
+import br.com.todeschini.domain.business.enums.DTipoMaterialEnum;
 import br.com.todeschini.domain.business.publico.cantoneira.DCantoneira;
 import br.com.todeschini.domain.business.publico.cor.DCor;
 
@@ -12,7 +12,7 @@ public class CantoneiraFactory {
         DCantoneira Cantoneira = new DCantoneira();
         Cantoneira.setCodigo(1);
         Cantoneira.setDescricao("Descrição");
-        Cantoneira.setTipoMaterial(DTipoMaterial.CANTONEIRA);
+        Cantoneira.setTipoMaterial(DTipoMaterialEnum.CANTONEIRA);
         Cantoneira.setImplantacao(LocalDate.of(3000,1,1));
         Cantoneira.setPorcentagemPerda(12.0);
         Cantoneira.setValor(10.0);
@@ -24,7 +24,7 @@ public class CantoneiraFactory {
         DCantoneira Cantoneira = new DCantoneira();
         Cantoneira.setCodigo(2);
         Cantoneira.setDescricao(duplicatedDescription);
-        Cantoneira.setTipoMaterial(DTipoMaterial.CANTONEIRA);
+        Cantoneira.setTipoMaterial(DTipoMaterialEnum.CANTONEIRA);
         Cantoneira.setImplantacao(LocalDate.of(3000,1,1));
         Cantoneira.setPorcentagemPerda(12.0);
         Cantoneira.setValor(10.0);
@@ -36,7 +36,7 @@ public class CantoneiraFactory {
         DCantoneira Cantoneira = new DCantoneira();
         Cantoneira.setCodigo(nonExistingId);
         Cantoneira.setDescricao("Descrição");
-        Cantoneira.setTipoMaterial(DTipoMaterial.CANTONEIRA);
+        Cantoneira.setTipoMaterial(DTipoMaterialEnum.CANTONEIRA);
         Cantoneira.setImplantacao(LocalDate.of(3000,1,1));
         Cantoneira.setPorcentagemPerda(12.0);
         Cantoneira.setValor(10.0);

@@ -1,8 +1,8 @@
 package br.com.todeschini.persistence.entities.publico;
 
 import br.com.todeschini.domain.metadata.Entidade;
-import br.com.todeschini.persistence.entities.enums.TipoPintura;
-import br.com.todeschini.persistence.entities.enums.converters.TipoPinturaConverter;
+import br.com.todeschini.persistence.entities.enums.TipoPinturaEnum;
+import br.com.todeschini.persistence.entities.enums.converters.TipoPinturaEnumConverter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,6 @@ import javax.persistence.Entity;
 @Entidade
 public class Pintura extends Material {
 
-    @Convert(converter = TipoPinturaConverter.class)
-    private TipoPintura tipoPintura;
+    @Convert(converter = TipoPinturaEnumConverter.class)
+    private TipoPinturaEnum tipoPintura;
 }
