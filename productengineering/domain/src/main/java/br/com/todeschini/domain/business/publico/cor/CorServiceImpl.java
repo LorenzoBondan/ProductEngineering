@@ -26,11 +26,6 @@ public class CorServiceImpl implements CorService {
     }
 
     @Override
-    public List<DCor> buscarTodosMaisAtual(Integer id) {
-        return crudCor.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DCor buscar(Integer id) {
         return crudCor.buscar(id);
     }

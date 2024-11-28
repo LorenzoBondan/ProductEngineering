@@ -63,9 +63,9 @@ INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantaca
 INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, cdcor, espessura, faces, situacao) OVERRIDING SYSTEM VALUE VALUES (4, 'Chapa', 'MDF BP 18 MM 2F', 2, '2024-01-01', 10, 20, 4, 18, 2, 'ATIVO');
 INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, cdcor, espessura, faces, situacao) OVERRIDING SYSTEM VALUE VALUES (5, 'Chapa', 'MDF BP 18 MM 1F', 2, '2024-01-01', 10, 20, 4, 18, 1, 'ATIVO');
 
-INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, altura, espessura, situacao) OVERRIDING SYSTEM VALUE VALUES (6, 'FitaBorda', 'FITA BORDA PS 2107 - MINERALE CZ COBALTO', 3, '2024-01-01', 8.6, 30, 1, 21, 'ATIVO');
-INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, altura, espessura, situacao) OVERRIDING SYSTEM VALUE VALUES (7, 'FitaBorda', 'FITA BORDA PS 2107 - PRISMA', 3, '2024-01-01', 8.6, 30, 2, 21, 'ATIVO');
-INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, altura, espessura, situacao) OVERRIDING SYSTEM VALUE VALUES (8, 'FitaBorda', 'FITA BORDA PS 2107 - STONE CHUMBO', 3, '2024-01-01', 8.6, 30, 3, 21, 'ATIVO');
+INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, altura, espessura, cdcor, situacao) OVERRIDING SYSTEM VALUE VALUES (6, 'FitaBorda', 'FITA BORDA PS 2107 - MINERALE CZ COBALTO', 3, '2024-01-01', 8.6, 30, 21, 7, 1,'ATIVO');
+INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, altura, espessura, cdcor, situacao) OVERRIDING SYSTEM VALUE VALUES (7, 'FitaBorda', 'FITA BORDA PS 2107 - PRISMA', 3, '2024-01-01', 8.6, 30, 21, 7, 2,'ATIVO');
+INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, altura, espessura, cdcor, situacao) OVERRIDING SYSTEM VALUE VALUES (8, 'FitaBorda', 'FITA BORDA PS 2107 - STONE CHUMBO', 3, '2024-01-01', 8.6, 30, 21, 7, 3,'ATIVO');
 
 INSERT INTO tb_material (cdmaterial, dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, gramatura, situacao) OVERRIDING SYSTEM VALUE VALUES (9, 'Cola', 'COLA PUR CQ 645', 4, '2024-01-01', 12, 15.0, 0.09, 'ATIVO');
 
@@ -103,3 +103,7 @@ SELECT setval('tb_pai_cdpai_seq', 1);
 -- Inserir filho
 INSERT INTO tb_filho (cdfilho, descricao, cdpai, cdcor, cdmedidas, cdroteiro, unidade_medida, implantacao, valor, tipo) OVERRIDING SYSTEM VALUE VALUES (1, 'Teste', 1, 1, 1, 1, 'UN', null, null, 1);
 SELECT setval('tb_filho_cdfilho_seq', 1);
+
+-- Inserir material usado
+INSERT INTO tb_material_usado (cdfilho, cdmaterial, valor, quantidade_liquida, quantidade_bruta, unidade_medida, dtype) VALUES (1,1, 10, 1, 1, 'M', 'ChapaUsada');
+SELECT setval('tb_material_usado_cdmaterial_usado_seq', 1);

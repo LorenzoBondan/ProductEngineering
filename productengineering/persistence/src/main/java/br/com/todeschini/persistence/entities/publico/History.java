@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Builder
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,11 +21,8 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDateTime tstamp;
-    @Column(columnDefinition = "TEXT")
     private String schemaname;
-    @Column(columnDefinition = "TEXT")
     private String tabname;
-    @Column(columnDefinition = "TEXT")
     private String operation;
     @Type(type = "jsonb") // ON TEST PROFILE, CHANGE TO json TO AVOID LOG ERROR WHEN APPLICATION STARTS
     @Column(unique = true, columnDefinition = "jsonb")

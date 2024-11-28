@@ -3,8 +3,6 @@ package br.com.todeschini.persistence.publico.user;
 import br.com.todeschini.domain.metadata.QueryService;
 import br.com.todeschini.domain.projections.UserDetailsProjection;
 import br.com.todeschini.persistence.entities.publico.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,10 +17,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	Collection<User> findByEmail(String email);
-
-    @Query("SELECT DISTINCT obj FROM User obj " +
-            "WHERE (UPPER(obj.name) LIKE UPPER(CONCAT('%', :name, '%')) ) ORDER BY obj.name")
-    Page<User> find(String name, Pageable pageable);
 
     @Query(nativeQuery = true, value = """
 				SELECT tb_user.email AS username, tb_user.password, tb_role.id AS roleId, tb_role.authority

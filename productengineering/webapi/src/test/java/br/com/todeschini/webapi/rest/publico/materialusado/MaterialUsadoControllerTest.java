@@ -81,30 +81,24 @@ public class MaterialUsadoControllerTest extends BaseControllerTest<DMaterialUsa
 
     @Test
     @Order(4)
-    void devePesquisarTodosAtivosMaisAtualTest() throws Exception {
-        super.devePesquisarTodosAtivosMaisAtual();
-    }
-
-    @Test
-    @Order(5)
     void devePesquisarHistoricoTest() throws Exception {
         super.devePesquisarHistorico();
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void deveAtualizarEntidadeExistenteTest() throws Exception {
         super.deveAtualizarEntidadeExistente();
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void deveSubstituirVersaoTest() throws Exception {
         super.deveSubstituirVersao("tb_material_usado", "cdmaterial_usado");
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void deveInativarEntidadeTest() throws Exception {
         super.deveInativarEntidade();
     }
@@ -120,7 +114,7 @@ public class MaterialUsadoControllerTest extends BaseControllerTest<DMaterialUsa
         if (idCriado != null) {
             materialUsadoRepository.deleteById(idCriado);
             Map<String, Object> id = new HashMap<>();
-            id.put("cdmaterial_usado", idCriado);
+            id.put("cdmaterialUsado", idCriado);
             Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
             lixeiraRepository.deleteById(lixeira.getId());
         }

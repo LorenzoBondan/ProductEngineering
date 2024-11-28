@@ -43,11 +43,6 @@ public class PaiControllerMockTest extends BaseControllerIT<DPai> {
     }
 
     @Test
-    public void pesquisarTodosAtivosMaisAtualShouldReturnListTest() throws Exception {
-        pesquisarTodosAtivosMaisAtualShouldReturnList();
-    }
-
-    @Test
     public void pesquisarPorIdShouldReturnObjectTest() throws Exception {
         pesquisarPorIdShouldReturnObject();
     }

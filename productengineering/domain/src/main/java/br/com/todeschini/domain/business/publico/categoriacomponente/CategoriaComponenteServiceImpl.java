@@ -26,11 +26,6 @@ public class CategoriaComponenteServiceImpl implements CategoriaComponenteServic
     }
 
     @Override
-    public List<DCategoriaComponente> buscarTodosMaisAtual(Integer id) {
-        return crudCategoriaComponente.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DCategoriaComponente buscar(Integer id) {
         return crudCategoriaComponente.buscar(id);
     }

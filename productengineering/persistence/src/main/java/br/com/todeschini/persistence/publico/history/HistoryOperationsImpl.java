@@ -1,11 +1,16 @@
 package br.com.todeschini.persistence.publico.history;
 
+import br.com.todeschini.domain.PageableRequest;
+import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.PagedBuilder;
 import br.com.todeschini.domain.business.publico.history.DHistory;
+import br.com.todeschini.domain.business.publico.history.DTHistory;
 import br.com.todeschini.domain.business.publico.history.spi.HistoryOperations;
 import br.com.todeschini.persistence.entities.enums.MappableEnum;
 import br.com.todeschini.persistence.entities.enums.MappableStringEnum;
 import br.com.todeschini.persistence.entities.publico.History;
 import br.com.todeschini.persistence.util.DynamicRepositoryFactory;
+import br.com.todeschini.persistence.util.PageRequestUtils;
 import br.com.todeschini.persistence.util.ReflectionUtils;
 import br.com.todeschini.persistence.util.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,11 +41,15 @@ public class HistoryOperationsImpl implements HistoryOperations {
     private final HistoryRepository repository;
     private final ObjectMapper objectMapper;
     private final DynamicRepositoryFactory dynamicRepositoryFactory;
+    private final HistoryDomainToEntityAdapter adapter;
+    private final PageRequestUtils pageRequestUtils;
 
-    public HistoryOperationsImpl(HistoryRepository repository, ObjectMapper objectMapper, DynamicRepositoryFactory dynamicRepositoryFactory) {
+    public HistoryOperationsImpl(HistoryRepository repository, ObjectMapper objectMapper, DynamicRepositoryFactory dynamicRepositoryFactory, HistoryDomainToEntityAdapter adapter, PageRequestUtils pageRequestUtils) {
         this.repository = repository;
         this.objectMapper = objectMapper;
         this.dynamicRepositoryFactory = dynamicRepositoryFactory;
+        this.adapter = adapter;
+        this.pageRequestUtils = pageRequestUtils;
     }
 
     /**
@@ -67,6 +76,34 @@ public class HistoryOperationsImpl implements HistoryOperations {
                         retirarAutorDoJson(history.getOldVal()),
                         convertToEntity(history.getOldVal(), entityType, attributeMappings)))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Recupera uma lista de históricos com base nos filtros passados
+     *
+     * @param tabname nome da tabela
+     * @param dataInicial data inicial do histórico
+     * @param dataFinal data final do histórico
+     * @param operation operação do banco de dados
+     * @param idName nome do atributo a ser filtrado
+     * @param recordId valor do atributo a ser filtrado
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Paged<DTHistory> buscar(String tabname, LocalDateTime dataInicial, LocalDateTime dataFinal, String operation, String idName, String recordId, PageableRequest pageable) {
+        Page<History> page = repository.findByTabnameAndTstampBetweenAndOperationAndRecordId(
+                tabname, dataInicial, dataFinal, operation, idName, recordId, pageRequestUtils.toPage(pageable));
+
+        return new PagedBuilder<DTHistory>()
+                .withContent(page.getContent().stream().map(adapter::toDomain).toList())
+                .withSortedBy(String.join(";", pageable.getSort()))
+                .withFirst(page.isFirst())
+                .withLast(page.isLast())
+                .withPage(page.getNumber())
+                .withSize(page.getSize())
+                .withTotalPages(page.getTotalPages())
+                .withNumberOfElements(Math.toIntExact(page.getTotalElements()))
+                .build();
     }
 
     private String retirarAutorDoJson(Map<String, Object> jsonMap) {
@@ -190,30 +227,33 @@ public class HistoryOperationsImpl implements HistoryOperations {
         // Marca a entidade como processada
         processedEntities.add(entity);
 
-        for (Field field : entity.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            String fieldName = field.getName();
+        Class<?> currentClass = entity.getClass();
+        while (currentClass != null && currentClass != Object.class) {
+            for (Field field : currentClass.getDeclaredFields()) {
+                field.setAccessible(true);
+                String fieldName = field.getName();
 
-            if (!auditFields.contains(fieldName) && !Collection.class.isAssignableFrom(field.getType())) {
-                Object value = field.get(entity);
-                if (value != null) {
-                    // Se o valor é uma instância de uma classe que precisa ser mapeada, faça a chamada recursiva
-                    if (attributeMappings.containsValue(value.getClass())) {
-                        // Converte o valor usando a recursão
-                        ObjectNode relatedNode = transformEntityToNode(value, attributeMappings, processedEntities);
-                        // A chave aqui deve ser o nome da entidade, não o código
-                        String entityName = value.getClass().getSimpleName().toLowerCase();
-                        node.set(entityName, relatedNode);
-                    } else if (value instanceof Period period) {
-                        // Verifica se o valor é do tipo Period e converte para uma string legível
-                        String periodString = period.getYears() + " years " + period.getMonths() + " months " + period.getDays() + " days";
-                        node.put(StringUtils.toSnakeCase(fieldName), periodString.trim());
-                    } else {
-                        // Se não for uma entidade nem um atributo Period, apenas adiciona o valor ao nó
-                        node.set(StringUtils.toSnakeCase(fieldName), mapper.valueToTree(value));
+                if (!auditFields.contains(fieldName) && !Collection.class.isAssignableFrom(field.getType())) {
+                    Object value = field.get(entity);
+                    if (value != null) {
+                        if (attributeMappings.containsValue(value.getClass())) {
+                            // Chamada recursiva para entidades relacionadas
+                            ObjectNode relatedNode = transformEntityToNode(value, attributeMappings, processedEntities);
+                            String entityName = value.getClass().getSimpleName().toLowerCase();
+                            node.set(entityName, relatedNode);
+                        } else if (value instanceof Period period) {
+                            // Converte Period para string legível
+                            String periodString = period.getYears() + " years " + period.getMonths() + " months " + period.getDays() + " days";
+                            node.put(StringUtils.toSnakeCase(fieldName), periodString.trim());
+                        } else {
+                            // Adiciona valores simples ao nó
+                            node.set(StringUtils.toSnakeCase(fieldName), mapper.valueToTree(value));
+                        }
                     }
                 }
             }
+            // Move para a superclasse
+            currentClass = currentClass.getSuperclass();
         }
 
         // Remove a entidade da lista de processados ao final do processamento

@@ -3,13 +3,16 @@ package br.com.todeschini.persistence.publico.materialusado;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
 import br.com.todeschini.domain.PagedBuilder;
+import br.com.todeschini.domain.business.publico.filho.api.FilhoService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.history.api.HistoryService;
+import br.com.todeschini.domain.business.publico.material.api.MaterialService;
 import br.com.todeschini.domain.business.publico.materialusado.DMaterialUsado;
 import br.com.todeschini.domain.business.publico.materialusado.spi.CrudMaterialUsado;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.MaterialUsado;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
 import br.com.todeschini.persistence.util.PageRequestUtils;
@@ -32,15 +35,21 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
+    private final SituacaoFilter<MaterialUsado> situacaoFilter;
+    private final FilhoService filhoService;
+    private final MaterialService materialService;
 
     public CrudMaterialUsadoImpl(MaterialUsadoRepository repository, MaterialUsadoQueryRepository queryRepository, MaterialUsadoDomainToEntityAdapter adapter, EntityService entityService,
-                                 PageRequestUtils pageRequestUtils, HistoryService historyService) {
+                                 PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<MaterialUsado> situacaoFilter, FilhoService filhoService, MaterialService materialService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
+        this.situacaoFilter = situacaoFilter;
+        this.filhoService = filhoService;
+        this.materialService = materialService;
     }
 
     @Override
@@ -48,7 +57,8 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     public Paged<DMaterialUsado> buscarTodos(PageableRequest request) {
         SpecificationHelper<MaterialUsado> helper = new SpecificationHelper<>();
         Specification<MaterialUsado> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DMaterialUsado>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -67,12 +77,6 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     @Transactional(readOnly = true)
     public Collection<? extends DMaterialUsado> pesquisarPorFilhoEMaterial(Integer cdfilho, Integer cdmaterial) {
         return queryRepository.findByFilho_CdfilhoAndMaterial_Cdmaterial(cdfilho, cdmaterial).stream().map(adapter::toDomain).toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DMaterialUsado> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override
@@ -98,6 +102,8 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     @Override
     @Transactional
     public DMaterialUsado inserir(DMaterialUsado obj) {
+        obj.setFilho(filhoService.buscar(obj.getFilho().getCodigo()));
+        obj.setMaterial(materialService.buscar(obj.getMaterial().getCodigo()));
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
@@ -108,6 +114,8 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
         }
+        obj.setFilho(filhoService.buscar(obj.getFilho().getCodigo()));
+        obj.setMaterial(materialService.buscar(obj.getMaterial().getCodigo()));
         MaterialUsado entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
         setCreationProperties(entity);

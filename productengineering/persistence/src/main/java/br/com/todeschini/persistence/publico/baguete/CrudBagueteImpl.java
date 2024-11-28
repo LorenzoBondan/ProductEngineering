@@ -10,6 +10,7 @@ import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.Baguete;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
 import br.com.todeschini.persistence.util.PageRequestUtils;
@@ -32,15 +33,17 @@ public class CrudBagueteImpl implements CrudBaguete {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
+    private final SituacaoFilter<Baguete> situacaoFilter;
 
     public CrudBagueteImpl(BagueteRepository repository, BagueteQueryRepository queryRepository, BagueteDomainToEntityAdapter adapter, EntityService entityService,
-                           PageRequestUtils pageRequestUtils, HistoryService historyService) {
+                           PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<Baguete> situacaoFilter) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
+        this.situacaoFilter = situacaoFilter;
     }
 
     @Override
@@ -48,7 +51,8 @@ public class CrudBagueteImpl implements CrudBaguete {
     public Paged<DBaguete> buscarTodos(PageableRequest request) {
         SpecificationHelper<Baguete> helper = new SpecificationHelper<>();
         Specification<Baguete> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DBaguete>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -67,12 +71,6 @@ public class CrudBagueteImpl implements CrudBaguete {
     @Transactional(readOnly = true)
     public Collection<? extends DBaguete> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DBaguete> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override

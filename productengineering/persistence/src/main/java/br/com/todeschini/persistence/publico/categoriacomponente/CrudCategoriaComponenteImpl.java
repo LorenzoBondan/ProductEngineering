@@ -9,7 +9,9 @@ import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
+import br.com.todeschini.persistence.entities.publico.Acessorio;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
 import br.com.todeschini.persistence.util.PageRequestUtils;
@@ -32,15 +34,17 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
+    private final SituacaoFilter<CategoriaComponente> situacaoFilter;
 
     public CrudCategoriaComponenteImpl(CategoriaComponenteRepository repository, CategoriaComponenteQueryRepository queryRepository, CategoriaComponenteDomainToEntityAdapter adapter, EntityService entityService,
-                                       PageRequestUtils pageRequestUtils, HistoryService historyService) {
+                                       PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<CategoriaComponente> situacaoFilter) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
+        this.situacaoFilter = situacaoFilter;
     }
 
     @Override
@@ -48,7 +52,8 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     public Paged<DCategoriaComponente> buscarTodos(PageableRequest request) {
         SpecificationHelper<CategoriaComponente> helper = new SpecificationHelper<>();
         Specification<CategoriaComponente> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DCategoriaComponente>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -67,12 +72,6 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     @Transactional(readOnly = true)
     public Collection<? extends DCategoriaComponente> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DCategoriaComponente> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override

@@ -45,11 +45,6 @@ public class RoteiroServiceImpl implements RoteiroService {
     }
 
     @Override
-    public List<DRoteiro> buscarTodosMaisAtual(Integer id) {
-        return crudRoteiro.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DRoteiro buscar(Integer id) {
         return crudRoteiro.buscar(id);
     }

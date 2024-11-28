@@ -5,6 +5,7 @@ import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.roteiro.DRoteiro;
 import br.com.todeschini.domain.business.publico.roteiromaquina.DRoteiroMaquina;
 import br.com.todeschini.domain.metadata.EntityAdapter;
+import br.com.todeschini.persistence.entities.publico.Maquina;
 import br.com.todeschini.persistence.entities.publico.Roteiro;
 import br.com.todeschini.persistence.entities.publico.RoteiroMaquina;
 import br.com.todeschini.persistence.publico.maquina.MaquinaDomainToEntityAdapter;
@@ -25,9 +26,7 @@ public class RoteiroMaquinaDomainToEntityAdapter implements Convertable<RoteiroM
         return RoteiroMaquina.builder()
                 .cdroteiroMaquina(domain.getCodigo())
                 .roteiro(new Roteiro(domain.getRoteiro().getCodigo()))
-                .maquina(Optional.ofNullable(domain.getMaquina())
-                        .map(maquina -> maquinaDomainToEntityAdapter.toEntity(maquina))
-                        .orElse(null))
+                .maquina(new Maquina(domain.getMaquina().getCodigo()))
                 .tempoMaquina(domain.getTempoMaquina())
                 .tempoHomem(domain.getTempoHomem())
                 .unidadeMedida(Optional.ofNullable(domain.getUnidadeMedida()).orElse("MIN"))

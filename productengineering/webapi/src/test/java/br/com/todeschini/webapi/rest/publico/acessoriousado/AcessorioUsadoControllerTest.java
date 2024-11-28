@@ -82,30 +82,24 @@ public class AcessorioUsadoControllerTest extends BaseControllerTest<DAcessorioU
 
     @Test
     @Order(4)
-    void devePesquisarTodosAtivosMaisAtualTest() throws Exception {
-        super.devePesquisarTodosAtivosMaisAtual();
-    }
-
-    @Test
-    @Order(5)
     void devePesquisarHistoricoTest() throws Exception {
         super.devePesquisarHistorico();
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void deveAtualizarEntidadeExistenteTest() throws Exception {
         super.deveAtualizarEntidadeExistente();
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void deveSubstituirVersaoTest() throws Exception {
         super.deveSubstituirVersao("tb_acessorio_usado", "cdacessorio_usado");
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void deveInativarEntidadeTest() throws Exception {
         super.deveInativarEntidade();
     }

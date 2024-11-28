@@ -34,11 +34,6 @@ public class PinturaBordaFundoServiceImpl implements PinturaBordaFundoService {
     }
 
     @Override
-    public List<DPinturaBordaFundo> buscarTodosMaisAtual(Integer id) {
-        return crudPinturaBordaFundo.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DPinturaBordaFundo buscar(Integer id) {
         return crudPinturaBordaFundo.buscar(id);
     }

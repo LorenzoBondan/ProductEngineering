@@ -34,11 +34,6 @@ public class PinturaServiceImpl implements PinturaService {
     }
 
     @Override
-    public List<DPintura> buscarTodosMaisAtual(Integer id) {
-        return crudPintura.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DPintura buscar(Integer id) {
         return crudPintura.buscar(id);
     }

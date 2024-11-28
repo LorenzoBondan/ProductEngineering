@@ -34,11 +34,6 @@ public class ColaServiceImpl implements ColaService {
     }
 
     @Override
-    public List<DCola> buscarTodosMaisAtual(Integer id) {
-        return crudCola.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DCola buscar(Integer id) {
         return crudCola.buscar(id);
     }

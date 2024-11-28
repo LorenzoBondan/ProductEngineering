@@ -23,8 +23,6 @@ public interface SimpleCrud<T, J>{
 
     void inativar(J obj);
 
-    List<T> buscarTodosAtivosMaisAtual(J obj);
-
     List<DHistory<T>> buscarHistorico(J id);
 
     T substituirPorVersaoAntiga(J id, J versionId);

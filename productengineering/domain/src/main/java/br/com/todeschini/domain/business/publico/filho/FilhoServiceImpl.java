@@ -40,11 +40,6 @@ public class FilhoServiceImpl implements FilhoService {
     }
 
     @Override
-    public List<DFilho> buscarTodosMaisAtual(Integer id) {
-        return crudFilho.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DFilho buscar(Integer id) {
         return crudFilho.buscar(id);
     }

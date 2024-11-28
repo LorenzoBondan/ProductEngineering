@@ -10,7 +10,7 @@ public class MaterialUsadoFactory {
         DMaterialUsado materialUsado = new DMaterialUsado();
         materialUsado.setCodigo(1);
         materialUsado.setFilho(new DFilho(1));
-        materialUsado.setMaterial(new DMaterial(1));
+        materialUsado.setMaterial(new DMaterial(2));
         materialUsado.setQuantidadeLiquida(1.00);
         materialUsado.setQuantidadeBruta(1.00);
         materialUsado.setValor(1.00);

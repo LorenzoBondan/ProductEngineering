@@ -34,11 +34,6 @@ public class PlasticoServiceImpl implements PlasticoService {
     }
 
     @Override
-    public List<DPlastico> buscarTodosMaisAtual(Integer id) {
-        return crudPlastico.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DPlastico buscar(Integer id) {
         return crudPlastico.buscar(id);
     }

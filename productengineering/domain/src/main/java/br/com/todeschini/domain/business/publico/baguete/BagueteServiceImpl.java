@@ -34,11 +34,6 @@ public class BagueteServiceImpl implements BagueteService {
     }
 
     @Override
-    public List<DBaguete> buscarTodosMaisAtual(Integer id) {
-        return crudBaguete.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DBaguete buscar(Integer id) {
         return crudBaguete.buscar(id);
     }

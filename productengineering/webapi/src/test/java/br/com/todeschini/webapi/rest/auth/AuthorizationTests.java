@@ -43,24 +43,37 @@ public class AuthorizationTests {
         String invalidAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtZXRhd2F5LmNvbSIsImlkIjoxLCJhdWQiOiIxIiwiZXhwIjoxNzIyOTE0MjA0fQ.jncgpfRrQghDaNi1_6TEDfP5kVOx6xGGkDgMu123";
 
         List<String> entities = Arrays.asList(
-                "api/cor",
+                "api/acessorio",
+                "api/acessoriousado",
+                "api/baguete",
+                "api/cantoneira",
+                "api/categoriacomponente",
                 "api/chapa",
+                "api/cola",
+                "api/cor",
                 "api/filho",
+                "api/fitaborda",
                 "api/grupomaquina",
                 "api/maquina",
                 "api/material",
                 "api/materialusado",
                 "api/medidas",
+                "api/modelo",
                 "api/pai",
+                "api/pintura",
+                "api/pinturabordafundo",
+                "api/plastico",
+                "api/poliester",
+                "api/polietileno",
                 "api/roteiro",
-                "api/roteiromaquina"
+                "api/roteiromaquina",
+                "api/tnt"
                 );
 
         // Endpoints e métodos para operações de leitura
         List<EndpointMethod> readEndpoints = entities.stream()
                 .flatMap(entity -> Stream.of(
                         new EndpointMethod("/" + entity + "?colunas=&operacoes=&valores=&sort=codigo;d", HttpMethod.GET),
-                        new EndpointMethod("/" + entity + "/todosmaisatual?codigo=10", HttpMethod.GET),
                         new EndpointMethod("/" + entity + "/1", HttpMethod.GET),
                         new EndpointMethod("/" + entity + "/historico?codigo=1", HttpMethod.GET)
                 )).collect(Collectors.toList());

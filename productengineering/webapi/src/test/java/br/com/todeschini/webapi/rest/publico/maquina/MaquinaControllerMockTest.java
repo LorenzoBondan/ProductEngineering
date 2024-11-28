@@ -43,11 +43,6 @@ public class MaquinaControllerMockTest extends BaseControllerIT<DMaquina> {
     }
 
     @Test
-    public void pesquisarTodosAtivosMaisAtualShouldReturnListTest() throws Exception {
-        pesquisarTodosAtivosMaisAtualShouldReturnList();
-    }
-
-    @Test
     public void pesquisarPorIdShouldReturnObjectTest() throws Exception {
         pesquisarPorIdShouldReturnObject();
     }

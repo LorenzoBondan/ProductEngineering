@@ -36,11 +36,6 @@ public class PaiServiceImpl implements PaiService {
     }
 
     @Override
-    public List<DPai> buscarTodosMaisAtual(Integer id) {
-        return crudPai.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DPai buscar(Integer id) {
         return crudPai.buscar(id);
     }

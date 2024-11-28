@@ -35,11 +35,6 @@ public class MedidasServiceImpl implements MedidasService {
     }
 
     @Override
-    public List<DMedidas> buscarTodosMaisAtual(Integer id) {
-        return crudMedidas.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DMedidas buscar(Integer id) {
         return crudMedidas.buscar(id);
     }

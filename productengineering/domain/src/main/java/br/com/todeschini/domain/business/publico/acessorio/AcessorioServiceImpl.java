@@ -34,11 +34,6 @@ public class AcessorioServiceImpl implements AcessorioService {
     }
 
     @Override
-    public List<DAcessorio> buscarTodosMaisAtual(Integer id) {
-        return crudAcessorio.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DAcessorio buscar(Integer id) {
         return crudAcessorio.buscar(id);
     }

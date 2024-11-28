@@ -10,6 +10,7 @@ import br.com.todeschini.domain.business.publico.user.spi.CrudUser;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.User;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -30,9 +31,10 @@ public class CrudUserImpl implements CrudUser {
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
     private final CustomUserUtil customUserUtil;
+    private final SituacaoFilter<User> situacaoFilter;
 
     public CrudUserImpl(UserRepository repository, UserQueryRepository queryRepository, UserDomainToEntityAdapter adapter, EntityService entityService,
-                        PageRequestUtils pageRequestUtils, HistoryService historyService, CustomUserUtil customUserUtil) {
+                        PageRequestUtils pageRequestUtils, HistoryService historyService, CustomUserUtil customUserUtil, SituacaoFilter<User> situacaoFilter) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -40,6 +42,7 @@ public class CrudUserImpl implements CrudUser {
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
         this.customUserUtil = customUserUtil;
+        this.situacaoFilter = situacaoFilter;
     }
 
     @Override
@@ -47,7 +50,8 @@ public class CrudUserImpl implements CrudUser {
     public Paged<DUser> buscarTodos(PageableRequest request) {
         SpecificationHelper<User> helper = new SpecificationHelper<>();
         Specification<User> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DUser>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -60,12 +64,6 @@ public class CrudUserImpl implements CrudUser {
                         .withNumberOfElements(Math.toIntExact(r.getTotalElements()))
                         .build())
                 .orElse(null);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DUser> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override

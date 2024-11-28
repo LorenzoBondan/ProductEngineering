@@ -26,11 +26,6 @@ public class ModeloServiceImpl implements ModeloService {
     }
 
     @Override
-    public List<DModelo> buscarTodosMaisAtual(Integer id) {
-        return crudModelo.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DModelo buscar(Integer id) {
         return crudModelo.buscar(id);
     }

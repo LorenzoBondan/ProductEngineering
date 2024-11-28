@@ -110,14 +110,6 @@ public abstract class BaseControllerTest<T extends Descritivel, E extends Audito
         }
     }
 
-    public void devePesquisarTodosAtivosMaisAtual() throws Exception {
-        mockMvc.perform(get( baseUrl + "/todosmaisatual")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                        .param("codigo", idCriado.toString()))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].situacao").value("ATIVO"));
-    }
-
     public void devePesquisarHistorico() throws Exception {
         mockMvc.perform(get(baseUrl + "/historico")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())

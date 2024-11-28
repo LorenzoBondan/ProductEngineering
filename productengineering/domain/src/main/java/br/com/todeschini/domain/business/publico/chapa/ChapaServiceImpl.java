@@ -34,11 +34,6 @@ public class ChapaServiceImpl implements ChapaService {
     }
 
     @Override
-    public List<DChapa> buscarTodosMaisAtual(Integer id) {
-        return crudChapa.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DChapa buscar(Integer id) {
         return crudChapa.buscar(id);
     }

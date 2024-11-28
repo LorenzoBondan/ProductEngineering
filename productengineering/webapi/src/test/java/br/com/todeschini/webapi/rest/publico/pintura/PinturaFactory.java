@@ -18,7 +18,7 @@ public class PinturaFactory {
         Pintura.setPorcentagemPerda(12.0);
         Pintura.setValor(10.0);
         Pintura.setCor(new DCor(1));
-        Pintura.setTipoPintura(DTipoPinturaEnum.ACETINADA);
+        Pintura.setTipoPintura(DTipoPinturaEnum.ACETINADA_VIDRO);
         return Pintura;
     }
 

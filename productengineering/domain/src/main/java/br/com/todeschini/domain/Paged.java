@@ -2,6 +2,7 @@ package br.com.todeschini.domain;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,5 +19,5 @@ public class Paged<T> {
     private boolean first;
     private boolean last;
     private String sortedBy;
-    private List<T> content;
+    private List<T> content = new ArrayList<>();
 }

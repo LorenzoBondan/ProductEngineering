@@ -34,11 +34,6 @@ public class FitaBordaServiceImpl implements FitaBordaService {
     }
 
     @Override
-    public List<DFitaBorda> buscarTodosMaisAtual(Integer id) {
-        return crudFitaBorda.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DFitaBorda buscar(Integer id) {
         return crudFitaBorda.buscar(id);
     }

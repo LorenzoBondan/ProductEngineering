@@ -45,11 +45,6 @@ public class RoteiroControllerMockTest extends BaseControllerIT<DRoteiro> {
     }
 
     @Test
-    public void pesquisarTodosAtivosMaisAtualShouldReturnListTest() throws Exception {
-        pesquisarTodosAtivosMaisAtualShouldReturnList();
-    }
-
-    @Test
     public void pesquisarPorIdShouldReturnObjectTest() throws Exception {
         pesquisarPorIdShouldReturnObject();
     }

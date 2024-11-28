@@ -13,7 +13,7 @@ public class SituacaoEnumConverter implements AttributeConverter<SituacaoEnum, S
         if (attribute == null) {
             return null;
         }
-        return attribute.getLabel();
+        return attribute.getLabel().toUpperCase();
     }
 
     @Override

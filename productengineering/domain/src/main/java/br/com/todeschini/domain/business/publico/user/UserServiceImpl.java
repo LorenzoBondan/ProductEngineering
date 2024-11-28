@@ -26,11 +26,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<DUser> buscarTodosMaisAtual(Integer id) {
-        return crudUser.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DUser buscar(Integer id) {
         return crudUser.buscar(id);
     }

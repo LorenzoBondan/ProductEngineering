@@ -82,30 +82,24 @@ public class GrupoMaquinaControllerTest extends BaseControllerTest<DGrupoMaquina
 
     @Test
     @Order(4)
-    void devePesquisarTodosAtivosMaisAtualTest() throws Exception {
-        super.devePesquisarTodosAtivosMaisAtual();
-    }
-
-    @Test
-    @Order(5)
     void devePesquisarHistoricoTest() throws Exception {
         super.devePesquisarHistorico();
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void deveAtualizarEntidadeExistenteTest() throws Exception {
         super.deveAtualizarEntidadeExistente();
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void deveSubstituirVersaoTest() throws Exception {
         super.deveSubstituirVersao("tb_grupo_maquina", "cdgrupo_maquina");
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void deveInativarEntidadeTest() throws Exception {
         super.deveInativarEntidade();
     }
@@ -121,7 +115,7 @@ public class GrupoMaquinaControllerTest extends BaseControllerTest<DGrupoMaquina
         if (idCriado != null) {
             grupoMaquinaRepository.deleteById(idCriado);
             Map<String, Object> id = new HashMap<>();
-            id.put("cdgrupo_maquina", idCriado);
+            id.put("cdgrupoMaquina", idCriado);
             Lixeira lixeira = lixeiraRepository.findByEntidadeid(id);
             lixeiraRepository.deleteById(lixeira.getId());
         }

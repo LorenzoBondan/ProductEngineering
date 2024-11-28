@@ -26,11 +26,6 @@ public class GrupoMaquinaServiceImpl implements GrupoMaquinaService {
     }
 
     @Override
-    public List<DGrupoMaquina> buscarTodosMaisAtual(Integer id) {
-        return crudGrupoMaquina.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DGrupoMaquina buscar(Integer id) {
         return crudGrupoMaquina.buscar(id);
     }

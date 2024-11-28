@@ -34,11 +34,6 @@ public class TntServiceImpl implements TntService {
     }
 
     @Override
-    public List<DTnt> buscarTodosMaisAtual(Integer id) {
-        return crudTnt.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DTnt buscar(Integer id) {
         return crudTnt.buscar(id);
     }

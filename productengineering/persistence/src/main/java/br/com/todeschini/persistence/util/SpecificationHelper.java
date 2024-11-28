@@ -65,13 +65,6 @@ public class SpecificationHelper<T> {
             }
         }
 
-        // Adicionando filtro para excluir itens com situação 'LIXEIRA'
-        if (specification != null) {
-            specification = specification.and(new SearchSpecificationImpl<>(new SearchCriteria("situacao", "!=", "LIXEIRA")));
-        } else {
-            specification = Specification.where(new SearchSpecificationImpl<>(new SearchCriteria("situacao", "!=", "LIXEIRA")));
-        }
-
         return specification;
     }
 }

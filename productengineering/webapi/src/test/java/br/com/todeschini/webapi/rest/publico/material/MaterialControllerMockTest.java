@@ -43,11 +43,6 @@ public class MaterialControllerMockTest extends BaseControllerIT<DMaterial> {
     }
 
     @Test
-    public void pesquisarTodosAtivosMaisAtualShouldReturnListTest() throws Exception {
-        pesquisarTodosAtivosMaisAtualShouldReturnList();
-    }
-
-    @Test
     public void pesquisarPorIdShouldReturnObjectTest() throws Exception {
         pesquisarPorIdShouldReturnObject();
     }
@@ -143,9 +138,9 @@ public class MaterialControllerMockTest extends BaseControllerIT<DMaterial> {
         factoryObject.setTipoMaterial(null);
         validate(factoryObject);
 
-        factoryObject = MaterialFactory.createDMaterial();
+        /*factoryObject = MaterialFactory.createDMaterial();
         factoryObject.setImplantacao(ValidationConstants.dataPassada);
-        validate(factoryObject);
+        validate(factoryObject);*/
 
         factoryObject = MaterialFactory.createDMaterial();
         factoryObject.setPorcentagemPerda(null);

@@ -34,11 +34,6 @@ public class PolietilenoServiceImpl implements PolietilenoService {
     }
 
     @Override
-    public List<DPolietileno> buscarTodosMaisAtual(Integer id) {
-        return crudPolietileno.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DPolietileno buscar(Integer id) {
         return crudPolietileno.buscar(id);
     }

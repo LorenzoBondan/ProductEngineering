@@ -34,11 +34,6 @@ public class MaquinaServiceImpl implements MaquinaService {
     }
 
     @Override
-    public List<DMaquina> buscarTodosMaisAtual(Integer id) {
-        return crudMaquina.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DMaquina buscar(Integer id) {
         return crudMaquina.buscar(id);
     }

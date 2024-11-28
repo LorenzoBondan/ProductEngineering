@@ -34,11 +34,6 @@ public class RoteiroMaquinaServiceImpl implements RoteiroMaquinaService {
     }
 
     @Override
-    public List<DRoteiroMaquina> buscarTodosMaisAtual(Integer id) {
-        return crudRoteiroMaquina.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DRoteiroMaquina buscar(Integer id) {
         return crudRoteiroMaquina.buscar(id);
     }

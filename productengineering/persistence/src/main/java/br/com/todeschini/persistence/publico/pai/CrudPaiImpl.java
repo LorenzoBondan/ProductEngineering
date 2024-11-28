@@ -37,6 +37,7 @@ import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Pai;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.processadores.MaterialProcessador;
 import br.com.todeschini.persistence.processadores.MaterialProcessadorFactory;
 import br.com.todeschini.persistence.util.AttributeMappings;
@@ -72,12 +73,13 @@ public class CrudPaiImpl implements CrudPai {
     private final AcessorioService acessorioService;
     private final ModeloService modeloService;
     private final CategoriaComponenteService categoriaComponenteService;
+    private final SituacaoFilter<Pai> situacaoFilter;
 
     public CrudPaiImpl(PaiRepository repository, PaiQueryRepository queryRepository, PaiDomainToEntityAdapter adapter,
                        EntityService entityService, PageRequestUtils pageRequestUtils, HistoryService historyService,
                        FilhoService filhoService, MaterialUsadoService materialUsadoService, RoteiroService roteiroService,
                        RoteiroMaquinaService roteiroMaquinaService, MaquinaService maquinaService, MedidasService medidasService,
-                       MaterialService materialService, MaterialProcessadorFactory materialProcessadorFactory, CorService corService, AcessorioUsadoService acessorioUsadoService, AcessorioService acessorioService, ModeloService modeloService, CategoriaComponenteService categoriaComponenteService) {
+                       MaterialService materialService, MaterialProcessadorFactory materialProcessadorFactory, CorService corService, AcessorioUsadoService acessorioUsadoService, AcessorioService acessorioService, ModeloService modeloService, CategoriaComponenteService categoriaComponenteService, SituacaoFilter<Pai> situacaoFilter) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -96,6 +98,7 @@ public class CrudPaiImpl implements CrudPai {
         this.acessorioService = acessorioService;
         this.modeloService = modeloService;
         this.categoriaComponenteService = categoriaComponenteService;
+        this.situacaoFilter = situacaoFilter;
     }
 
     @Override
@@ -103,7 +106,8 @@ public class CrudPaiImpl implements CrudPai {
     public Paged<DPai> buscarTodos(PageableRequest request) {
         SpecificationHelper<Pai> helper = new SpecificationHelper<>();
         Specification<Pai> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DPai>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -122,12 +126,6 @@ public class CrudPaiImpl implements CrudPai {
     @Transactional(readOnly = true)
     public Collection<? extends DPai> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DPai> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override
@@ -453,7 +451,7 @@ public class CrudPaiImpl implements CrudPai {
             roteiro.getRoteiroMaquinas().add(roteiroMaquina);
         }
 
-        return roteiroService.atualizar(roteiro);
+        return roteiroService.buscar(roteiro.getCodigo());
     }
 
     private void setCreationProperties(Pai obj){

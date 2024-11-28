@@ -34,11 +34,6 @@ public class PoliesterServiceImpl implements PoliesterService {
     }
 
     @Override
-    public List<DPoliester> buscarTodosMaisAtual(Integer id) {
-        return crudPoliester.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DPoliester buscar(Integer id) {
         return crudPoliester.buscar(id);
     }

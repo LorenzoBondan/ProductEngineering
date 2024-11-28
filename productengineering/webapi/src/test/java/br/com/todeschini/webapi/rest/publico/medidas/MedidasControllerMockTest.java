@@ -43,11 +43,6 @@ public class MedidasControllerMockTest extends BaseControllerIT<DMedidas> {
     }
 
     @Test
-    public void pesquisarTodosAtivosMaisAtualShouldReturnListTest() throws Exception {
-        pesquisarTodosAtivosMaisAtualShouldReturnList();
-    }
-
-    @Test
     public void pesquisarPorIdShouldReturnObjectTest() throws Exception {
         pesquisarPorIdShouldReturnObject();
     }

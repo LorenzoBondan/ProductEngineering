@@ -90,21 +90,6 @@ public class MaterialUsadoController {
     }
 
     /**
-     * @param codigo representa o código do Material Usado a ser pesquisado
-     */
-    @Operation(summary = "Pesquisar todos os Materiais Usados ativos mais o atual", method = "GET", description = "Utilizável para popular comboboxes, pesquisa todas as objetos com situação 'Ativo' mais o objeto passado como parâmetro (independente de sua situação)")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
-    @GetMapping(value = "/todosmaisatual")
-    public ResponseEntity<?> pesquisarTodosAtivosMaisAtual(@RequestParam(value = "codigo", required = false) Integer codigo){
-        return ResponseEntity.ok(service.buscarTodosMaisAtual(codigo));
-    }
-
-    /**
      * @param id representa o ID do Material Usado a ser pesquisado
      */
     @Operation(summary = "Pesquisar um Material Usado por id", method = "GET", description = "Pesquisa um objeto por id, independente da sua situação")

@@ -51,7 +51,6 @@ public class BaseControllerIT<D> {
     protected static final Integer existingId = 1, nonExistingId = 99999999;
     protected String situacaoListBody, adminAccessToken, readOnlyAccessToken;
     protected D factoryObject, duplicatedObject, nonExistingObject;
-    protected final List<D> objectList = new ArrayList<>();
     protected final List<SituacaoEnum> situacaoList = new ArrayList<>();
     protected List<DHistory<D>> historyList = new ArrayList<>();
     protected SimpleCrud<D, Integer> crud;
@@ -88,11 +87,6 @@ public class BaseControllerIT<D> {
 
         when(crud.buscarTodos(any(PageableRequest.class))).thenReturn(pagedResult);
 
-        // findAllAndCurrent
-        when(crud.buscarTodosAtivosMaisAtual(existingId)).thenReturn(objectList);
-        when(crud.buscarTodosAtivosMaisAtual(nonExistingId)).thenReturn(objectList);
-        when(crud.buscarTodosAtivosMaisAtual(null)).thenReturn(objectList);
-
         // findById
         when(crud.buscar(existingId)).thenReturn(factoryObject);
         doThrow(ResourceNotFoundException.class).when(crud).buscar(nonExistingId);
@@ -126,17 +120,6 @@ public class BaseControllerIT<D> {
         String jsonBody = objectMapper.writeValueAsString(pageableRequest);
         ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "?colunas=&operacoes=&valores=&sort=codigo;d", jsonBody, adminAccessToken, status().isOk());
         verify(crud, times(1)).buscarTodos(any(PageableRequest.class));
-    }
-
-    public void pesquisarTodosAtivosMaisAtualShouldReturnList() throws Exception {
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + existingId, "{}", adminAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + nonExistingId, "{}", adminAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=", "{}", adminAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + existingId, "{}", readOnlyAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=" + nonExistingId, "{}", readOnlyAccessToken, status().isOk());
-        ApiTestUtil.performRequest(mockMvc, HttpMethod.GET, baseUrl + "/todosmaisatual?codigo=", "{}", readOnlyAccessToken, status().isOk());
-        verify(crud, times(2)).buscarTodosAtivosMaisAtual(existingId);
-        verify(crud, times(2)).buscarTodosAtivosMaisAtual(nonExistingId);
     }
 
     public void pesquisarPorIdShouldReturnObject() throws Exception {

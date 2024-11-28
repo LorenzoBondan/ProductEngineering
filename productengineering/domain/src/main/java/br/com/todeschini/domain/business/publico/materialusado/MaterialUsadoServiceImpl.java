@@ -34,11 +34,6 @@ public class MaterialUsadoServiceImpl implements MaterialUsadoService {
     }
 
     @Override
-    public List<DMaterialUsado> buscarTodosMaisAtual(Integer id) {
-        return crudMaterialUsado.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DMaterialUsado buscar(Integer id) {
         return crudMaterialUsado.buscar(id);
     }

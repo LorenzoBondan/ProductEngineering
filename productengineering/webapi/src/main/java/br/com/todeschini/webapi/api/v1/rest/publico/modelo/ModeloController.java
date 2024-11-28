@@ -86,21 +86,6 @@ public class ModeloController {
     }
 
     /**
-     * @param codigo representa o código da Modelo a ser pesquisada
-     */
-    @Operation(summary = "Pesquisar todas as Modeloes ativas mais a atual", method = "GET", description = "Utilizável para popular comboboxes, pesquisa todas as objetos com situação 'Ativo' mais o objeto passado como parâmetro (independente de sua situação)")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
-    @GetMapping(value = "/todosmaisatual")
-    public ResponseEntity<?> pesquisarTodosAtivosMaisAtual(@RequestParam(value = "codigo", required = false) Integer codigo){
-        return ResponseEntity.ok(service.buscarTodosMaisAtual(codigo));
-    }
-
-    /**
      * @param id representa o ID da Modelo a ser pesquisada
      */
     @Operation(summary = "Pesquisar uma Modelo por id", method = "GET", description = "Pesquisa um objeto por id, independente da sua situação")

@@ -9,7 +9,9 @@ import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
+import br.com.todeschini.persistence.entities.publico.Acessorio;
 import br.com.todeschini.persistence.entities.publico.AcessorioUsado;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
 import br.com.todeschini.persistence.util.PageRequestUtils;
@@ -32,15 +34,17 @@ public class CrudAcessorioUsadoImpl implements CrudAcessorioUsado {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
+    private final SituacaoFilter<AcessorioUsado> situacaoFilter;
 
     public CrudAcessorioUsadoImpl(AcessorioUsadoRepository repository, AcessorioUsadoQueryRepository queryRepository, AcessorioUsadoDomainToEntityAdapter adapter, EntityService entityService,
-                                  PageRequestUtils pageRequestUtils, HistoryService historyService) {
+                                  PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<AcessorioUsado> situacaoFilter) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
+        this.situacaoFilter = situacaoFilter;
     }
 
     @Override
@@ -48,7 +52,8 @@ public class CrudAcessorioUsadoImpl implements CrudAcessorioUsado {
     public Paged<DAcessorioUsado> buscarTodos(PageableRequest request) {
         SpecificationHelper<AcessorioUsado> helper = new SpecificationHelper<>();
         Specification<AcessorioUsado> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DAcessorioUsado>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -67,12 +72,6 @@ public class CrudAcessorioUsadoImpl implements CrudAcessorioUsado {
     @Transactional(readOnly = true)
     public Collection<? extends DAcessorioUsado> pesquisarPorAcessorioEFilho(Integer cdacessorio, Integer cdfilho) {
         return queryRepository.findByAcessorio_CdacessorioAndFilho_Cdfilho(cdacessorio, cdfilho).stream().map(adapter::toDomain).toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DAcessorioUsado> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override

@@ -78,11 +78,6 @@ public class CrudRoleImpl implements CrudRole {
     }
 
     @Override
-    public List<DRole> buscarTodosAtivosMaisAtual(Integer obj) {
-        return List.of();
-    }
-
-    @Override
     public List<DHistory<DRole>> buscarHistorico(Integer id) {
         return List.of();
     }

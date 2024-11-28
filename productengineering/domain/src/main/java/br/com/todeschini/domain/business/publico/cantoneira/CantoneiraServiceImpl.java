@@ -34,11 +34,6 @@ public class CantoneiraServiceImpl implements CantoneiraService {
     }
 
     @Override
-    public List<DCantoneira> buscarTodosMaisAtual(Integer id) {
-        return crudCantoneira.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DCantoneira buscar(Integer id) {
         return crudCantoneira.buscar(id);
     }

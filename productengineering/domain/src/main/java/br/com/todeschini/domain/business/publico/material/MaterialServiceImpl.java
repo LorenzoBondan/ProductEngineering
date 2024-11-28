@@ -34,11 +34,6 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public List<DMaterial> buscarTodosMaisAtual(Integer id) {
-        return crudMaterial.buscarTodosAtivosMaisAtual(id);
-    }
-
-    @Override
     public DMaterial buscar(Integer id) {
         return crudMaterial.buscar(id);
     }

@@ -10,6 +10,7 @@ import br.com.todeschini.domain.business.publico.poliester.spi.CrudPoliester;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.Poliester;
+import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.AttributeMappings;
 import br.com.todeschini.persistence.util.EntityService;
 import br.com.todeschini.persistence.util.PageRequestUtils;
@@ -32,15 +33,17 @@ public class CrudPoliesterImpl implements CrudPoliester {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
+    private final SituacaoFilter<Poliester> situacaoFilter;
 
     public CrudPoliesterImpl(PoliesterRepository repository, PoliesterQueryRepository queryRepository, PoliesterDomainToEntityAdapter adapter, EntityService entityService,
-                             PageRequestUtils pageRequestUtils, HistoryService historyService) {
+                             PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<Poliester> situacaoFilter) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
+        this.situacaoFilter = situacaoFilter;
     }
 
     @Override
@@ -48,7 +51,8 @@ public class CrudPoliesterImpl implements CrudPoliester {
     public Paged<DPoliester> buscarTodos(PageableRequest request) {
         SpecificationHelper<Poliester> helper = new SpecificationHelper<>();
         Specification<Poliester> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
-        
+        specification = situacaoFilter.addExcludeSituacaoLixeira(specification);
+
         return Optional.of(queryRepository.findAll(specification, pageRequestUtils.toPage(request)))
                 .map(r -> new PagedBuilder<DPoliester>()
                         .withContent(r.getContent().stream().map(adapter::toDomain).toList())
@@ -67,12 +71,6 @@ public class CrudPoliesterImpl implements CrudPoliester {
     @Transactional(readOnly = true)
     public Collection<? extends DPoliester> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<DPoliester> buscarTodosAtivosMaisAtual(Integer obj) {
-        return queryRepository.findAllActiveAndCurrentOne(obj).stream().map(adapter::toDomain).toList();
     }
 
     @Override
