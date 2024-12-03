@@ -7,6 +7,7 @@ import { AccessTokenPayloadDTO } from './models/auth';
 import { ContextToken } from './utils/context-token';
 import * as authService from './services/auth-service';
 import Auth from './routes/Auth';
+import Teste from './routes/Teste';
 
 export default function App() {
 
@@ -24,9 +25,8 @@ export default function App() {
     <ContextToken.Provider value={{ contextTokenPayload, setContextTokenPayload }}>
         <HistoryRouter history={history}>
           <Routes>
-            <Route path="/" element={<Auth />}>
-              <Route index element={<Auth />} />
-            </Route>
+            <Route path="/" element={<Auth />} />
+            <Route path="/teste" element={<Teste />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </HistoryRouter>
