@@ -1,11 +1,12 @@
 package br.com.todeschini.persistence.util;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -28,22 +29,62 @@ public class SearchSpecificationImpl<T> implements SearchSpecification<T> {
      * != diferente de
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equalsIgnoreCase(">")) {
-            if (isDate(root)) {
-                return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), LocalDate.parse(criteria.getValue().toString(), DateTimeFormatter.ISO_DATE));
+            if (isTemporal(root, criteria.getKey())) {
+                return builder.greaterThan(
+                        root.get(criteria.getKey()),
+                        (Comparable) parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
             } else {
-                return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
+                return builder.greaterThan(
+                        root.get(criteria.getKey()),
+                        criteria.getValue().toString()
+                );
             }
         } else if (criteria.getOperation().equalsIgnoreCase("<")) {
-            if (isDate(root)) {
-                return builder.lessThanOrEqualTo(root.get(criteria.getKey()), LocalDate.parse(criteria.getValue().toString(), DateTimeFormatter.ISO_DATE));
+            if (isTemporal(root, criteria.getKey())) {
+                return builder.lessThan(
+                        root.get(criteria.getKey()),
+                        (Comparable) parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
             } else {
-                return builder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
+                return builder.lessThan(
+                        root.get(criteria.getKey()),
+                        criteria.getValue().toString()
+                );
+            }
+        } else if (criteria.getOperation().equalsIgnoreCase("=<")) {
+            if (isTemporal(root, criteria.getKey())) {
+                return builder.lessThanOrEqualTo(
+                        root.get(criteria.getKey()),
+                        (Comparable) parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
+            } else {
+                return builder.lessThanOrEqualTo(
+                        root.get(criteria.getKey()),
+                        criteria.getValue().toString()
+                );
+            }
+        } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
+            if (isTemporal(root, criteria.getKey())) {
+                return builder.greaterThanOrEqualTo(
+                        root.get(criteria.getKey()),
+                        (Comparable) parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
+            } else {
+                return builder.greaterThanOrEqualTo(
+                        root.get(criteria.getKey()),
+                        criteria.getValue().toString()
+                );
             }
         } else if (criteria.getOperation().equalsIgnoreCase("=")) {
-            if (isDate(root)) {
-                return builder.equal(root.get(criteria.getKey()), LocalDate.parse(criteria.getValue().toString(), DateTimeFormatter.ISO_DATE));
+            if (isTemporal(root, criteria.getKey())) {
+                return builder.equal(
+                        root.get(criteria.getKey()),
+                        parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
             } else if (root.get(criteria.getKey()).getJavaType().isEnum()) {
                 return builder.equal(root.get(criteria.getKey()), Enum.valueOf((Class<Enum>) root.get(criteria.getKey()).getJavaType(), criteria.getValue().toString()));
             } else {
@@ -53,8 +94,11 @@ public class SearchSpecificationImpl<T> implements SearchSpecification<T> {
                 );
             }
         } else if (criteria.getOperation().equalsIgnoreCase(":")) {
-            if (isDate(root)) {
-                return builder.equal(root.get(criteria.getKey()), LocalDate.parse(criteria.getValue().toString()));
+            if (isTemporal(root, criteria.getKey())) {
+                return builder.equal(
+                        root.get(criteria.getKey()),
+                        parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
             } else if (root.get(criteria.getKey()).getJavaType().isEnum()) {
                 return builder.equal(root.get(criteria.getKey()), Enum.valueOf((Class<Enum>) root.get(criteria.getKey()).getJavaType(), criteria.getValue().toString()));
             } else {
@@ -63,8 +107,11 @@ public class SearchSpecificationImpl<T> implements SearchSpecification<T> {
         } else if (criteria.getOperation().equalsIgnoreCase("!=")) {
             if (root.get(criteria.getKey()).getJavaType().isEnum()) {
                 return builder.notEqual(root.get(criteria.getKey()), Enum.valueOf((Class<Enum>) root.get(criteria.getKey()).getJavaType(), criteria.getValue().toString()));
-            } else if (isDate(root)) {
-                return builder.notEqual(root.get(criteria.getKey()), LocalDate.parse(criteria.getValue().toString(), DateTimeFormatter.ISO_DATE));
+            } else if (isTemporal(root, criteria.getKey())) {
+                return builder.notEqual(
+                        root.get(criteria.getKey()),
+                        parseTemporalValue(root, criteria.getKey(), criteria.getValue().toString())
+                );
             } else {
                 return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
             }
@@ -72,7 +119,26 @@ public class SearchSpecificationImpl<T> implements SearchSpecification<T> {
         return null;
     }
 
-    private boolean isDate(Root<T> root) {
-        return root.get(criteria.getKey()).getJavaType() == LocalDate.class || root.get(criteria.getKey()).getJavaType() == LocalDateTime.class;
+    private boolean isTemporal(Root<T> root, String key) {
+        try {
+            Class<?> type = root.get(key).getJavaType();
+            return LocalDate.class.isAssignableFrom(type) ||
+                    LocalDateTime.class.isAssignableFrom(type) ||
+                    LocalTime.class.isAssignableFrom(type);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private Comparable<?> parseTemporalValue(Root<T> root, String key, String value) {
+        Class<?> type = root.get(key).getJavaType();
+        if (LocalDate.class.isAssignableFrom(type)) {
+            return LocalDate.parse(value, DateTimeFormatter.ISO_DATE);
+        } else if (LocalDateTime.class.isAssignableFrom(type)) {
+            return LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
+        } else if (LocalTime.class.isAssignableFrom(type)) {
+            return LocalTime.parse(value, DateTimeFormatter.ISO_TIME);
+        }
+        throw new IllegalArgumentException("Tipo temporal não suportado: " + type);
     }
 }

@@ -11,6 +11,14 @@ import java.util.Map;
 @Getter
 public enum AttributeMappings {
 
+    BINARIO(Map.of(
+    )),
+    ANEXO(AttributeMappingsUtil.combineMappings(
+            Map.of(
+                    "cdbinario", Binario.class
+            ),
+            BINARIO.getMappings()
+    )),
     COR(Map.of(
     )),
     MODELO(Map.of(
@@ -89,6 +97,14 @@ public enum AttributeMappings {
             ),
             ACESSORIO.getMappings(),
             FILHO.getMappings()
+    )),
+    USERANEXO(AttributeMappingsUtil.combineMappings(
+            Map.of(
+                    "user_id", User.class,
+                    "cdanexo", Anexo.class
+            ),
+            USER.getMappings(),
+            ANEXO.getMappings()
     )),
     ;
 

@@ -13,13 +13,9 @@ import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.MaterialUsado;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,9 +34,10 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     private final SituacaoFilter<MaterialUsado> situacaoFilter;
     private final FilhoService filhoService;
     private final MaterialService materialService;
+    private final AuditoriaService auditoriaService;
 
     public CrudMaterialUsadoImpl(MaterialUsadoRepository repository, MaterialUsadoQueryRepository queryRepository, MaterialUsadoDomainToEntityAdapter adapter, EntityService entityService,
-                                 PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<MaterialUsado> situacaoFilter, FilhoService filhoService, MaterialService materialService) {
+                                 PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<MaterialUsado> situacaoFilter, FilhoService filhoService, MaterialService materialService, AuditoriaService auditoriaService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -50,10 +47,10 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
         this.situacaoFilter = situacaoFilter;
         this.filhoService = filhoService;
         this.materialService = materialService;
+        this.auditoriaService = auditoriaService;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DMaterialUsado> buscarTodos(PageableRequest request) {
         SpecificationHelper<MaterialUsado> helper = new SpecificationHelper<>();
         Specification<MaterialUsado> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -74,33 +71,28 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Collection<? extends DMaterialUsado> pesquisarPorFilhoEMaterial(Integer cdfilho, Integer cdmaterial) {
+    public Collection<DMaterialUsado> pesquisarPorFilhoEMaterial(Integer cdfilho, Integer cdmaterial) {
         return queryRepository.findByFilho_CdfilhoAndMaterial_Cdmaterial(cdfilho, cdmaterial).stream().map(adapter::toDomain).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DMaterialUsado buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DMaterialUsado>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(MaterialUsado.class, "tb_material_usado", id.toString(), AttributeMappings.MATERIALUSADO.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<String> buscarAtributosEditaveisEmLote() {
         return entityService.obterAtributosEditaveis(DMaterialUsado.class);
     }
 
     @Override
-    @Transactional
     public DMaterialUsado inserir(DMaterialUsado obj) {
         obj.setFilho(filhoService.buscar(obj.getFilho().getCodigo()));
         obj.setMaterial(materialService.buscar(obj.getMaterial().getCodigo()));
@@ -109,7 +101,6 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     }
 
     @Override
-    @Transactional
     public DMaterialUsado atualizar(DMaterialUsado obj) {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
@@ -118,18 +109,16 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
         obj.setMaterial(materialService.buscar(obj.getMaterial().getCodigo()));
         MaterialUsado entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
     }
 
     @Override
-    @Transactional
     public List<DMaterialUsado> atualizarEmLote(List<DMaterialUsado> list) {
         return list;
     }
 
     @Override
-    @Transactional
     public DMaterialUsado substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<MaterialUsado> antiga = historyService.getHistoryEntityByRecord(MaterialUsado.class, "tb_material_usado", id.toString(), AttributeMappings.MATERIALUSADO.getMappings())
                 .stream()
@@ -140,7 +129,6 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         MaterialUsado entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -149,13 +137,7 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(MaterialUsado obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getCdmaterialUsado()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getCdmaterialUsado()));
     }
 }

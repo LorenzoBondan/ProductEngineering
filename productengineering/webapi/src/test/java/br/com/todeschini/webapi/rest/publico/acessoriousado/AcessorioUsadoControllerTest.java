@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.acessoriousado;
 
 import br.com.todeschini.domain.business.publico.acessoriousado.DAcessorioUsado;
+import br.com.todeschini.domain.util.tests.AcessorioUsadoFactory;
 import br.com.todeschini.persistence.entities.publico.AcessorioUsado;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.acessoriousado.AcessorioUsadoRepository;
@@ -39,7 +40,7 @@ public class AcessorioUsadoControllerTest extends BaseControllerTest<DAcessorioU
     public void setUp() {
         novaEntidade = AcessorioUsadoFactory.createDAcessorioUsado();
         novaEntidade.setCodigo(null);
-        super.setHasDescricao(true);
+        super.setHasDescricao(false);
     }
 
     @Override

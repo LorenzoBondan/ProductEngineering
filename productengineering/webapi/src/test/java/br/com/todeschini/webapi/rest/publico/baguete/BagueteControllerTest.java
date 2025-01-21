@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.baguete;
 
 import br.com.todeschini.domain.business.publico.baguete.DBaguete;
+import br.com.todeschini.domain.util.tests.BagueteFactory;
 import br.com.todeschini.persistence.entities.publico.Baguete;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.baguete.BagueteRepository;

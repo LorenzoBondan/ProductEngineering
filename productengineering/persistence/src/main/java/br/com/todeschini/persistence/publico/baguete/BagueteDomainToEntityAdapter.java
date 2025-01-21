@@ -50,7 +50,9 @@ public class BagueteDomainToEntityAdapter implements Convertable<Baguete, DBague
         Baguete.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Baguete.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        Baguete.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return Baguete;
     }
 }

@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudBaguete extends SimpleCrud<DBaguete, Integer> {
 
-    Collection<? extends DBaguete> pesquisarPorDescricao (String descricao);
+    Collection<DBaguete> pesquisarPorDescricao (String descricao);
 }

@@ -53,7 +53,9 @@ public class ColaDomainToEntityAdapter implements Convertable<Cola, DCola> {
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
         cola.setGramatura(entity.getGramatura());
-        cola.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        cola.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return cola;
     }
 }

@@ -5,7 +5,7 @@ import br.com.todeschini.persistence.entities.enums.TipoFilhoEnum;
 import br.com.todeschini.persistence.entities.enums.converters.TipoFilhoEnumConverter;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;

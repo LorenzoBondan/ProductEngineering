@@ -19,6 +19,7 @@ public class HistoryDomainToEntityAdapter implements Convertable<History, DTHist
                 .tabname(domain.getTabname())
                 .operation(domain.getOperation())
                 .oldVal(domain.getOldVal())
+                .diff(domain.getDiff())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class HistoryDomainToEntityAdapter implements Convertable<History, DTHist
                 .tabname(entity.getTabname())
                 .operation(entity.getOperation())
                 .oldVal(entity.getOldVal())
+                .diff(entity.getDiff())
                 .build();
     }
 }

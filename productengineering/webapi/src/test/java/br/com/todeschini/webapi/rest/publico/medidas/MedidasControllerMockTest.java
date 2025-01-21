@@ -2,6 +2,7 @@ package br.com.todeschini.webapi.rest.publico.medidas;
 
 import br.com.todeschini.domain.business.publico.medidas.DMedidas;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
+import br.com.todeschini.domain.util.tests.MedidasFactory;
 import br.com.todeschini.persistence.publico.medidas.CrudMedidasImpl;
 import br.com.todeschini.webapi.BaseControllerIT;
 import br.com.todeschini.webapi.ValidationConstants;

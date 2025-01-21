@@ -64,7 +64,9 @@ public class MaterialUsadoDomainToEntityAdapter implements Convertable<MaterialU
                 .quantidadeBruta(entity.getQuantidadeBruta())
                 .valor(entity.getValor())
                 .unidadeMedida(entity.getUnidadeMedida())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

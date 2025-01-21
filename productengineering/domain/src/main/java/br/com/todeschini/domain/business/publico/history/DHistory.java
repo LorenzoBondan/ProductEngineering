@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ public class DHistory<T> {
     private LocalDateTime date;
     private String author;
     private T entity;
+    private Map<String, Object> diff;
 
     public DHistory(Integer id, T entity) {
         this.id = id;

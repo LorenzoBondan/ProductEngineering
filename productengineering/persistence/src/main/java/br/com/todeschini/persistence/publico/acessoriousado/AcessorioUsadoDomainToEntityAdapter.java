@@ -22,34 +22,36 @@ public class AcessorioUsadoDomainToEntityAdapter implements Convertable<Acessori
 
     @Override
     public AcessorioUsado toEntity(DAcessorioUsado domain) {
-        AcessorioUsado acessorioUsado = new AcessorioUsado();
-        acessorioUsado.setCdacessorioUsado(domain.getCodigo());
-        acessorioUsado.setAcessorio(Optional.ofNullable(domain.getAcessorio())
-                .map(acessorio -> acessorioDomainToEntityAdapter.toEntity(acessorio))
-                .orElse(null));
-        acessorioUsado.setFilho(Optional.ofNullable(domain.getFilho())
-                .map(filho -> new Filho(filho.getCodigo()))
-                .orElse(null));
-        acessorioUsado.setQuantidade(domain.getQuantidade());
-        acessorioUsado.setValor(domain.getValor());
-        acessorioUsado.setUnidadeMedida(Optional.ofNullable(domain.getUnidadeMedida()).orElse("UN"));
-        return acessorioUsado;
+        return AcessorioUsado.builder()
+                .cdacessorioUsado(domain.getCodigo())
+                .acessorio(Optional.ofNullable(domain.getAcessorio())
+                        .map(acessorioDomainToEntityAdapter::toEntity)
+                        .orElse(null))
+                .filho(Optional.ofNullable(domain.getFilho())
+                        .map(filho -> new Filho(filho.getCodigo()))
+                        .orElse(null))
+                .quantidade(domain.getQuantidade())
+                .valor(domain.getValor())
+                .unidadeMedida(Optional.ofNullable(domain.getUnidadeMedida()).orElse("UN"))
+                .build();
     }
 
     @Override
     public DAcessorioUsado toDomain(AcessorioUsado entity) {
-        DAcessorioUsado acessorioUsado = new DAcessorioUsado();
-        acessorioUsado.setCodigo(entity.getCdacessorioUsado());
-        acessorioUsado.setAcessorio(Optional.ofNullable(entity.getAcessorio())
-                .map(acessorio -> acessorioDomainToEntityAdapter.toDomain(acessorio))
-                .orElse(null));
-        acessorioUsado.setFilho(Optional.ofNullable(entity.getFilho())
-                .map(filho -> new DFilho(filho.getCdfilho()))
-                .orElse(null));
-        acessorioUsado.setQuantidade(entity.getQuantidade());
-        acessorioUsado.setValor(entity.getValor());
-        acessorioUsado.setUnidadeMedida(Optional.ofNullable(entity.getUnidadeMedida()).orElse("UN"));
-        acessorioUsado.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
-        return acessorioUsado;
+        return DAcessorioUsado.builder()
+                .codigo(entity.getCdacessorioUsado())
+                .acessorio(Optional.ofNullable(entity.getAcessorio())
+                        .map(acessorioDomainToEntityAdapter::toDomain)
+                        .orElse(null))
+                .filho(Optional.ofNullable(entity.getFilho())
+                        .map(filho -> new DFilho(filho.getCdfilho()))
+                        .orElse(null))
+                .quantidade(entity.getQuantidade())
+                .valor(entity.getValor())
+                .unidadeMedida(Optional.ofNullable(entity.getUnidadeMedida()).orElse("UN"))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
+                .build();
     }
 }

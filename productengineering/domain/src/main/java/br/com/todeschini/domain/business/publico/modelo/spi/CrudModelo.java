@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudModelo extends SimpleCrud<DModelo, Integer> {
 
-    Collection<? extends DModelo> pesquisarPorDescricao (String descricao);
+    Collection<DModelo> pesquisarPorDescricao (String descricao);
 }

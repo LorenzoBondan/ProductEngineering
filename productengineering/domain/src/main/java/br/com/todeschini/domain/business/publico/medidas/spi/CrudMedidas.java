@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudMedidas extends SimpleCrud<DMedidas, Integer> {
 
-    Collection<? extends DMedidas> pesquisarPorAlturaELarguraEEspessura (Integer altura, Integer largura, Integer espessura);
+    Collection<DMedidas> pesquisarPorAlturaELarguraEEspessura (Integer altura, Integer largura, Integer espessura);
 }

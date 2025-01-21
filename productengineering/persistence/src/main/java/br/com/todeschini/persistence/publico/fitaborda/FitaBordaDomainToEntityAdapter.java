@@ -55,7 +55,9 @@ public class FitaBordaDomainToEntityAdapter implements Convertable<FitaBorda, DF
                 .orElse(null));
         fitaBorda.setEspessura(entity.getEspessura());
         fitaBorda.setAltura(entity.getAltura());
-        fitaBorda.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        fitaBorda.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return fitaBorda;
     }
 }

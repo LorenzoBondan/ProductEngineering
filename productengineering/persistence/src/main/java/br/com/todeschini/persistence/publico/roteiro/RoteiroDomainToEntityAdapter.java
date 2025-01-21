@@ -61,7 +61,9 @@ public class RoteiroDomainToEntityAdapter implements Convertable<Roteiro, DRotei
                 .implantacao(entity.getImplantacao())
                 .dataFinal(Optional.ofNullable(entity.getDataFinal()).orElse(LocalDate.of(9999,12,31)))
                 .valor(entity.getValor())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
 
                 .roteiroMaquinas(roteiroMaquinas)
 

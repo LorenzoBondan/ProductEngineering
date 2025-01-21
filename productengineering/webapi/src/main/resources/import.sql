@@ -31,6 +31,8 @@ INSERT INTO tb_cor (descricao, hexa, situacao) VALUES ('BRANCA', 'FFF','ATIVO');
 
 INSERT INTO tb_grupo_maquina (nome, situacao) VALUES ('CNCs', 'ATIVO');
 
+INSERT INTO tb_maquina (nome, formula, valor, cdgrupo_maquina) VALUES ('CNC BIMA', '(M1+M2) / 1000 * 2', 50.0, 1);
+
 INSERT INTO tb_material (dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, cdcor, espessura, faces, situacao) VALUES ('Chapa', 'MDP BP 18MM - MINERALE CZ COBALTO 2F', 1, '2024-01-01', 13, 10, 1, 18, 2, 'ATIVO');
 INSERT INTO tb_material (dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, cdcor, espessura, faces, situacao) VALUES ('Chapa', 'MDP BP 18MM - PRISMA 2F', 1, '2024-01-01', 13, 10, 2, 18, 2, 'ATIVO');
 INSERT INTO tb_material (dtype, descricao, tipo_material, implantacao, porcentagem_perda, valor, cdcor, espessura, faces, situacao) VALUES ('Chapa', 'MDP BP 18MM - STONE CHUMBO 2F', 1, '2024-01-01', 13, 10, 3, 18, 2, 'ATIVO');

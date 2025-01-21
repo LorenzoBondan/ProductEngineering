@@ -11,13 +11,9 @@ import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.GrupoMaquina;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,9 +30,10 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
     private final SituacaoFilter<GrupoMaquina> situacaoFilter;
+    private final AuditoriaService auditoriaService;
 
     public CrudGrupoMaquinaImpl(GrupoMaquinaRepository repository, GrupoMaquinaQueryRepository queryRepository, GrupoMaquinaDomainToEntityAdapter adapter, EntityService entityService,
-                                PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<GrupoMaquina> situacaoFilter) {
+                                PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<GrupoMaquina> situacaoFilter, AuditoriaService auditoriaService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -44,10 +41,10 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
         this.situacaoFilter = situacaoFilter;
+        this.auditoriaService = auditoriaService;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DGrupoMaquina> buscarTodos(PageableRequest request) {
         SpecificationHelper<GrupoMaquina> helper = new SpecificationHelper<>();
         Specification<GrupoMaquina> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -68,22 +65,19 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Collection<? extends DGrupoMaquina> pesquisarPorNome(String nome) {
+    public Collection<DGrupoMaquina> pesquisarPorNome(String nome) {
         return queryRepository.findByNomeIgnoreCase(nome).stream().map(adapter::toDomain).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DGrupoMaquina buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DGrupoMaquina>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(GrupoMaquina.class, "tb_grupo_maquina", id.toString(), AttributeMappings.GRUPOMAQUINA.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
@@ -93,21 +87,19 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
     }
 
     @Override
-    @Transactional
     public DGrupoMaquina inserir(DGrupoMaquina obj) {
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    @Transactional
     public DGrupoMaquina atualizar(DGrupoMaquina obj) {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
         }
         GrupoMaquina entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
     }
 
@@ -117,7 +109,6 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
     }
 
     @Override
-    @Transactional
     public DGrupoMaquina substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<GrupoMaquina> antiga = historyService.getHistoryEntityByRecord(GrupoMaquina.class, "tb_grupo_maquina", id.toString(), AttributeMappings.GRUPOMAQUINA.getMappings())
                 .stream()
@@ -128,7 +119,6 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         GrupoMaquina entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -137,13 +127,7 @@ public class CrudGrupoMaquinaImpl implements CrudGrupoMaquina {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(GrupoMaquina obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getCdgrupoMaquina()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getCdgrupoMaquina()));
     }
 }

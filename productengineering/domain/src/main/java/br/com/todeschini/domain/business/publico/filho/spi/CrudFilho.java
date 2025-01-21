@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface CrudFilho extends SimpleCrud<DFilho, Integer> {
 
-    Collection<? extends DFilho> pesquisarPorDescricaoECorEMedidas (String descricao, Integer cdcor, Integer cdmedidas);
+    Collection<DFilho> pesquisarPorDescricaoECorEMedidas (String descricao, Integer cdcor, Integer cdmedidas);
     List<DFilho> pesquisarPorDescricaoEMedidas (String descricao, Integer cdmedidas);
 }

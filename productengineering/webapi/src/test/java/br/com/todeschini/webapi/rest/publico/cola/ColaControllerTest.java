@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.cola;
 
 import br.com.todeschini.domain.business.publico.cola.DCola;
+import br.com.todeschini.domain.util.tests.ColaFactory;
 import br.com.todeschini.persistence.entities.publico.Cola;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.cola.ColaRepository;

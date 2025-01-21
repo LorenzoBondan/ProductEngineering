@@ -7,6 +7,8 @@ import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.GrupoMaquina;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @EntityAdapter(entityClass = GrupoMaquina.class)
 public class GrupoMaquinaDomainToEntityAdapter implements Convertable<GrupoMaquina, DGrupoMaquina> {
@@ -24,7 +26,9 @@ public class GrupoMaquinaDomainToEntityAdapter implements Convertable<GrupoMaqui
         return DGrupoMaquina.builder()
                 .codigo(entity.getCdgrupoMaquina())
                 .nome(entity.getNome())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

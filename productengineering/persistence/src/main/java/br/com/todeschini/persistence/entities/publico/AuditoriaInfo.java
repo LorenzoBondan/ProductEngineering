@@ -2,6 +2,11 @@ package br.com.todeschini.persistence.entities.publico;
 
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.enums.converters.SituacaoEnumConverter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +17,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -46,7 +45,6 @@ public class AuditoriaInfo {
     @Column(name = "modificadoem")
     private LocalDateTime modificadoem;
 
-    @NotNull
     @Convert(converter = SituacaoEnumConverter.class)
     private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 }

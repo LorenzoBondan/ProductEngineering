@@ -2,6 +2,7 @@ package br.com.todeschini.domain.business.publico.user;
 
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.user.api.UserService;
 import br.com.todeschini.domain.business.publico.user.spi.CrudUser;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final CrudUser crudUser;
+    private final AuthService authService;
 
-    public UserServiceImpl(CrudUser crudUser) {
+    public UserServiceImpl(CrudUser crudUser, AuthService authService) {
         this.crudUser = crudUser;
+        this.authService = authService;
     }
 
     @Override
@@ -27,12 +30,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DUser buscar(Integer id) {
+        authService.validateSelfOrAdmin(Long.valueOf(id));
         return crudUser.buscar(id);
     }
 
     @Override
     public DUser buscar(String email) {
-        return crudUser.findByEmail(email).stream().findFirst().orElse(null);
+        DUser user = crudUser.findByEmail(email).stream().findFirst().orElse(null);
+        if(user != null) {
+            authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
+            return user;
+        }
+        return null;
     }
 
     @Override
@@ -49,6 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DUser atualizar(DUser domain) {
+        authService.validateSelfOrAdmin(Long.valueOf(domain.getId()));
         domain.validate();
         validarRegistroDuplicado(domain);
         return crudUser.atualizar(domain);
@@ -56,7 +66,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatePassword(String newPassword, String oldPassword) {
-        crudUser.updatePassword(newPassword, oldPassword);
+        DUser user = authService.authenticated();
+        authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
+        crudUser.updatePassword(newPassword, oldPassword, user);
     }
 
     @Override
@@ -66,11 +78,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void inativar(Integer id) {
+        DUser user = authService.authenticated();
+        authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
         crudUser.inativar(id);
     }
 
     @Override
     public void excluir(Integer id) {
+        DUser user = authService.authenticated();
+        authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
         crudUser.remover(id);
     }
 

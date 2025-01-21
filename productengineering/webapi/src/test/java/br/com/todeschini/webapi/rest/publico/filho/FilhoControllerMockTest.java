@@ -2,6 +2,7 @@ package br.com.todeschini.webapi.rest.publico.filho;
 
 import br.com.todeschini.domain.business.publico.filho.DFilho;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
+import br.com.todeschini.domain.util.tests.FilhoFactory;
 import br.com.todeschini.persistence.publico.filho.CrudFilhoImpl;
 import br.com.todeschini.webapi.BaseControllerIT;
 import br.com.todeschini.webapi.ValidationConstants;

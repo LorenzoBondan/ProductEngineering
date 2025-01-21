@@ -52,7 +52,9 @@ public class PlasticoDomainToEntityAdapter implements Convertable<Plastico, DPla
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
         Plastico.setGramatura(entity.getGramatura());
-        Plastico.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        Plastico.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return Plastico;
     }
 }

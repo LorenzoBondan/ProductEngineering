@@ -195,8 +195,9 @@ public class FilhoDomainToEntityAdapter implements Convertable<Filho, DFilho> {
                 .tipo(Optional.ofNullable(entity.getTipo())
                         .map(tipoFilho -> DTipoFilhoEnum.valueOf(tipoFilho.name()))
                         .orElse(null))
-
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
 
                 .filhos(filhos)
                 .materiaisUsados(materiaisUsados)

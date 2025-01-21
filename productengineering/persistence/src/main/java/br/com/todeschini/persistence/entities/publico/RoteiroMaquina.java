@@ -1,7 +1,7 @@
 package br.com.todeschini.persistence.entities.publico;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import br.com.todeschini.domain.metadata.Entidade;
 import lombok.*;

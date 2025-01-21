@@ -7,6 +7,8 @@ import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @EntityAdapter(entityClass = Cor.class)
 public class CorDomainToEntityAdapter implements Convertable<Cor, DCor> {
@@ -26,7 +28,9 @@ public class CorDomainToEntityAdapter implements Convertable<Cor, DCor> {
                 .codigo(entity.getCdcor())
                 .descricao(entity.getDescricao())
                 .hexa(entity.getHexa())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

@@ -7,6 +7,6 @@ import java.util.Collection;
 
 public interface CrudUser extends SimpleCrud<DUser, Integer> {
 
-    Collection<? extends DUser> findByEmail (String email);
-    void updatePassword (String newPassword, String oldPassword);
+    Collection<DUser> findByEmail (String email);
+    void updatePassword (String newPassword, String oldPassword, DUser user);
 }

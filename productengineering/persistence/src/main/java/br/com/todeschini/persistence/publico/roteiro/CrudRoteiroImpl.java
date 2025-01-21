@@ -11,13 +11,9 @@ import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.Roteiro;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,9 +30,10 @@ public class CrudRoteiroImpl implements CrudRoteiro {
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
     private final SituacaoFilter<Roteiro> situacaoFilter;
+    private final AuditoriaService auditoriaService;
 
     public CrudRoteiroImpl(RoteiroRepository repository, RoteiroQueryRepository queryRepository, RoteiroDomainToEntityAdapter adapter, EntityService entityService,
-                           PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<Roteiro> situacaoFilter) {
+                           PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<Roteiro> situacaoFilter, AuditoriaService auditoriaService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -44,10 +41,10 @@ public class CrudRoteiroImpl implements CrudRoteiro {
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
         this.situacaoFilter = situacaoFilter;
+        this.auditoriaService = auditoriaService;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DRoteiro> buscarTodos(PageableRequest request) {
         SpecificationHelper<Roteiro> helper = new SpecificationHelper<>();
         Specification<Roteiro> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -68,8 +65,7 @@ public class CrudRoteiroImpl implements CrudRoteiro {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Collection<? extends DRoteiro> pesquisarPorDescricao(String descricao) {
+    public Collection<DRoteiro> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
     }
 
@@ -79,52 +75,45 @@ public class CrudRoteiroImpl implements CrudRoteiro {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DRoteiro buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DRoteiro>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(Roteiro.class, "tb_roteiro", id.toString(), AttributeMappings.ROTEIRO.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<String> buscarAtributosEditaveisEmLote() {
         return entityService.obterAtributosEditaveis(DRoteiro.class);
     }
 
     @Override
-    @Transactional
     public DRoteiro inserir(DRoteiro obj) {
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    @Transactional
     public DRoteiro atualizar(DRoteiro obj) {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
         }
         Roteiro entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
     }
 
     @Override
-    @Transactional
     public List<DRoteiro> atualizarEmLote(List<DRoteiro> list) {
         return list;
     }
 
     @Override
-    @Transactional
     public DRoteiro substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<Roteiro> antiga = historyService.getHistoryEntityByRecord(Roteiro.class, "tb_roteiro", id.toString(), AttributeMappings.ROTEIRO.getMappings())
                 .stream()
@@ -135,7 +124,6 @@ public class CrudRoteiroImpl implements CrudRoteiro {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         Roteiro entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -144,13 +132,7 @@ public class CrudRoteiroImpl implements CrudRoteiro {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(Roteiro obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getCdroteiro()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getCdroteiro()));
     }
 }

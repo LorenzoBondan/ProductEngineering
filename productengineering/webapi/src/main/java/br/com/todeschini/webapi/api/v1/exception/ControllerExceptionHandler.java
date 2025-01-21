@@ -4,14 +4,13 @@ import br.com.todeschini.domain.exceptions.*;
 import br.com.todeschini.domain.exceptions.handlers.CustomError;
 import br.com.todeschini.domain.exceptions.handlers.ValidationError;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {

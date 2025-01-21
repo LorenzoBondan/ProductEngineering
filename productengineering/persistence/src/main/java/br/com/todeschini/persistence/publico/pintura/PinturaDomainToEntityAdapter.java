@@ -58,7 +58,9 @@ public class PinturaDomainToEntityAdapter implements Convertable<Pintura, DPintu
         Pintura.setTipoPintura(Optional.ofNullable(entity.getTipoPintura())
                 .map(tipoPintura -> DTipoPinturaEnum.valueOf(tipoPintura.name()))
                 .orElse(null));
-        Pintura.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        Pintura.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return Pintura;
     }
 }

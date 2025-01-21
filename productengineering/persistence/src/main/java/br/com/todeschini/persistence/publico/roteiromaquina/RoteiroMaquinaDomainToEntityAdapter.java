@@ -53,7 +53,9 @@ public class RoteiroMaquinaDomainToEntityAdapter implements Convertable<RoteiroM
                 .tempoMaquina(entity.getTempoMaquina())
                 .tempoHomem(entity.getTempoHomem())
                 .unidadeMedida(Optional.ofNullable(entity.getUnidadeMedida()).orElse("MIN"))
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

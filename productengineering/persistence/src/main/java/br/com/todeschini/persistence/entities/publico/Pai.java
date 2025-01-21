@@ -5,7 +5,7 @@ import br.com.todeschini.persistence.entities.enums.TipoPinturaEnum;
 import br.com.todeschini.persistence.entities.enums.converters.TipoPinturaEnumConverter;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

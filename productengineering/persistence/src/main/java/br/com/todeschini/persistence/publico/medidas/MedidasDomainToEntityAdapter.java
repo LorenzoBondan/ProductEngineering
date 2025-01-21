@@ -7,6 +7,8 @@ import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Medidas;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @EntityAdapter(entityClass = Medidas.class)
 public class MedidasDomainToEntityAdapter implements Convertable<Medidas, DMedidas> {
@@ -28,7 +30,9 @@ public class MedidasDomainToEntityAdapter implements Convertable<Medidas, DMedid
                 .altura(entity.getAltura())
                 .largura(entity.getLargura())
                 .espessura(entity.getEspessura())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

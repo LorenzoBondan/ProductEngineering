@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudFitaBorda extends SimpleCrud<DFitaBorda, Integer> {
 
-    Collection<? extends DFitaBorda> pesquisarPorDescricao (String descricao);
+    Collection<DFitaBorda> pesquisarPorDescricao (String descricao);
 }

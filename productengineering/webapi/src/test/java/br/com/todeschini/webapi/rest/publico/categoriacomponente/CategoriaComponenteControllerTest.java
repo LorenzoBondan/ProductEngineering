@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.categoriacomponente;
 
 import br.com.todeschini.domain.business.publico.categoriacomponente.DCategoriaComponente;
+import br.com.todeschini.domain.util.tests.CategoriaComponenteFactory;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.categoriacomponente.CategoriaComponenteRepository;

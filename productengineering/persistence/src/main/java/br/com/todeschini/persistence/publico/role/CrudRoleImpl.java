@@ -8,10 +8,10 @@ import br.com.todeschini.domain.business.publico.role.DRole;
 import br.com.todeschini.domain.business.publico.role.spi.CrudRole;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.publico.Role;
-import br.com.todeschini.persistence.util.*;
+import br.com.todeschini.persistence.util.PageRequestUtils;
+import br.com.todeschini.persistence.util.SpecificationHelper;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,6 @@ public class CrudRoleImpl implements CrudRole {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DRole> buscarTodos(PageableRequest request) {
         SpecificationHelper<Role> helper = new SpecificationHelper<>();
         Specification<Role> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -52,6 +51,21 @@ public class CrudRoleImpl implements CrudRole {
     }
 
     @Override
+    public DRole buscar(Integer id) {
+        return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
+    }
+
+    @Override
+    public List<DHistory<DRole>> buscarHistorico(Integer id) {
+        return List.of();
+    }
+
+    @Override
+    public List<String> buscarAtributosEditaveisEmLote() {
+        return List.of();
+    }
+
+    @Override
     public DRole inserir(DRole obj) {
         return null;
     }
@@ -62,23 +76,7 @@ public class CrudRoleImpl implements CrudRole {
     }
 
     @Override
-    public void remover(Integer obj) {
-
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public DRole buscar(Integer id) {
-        return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
-    }
-
-    @Override
-    public void inativar(Integer obj) {
-
-    }
-
-    @Override
-    public List<DHistory<DRole>> buscarHistorico(Integer id) {
+    public List<DRole> atualizarEmLote(List<DRole> obj) {
         return List.of();
     }
 
@@ -88,12 +86,10 @@ public class CrudRoleImpl implements CrudRole {
     }
 
     @Override
-    public List<String> buscarAtributosEditaveisEmLote() {
-        return List.of();
+    public void inativar(Integer obj) {
     }
 
     @Override
-    public List<DRole> atualizarEmLote(List<DRole> obj) {
-        return List.of();
+    public void remover(Integer obj) {
     }
 }

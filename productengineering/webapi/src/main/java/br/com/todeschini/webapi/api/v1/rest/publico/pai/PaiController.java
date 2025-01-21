@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class PaiController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<?> pesquisar(
@@ -104,6 +106,7 @@ public class PaiController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> pesquisarPorId(@PathVariable("id") Integer id){
@@ -119,6 +122,7 @@ public class PaiController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/historico")
     public ResponseEntity<?> pesquisarHistorico(@RequestParam("codigo") Integer codigo){
@@ -137,7 +141,8 @@ public class PaiController {
             @ApiResponse(responseCode = "409", description = "Conflict"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
+    @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PostMapping
     public ResponseEntity<?> criar(
             @RequestBody
@@ -167,6 +172,7 @@ public class PaiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.incluir(dto));
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST, ROLE_OPERATOR')")
     @PostMapping(value = "/estrutura")
     public ResponseEntity<?> criarEstrutura(
@@ -184,6 +190,7 @@ public class PaiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.montarEstrutura(montadorEstruturaPai));
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST, ROLE_OPERATOR')")
     @PostMapping(value = "/estruturamodulacao")
     public ResponseEntity<?> criarEstruturaModulacao(
@@ -214,7 +221,8 @@ public class PaiController {
             @ApiResponse(responseCode = "409", description = "Conflict"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
+    @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST, ROLE_OPERATOR')")
     @PutMapping
     public ResponseEntity<?> atualizar(
             @RequestBody
@@ -256,7 +264,8 @@ public class PaiController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
+    @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST, ROLE_OPERATOR')")
     @PutMapping(value = "/substituir")
     public ResponseEntity<?> substituirVersao(@RequestParam("codigoRegistro") Integer codigoRegistro,
                                               @RequestParam("codigoVersao") Integer codigoVersao) {
@@ -273,7 +282,8 @@ public class PaiController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
+    @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST, ROLE_OPERATOR')")
     @PatchMapping(value = "/inativar")
     public ResponseEntity<?> inativar(@RequestParam("codigo") List<Integer> codigos) {
         List<Integer> alteradosComSucesso = new ArrayList<>(), falhas = new ArrayList<>();
@@ -305,7 +315,8 @@ public class PaiController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
+    @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST, ROLE_OPERATOR')")
     @DeleteMapping
     public ResponseEntity<?> remover(@RequestParam("codigo") List<Integer> codigos){
         List<Integer> excluidosComSucesso = new ArrayList<>(), falhas = new ArrayList<>();

@@ -1,6 +1,7 @@
 package br.com.todeschini.persistence.publico.user;
 
 import br.com.todeschini.domain.metadata.QueryService;
+import br.com.todeschini.domain.projections.AuditoriaProjection;
 import br.com.todeschini.domain.projections.UserDetailsProjection;
 import br.com.todeschini.persistence.entities.publico.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,15 +33,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             UPDATE tb_user SET password = :password
             WHERE tb_user.id = :userId
             """)
-	void updatePassword(@Param("password") String password, @Param("userId") Long userId);
+	void updatePassword(@Param("password") String password, @Param("userId") Integer userId);
 
 	@Query(nativeQuery = true, value = """
-            SELECT criadopor FROM tb_user WHERE id = :id
-            """)
-	String findCriadoporById(@Param("id") Integer id);
-
-	@Query(nativeQuery = true, value = """
-            SELECT criadoem FROM tb_user WHERE id = :id
-            """)
-	LocalDateTime findCriadoemById(@Param("id") Integer id);
+        SELECT criadopor, criadoem, situacao FROM tb_user WHERE id = :id
+    """)
+	AuditoriaProjection findAuditoriaById(@Param("id") Integer id);
 }

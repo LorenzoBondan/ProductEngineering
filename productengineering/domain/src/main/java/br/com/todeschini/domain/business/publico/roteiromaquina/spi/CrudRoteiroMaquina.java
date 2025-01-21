@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudRoteiroMaquina extends SimpleCrud<DRoteiroMaquina, Integer> {
 
-    Collection<? extends DRoteiroMaquina> pesquisarPorRoteiroEMaquina (Integer cdroteiro, Integer cdmaquina);
+    Collection<DRoteiroMaquina> pesquisarPorRoteiroEMaquina (Integer cdroteiro, Integer cdmaquina);
 }

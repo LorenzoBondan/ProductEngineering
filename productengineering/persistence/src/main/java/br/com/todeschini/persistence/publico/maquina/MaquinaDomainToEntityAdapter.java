@@ -40,7 +40,9 @@ public class MaquinaDomainToEntityAdapter implements Convertable<Maquina, DMaqui
                 .grupoMaquina(Optional.ofNullable(entity.getGrupoMaquina())
                         .map(grupoMaquina -> grupoMaquinaDomainToEntityAdapter.toDomain(entity.getGrupoMaquina()))
                         .orElse(null))
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

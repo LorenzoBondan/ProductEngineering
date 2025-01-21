@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudMaterialUsado extends SimpleCrud<DMaterialUsado, Integer> {
 
-    Collection<? extends DMaterialUsado> pesquisarPorFilhoEMaterial (Integer cdfilho, Integer cdmaterial);
+    Collection<DMaterialUsado> pesquisarPorFilhoEMaterial (Integer cdfilho, Integer cdmaterial);
 }

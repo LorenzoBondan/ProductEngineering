@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.pintura;
 
 import br.com.todeschini.domain.business.publico.pintura.DPintura;
+import br.com.todeschini.domain.util.tests.PinturaFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Pintura;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

@@ -2,8 +2,8 @@ package br.com.todeschini.persistence.entities.enums.converters;
 
 import br.com.todeschini.persistence.entities.enums.TipoPinturaEnum;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
 public class TipoPinturaEnumConverter implements AttributeConverter<TipoPinturaEnum, Integer> {

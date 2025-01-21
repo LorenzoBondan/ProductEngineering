@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudTnt extends SimpleCrud<DTnt, Integer> {
 
-    Collection<? extends DTnt> pesquisarPorDescricao (String descricao);
+    Collection<DTnt> pesquisarPorDescricao (String descricao);
 }

@@ -21,7 +21,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             throw new UsernameNotFoundException("Email not found");
         }
 
@@ -34,5 +34,4 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         return user;
     }
-
 }

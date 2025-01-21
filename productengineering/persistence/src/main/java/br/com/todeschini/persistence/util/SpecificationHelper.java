@@ -1,8 +1,14 @@
 package br.com.todeschini.persistence.util;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Join;
+import jakarta.persistence.criteria.Join;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,18 +40,19 @@ public class SpecificationHelper<T> {
 
                     // Adicionando suporte para diferentes operações
                     return switch (operacao) {
-                        case ":" -> builder.equal(Objects.requireNonNull(join).get(relatedField), valor);
-                        case "!=" -> builder.notEqual(Objects.requireNonNull(join).get(relatedField), valor);
-                        case ">" -> builder.greaterThan(Objects.requireNonNull(join).get(relatedField), valor);
-                        case "<" -> builder.lessThan(Objects.requireNonNull(join).get(relatedField), valor);
-                        case ">=" -> builder.greaterThanOrEqualTo(Objects.requireNonNull(join).get(relatedField), valor);
-                        case "<=" -> builder.lessThanOrEqualTo(Objects.requireNonNull(join).get(relatedField), valor);
+                        case ":" -> createComparison(builder, join, relatedField, valor, ComparisonType.EQUAL);
+                        case "!=" -> createComparison(builder, join, relatedField, valor, ComparisonType.NOT_EQUAL);
+                        case ">" -> createComparison(builder, join, relatedField, valor, ComparisonType.GREATER_THAN);
+                        case "<" -> createComparison(builder, join, relatedField, valor, ComparisonType.LESS_THAN);
+                        case "<=" -> createComparison(builder, join, relatedField, valor, ComparisonType.LESS_THAN_OR_EQUAL);
+                        case ">=" -> createComparison(builder, join, relatedField, valor, ComparisonType.GREATER_THAN_OR_EQUAL);
                         case "=" -> builder.like(
                                 builder.function("unaccent", String.class, builder.upper(Objects.requireNonNull(join).get(relatedField).as(String.class))),
                                 builder.function("unaccent", String.class, builder.literal("%" + valor.toUpperCase() + "%"))
                         );
                         default -> throw new UnsupportedOperationException("Operação não suportada: " + operacao);
                     };
+
                 };
 
                 if (specification == null) {
@@ -66,5 +73,60 @@ public class SpecificationHelper<T> {
         }
 
         return specification;
+    }
+
+    private Predicate createComparison(
+            CriteriaBuilder builder,
+            Join<?, ?> join,
+            String relatedField,
+            String valor,
+            ComparisonType comparisonType
+    ) {
+        Path<?> path = Objects.requireNonNull(join).get(relatedField);
+
+        // Tratamento para LocalTime
+        if (path.getJavaType().equals(LocalTime.class)) {
+            LocalTime timeValue = LocalTime.parse(valor);
+            return switch (comparisonType) {
+                case EQUAL -> builder.equal(path.as(LocalTime.class), timeValue);
+                case NOT_EQUAL -> builder.notEqual(path.as(LocalTime.class), timeValue);
+                case GREATER_THAN -> builder.greaterThan(path.as(LocalTime.class), timeValue);
+                case LESS_THAN -> builder.lessThan(path.as(LocalTime.class), timeValue);
+                case GREATER_THAN_OR_EQUAL -> builder.greaterThanOrEqualTo(path.as(LocalTime.class), timeValue);
+                case LESS_THAN_OR_EQUAL -> builder.lessThanOrEqualTo(path.as(LocalTime.class), timeValue);
+            };
+        }
+
+        // Tratamento para LocalDateTime
+        if (path.getJavaType().equals(LocalDateTime.class)) {
+            LocalDateTime dateTimeValue = LocalDateTime.parse(valor);
+            return switch (comparisonType) {
+                case EQUAL -> builder.equal(path.as(LocalDateTime.class), dateTimeValue);
+                case NOT_EQUAL -> builder.notEqual(path.as(LocalDateTime.class), dateTimeValue);
+                case GREATER_THAN -> builder.greaterThan(path.as(LocalDateTime.class), dateTimeValue);
+                case LESS_THAN -> builder.lessThan(path.as(LocalDateTime.class), dateTimeValue);
+                case GREATER_THAN_OR_EQUAL -> builder.greaterThanOrEqualTo(path.as(LocalDateTime.class), dateTimeValue);
+                case LESS_THAN_OR_EQUAL -> builder.lessThanOrEqualTo(path.as(LocalDateTime.class), dateTimeValue);
+            };
+        }
+
+        // Comparação padrão para outros tipos
+        return switch (comparisonType) {
+            case EQUAL -> builder.equal(path.as(String.class), valor);
+            case NOT_EQUAL -> builder.notEqual(path.as(String.class), valor);
+            case GREATER_THAN -> builder.greaterThan(path.as(String.class), valor);
+            case LESS_THAN -> builder.lessThan(path.as(String.class), valor);
+            case GREATER_THAN_OR_EQUAL -> builder.greaterThanOrEqualTo(path.as(String.class), valor);
+            case LESS_THAN_OR_EQUAL -> builder.lessThanOrEqualTo(path.as(String.class), valor);
+        };
+    }
+
+    private enum ComparisonType {
+        EQUAL,
+        NOT_EQUAL,
+        GREATER_THAN,
+        LESS_THAN,
+        GREATER_THAN_OR_EQUAL,
+        LESS_THAN_OR_EQUAL;
     }
 }

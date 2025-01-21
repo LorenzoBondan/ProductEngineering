@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.modelo;
 
 import br.com.todeschini.domain.business.publico.modelo.DModelo;
+import br.com.todeschini.domain.util.tests.ModeloFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Modelo;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

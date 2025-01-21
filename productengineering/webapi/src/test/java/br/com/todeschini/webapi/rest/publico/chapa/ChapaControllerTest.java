@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.chapa;
 
 import br.com.todeschini.domain.business.publico.chapa.DChapa;
+import br.com.todeschini.domain.util.tests.ChapaFactory;
 import br.com.todeschini.persistence.entities.publico.Chapa;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.chapa.ChapaRepository;

@@ -8,13 +8,14 @@ import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.business.publico.user.DUser;
 import br.com.todeschini.domain.business.publico.user.spi.CrudUser;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
+import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.User;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
 import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,23 +31,24 @@ public class CrudUserImpl implements CrudUser {
     private final EntityService entityService;
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
-    private final CustomUserUtil customUserUtil;
     private final SituacaoFilter<User> situacaoFilter;
+    private final AuditoriaService auditoriaService;
+    private final PasswordEncoder passwordEncoder;
 
     public CrudUserImpl(UserRepository repository, UserQueryRepository queryRepository, UserDomainToEntityAdapter adapter, EntityService entityService,
-                        PageRequestUtils pageRequestUtils, HistoryService historyService, CustomUserUtil customUserUtil, SituacaoFilter<User> situacaoFilter) {
+                        PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<User> situacaoFilter, AuditoriaService auditoriaService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
         this.entityService = entityService;
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
-        this.customUserUtil = customUserUtil;
         this.situacaoFilter = situacaoFilter;
+        this.auditoriaService = auditoriaService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DUser> buscarTodos(PageableRequest request) {
         SpecificationHelper<User> helper = new SpecificationHelper<>();
         Specification<User> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -67,21 +69,19 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    public Collection<? extends DUser> findByEmail(String email) {
+    public Collection<DUser> findByEmail(String email) {
         return repository.findByEmail(email).stream().map(adapter::toDomain).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DUser buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DUser>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(User.class, "tb_user", id.toString(), AttributeMappings.USER.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
@@ -91,22 +91,32 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    @Transactional
     public DUser inserir(DUser obj) {
+        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    @Transactional
     public DUser atualizar(DUser obj) {
         if(!repository.existsById(obj.getId())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getId());
         }
+        if (!obj.getPassword().startsWith("$2a$")) {  // BCrypt hashes start with $2a$
+            obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+        }
         User entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
+    }
+
+    @Override
+    public void updatePassword(String newPassword, String oldPassword, DUser user) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new ValidationException("Incorrect old password");
+        }
+        repository.updatePassword(newPassword, user.getId());
     }
 
     @Override
@@ -115,7 +125,6 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    @Transactional
     public DUser substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<User> antiga = historyService.getHistoryEntityByRecord(User.class, "tb_user", id.toString(), AttributeMappings.USER.getMappings())
                 .stream()
@@ -126,7 +135,6 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -135,20 +143,7 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(User obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getId()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getId()));
-    }
-
-    @Override
-    @Transactional
-    public void updatePassword(String newPassword, String oldPassword) {
-        User me = repository.findByEmail(customUserUtil.getLoggedUsername()).stream().findFirst().get();
-        repository.updatePassword(newPassword, Long.valueOf(me.getId()));
     }
 }

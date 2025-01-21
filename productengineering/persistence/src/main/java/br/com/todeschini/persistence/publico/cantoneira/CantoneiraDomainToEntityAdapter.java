@@ -50,7 +50,9 @@ public class CantoneiraDomainToEntityAdapter implements Convertable<Cantoneira, 
         Cantoneira.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Cantoneira.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        Cantoneira.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return Cantoneira;
     }
 }

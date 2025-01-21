@@ -5,8 +5,8 @@ import br.com.todeschini.domain.Convertable;
 import br.com.todeschini.domain.DomainEntityMapping;
 import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.metadata.EntityAdapter;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 

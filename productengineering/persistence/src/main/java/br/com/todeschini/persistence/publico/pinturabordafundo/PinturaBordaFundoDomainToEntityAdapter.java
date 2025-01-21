@@ -50,7 +50,9 @@ public class PinturaBordaFundoDomainToEntityAdapter implements Convertable<Pintu
         PinturaBordaFundo.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        PinturaBordaFundo.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        PinturaBordaFundo.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return PinturaBordaFundo;
     }
 }

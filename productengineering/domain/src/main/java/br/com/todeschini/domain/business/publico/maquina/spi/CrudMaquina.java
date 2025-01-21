@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudMaquina extends SimpleCrud<DMaquina, Integer> {
 
-    Collection<? extends DMaquina> pesquisarPorNome (String nome);
+    Collection<DMaquina> pesquisarPorNome (String nome);
 }

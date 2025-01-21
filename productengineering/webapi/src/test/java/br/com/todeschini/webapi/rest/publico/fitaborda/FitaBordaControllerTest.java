@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.fitaborda;
 
 import br.com.todeschini.domain.business.publico.fitaborda.DFitaBorda;
+import br.com.todeschini.domain.util.tests.FitaBordaFactory;
 import br.com.todeschini.persistence.entities.publico.FitaBorda;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.fitaborda.FitaBordaRepository;

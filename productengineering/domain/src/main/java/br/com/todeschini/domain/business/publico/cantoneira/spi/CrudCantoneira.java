@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudCantoneira extends SimpleCrud<DCantoneira, Integer> {
 
-    Collection<? extends DCantoneira> pesquisarPorDescricao (String descricao);
+    Collection<DCantoneira> pesquisarPorDescricao (String descricao);
 }

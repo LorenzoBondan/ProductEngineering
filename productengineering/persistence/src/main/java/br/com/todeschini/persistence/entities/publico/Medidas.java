@@ -3,7 +3,7 @@ package br.com.todeschini.persistence.entities.publico;
 import br.com.todeschini.domain.metadata.Entidade;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -55,7 +55,9 @@ public class ChapaDomainToEntityAdapter implements Convertable<Chapa, DChapa> {
                 .orElse(null));
         chapa.setEspessura(entity.getEspessura());
         chapa.setFaces(entity.getFaces());
-        chapa.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        chapa.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return chapa;
     }
 }

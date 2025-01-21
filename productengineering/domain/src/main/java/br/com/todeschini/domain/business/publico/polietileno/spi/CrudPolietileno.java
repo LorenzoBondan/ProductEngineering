@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudPolietileno extends SimpleCrud<DPolietileno, Integer> {
 
-    Collection<? extends DPolietileno> pesquisarPorDescricao (String descricao);
+    Collection<DPolietileno> pesquisarPorDescricao (String descricao);
 }

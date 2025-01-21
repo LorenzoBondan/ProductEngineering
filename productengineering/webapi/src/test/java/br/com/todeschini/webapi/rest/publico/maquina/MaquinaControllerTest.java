@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.maquina;
 
 import br.com.todeschini.domain.business.publico.maquina.DMaquina;
+import br.com.todeschini.domain.util.tests.MaquinaFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Maquina;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

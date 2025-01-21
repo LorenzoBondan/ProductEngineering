@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.util;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.AuditorAware;
 
 import java.util.Optional;

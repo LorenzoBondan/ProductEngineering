@@ -1,7 +1,4 @@
 package br.com.todeschini.webapi.config;
-/**
- * Essa classe serve para
- */
 
 import br.com.todeschini.domain.metadata.DomainService;
 import org.reflections.Reflections;

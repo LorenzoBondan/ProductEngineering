@@ -2,8 +2,6 @@ package br.com.todeschini.webapi.rest.auth;
 
 import br.com.todeschini.webapi.UserTest;
 import com.jayway.jsonpath.JsonPath;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -12,8 +10,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import java.util.Base64;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,27 +26,10 @@ public class TokenUtil {
         formData.add("password", senha);
         formData.add("grant_type", "password");
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/oauth/token")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/oauth2/token")
                         .params(formData)
                         .header("Content-Type", "application/x-www-form-urlencoded")
                         .header("Authorization", "Basic bXljbGllbnRpZDpteWNsaWVudHNlY3JldA=="))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.access_token").exists())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-
-        String responseBody = result.getResponse().getContentAsString();
-        return JsonPath.parse(responseBody).read("$.access_token");
-    }
-
-    private String obtainFirstToken(MockMvc mockMvc, String email, String senha) throws Exception {
-        String credentials = Base64.getEncoder().encodeToString(("maria@gmail.com:123456").getBytes());
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/oauth2/token")
-                        .header("Authorization", "Basic " + credentials)
-                        .param("grant_type", "password")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.access_token").exists())
                 .andDo(MockMvcResultHandlers.print())

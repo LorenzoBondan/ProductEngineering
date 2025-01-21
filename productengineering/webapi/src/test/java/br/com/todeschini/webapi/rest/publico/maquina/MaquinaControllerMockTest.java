@@ -2,6 +2,7 @@ package br.com.todeschini.webapi.rest.publico.maquina;
 
 import br.com.todeschini.domain.business.publico.maquina.DMaquina;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
+import br.com.todeschini.domain.util.tests.MaquinaFactory;
 import br.com.todeschini.persistence.publico.maquina.CrudMaquinaImpl;
 import br.com.todeschini.webapi.BaseControllerIT;
 import br.com.todeschini.webapi.ValidationConstants;

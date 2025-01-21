@@ -56,6 +56,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping
     public ResponseEntity<?> pesquisar(
@@ -101,6 +102,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> pesquisarPorId(@PathVariable("id") Integer id){
@@ -116,6 +118,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/historico")
     public ResponseEntity<?> pesquisarHistorico(@RequestParam("codigo") Integer codigo){
@@ -128,6 +131,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/atributoseditaveisemlote")
     public ResponseEntity<?> pesquisarAtributosEditaveisEmLote(){
@@ -146,6 +150,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "409", description = "Conflict"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PostMapping
     public ResponseEntity<?> criar(
@@ -184,6 +189,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "409", description = "Conflict"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PutMapping
     public ResponseEntity<?> atualizar(
@@ -245,6 +251,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PutMapping(value = "/substituir")
     public ResponseEntity<?> substituirVersao(@RequestParam("codigoRegistro") Integer codigoRegistro,
@@ -262,6 +269,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PatchMapping(value = "/inativar")
     public ResponseEntity<?> inativar(@RequestParam("codigo") List<Integer> codigos) {
@@ -294,6 +302,7 @@ public class FitaBordaController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @DeleteMapping
     public ResponseEntity<?> remover(@RequestParam("codigo") List<Integer> codigos){

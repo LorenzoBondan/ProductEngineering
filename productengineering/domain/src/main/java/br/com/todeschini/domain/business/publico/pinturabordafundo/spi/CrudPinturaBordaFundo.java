@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudPinturaBordaFundo extends SimpleCrud<DPinturaBordaFundo, Integer> {
 
-    Collection<? extends DPinturaBordaFundo> pesquisarPorDescricao (String descricao);
+    Collection<DPinturaBordaFundo> pesquisarPorDescricao (String descricao);
 }

@@ -1,10 +1,8 @@
 package br.com.todeschini.webapi.api.v1.rest.publico.user;
 
 import br.com.todeschini.domain.PageableRequest;
-import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
 import br.com.todeschini.domain.business.publico.user.DUser;
 import br.com.todeschini.domain.business.publico.user.api.UserService;
-import br.com.todeschini.domain.exceptions.ValidationException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,17 +21,13 @@ import java.util.Map;
 
 @Tag(name = "User")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService service;
-    private final AuthService authService;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService service, AuthService authService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService service) {
         this.service = service;
-        this.authService = authService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -62,6 +56,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<?> pesquisar(
@@ -105,10 +100,10 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> pesquisarPorId(@PathVariable("id") Integer id){
-        authService.validateSelfOrAdmin(Long.valueOf(id)); // User não gestor só pode pesquisar detalhes dele mesmo, e não de outros usuários
         return ResponseEntity.ok(service.buscar(id));
     }
 
@@ -122,12 +117,11 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/email/{email}")
     public ResponseEntity<?> pesquisarPorEmail(@PathVariable("email") String email){
-        DUser user = service.buscar(email);
-        authService.validateSelfOrAdmin(Long.valueOf(user.getId())); // User não gestor só pode pesquisar detalhes dele mesmo, e não de outros usuários
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(service.buscar(email));
     }
 
     /**
@@ -139,6 +133,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(value = "/historico")
     public ResponseEntity<?> pesquisarHistorico(@RequestParam("codigo") Integer codigo){
@@ -157,6 +152,7 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Conflict"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<?> criar(
@@ -173,7 +169,6 @@ public class UserController {
                     """
             )
             DUser dto){
-        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(service.incluir(dto));
     }
 
@@ -190,6 +185,7 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Conflict"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PutMapping
     public ResponseEntity<?> atualizar(
@@ -207,11 +203,6 @@ public class UserController {
                     """
             )
             DUser dto){
-        authService.validateSelfOrAdmin(Long.valueOf(dto.getId())); // User não gestor só pode atualizar detalhes dele mesmo, e não de outros usuários
-        // verifica se a senha já está codificada
-        if (!dto.getPassword().startsWith("$2a$")) {  // BCrypt hashes start with $2a$
-            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        }
         return ResponseEntity.ok(service.atualizar(dto));
     }
 
@@ -226,6 +217,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping(value = "/substituir")
     public ResponseEntity<?> substituirVersao(@RequestParam("codigoRegistro") Integer codigoRegistro,
@@ -243,14 +235,11 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @PatchMapping(value = "/senha")
     public ResponseEntity<?> atualizarSenha(@RequestParam("novaSenha") String novaSenha, @RequestParam("antigaSenha") String antigaSenha){
-        DUser me = authService.authenticated();
-        if (!passwordEncoder.matches(antigaSenha, me.getPassword())) {
-            throw new ValidationException("Senha antiga incorreta");
-        }
-        service.updatePassword(passwordEncoder.encode(novaSenha), antigaSenha);
+        service.updatePassword(novaSenha, antigaSenha);
         return ResponseEntity.ok().build();
     }
 
@@ -264,6 +253,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PatchMapping(value = "/inativar")
     public ResponseEntity<?> inativar(@RequestParam("codigo") List<Integer> codigos) {
@@ -296,6 +286,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping
     public ResponseEntity<?> remover(@RequestParam("codigo") List<Integer> codigos){

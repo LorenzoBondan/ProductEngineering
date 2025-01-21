@@ -2,6 +2,7 @@ package br.com.todeschini.webapi.rest.publico.cor;
 
 import br.com.todeschini.domain.business.publico.cor.DCor;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
+import br.com.todeschini.domain.util.tests.CorFactory;
 import br.com.todeschini.persistence.publico.cor.CrudCorImpl;
 import br.com.todeschini.webapi.BaseControllerIT;
 import br.com.todeschini.webapi.ValidationConstants;

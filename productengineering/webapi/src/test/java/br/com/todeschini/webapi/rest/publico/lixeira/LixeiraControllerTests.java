@@ -5,6 +5,7 @@ import br.com.todeschini.domain.Paged;
 import br.com.todeschini.domain.PagedBuilder;
 import br.com.todeschini.domain.business.publico.lixeira.DLixeira;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
+import br.com.todeschini.domain.util.tests.LixeiraFactory;
 import br.com.todeschini.persistence.publico.lixeira.LixeiraOperationsImpl;
 import br.com.todeschini.webapi.ApiTestUtil;
 import br.com.todeschini.webapi.BaseControllerIT;

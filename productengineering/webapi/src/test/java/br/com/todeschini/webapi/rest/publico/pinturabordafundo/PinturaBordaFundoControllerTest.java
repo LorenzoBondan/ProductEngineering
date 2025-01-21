@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.pinturabordafundo;
 
 import br.com.todeschini.domain.business.publico.pinturabordafundo.DPinturaBordaFundo;
+import br.com.todeschini.domain.util.tests.PinturaBordaFundoFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.PinturaBordaFundo;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

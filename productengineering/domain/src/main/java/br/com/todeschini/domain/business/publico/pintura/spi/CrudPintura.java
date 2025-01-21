@@ -8,5 +8,5 @@ import java.util.Collection;
 
 public interface CrudPintura extends SimpleCrud<DPintura, Integer> {
 
-    Collection<? extends DPintura> pesquisarPorTipoPinturaECor (Integer tipopintura, Integer cdcor);
+    Collection<DPintura> pesquisarPorTipoPinturaECor (Integer tipopintura, Integer cdcor);
 }

@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.filho;
 
 import br.com.todeschini.domain.business.publico.filho.DFilho;
+import br.com.todeschini.domain.util.tests.FilhoFactory;
 import br.com.todeschini.persistence.entities.publico.Filho;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.filho.FilhoRepository;

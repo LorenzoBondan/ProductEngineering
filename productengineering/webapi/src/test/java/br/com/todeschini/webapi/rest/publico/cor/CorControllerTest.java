@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.cor;
 
 import br.com.todeschini.domain.business.publico.cor.DCor;
+import br.com.todeschini.domain.util.tests.CorFactory;
 import br.com.todeschini.persistence.entities.publico.Cor;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.cor.CorRepository;

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class LixeiraController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<?> pesquisar(
@@ -91,6 +93,7 @@ public class LixeiraController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(value = "/recuperar/{id}")
     public ResponseEntity<?> recuperar(@PathVariable("id") Integer id, @RequestParam("recuperarDependencias") Boolean recuperarDependencias){
@@ -105,6 +108,7 @@ public class LixeiraController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping(value = "/recuperarporentidadeid")
     public ResponseEntity<?> recuperarPorEntidadeId(@RequestBody Map<String, Object> entidadeid,

@@ -11,13 +11,9 @@ import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.RoteiroMaquina;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,9 +30,10 @@ public class CrudRoteiroMaquinaImpl implements CrudRoteiroMaquina {
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
     private final SituacaoFilter<RoteiroMaquina> situacaoFilter;
+    private final AuditoriaService auditoriaService;
 
     public CrudRoteiroMaquinaImpl(RoteiroMaquinaRepository repository, RoteiroMaquinaQueryRepository queryRepository, RoteiroMaquinaDomainToEntityAdapter adapter, EntityService entityService,
-                                  PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<RoteiroMaquina> situacaoFilter) {
+                                  PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<RoteiroMaquina> situacaoFilter, AuditoriaService auditoriaService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -44,10 +41,10 @@ public class CrudRoteiroMaquinaImpl implements CrudRoteiroMaquina {
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
         this.situacaoFilter = situacaoFilter;
+        this.auditoriaService = auditoriaService;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DRoteiroMaquina> buscarTodos(PageableRequest request) {
         SpecificationHelper<RoteiroMaquina> helper = new SpecificationHelper<>();
         Specification<RoteiroMaquina> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -68,58 +65,50 @@ public class CrudRoteiroMaquinaImpl implements CrudRoteiroMaquina {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Collection<? extends DRoteiroMaquina> pesquisarPorRoteiroEMaquina(Integer cdroteiro, Integer cdmaquina) {
+    public Collection<DRoteiroMaquina> pesquisarPorRoteiroEMaquina(Integer cdroteiro, Integer cdmaquina) {
         return queryRepository.findByRoteiro_CdroteiroAndMaquina_Cdmaquina(cdroteiro, cdmaquina).stream().map(adapter::toDomain).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DRoteiroMaquina buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DRoteiroMaquina>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(RoteiroMaquina.class, "tb_roteiro_maquina", id.toString(), AttributeMappings.ROTEIROMAQUINA.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<String> buscarAtributosEditaveisEmLote() {
         return entityService.obterAtributosEditaveis(DRoteiroMaquina.class);
     }
 
     @Override
-    @Transactional
     public DRoteiroMaquina inserir(DRoteiroMaquina obj) {
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    @Transactional
     public DRoteiroMaquina atualizar(DRoteiroMaquina obj) {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
         }
         RoteiroMaquina entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
     }
 
     @Override
-    @Transactional
     public List<DRoteiroMaquina> atualizarEmLote(List<DRoteiroMaquina> list) {
         return list;
     }
 
     @Override
-    @Transactional
     public DRoteiroMaquina substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<RoteiroMaquina> antiga = historyService.getHistoryEntityByRecord(RoteiroMaquina.class, "tb_roteiro_maquina", id.toString(), AttributeMappings.ROTEIROMAQUINA.getMappings())
                 .stream()
@@ -130,7 +119,6 @@ public class CrudRoteiroMaquinaImpl implements CrudRoteiroMaquina {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         RoteiroMaquina entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -139,13 +127,7 @@ public class CrudRoteiroMaquinaImpl implements CrudRoteiroMaquina {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(RoteiroMaquina obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getCdroteiroMaquina()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getCdroteiroMaquina()));
     }
 }

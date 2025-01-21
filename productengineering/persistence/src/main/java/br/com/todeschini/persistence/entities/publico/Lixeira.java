@@ -1,14 +1,13 @@
 package br.com.todeschini.persistence.entities.publico;
 
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -20,7 +19,6 @@ import java.util.Map;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "tb_lixeira", schema = "public")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Lixeira {
 
     @Id
@@ -32,8 +30,8 @@ public class Lixeira {
     @NotNull
     private LocalDateTime data;
     @NotNull
-    @Type(type = "jsonb") // ON TEST PROFILE, CHANGE TO json TO AVOID LOG ERROR WHEN APPLICATION STARTS
-    @Column(unique = true, columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(unique = true)
     private Map<String, Object> entidadeid;
     @NotNull
     @Size(max = 50)

@@ -7,6 +7,6 @@ import java.util.Collection;
 
 public interface CrudRoteiro extends SimpleCrud<DRoteiro, Integer> {
 
-    Collection<? extends DRoteiro> pesquisarPorDescricao (String descricao);
+    Collection<DRoteiro> pesquisarPorDescricao (String descricao);
     Boolean existePorDescricao (String descricao);
 }

@@ -22,4 +22,5 @@ public class DTHistory {
     private String tabname;
     private String operation;
     private Map<String, Object> oldVal;
+    private Map<String, Object> diff;
 }

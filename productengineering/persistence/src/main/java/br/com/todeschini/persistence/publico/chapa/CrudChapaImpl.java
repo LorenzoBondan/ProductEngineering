@@ -11,13 +11,9 @@ import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.Chapa;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,9 +30,10 @@ public class CrudChapaImpl implements CrudChapa {
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
     private final SituacaoFilter<Chapa> situacaoFilter;
+    private final AuditoriaService auditoriaService;
 
     public CrudChapaImpl(ChapaRepository repository, ChapaQueryRepository queryRepository, ChapaDomainToEntityAdapter adapter, EntityService entityService,
-                         PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<Chapa> situacaoFilter) {
+                         PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<Chapa> situacaoFilter, AuditoriaService auditoriaService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -44,10 +41,10 @@ public class CrudChapaImpl implements CrudChapa {
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
         this.situacaoFilter = situacaoFilter;
+        this.auditoriaService = auditoriaService;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DChapa> buscarTodos(PageableRequest request) {
         SpecificationHelper<Chapa> helper = new SpecificationHelper<>();
         Specification<Chapa> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -68,58 +65,50 @@ public class CrudChapaImpl implements CrudChapa {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Collection<? extends DChapa> pesquisarPorDescricao(String descricao) {
+    public Collection<DChapa> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DChapa buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DChapa>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(Chapa.class, "tb_material", id.toString(), AttributeMappings.MATERIAL.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<String> buscarAtributosEditaveisEmLote() {
         return entityService.obterAtributosEditaveis(DChapa.class);
     }
 
     @Override
-    @Transactional
     public DChapa inserir(DChapa obj) {
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    @Transactional
     public DChapa atualizar(DChapa obj) {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
         }
         Chapa entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
     }
 
     @Override
-    @Transactional
     public List<DChapa> atualizarEmLote(List<DChapa> list) {
         return list;
     }
 
     @Override
-    @Transactional
     public DChapa substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<Chapa> antiga = historyService.getHistoryEntityByRecord(Chapa.class, "tb_material", id.toString(), AttributeMappings.MATERIAL.getMappings())
                 .stream()
@@ -130,7 +119,6 @@ public class CrudChapaImpl implements CrudChapa {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         Chapa entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -139,13 +127,7 @@ public class CrudChapaImpl implements CrudChapa {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(Chapa obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getCdmaterial()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getCdmaterial()));
     }
 }

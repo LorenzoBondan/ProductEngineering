@@ -2,6 +2,7 @@ package br.com.todeschini.webapi.rest.publico.roteiro;
 
 import br.com.todeschini.domain.business.publico.roteiro.DRoteiro;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
+import br.com.todeschini.domain.util.tests.RoteiroFactory;
 import br.com.todeschini.persistence.publico.roteiro.CrudRoteiroImpl;
 import br.com.todeschini.webapi.BaseControllerIT;
 import br.com.todeschini.webapi.ValidationConstants;

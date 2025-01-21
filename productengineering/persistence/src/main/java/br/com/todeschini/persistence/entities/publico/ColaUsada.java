@@ -4,7 +4,7 @@ import br.com.todeschini.domain.metadata.Entidade;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter

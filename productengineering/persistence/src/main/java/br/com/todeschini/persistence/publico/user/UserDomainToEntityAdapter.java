@@ -4,16 +4,26 @@ import br.com.todeschini.domain.Convertable;
 import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.role.DRole;
 import br.com.todeschini.domain.business.publico.user.DUser;
+import br.com.todeschini.domain.business.publico.useranexo.DUserAnexo;
 import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.Role;
 import br.com.todeschini.persistence.entities.publico.User;
+import br.com.todeschini.persistence.entities.publico.UserAnexo;
+import br.com.todeschini.persistence.publico.useranexo.UserAnexoDomainToEntityAdapter;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 @EntityAdapter(entityClass = User.class)
 public class UserDomainToEntityAdapter implements Convertable<User, DUser> {
+
+    private final UserAnexoDomainToEntityAdapter userAnexoDomainToEntityAdapter;
+
+    public UserDomainToEntityAdapter(UserAnexoDomainToEntityAdapter userAnexoDomainToEntityAdapter) {
+        this.userAnexoDomainToEntityAdapter = userAnexoDomainToEntityAdapter;
+    }
 
     @Override
     public User toEntity(DUser domain) {
@@ -22,7 +32,9 @@ public class UserDomainToEntityAdapter implements Convertable<User, DUser> {
                 .name(domain.getName())
                 .password(domain.getPassword())
                 .email(domain.getEmail())
-                .imgUrl(domain.getImgUrl())
+                .userAnexo(Optional.ofNullable(domain.getUserAnexo())
+                        .map(userAnexo -> new UserAnexo(userAnexo.getCodigo()))
+                        .orElse(null))
 
                 .roles(domain.getRoles().stream().map(role -> new Role(role.getId(), role.getAuthority())).collect(Collectors.toSet()))
 
@@ -36,8 +48,12 @@ public class UserDomainToEntityAdapter implements Convertable<User, DUser> {
                 .name(entity.getName())
                 .password(entity.getPassword())
                 .email(entity.getEmail())
-                .imgUrl(entity.getImgUrl())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .userAnexo(Optional.ofNullable(entity.getUserAnexo())
+                        .map(userAnexoDomainToEntityAdapter::toDomain)
+                        .orElse(null))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
 
                 .roles(entity.getRoles().stream().map(role -> new DRole(role.getId(), role.getAuthority())).collect(Collectors.toList()))
 

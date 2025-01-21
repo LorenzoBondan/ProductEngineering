@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.cantoneira;
 
 import br.com.todeschini.domain.business.publico.cantoneira.DCantoneira;
+import br.com.todeschini.domain.util.tests.CantoneiraFactory;
 import br.com.todeschini.persistence.entities.publico.Cantoneira;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.publico.cantoneira.CantoneiraRepository;

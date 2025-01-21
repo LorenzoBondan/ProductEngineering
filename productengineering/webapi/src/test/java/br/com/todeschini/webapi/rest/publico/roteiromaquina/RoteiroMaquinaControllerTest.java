@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.roteiromaquina;
 
 import br.com.todeschini.domain.business.publico.roteiromaquina.DRoteiroMaquina;
+import br.com.todeschini.domain.util.tests.RoteiroMaquinaFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.RoteiroMaquina;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

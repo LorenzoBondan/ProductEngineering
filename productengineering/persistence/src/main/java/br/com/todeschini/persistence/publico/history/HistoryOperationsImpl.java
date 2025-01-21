@@ -10,8 +10,8 @@ import br.com.todeschini.persistence.entities.enums.MappableEnum;
 import br.com.todeschini.persistence.entities.enums.MappableStringEnum;
 import br.com.todeschini.persistence.entities.publico.History;
 import br.com.todeschini.persistence.util.DynamicRepositoryFactory;
+import br.com.todeschini.persistence.util.JpaMetadataUtils;
 import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.ReflectionUtils;
 import br.com.todeschini.persistence.util.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +64,7 @@ public class HistoryOperationsImpl implements HistoryOperations {
     @Override
     @Transactional(readOnly = true)
     public <T> List<DHistory<T>> getHistoryEntityByRecord(Class<T> entityType, String tabname, String recordId, Map<String, Class<?>> attributeMappings) {
-        String idFieldName = StringUtils.toSnakeCase(ReflectionUtils.getIdFieldName(entityType));
+        String idFieldName = StringUtils.toSnakeCase(JpaMetadataUtils.getIdColumnName(entityType));
 
         List<History> histories = repository.findByTabnameAndRecordId(tabname, idFieldName, recordId);
 
@@ -74,7 +73,9 @@ public class HistoryOperationsImpl implements HistoryOperations {
                         history.getId(),
                         history.getTstamp(),
                         retirarAutorDoJson(history.getOldVal()),
-                        convertToEntity(history.getOldVal(), entityType, attributeMappings)))
+                        convertToEntity(history.getOldVal(), entityType, attributeMappings),
+                        history.getDiff()
+                        ))
                 .collect(Collectors.toList());
     }
 
@@ -239,7 +240,9 @@ public class HistoryOperationsImpl implements HistoryOperations {
                         if (attributeMappings.containsValue(value.getClass())) {
                             // Chamada recursiva para entidades relacionadas
                             ObjectNode relatedNode = transformEntityToNode(value, attributeMappings, processedEntities);
-                            String entityName = value.getClass().getSimpleName().toLowerCase();
+                            /*String entityName = value.getClass().getSimpleName().toLowerCase();*/
+                            String entityName = value.getClass().getSimpleName();
+                            entityName = entityName.substring(0, 1).toLowerCase() + entityName.substring(1);
                             node.set(entityName, relatedNode);
                         } else if (value instanceof Period period) {
                             // Converte Period para string legível

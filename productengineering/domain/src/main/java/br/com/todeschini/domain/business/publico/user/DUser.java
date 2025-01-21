@@ -2,6 +2,7 @@ package br.com.todeschini.domain.business.publico.user;
 
 import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.role.DRole;
+import br.com.todeschini.domain.business.publico.useranexo.DUserAnexo;
 import br.com.todeschini.domain.metadata.Domain;
 import br.com.todeschini.domain.validation.NamedValidator;
 import br.com.todeschini.domain.validation.ValidationBuilder;
@@ -25,8 +26,8 @@ public class DUser {
     private String name;
     private String password;
     private String email;
-    private String imgUrl;
     private DSituacaoEnum situacao;
+    private DUserAnexo userAnexo;
     private List<DRole> roles = new ArrayList<>();
 
     public DUser(Integer id){
@@ -45,8 +46,6 @@ public class DUser {
                 .add(new NamedValidator<>("Senha", new TamanhoMaximoValidator(50)), this.password)
                 .add(new NamedValidator<>("Email", new ObjetoNaoNuloValidator()), this.email)
                 .add(new NamedValidator<>("Email", new EmailValidator()), this.email)
-                .add(new NamedValidator<>("ImgUrl", new NaoBrancoValidator()), this.imgUrl)
-                .add(new NamedValidator<>("ImgUrl", new TamanhoMinimoValidator(3)), this.imgUrl)
                 .add(new NamedValidator<>("Papéis", new ObjetoNaoNuloValidator()), this.roles)
                 .validate();
     }

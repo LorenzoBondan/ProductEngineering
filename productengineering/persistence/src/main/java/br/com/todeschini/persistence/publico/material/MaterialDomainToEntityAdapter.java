@@ -52,7 +52,9 @@ public class MaterialDomainToEntityAdapter implements Convertable<Material, DMat
                 .cor(Optional.ofNullable(entity.getCor())
                         .map(cor -> corDomainToEntityAdapter.toDomain(entity.getCor()))
                         .orElse(null))
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

@@ -50,7 +50,9 @@ public class TntDomainToEntityAdapter implements Convertable<Tnt, DTnt> {
         Tnt.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Tnt.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        Tnt.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return Tnt;
     }
 }

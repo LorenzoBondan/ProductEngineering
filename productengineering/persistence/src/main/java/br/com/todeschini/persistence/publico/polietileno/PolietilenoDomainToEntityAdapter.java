@@ -50,7 +50,9 @@ public class PolietilenoDomainToEntityAdapter implements Convertable<Polietileno
         Polietileno.setCor(Optional.ofNullable(entity.getCor())
                 .map(cor -> corDomainToEntityAdapter.toDomain(cor))
                 .orElse(null));
-        Polietileno.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
+        Polietileno.setSituacao(Optional.ofNullable(entity.getSituacao())
+                .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                .orElse(null));
         return Polietileno;
     }
 }

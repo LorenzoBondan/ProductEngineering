@@ -7,14 +7,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
+import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Repository
 public class DynamicRepositoryFactory {
@@ -71,7 +73,22 @@ public class DynamicRepositoryFactory {
             }
 
             @Override
+            public <S extends T> List<S> saveAllAndFlush(Iterable<S> entities) {
+                return List.of();
+            }
+
+            @Override
             public void deleteInBatch(Iterable<T> iterable) {
+
+            }
+
+            @Override
+            public void deleteAllInBatch(Iterable<T> entities) {
+
+            }
+
+            @Override
+            public void deleteAllByIdInBatch(Iterable<ID> ids) {
 
             }
 
@@ -82,6 +99,16 @@ public class DynamicRepositoryFactory {
 
             @Override
             public T getOne(ID id) {
+                return null;
+            }
+
+            @Override
+            public T getById(ID id) {
+                return null;
+            }
+
+            @Override
+            public T getReferenceById(ID id) {
                 return null;
             }
 
@@ -116,6 +143,11 @@ public class DynamicRepositoryFactory {
             }
 
             @Override
+            public <S extends T, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+                return null;
+            }
+
+            @Override
             public boolean existsById(ID id) {
                 return false;
             }
@@ -142,6 +174,11 @@ public class DynamicRepositoryFactory {
 
             @Override
             public void delete(T entity) {
+
+            }
+
+            @Override
+            public void deleteAllById(Iterable<? extends ID> ids) {
 
             }
 

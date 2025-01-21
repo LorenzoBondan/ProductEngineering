@@ -99,7 +99,9 @@ public class PaiDomainToEntityAdapter implements Convertable<Pai, DPai> {
                 .tipoPintura(Optional.ofNullable(entity.getTipoPintura())
                         .map(tipoPintura -> DTipoPinturaEnum.valueOf(tipoPintura.name()))
                         .orElse(null))
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
 
                 .filhos(filhos)
 

@@ -4,8 +4,8 @@ import br.com.todeschini.domain.metadata.Entidade;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 @Getter
 @Setter

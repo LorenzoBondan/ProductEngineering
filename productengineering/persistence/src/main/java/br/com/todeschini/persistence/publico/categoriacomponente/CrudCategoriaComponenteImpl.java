@@ -9,16 +9,11 @@ import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
-import br.com.todeschini.persistence.entities.publico.Acessorio;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.persistence.util.AttributeMappings;
-import br.com.todeschini.persistence.util.EntityService;
-import br.com.todeschini.persistence.util.PageRequestUtils;
-import br.com.todeschini.persistence.util.SpecificationHelper;
+import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,9 +30,10 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     private final PageRequestUtils pageRequestUtils;
     private final HistoryService historyService;
     private final SituacaoFilter<CategoriaComponente> situacaoFilter;
+    private final AuditoriaService auditoriaService;
 
     public CrudCategoriaComponenteImpl(CategoriaComponenteRepository repository, CategoriaComponenteQueryRepository queryRepository, CategoriaComponenteDomainToEntityAdapter adapter, EntityService entityService,
-                                       PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<CategoriaComponente> situacaoFilter) {
+                                       PageRequestUtils pageRequestUtils, HistoryService historyService, SituacaoFilter<CategoriaComponente> situacaoFilter, AuditoriaService auditoriaService) {
         this.repository = repository;
         this.queryRepository = queryRepository;
         this.adapter = adapter;
@@ -45,10 +41,10 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
         this.pageRequestUtils = pageRequestUtils;
         this.historyService = historyService;
         this.situacaoFilter = situacaoFilter;
+        this.auditoriaService = auditoriaService;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Paged<DCategoriaComponente> buscarTodos(PageableRequest request) {
         SpecificationHelper<CategoriaComponente> helper = new SpecificationHelper<>();
         Specification<CategoriaComponente> specification = helper.buildSpecification(request.getColunas(), request.getOperacoes(), request.getValores());
@@ -69,22 +65,19 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Collection<? extends DCategoriaComponente> pesquisarPorDescricao(String descricao) {
+    public Collection<DCategoriaComponente> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public DCategoriaComponente buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<DHistory<DCategoriaComponente>> buscarHistorico(Integer id) {
         return historyService.getHistoryEntityByRecord(CategoriaComponente.class, "tb_categoria_componente", id.toString(), AttributeMappings.CATEGORIACOMPONENTE.getMappings()).stream()
-                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity())))
+                .map(history -> new DHistory<>(history.getId(), history.getDate(), history.getAuthor(), adapter.toDomain(history.getEntity()), history.getDiff()))
                 .collect(Collectors.toList());
     }
 
@@ -94,26 +87,23 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     }
 
     @Override
-    @Transactional
     public DCategoriaComponente inserir(DCategoriaComponente obj) {
         entityService.verifyDependenciesStatus(adapter.toEntity(obj));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    @Transactional
     public DCategoriaComponente atualizar(DCategoriaComponente obj) {
         if(!repository.existsById(obj.getCodigo())){
             throw new ResourceNotFoundException("Código não encontrado: " + obj.getCodigo());
         }
         CategoriaComponente entity = adapter.toEntity(obj);
         entityService.verifyDependenciesStatus(entity);
-        setCreationProperties(entity);
+        auditoriaService.setCreationProperties(entity);
         return adapter.toDomain(repository.save(entity));
     }
 
     @Override
-    @Transactional
     public DCategoriaComponente substituirPorVersaoAntiga(Integer id, Integer versionId) {
         DHistory<CategoriaComponente> antiga = historyService.getHistoryEntityByRecord(CategoriaComponente.class, "tb_categoria_componente", id.toString(), AttributeMappings.CATEGORIACOMPONENTE.getMappings())
                 .stream()
@@ -129,7 +119,6 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     }
 
     @Override
-    @Transactional
     public void inativar(Integer id) {
         CategoriaComponente entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
@@ -138,13 +127,7 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
     }
 
     @Override
-    @Transactional
     public void remover(Integer id) {
         entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
-    }
-
-    private void setCreationProperties(CategoriaComponente obj){
-        obj.setCriadoem(repository.findCriadoemById(obj.getCdcategoriaComponente()));
-        obj.setCriadopor(repository.findCriadoporById(obj.getCdcategoriaComponente()));
     }
 }

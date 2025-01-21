@@ -7,6 +7,8 @@ import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.CategoriaComponente;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @EntityAdapter(entityClass = CategoriaComponente.class)
 public class CategoriaComponenteDomainToEntityAdapter implements Convertable<CategoriaComponente, DCategoriaComponente> {
@@ -24,7 +26,9 @@ public class CategoriaComponenteDomainToEntityAdapter implements Convertable<Cat
         return DCategoriaComponente.builder()
                 .codigo(entity.getCdcategoriaComponente())
                 .descricao(entity.getDescricao())
-                .situacao(DSituacaoEnum.valueOf(entity.getSituacao().name()))
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
                 .build();
     }
 }

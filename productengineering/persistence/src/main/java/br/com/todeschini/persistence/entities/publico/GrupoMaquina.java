@@ -1,6 +1,6 @@
 package br.com.todeschini.persistence.entities.publico;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import br.com.todeschini.domain.metadata.Entidade;
 import lombok.*;

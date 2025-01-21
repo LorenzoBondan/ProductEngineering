@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CrudGrupoMaquina extends SimpleCrud<DGrupoMaquina, Integer> {
 
-    Collection<? extends DGrupoMaquina> pesquisarPorNome (String nome);
+    Collection<DGrupoMaquina> pesquisarPorNome (String nome);
 }

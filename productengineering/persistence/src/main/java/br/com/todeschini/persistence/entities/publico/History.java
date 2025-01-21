@@ -1,9 +1,10 @@
 package br.com.todeschini.persistence.entities.publico;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -24,7 +25,8 @@ public class History {
     private String schemaname;
     private String tabname;
     private String operation;
-    @Type(type = "jsonb") // ON TEST PROFILE, CHANGE TO json TO AVOID LOG ERROR WHEN APPLICATION STARTS
-    @Column(unique = true, columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> oldVal;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Map<String, Object> diff;
 }

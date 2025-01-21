@@ -3,7 +3,7 @@ package br.com.todeschini.persistence.entities.publico;
 import br.com.todeschini.domain.metadata.Entidade;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Builder
 @AllArgsConstructor
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode(of = "cdacessorioUsado", callSuper = false)
 @Entity
-@Table(name = "tb_acessorioUsado")
+@Table(name = "tb_acessorio_usado")
 @Entidade
 public class AcessorioUsado extends AuditoriaInfo {
 

@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.material;
 
 import br.com.todeschini.domain.business.publico.material.DMaterial;
+import br.com.todeschini.domain.util.tests.MaterialFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Material;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

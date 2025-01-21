@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.tnt;
 
 import br.com.todeschini.domain.business.publico.tnt.DTnt;
+import br.com.todeschini.domain.util.tests.TntFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Tnt;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

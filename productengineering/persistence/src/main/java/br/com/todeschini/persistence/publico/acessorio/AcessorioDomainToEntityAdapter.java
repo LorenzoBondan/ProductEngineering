@@ -25,34 +25,36 @@ public class AcessorioDomainToEntityAdapter implements Convertable<Acessorio, DA
 
     @Override
     public Acessorio toEntity(DAcessorio domain) {
-        Acessorio acessorio = new Acessorio();
-        acessorio.setCdacessorio(domain.getCodigo());
-        acessorio.setDescricao(domain.getDescricao());
-        acessorio.setMedidas(Optional.ofNullable(domain.getMedidas())
-                .map(medidas -> new Medidas(medidas.getCodigo()))
-                .orElse(null));
-        acessorio.setCor(Optional.ofNullable(domain.getCor())
-                .map(cor -> new Cor(cor.getCodigo()))
-                .orElse(null));
-        acessorio.setImplantacao(domain.getImplantacao());
-        acessorio.setValor(domain.getValor());
-        return acessorio;
+        return Acessorio.builder()
+                .cdacessorio(domain.getCodigo())
+                .descricao(domain.getDescricao())
+                .medidas(Optional.ofNullable(domain.getMedidas())
+                        .map(medidas -> new Medidas(medidas.getCodigo()))
+                        .orElse(null))
+                .cor(Optional.ofNullable(domain.getCor())
+                        .map(cor -> new Cor(cor.getCodigo()))
+                        .orElse(null))
+                .implantacao(domain.getImplantacao())
+                .valor(domain.getValor())
+                .build();
     }
 
     @Override
     public DAcessorio toDomain(Acessorio entity) {
-        DAcessorio acessorio = new DAcessorio();
-        acessorio.setCodigo(entity.getCdacessorio());
-        acessorio.setDescricao(entity.getDescricao());
-        acessorio.setMedidas(Optional.ofNullable(entity.getMedidas())
-                .map(medidas -> medidasDomainToEntityAdapter.toDomain(medidas))
-                .orElse(null));
-        acessorio.setCor(Optional.ofNullable(entity.getCor())
-                .map(cor -> corDomainToEntityAdapter.toDomain(cor))
-                .orElse(null));
-        acessorio.setImplantacao(entity.getImplantacao());
-        acessorio.setValor(entity.getValor());
-        acessorio.setSituacao(DSituacaoEnum.valueOf(entity.getSituacao().name()));
-        return acessorio;
+        return DAcessorio.builder()
+                .codigo(entity.getCdacessorio())
+                .descricao(entity.getDescricao())
+                .medidas(Optional.ofNullable(entity.getMedidas())
+                        .map(medidasDomainToEntityAdapter::toDomain)
+                        .orElse(null))
+                .cor(Optional.ofNullable(entity.getCor())
+                        .map(corDomainToEntityAdapter::toDomain)
+                        .orElse(null))
+                .implantacao(entity.getImplantacao())
+                .valor(entity.getValor())
+                .situacao(Optional.ofNullable(entity.getSituacao())
+                        .map(situacao -> DSituacaoEnum.valueOf(situacao.name()))
+                        .orElse(null))
+                .build();
     }
 }

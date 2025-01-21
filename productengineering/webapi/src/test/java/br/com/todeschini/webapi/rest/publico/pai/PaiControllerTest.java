@@ -1,6 +1,7 @@
 package br.com.todeschini.webapi.rest.publico.pai;
 
 import br.com.todeschini.domain.business.publico.pai.DPai;
+import br.com.todeschini.domain.util.tests.PaiFactory;
 import br.com.todeschini.persistence.entities.publico.Lixeira;
 import br.com.todeschini.persistence.entities.publico.Pai;
 import br.com.todeschini.persistence.publico.history.HistoryRepository;

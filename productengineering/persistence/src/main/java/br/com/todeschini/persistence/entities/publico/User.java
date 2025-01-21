@@ -1,8 +1,7 @@
 package br.com.todeschini.persistence.entities.publico;
 
-import javax.persistence.*;
-
 import br.com.todeschini.domain.metadata.Entidade;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,14 +28,19 @@ public class User extends AuditoriaInfo implements UserDetails  {
     @Column(unique = true)
     private String email;
     private String password;
-    @Column(columnDefinition = "TEXT")
-    private String imgUrl;
+
+    @OneToOne(mappedBy = "user")
+    private UserAnexo userAnexo;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_user_role",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    public User(Integer id) {
+        this.id = id;
+    }
 
     public boolean hasRole(String roleName) {
         for (Role role : roles) {
