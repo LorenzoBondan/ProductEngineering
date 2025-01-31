@@ -1,0 +1,95 @@
+.operations-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.operation-section {
+    height: 33.33333%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden; 
+    background-size: cover; 
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.operation-section:hover {
+    background-size: 110%; 
+    transition: background-size 3.5s ease-out;
+}
+
+.operations-struct-container{
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../../assets/images/background1.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.operations-items-container{
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../../assets/images/background3.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.operations-base-materials-container{
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../../assets/images/background4.jpg') no-repeat center;
+    background-size: cover;
+}
+
+.operation-section-middle{
+    margin: 1px 0;
+    flex-direction: row-reverse;
+}
+
+.operation-section-text{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+.operation-section-text-middle{
+    justify-content: flex-end;
+}
+
+.operation-section p{
+    color: #ffffffc9;
+    width: 45%;
+    font-size: 25px;
+}
+
+.operation-section-button-container{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.operation-section a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.operation-section button {
+    min-width: 30%;
+    background: linear-gradient(to right, var(--color-btn-primary), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.operation-section button svg{
+    height: 15px; 
+}
+
+@media(min-width:1200px){
+    .operations-container{
+        margin-left: 85px;
+        height: 100vh;
+    }
+}
