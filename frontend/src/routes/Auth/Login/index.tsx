@@ -1,6 +1,6 @@
 import './styles.css';
 import { useContext, useState } from 'react';
-import * as authService from '../../../services/auth-service';
+import * as authService from '../../../services/authService';
 import * as forms from '../../../utils/forms';
 import { useNavigate } from 'react-router-dom';
 import { ContextToken } from '../../../utils/context-token';

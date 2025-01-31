@@ -19,7 +19,7 @@ export function loginRequest(loginData: CredentialsDTO) {
 
   const config: AxiosRequestConfig = {
     method: "POST",
-    url: "/oauth/token",
+    url: "/oauth2/token",
     data: requestBody,
     headers,
   };

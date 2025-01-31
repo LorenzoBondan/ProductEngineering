@@ -5,7 +5,7 @@ import { history } from './utils/history';
 import { PrivateRoute } from './components/PrivateRoute';
 import { AccessTokenPayloadDTO } from './models/auth';
 import { ContextToken } from './utils/context-token';
-import * as authService from './services/auth-service';
+import * as authService from './services/authService';
 import Auth from './routes/Auth';
 import Teste from './routes/Teste';
 
