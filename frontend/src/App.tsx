@@ -17,6 +17,7 @@ import PackagingPage from './routes/Operator/HomeBaseMaterials/MainComponents/Pa
 import MachinePage from './routes/Operator/HomeBaseMaterials/MainComponents/MachinePage';
 import PublicPage from './routes/Operator/HomeBaseMaterials/MainComponents/PublicPage';
 import HomeItems from './routes/Operator/HomeItems';
+import HomeStruct from './routes/Operator/HomeStructs';
 
 export default function App() {
 
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/" element={<PrivateRoute roles={['ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR']}><Operator /></PrivateRoute>} >
               <Route index element={<Operations />} />
               <Route path="operations" element={<Operations />} />
+
               <Route path="homebasematerials" element={<HomeBaseMaterials />} />
               <Route path="homebasematerials/mdp" element={<MDPPage />} />
               <Route path="homebasematerials/mdf" element={<MDFPage />} />
@@ -47,6 +49,7 @@ export default function App() {
               <Route path="homebasematerials/machines" element={<MachinePage />} />
               <Route path="homebasematerials/public" element={<PublicPage />} />
 
+              <Route path="homestructs" element={<HomeStruct />} />
               <Route path="homeitems" element={<HomeItems />} />
             </Route>
 
