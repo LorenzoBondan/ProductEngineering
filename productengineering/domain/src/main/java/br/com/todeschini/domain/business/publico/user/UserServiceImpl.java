@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public DUser findMe() {
+        return authService.authenticated();
+    }
+
+    @Override
     public Paged<DUser> buscar(PageableRequest request) {
         return crudUser.buscarTodos(request);
     }

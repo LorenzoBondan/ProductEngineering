@@ -124,6 +124,20 @@ public class UserController {
         return ResponseEntity.ok(service.buscar(email));
     }
 
+    @Operation(summary = "Search the logged User", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @GetMapping(value = "/me")
+    public ResponseEntity<?> findMe(){
+        return ResponseEntity.ok(service.findMe());
+    }
+
     /**
      * @param codigo representa o ID do Usuário a ser pesquisado
      */

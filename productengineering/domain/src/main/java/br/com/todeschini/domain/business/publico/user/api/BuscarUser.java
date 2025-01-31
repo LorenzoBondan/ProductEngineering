@@ -9,4 +9,5 @@ public interface BuscarUser {
     DUser buscar (Integer id);
     DUser buscar (String email);
     Paged<DUser> buscar(PageableRequest request);
+    DUser findMe();
 }
