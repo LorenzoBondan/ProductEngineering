@@ -178,8 +178,11 @@
     .admin-nav-container{
         padding: 0px;
         width: 300px;
-        height: 100vh; /* toda a altura da tela menos o cabeçalho */
+        min-height: 100vh; /* toda a altura da tela menos o cabeçalho */
         border-right: 1px solid var(--color-card-border);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .admin-nav-item, .login-nav-item {
@@ -234,5 +237,16 @@
     .navbar-title-expanded img{
         height: 55px;
         margin-bottom: 5px;
+    }
+
+    .navbar-username-expanded{
+        display: none;
+    }
+
+    .navbar-username{
+        color: var(--color-font-tertiary);
+        font-size: 16px;
+        height: 40px;
+        text-align: center;
     }
 }

@@ -5,6 +5,7 @@ import * as forms from '../../../utils/forms';
 import { useNavigate } from 'react-router-dom';
 import { ContextToken } from '../../../utils/context-token';
 import FormInput from '../../../components/FormInput';
+import ButtonPrimary from '../../../components/ButtonPrimary';
 
 export default function Login() {
 
@@ -50,8 +51,7 @@ export default function Login() {
             .then(response => {
                 authService.saveAccessToken(response.data.access_token);
                 setContextTokenPayload(authService.getAccessTokenPayload());
-                console.log(authService.getAccessTokenPayload());
-                navigate("/teste");
+                navigate("/");
             })
             .catch(() => {
                 setSubmitResponseFail(true);
@@ -100,7 +100,7 @@ export default function Login() {
                         }
 
                         <div className="login-form-buttons mt20 w-100">
-                            <button type="submit" className="btn btn-primary">Entrar</button>
+                            <ButtonPrimary text='Entrar' />
                         </div>
                     </form>
                 </div>
