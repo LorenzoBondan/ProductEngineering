@@ -11,6 +11,11 @@ import Operator from './routes/Operator';
 import Operations from './routes/Operator/Operations';
 import HomeBaseMaterials from './routes/Operator/HomeBaseMaterials';
 import MDPPage from './routes/Operator/HomeBaseMaterials/MainComponents/MDPPage';
+import MDFPage from './routes/Operator/HomeBaseMaterials/MainComponents/MDFPage';
+import AluminiumPage from './routes/Operator/HomeBaseMaterials/MainComponents/AluminiumPage';
+import PackagingPage from './routes/Operator/HomeBaseMaterials/MainComponents/PackagingPage';
+import MachinePage from './routes/Operator/HomeBaseMaterials/MainComponents/MachinePage';
+import PublicPage from './routes/Operator/HomeBaseMaterials/MainComponents/PublicPage';
 
 export default function App() {
 
@@ -35,6 +40,11 @@ export default function App() {
               <Route path="operations" element={<Operations />} />
               <Route path="homebasematerials" element={<HomeBaseMaterials />} />
               <Route path="homebasematerials/mdp" element={<MDPPage />} />
+              <Route path="homebasematerials/mdf" element={<MDFPage />} />
+              <Route path="homebasematerials/aluminium" element={<AluminiumPage />} />
+              <Route path="homebasematerials/packaging" element={<PackagingPage />} />
+              <Route path="homebasematerials/machines" element={<MachinePage />} />
+              <Route path="homebasematerials/public" element={<PublicPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
