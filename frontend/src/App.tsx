@@ -9,6 +9,8 @@ import * as authService from './services/authService';
 import Auth from './routes/Auth';
 import Operator from './routes/Operator';
 import Operations from './routes/Operator/Operations';
+import HomeBaseMaterials from './routes/Operator/HomeBaseMaterials';
+import MDPPage from './routes/Operator/HomeBaseMaterials/MainComponents/MDPPage';
 
 export default function App() {
 
@@ -31,7 +33,8 @@ export default function App() {
             <Route path="/" element={<PrivateRoute roles={['ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR']}><Operator /></PrivateRoute>} >
               <Route index element={<Operations />} />
               <Route path="operations" element={<Operations />} />
-
+              <Route path="homebasematerials" element={<HomeBaseMaterials />} />
+              <Route path="homebasematerials/mdp" element={<MDPPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />

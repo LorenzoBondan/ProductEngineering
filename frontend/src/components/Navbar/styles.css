@@ -135,6 +135,10 @@
     color: var(--color-font-tertiary) !important;
 }
 
+.navbar-username-expanded{
+    display: none;
+}
+
 @media(min-width:620px) {
     .admin-nav-item, .login-nav-item, .admin-nav-item-expanded, .login-nav-item-expanded{
         height: 50px;
@@ -237,10 +241,6 @@
     .navbar-title-expanded img{
         height: 55px;
         margin-bottom: 5px;
-    }
-
-    .navbar-username-expanded{
-        display: none;
     }
 
     .navbar-username{
