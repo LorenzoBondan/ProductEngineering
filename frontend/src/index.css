@@ -302,6 +302,17 @@ nav a {
   height: unset;
 }
 
+#listing-section {
+  padding: 20px 0;
+}
+
+.edit-btn, .delete-btn {
+  height: 20px;
+  width: auto;
+  cursor: pointer;
+  margin: 5px;
+}
+
 @media (min-width: 576px) {
   .form h2 {
     font-size: 24px;

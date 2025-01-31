@@ -7,6 +7,6 @@ type Props = {
 export default function ButtonNextPage({ onNextPage }: Props) {
 
     return (
-        <div onClick={() => onNextPage()} className="btn-next-page">Load more</div>
+        <div onClick={() => onNextPage()} className="btn-next-page">Carregar mais</div>
     );
 }

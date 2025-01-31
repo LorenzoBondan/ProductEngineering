@@ -18,6 +18,8 @@ import MachinePage from './routes/Operator/HomeBaseMaterials/MainComponents/Mach
 import PublicPage from './routes/Operator/HomeBaseMaterials/MainComponents/PublicPage';
 import HomeItems from './routes/Operator/HomeItems';
 import HomeStruct from './routes/Operator/HomeStructs';
+import Sheets from './routes/CRUDs/MDP/Sheet';
+import List from './routes/CRUDs/MDP/Sheet/List';
 
 export default function App() {
 
@@ -41,6 +43,9 @@ export default function App() {
               <Route index element={<Operations />} />
               <Route path="operations" element={<Operations />} />
 
+              <Route path="homestructs" element={<HomeStruct />} />
+              <Route path="homeitems" element={<HomeItems />} />
+
               <Route path="homebasematerials" element={<HomeBaseMaterials />} />
               <Route path="homebasematerials/mdp" element={<MDPPage />} />
               <Route path="homebasematerials/mdf" element={<MDFPage />} />
@@ -49,9 +54,11 @@ export default function App() {
               <Route path="homebasematerials/machines" element={<MachinePage />} />
               <Route path="homebasematerials/public" element={<PublicPage />} />
 
-              <Route path="homestructs" element={<HomeStruct />} />
-              <Route path="homeitems" element={<HomeItems />} />
+              <Route path="sheets" element={<Sheets />}>
+                <Route index element={<List />} />
+              </Route>
             </Route>
+
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
