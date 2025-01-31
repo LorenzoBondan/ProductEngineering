@@ -16,6 +16,7 @@ import AluminiumPage from './routes/Operator/HomeBaseMaterials/MainComponents/Al
 import PackagingPage from './routes/Operator/HomeBaseMaterials/MainComponents/PackagingPage';
 import MachinePage from './routes/Operator/HomeBaseMaterials/MainComponents/MachinePage';
 import PublicPage from './routes/Operator/HomeBaseMaterials/MainComponents/PublicPage';
+import HomeItems from './routes/Operator/HomeItems';
 
 export default function App() {
 
@@ -45,6 +46,8 @@ export default function App() {
               <Route path="homebasematerials/packaging" element={<PackagingPage />} />
               <Route path="homebasematerials/machines" element={<MachinePage />} />
               <Route path="homebasematerials/public" element={<PublicPage />} />
+
+              <Route path="homeitems" element={<HomeItems />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
