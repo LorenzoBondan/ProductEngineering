@@ -20,6 +20,7 @@ import HomeItems from './routes/Operator/HomeItems';
 import HomeStruct from './routes/Operator/HomeStructs';
 import Sheets from './routes/CRUDs/MDP/Sheet';
 import List from './routes/CRUDs/MDP/Sheet/List';
+import Form from './routes/CRUDs/MDP/Sheet/Form';
 
 export default function App() {
 
@@ -56,6 +57,7 @@ export default function App() {
 
               <Route path="sheets" element={<Sheets />}>
                 <Route index element={<List />} />
+                <Route path=":sheetId" element={<Form />} />
               </Route>
             </Route>
 

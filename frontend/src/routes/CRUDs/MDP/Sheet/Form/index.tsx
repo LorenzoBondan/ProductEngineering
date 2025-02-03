@@ -1,11 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import './styles.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'flatpickr/dist/themes/material_red.css';
 import Flatpickr from "react-flatpickr";
 import FormInput from '../../../../../components/FormInput';
-import FormTextArea from '../../../../../components/FormTextArea';
 import FormSelect from '../../../../../components/FormSelect';
 import * as forms from '../../../../../utils/forms';
 import * as chapaService from '../../../../../services/chapaService';
@@ -104,7 +102,7 @@ export default function Form() {
     useEffect(() => {
         corService.pesquisarTodos("", "", "")
             .then(response => {
-                setCores(response.data);
+                setCores(response.data.content);
             });
     }, []);
 
@@ -119,7 +117,7 @@ export default function Form() {
                     newFormData.tipoMaterial.value = tipoMaterialOptions.find(option => option.value === tipoMaterialValue);
 
                     // dates
-                    setDateTimeStart(response.data.startDate ? new Date(response.data.startDate).toISOString().split('T')[0] : '');
+                    setDateTimeStart(response.data.implantacao ? new Date(response.data.implantacao).toISOString().split('T')[0] : '');
 
                     setFormData(newFormData);
                 });
@@ -146,20 +144,20 @@ export default function Form() {
         const requestBody = forms.toValues(formData);
 
         // date format
-        requestBody.startDate = dateTimeStart;
+        requestBody.implantacao = dateTimeStart;
 
         // enum format
         requestBody.tipoMaterial = formData.tipoMaterial.value.value;
 
         // nullable fields
-        ['distance', 'repetitions', 'duration'].forEach((field) => {
+        ['cor', 'implantacao'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
         });
 
         if (isEditing) {
-            requestBody.id = Number(params.sheetId);
+            requestBody.codigo = Number(params.sheetId);
         }
 
         const request = isEditing
@@ -195,10 +193,10 @@ export default function Form() {
     
     return(
         <main>
-            <section id="challenge-form-section" className="container">
-                <div className="challenge-form-container">
+            <section id="form-section" className="container">
+                <div className="form-container">
                     <form className="card form" onSubmit={handleSubmit}>
-                        <h2>Challenge data</h2>
+                        <h2>Chapa</h2>
                         <div className="form-controls-container">
                             <div>
                                 <label htmlFor="">Descrição</label>
@@ -211,7 +209,7 @@ export default function Form() {
                                 <div className="form-error">{formData.descricao.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="tipoMaterial">Activity Type</label>
+                                <label htmlFor="">Tipo de Material</label>
                                 <FormSelect
                                     {...formData.tipoMaterial}
                                     className="form-control form-select-container"
@@ -229,28 +227,36 @@ export default function Form() {
                                 />
                                 <div className="form-error">{formData.tipoMaterial.message}</div>
                             </div>
-                            
-
-
                             <div>
-                                <label htmlFor="">Duration</label>
-                                <FormInput
-                                    {...formData.duration}
-                                    className="form-control"
+                                <label htmlFor="">Cor</label>
+                                <FormSelect
+                                    {...formData.cor}
+                                    className="form-control form-select-container"
+                                    options={cores}
+                                    value={formData.cor.value}
+                                    onChange={(selectedOption: any) => {
+                                        const newFormData = forms.updateAndValidate(
+                                            formData,
+                                            "cor",
+                                            selectedOption
+                                        );
+                                        setFormData(newFormData);
+                                    }}
                                     onTurnDirty={handleTurnDirty}
-                                    onChange={handleInputChange}
+                                    getOptionLabel={(obj: any) => obj.descricao}
+                                    getOptionValue={(obj: any) => String(obj.id)}
                                 />
-                                <div className="form-error">{formData.duration.message}</div>
+                                <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Distance</label>
+                                <label htmlFor="">Valor</label>
                                 <FormInput
-                                    {...formData.distance}
+                                    {...formData.valor}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.distance.message}</div>
+                                <div className="form-error">{formData.valor.message}</div>
                             </div>
                             <div>
                                 <label htmlFor="">Porcentagem de Perda</label>
@@ -263,7 +269,7 @@ export default function Form() {
                                 <div className="form-error">{formData.porcentagemPerda.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Implantacao</label>
+                                <label htmlFor="">Implantação</label>
                                 <Flatpickr
                                     id="implantacao"
                                     name="implantacao"
@@ -276,13 +282,32 @@ export default function Form() {
                                     className="form-control"
                                 />
                           </div>
-                          
+                          <div>
+                                <label htmlFor="">Espessura</label>
+                                <FormInput
+                                    {...formData.espessura}
+                                    className="form-control"
+                                    onTurnDirty={handleTurnDirty}
+                                    onChange={handleInputChange}
+                                />
+                                <div className="form-error">{formData.espessura.message}</div>
+                            </div>
+                            <div>
+                                <label htmlFor="">Faces</label>
+                                <FormInput
+                                    {...formData.faces}
+                                    className="form-control"
+                                    onTurnDirty={handleTurnDirty}
+                                    onChange={handleInputChange}
+                                />
+                                <div className="form-error">{formData.faces.message}</div>
+                            </div>
                         </div>
-                        <div className="challenge-form-buttons">
+                        <div className="form-buttons">
                             <Link to="/sheets">
                                 <button type="reset" className="btn btn-white">Cancelar</button>
                             </Link>
-                            <button type="submit" className="btn btn-blue">Salvar</button>
+                            <button type="submit" className="btn btn-primary">Salvar</button>
                         </div>
                     </form>
                 </div>
