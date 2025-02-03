@@ -10,6 +10,16 @@ const PublicPage = () => {
                         <ItemCard title='Cores'/>
                     </Link>
                 </div>
+                <div className="base-container-item">
+                    <Link to="/models">
+                        <ItemCard title='Modelos'/>
+                    </Link>
+                </div>
+                <div className="base-container-item">
+                    <Link to="/componentcategories">
+                        <ItemCard title='Categorias de Componentes'/>
+                    </Link>
+                </div>
             </div>
         </div>
     );
