@@ -6,20 +6,16 @@ import Flatpickr from "react-flatpickr";
 import FormInput from '../../../../../components/FormInput';
 import FormSelect from '../../../../../components/FormSelect';
 import * as forms from '../../../../../utils/forms';
-import * as pinturaBordaFundoService from '../../../../../services/pinturaBordaFundoService';
-import * as corService from '../../../../../services/corService';
-import { DCor } from '../../../../../models/cor';
+import * as poliesterService from '../../../../../services/poliesterService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 
-export default function PaintingBorderBackgroundForm() {
+export default function PolyesterForm() {
 
     const params = useParams();
 
     const navigate = useNavigate();
 
-    const isEditing = params.paintingBorderBackgroundId !== 'create';
-
-    const [cores, setCores] = useState<DCor[]>([]);
+    const isEditing = params.polyesterId !== 'create';
 
     const [formData, setFormData] = useState<any>({
         descricao: {
@@ -69,24 +65,11 @@ export default function PaintingBorderBackgroundForm() {
             },
             message: "Valor não pode ser negativo"
         },
-        cor: {
-            value: null,
-            id: "cor",
-            name: "cor",
-            placeholder: "Cor"
-        },
     });
 
     useEffect(() => {
-        corService.pesquisarTodos("", "", "")
-            .then(response => {
-                setCores(response.data.content);
-            });
-    }, []);
-
-    useEffect(() => {
         if (isEditing) {
-            pinturaBordaFundoService.pesquisarPorId(Number(params.paintingBorderBackgroundId))
+            poliesterService.pesquisarPorId(Number(params.polyesterId))
                 .then(response => {
                     const newFormData = forms.updateAll(formData, response.data);
                     
@@ -128,23 +111,23 @@ export default function PaintingBorderBackgroundForm() {
         requestBody.tipoMaterial = formData.tipoMaterial.value.value;
 
         // nullable fields
-        ['cor', 'implantacao'].forEach((field) => {
+        ['implantacao'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
         });
 
         if (isEditing) {
-            requestBody.codigo = Number(params.paintingBorderBackgroundId);
+            requestBody.codigo = Number(params.polyesterId);
         }
 
         const request = isEditing
-            ? pinturaBordaFundoService.atualizar(requestBody)
-            : pinturaBordaFundoService.criar(requestBody);
+            ? poliesterService.atualizar(requestBody)
+            : poliesterService.criar(requestBody);
 
         request
             .then(() => {
-                navigate("/paintingborderbackgrounds");
+                navigate("/polyesters");
             })
             .catch(error => {
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
@@ -174,7 +157,7 @@ export default function PaintingBorderBackgroundForm() {
             <section id="form-section" className="container">
                 <div className="form-container">
                     <form className="card form" onSubmit={handleSubmit}>
-                        <h2>Pintura de Borda de Fundo</h2>
+                        <h2>Poliéster</h2>
                         <div className="form-controls-container">
                             <div>
                                 <label htmlFor="">Descrição</label>
@@ -204,27 +187,6 @@ export default function PaintingBorderBackgroundForm() {
                                     onTurnDirty={handleTurnDirty}
                                 />
                                 <div className="form-error">{formData.tipoMaterial.message}</div>
-                            </div>
-                            <div>
-                                <label htmlFor="">Cor</label>
-                                <FormSelect
-                                    {...formData.cor}
-                                    className="form-control form-select-container"
-                                    options={cores}
-                                    value={formData.cor.value}
-                                    onChange={(selectedOption: any) => {
-                                        const newFormData = forms.updateAndValidate(
-                                            formData,
-                                            "cor",
-                                            selectedOption
-                                        );
-                                        setFormData(newFormData);
-                                    }}
-                                    onTurnDirty={handleTurnDirty}
-                                    getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
-                                />
-                                <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
                                 <label htmlFor="">Valor (R$)</label>
@@ -262,7 +224,7 @@ export default function PaintingBorderBackgroundForm() {
                           </div>
                         </div>
                         <div className="form-buttons">
-                            <Link to="/paintingborderbackgrounds">
+                            <Link to="/polyesters">
                                 <button type="reset" className="btn btn-white">Cancelar</button>
                             </Link>
                             <button type="submit" className="btn btn-primary">Salvar</button>

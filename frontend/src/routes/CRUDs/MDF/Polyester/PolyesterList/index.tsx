@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import editIcon from '../../../../../assets/images/edit.svg';
 import deleteIcon from '../../../../../assets/images/delete.svg';
-import * as pinturaBordaFundoService from '../../../../../services/pinturaBordaFundoService';
+import * as poliesterService from '../../../../../services/poliesterService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
 import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
-import { DPinturaBordaFundo } from '../../../../../models/pinturaBordaFundo';
+import { DPoliester } from '../../../../../models/poliester';
 
 type QueryParams = {
     page: number;
     descricao: string;
 }
 
-export default function PaintingBorderBackgroundList() {
+export default function PolyesterList() {
 
     const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ export default function PaintingBorderBackgroundList() {
 
     const [isLastPage, setIsLastPage] = useState(false);
 
-    const [pinturaBordaFundos, setPinturaBordaFundos] = useState<DPinturaBordaFundo[]>([]);
+    const [poliesters, setPoliesters] = useState<DPoliester[]>([]);
 
     const [queryParams, setQueryParam] = useState<QueryParams>({
         page: 0,
@@ -40,20 +40,20 @@ export default function PaintingBorderBackgroundList() {
     });
 
     useEffect(() => {
-        pinturaBordaFundoService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
+        poliesterService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
             .then(response => {
                 const nextPage = response.data.content;
-                setPinturaBordaFundos(pinturaBordaFundos.concat(nextPage));
+                setPoliesters(poliesters.concat(nextPage));
                 setIsLastPage(response.data.last);
             });
     }, [queryParams]);
 
     function handleNewChallengeClick() {
-        navigate("/paintingborderbackgrounds/create");
+        navigate("/polyesters/create");
     }
 
     function handleSearch(searchText: string) {
-        setPinturaBordaFundos([]);
+        setPoliesters([]);
         setQueryParam({ ...queryParams, page: 0, descricao: searchText });
     }
 
@@ -65,19 +65,19 @@ export default function PaintingBorderBackgroundList() {
         setDialogInfoData({ ...dialogInfoData, visible: false });
     }
 
-    function handleUpdateClick(paintingBorderBackgroundId: number) {
-        navigate(`/paintingborderbackgrounds/${paintingBorderBackgroundId}`);
+    function handleUpdateClick(polyesterId: number) {
+        navigate(`/polyesters/${polyesterId}`);
     }
 
-    function handleDeleteClick(paintingBorderBackgroundId: number) {
-        setDialogConfirmationData({ ...dialogConfirmationData, id: paintingBorderBackgroundId, visible: true });
+    function handleDeleteClick(polyesterId: number) {
+        setDialogConfirmationData({ ...dialogConfirmationData, id: polyesterId, visible: true });
     }
 
-    function handleDialogConfirmationAnswer(answer: boolean, paintingBorderBackgroundId: number[]) {
+    function handleDialogConfirmationAnswer(answer: boolean, polyesterId: number[]) {
         if (answer) {
-            pinturaBordaFundoService.remover(paintingBorderBackgroundId)
+            poliesterService.remover(polyesterId)
                 .then(() => {
-                    setPinturaBordaFundos([]);
+                    setPoliesters([]);
                     setQueryParam({ ...queryParams, page: 0 });
                 })
                 .catch(error => {
@@ -94,7 +94,7 @@ export default function PaintingBorderBackgroundList() {
     return(
         <main>
             <section id="listing-section" className="container">
-                <h2 className="section-title mb20">Cadastro de Pintura de Borda de Fundo</h2>
+                <h2 className="section-title mb20">Cadastro de Poliesters</h2>
 
                 <div className="btn-page-container mb20">
                     <div onClick={handleNewChallengeClick}>
@@ -109,20 +109,18 @@ export default function PaintingBorderBackgroundList() {
                         <tr>
                             <th className="tb576">Código</th>
                             <th className="txt-left">Descrição</th>
-                            <th className="txt-left">Cor</th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            pinturaBordaFundos.map(pintura => (
-                                <tr key={pintura.codigo}>
-                                    <td className="tb576">{pintura.codigo}</td>
-                                    <td className="txt-left">{pintura.descricao}</td>
-                                    {pintura.cor && <td className="txt-left">{pintura.cor.descricao}</td>}
-                                    <td><img onClick={() => handleUpdateClick(pintura.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(pintura.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                            poliesters.map(poliester => (
+                                <tr key={poliester.codigo}>
+                                    <td className="tb576">{poliester.codigo}</td>
+                                    <td className="txt-left">{poliester.descricao}</td>
+                                    <td><img onClick={() => handleUpdateClick(poliester.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
+                                    <td><img onClick={() => handleDeleteClick(poliester.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                                 </tr>
                             ))
                         }
