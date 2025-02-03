@@ -30,6 +30,9 @@ import EdgeBandingForm from './routes/CRUDs/MDP/EdgeBanding/EdgeBandingForm';
 import Paintings from './routes/CRUDs/MDF/Painting';
 import PaintingList from './routes/CRUDs/MDF/Painting/PaintingList';
 import PaintingForm from './routes/CRUDs/MDF/Painting/PaintingForm';
+import PaintingBorderBackgroundForm from './routes/CRUDs/MDF/PaintingBorderBackground/PaintingBorderBackgroundForm';
+import PaintingBorderBackgrounds from './routes/CRUDs/MDF/PaintingBorderBackground';
+import PaintingBorderBackgroundList from './routes/CRUDs/MDF/PaintingBorderBackground/PaintingBorderBackgroundList';
 
 export default function App() {
 
@@ -82,6 +85,11 @@ export default function App() {
               <Route path="paintings" element={<Paintings />}>
                 <Route index element={<PaintingList />} />
                 <Route path=":paintingId" element={<PaintingForm />} />
+              </Route>
+
+              <Route path="paintingborderbackgrounds" element={<PaintingBorderBackgrounds />}>
+                <Route index element={<PaintingBorderBackgroundList />} />
+                <Route path=":paintingBorderBackgroundId" element={<PaintingBorderBackgroundForm />} />
               </Route>
 
             </Route>
