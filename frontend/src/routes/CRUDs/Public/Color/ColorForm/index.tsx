@@ -13,7 +13,7 @@ export default function ColorForm() {
 
     const navigate = useNavigate();
 
-    const isEditing = params.glueId !== 'create';
+    const isEditing = params.colorId !== 'create';
 
     const [formData, setFormData] = useState<any>({
         descricao: {
@@ -42,7 +42,7 @@ export default function ColorForm() {
 
     useEffect(() => {
         if (isEditing) {
-            corService.pesquisarPorId(Number(params.glueId))
+            corService.pesquisarPorId(Number(params.colorId))
                 .then(response => {
                     const newFormData = forms.updateAll(formData, response.data);
                     setFormData(newFormData);
@@ -77,7 +77,7 @@ export default function ColorForm() {
         });
 
         if (isEditing) {
-            requestBody.codigo = Number(params.glueId);
+            requestBody.codigo = Number(params.colorId);
         }
 
         const request = isEditing

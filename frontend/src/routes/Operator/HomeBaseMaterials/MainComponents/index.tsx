@@ -51,7 +51,7 @@ const MainComponents = () => {
                 <div className='col-sm-6 col-lg-6 col-xl-6 col-xxl-4 modules-column'>
                     <div className={`${location.pathname === "/homebasematerials/public" ? "active-card" : ""}`}>
                         <NavLink to="/homebasematerials/public">
-                            <ModuleCard title='Cores e Materiais' imgUrl={colorsImage}/>
+                            <ModuleCard title='Cores' imgUrl={colorsImage}/>
                         </NavLink>
                     </div>
                 </div>

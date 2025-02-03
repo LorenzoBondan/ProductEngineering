@@ -39,6 +39,9 @@ import PolyesterForm from './routes/CRUDs/MDF/Polyester/PolyesterForm';
 import Colors from './routes/CRUDs/Public/Color';
 import ColorList from './routes/CRUDs/Public/Color/ColorList';
 import ColorForm from './routes/CRUDs/Public/Color/ColorForm';
+import CornerBrackets from './routes/CRUDs/Packaging/CornerBracket';
+import CornerBracketList from './routes/CRUDs/Packaging/CornerBracket/CornerBracketList';
+import CornerBracketForm from './routes/CRUDs/Packaging/CornerBracket/CornerBracketForm';
 
 export default function App() {
 
@@ -101,6 +104,11 @@ export default function App() {
               <Route path="polyesters" element={<Polyesters />}>
                 <Route index element={<PolyesterList />} />
                 <Route path=":polyesterId" element={<PolyesterForm />} />
+              </Route>
+
+              <Route path="cornerbrackets" element={<CornerBrackets />}>
+                <Route index element={<CornerBracketList />} />
+                <Route path=":cornerBracketId" element={<CornerBracketForm />} />
               </Route>
 
               <Route path="colors" element={<Colors />}>
