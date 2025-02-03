@@ -31,6 +31,16 @@ export function pesquisarPorId(id: number) {
     });
 }
 
+export function pesquisarPorMedidas(altura: number, largura: number, espessura: number) {
+    return requestBackend({ 
+        url: `${route}/pesquisarpormedidas`,
+        withCredentials: true,
+        params: {
+            altura, largura, espessura
+        }
+    });
+}
+
 export function pesquisarHistorico(codigo: number) {
     const config : AxiosRequestConfig = {
         method: "GET",
