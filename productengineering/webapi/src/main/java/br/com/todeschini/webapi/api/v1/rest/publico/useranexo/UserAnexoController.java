@@ -1,13 +1,8 @@
 package br.com.todeschini.webapi.api.v1.rest.publico.useranexo;
 
 import br.com.todeschini.domain.PageableRequest;
-import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
-import br.com.todeschini.domain.business.publico.anexo.DAnexo;
-import br.com.todeschini.domain.business.publico.anexo.api.AnexoService;
-import br.com.todeschini.domain.business.publico.binario.DBinario;
-import br.com.todeschini.domain.business.publico.binario.api.BinarioService;
 import br.com.todeschini.domain.business.publico.user.api.UserService;
-import br.com.todeschini.domain.business.publico.useranexo.DUserAnexo;
+import br.com.todeschini.domain.business.publico.useranexo.DUserAnexoPersist;
 import br.com.todeschini.domain.business.publico.useranexo.api.UserAnexoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,16 +30,10 @@ public class UserAnexoController {
 
     private final UserAnexoService service;
     private final UserService userService;
-    private final AnexoService anexoService;
-    private final BinarioService binarioService;
-    private final AuthService authService;
 
-    public UserAnexoController(UserAnexoService service, UserService userService, AnexoService anexoService, BinarioService binarioService, AuthService authService) {
+    public UserAnexoController(UserAnexoService service, UserService userService) {
         this.service = service;
         this.userService = userService;
-        this.anexoService = anexoService;
-        this.binarioService = binarioService;
-        this.authService = authService;
     }
 
     /**
@@ -132,7 +121,6 @@ public class UserAnexoController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/historico")
     public ResponseEntity<?> pesquisarHistorico(@RequestParam("codigo") Integer codigo){
-        authService.validateSelfOrAdmin(Long.valueOf(codigo));
         return ResponseEntity.ok(service.buscarHistorico(codigo));
     }
 
@@ -155,13 +143,10 @@ public class UserAnexoController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> criar(
             @RequestParam("codigo") Integer codigo,
-            @RequestParam("file") MultipartFile file, // Recebe o arquivo
-            @RequestParam("nome") String nome,
-            @RequestParam("mimeType") String mimeType) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "mimeType", required = false) String mimeType) {
 
-        authService.validateSelfOrAdmin(Long.valueOf(codigo));
-
-        // Converter MultipartFile para byte[]
         byte[] bytes;
         try {
             bytes = file.getBytes();
@@ -169,17 +154,9 @@ public class UserAnexoController {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Erro ao processar o arquivo");
         }
 
-        // Criar as entidades com os dados do anexo
-        DBinario binario = binarioService.incluir(new DBinario(null, bytes, null));
-        DAnexo anexo = anexoService.incluir(
-                new DAnexo(
-                        null, binario, nome, mimeType, null
-                )
-        );
-
         return ResponseEntity.status(HttpStatus.CREATED).body(service.incluir(
-                new DUserAnexo(
-                        null, userService.buscar(codigo), anexo, null
+                new DUserAnexoPersist(
+                        null, bytes, nome, mimeType, userService.buscar(codigo)
                 ))
         );
     }
@@ -203,13 +180,10 @@ public class UserAnexoController {
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> atualizar(
             @RequestParam("codigo") Integer codigo,
-            @RequestParam(value = "file", required = false) MultipartFile file,
-            @RequestParam("nome") String nome,
-            @RequestParam("mimeType") String mimeType) {
+            @RequestParam(value = "file") MultipartFile file,
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "mimeType", required = false) String mimeType) {
 
-        authService.validateSelfOrAdmin(Long.valueOf(codigo));
-
-        // Atualizar o binário, se o arquivo for enviado
         byte[] bytes = null;
         if (file != null && !file.isEmpty()) {
             try {
@@ -219,23 +193,9 @@ public class UserAnexoController {
             }
         }
 
-        // Buscar o anexo existente
-        DUserAnexo userAnexo = service.buscar(codigo);
-
-        // Atualizar o binário, se o arquivo foi enviado
-        if (bytes != null) {
-            DBinario binario = userAnexo.getAnexo().getBinario();
-            binario.setBytes(bytes);
-            binarioService.atualizar(binario);
-        }
-
-        // Atualizar os outros dados do anexo
-        DAnexo anexo = userAnexo.getAnexo();
-        anexo.setNome(nome);
-        anexo.setMimeType(mimeType);
-        anexoService.atualizar(anexo);
-
-        return ResponseEntity.status(HttpStatus.OK).body(service.atualizar(userAnexo));
+        return ResponseEntity.status(HttpStatus.OK).body(service.atualizar(new DUserAnexoPersist(
+                codigo, bytes, nome, mimeType, userService.buscar(codigo)
+        )));
     }
 
     /**
@@ -256,7 +216,6 @@ public class UserAnexoController {
 
         codigos.forEach(codigo -> {
             try {
-                authService.validateSelfOrAdmin(Long.valueOf(codigo));
                 service.inativar(codigo);
                 alteradosComSucesso.add(codigo);
             } catch (Exception e) {
@@ -290,7 +249,6 @@ public class UserAnexoController {
 
         codigos.forEach(codigo -> {
             try {
-                authService.validateSelfOrAdmin(Long.valueOf(codigo));
                 service.excluir(codigo);
                 excluidosComSucesso.add(codigo);
             } catch (Exception e) {

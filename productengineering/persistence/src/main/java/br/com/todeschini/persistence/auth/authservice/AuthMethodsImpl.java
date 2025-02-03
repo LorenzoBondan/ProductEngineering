@@ -35,7 +35,7 @@ public class AuthMethodsImpl implements AuthMethods {
     }
 
     @Override
-    public void validateSelfOrAdmin(Long userId) {
+    public void validateSelfOrAdmin(Integer userId) {
         User me = adapter.toEntity(authenticated());
         if (me.hasRole("ROLE_ADMIN")) {
             return;

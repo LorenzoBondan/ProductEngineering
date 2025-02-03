@@ -2,6 +2,11 @@ package br.com.todeschini.domain.business.publico.useranexo;
 
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
+import br.com.todeschini.domain.business.publico.anexo.DAnexo;
+import br.com.todeschini.domain.business.publico.anexo.api.AnexoService;
+import br.com.todeschini.domain.business.publico.binario.DBinario;
+import br.com.todeschini.domain.business.publico.binario.api.BinarioService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.useranexo.api.UserAnexoService;
 import br.com.todeschini.domain.business.publico.useranexo.spi.CrudUserAnexo;
@@ -15,9 +20,15 @@ import java.util.Optional;
 public class UserAnexoServiceImpl implements UserAnexoService {
 
     private final CrudUserAnexo crudUserAnexo;
+    private final AuthService authService;
+    private final BinarioService binarioService;
+    private final AnexoService anexoService;
 
-    public UserAnexoServiceImpl(CrudUserAnexo crudUserAnexo) {
+    public UserAnexoServiceImpl(CrudUserAnexo crudUserAnexo, AuthService authService, BinarioService binarioService, AnexoService anexoService) {
         this.crudUserAnexo = crudUserAnexo;
+        this.authService = authService;
+        this.binarioService = binarioService;
+        this.anexoService = anexoService;
     }
 
     @Override
@@ -36,17 +47,45 @@ public class UserAnexoServiceImpl implements UserAnexoService {
     }
 
     @Override
-    public DUserAnexo incluir(DUserAnexo domain) {
-        validarRegistroDuplicado(domain);
+    public DUserAnexo incluir(DUserAnexoPersist domain) {
+        authService.validateSelfOrAdmin(domain.getUser().getId());
         domain.validate();
-        return crudUserAnexo.inserir(domain);
+
+        DBinario binario = binarioService.incluir(new DBinario(null, domain.getBytes(), null));
+        DAnexo anexo = anexoService.incluir(
+                new DAnexo(
+                        null, binario, domain.getName(), domain.getMimeType(), null
+                )
+        );
+        return crudUserAnexo.inserir(DUserAnexo.builder()
+                .anexo(anexo)
+                .user(domain.getUser())
+                .build());
     }
 
     @Override
-    public DUserAnexo atualizar(DUserAnexo domain) {
-        validarRegistroDuplicado(domain);
+    public DUserAnexo atualizar(DUserAnexoPersist domain) {
+        authService.validateSelfOrAdmin(domain.getUser().getId());
         domain.validate();
-        return crudUserAnexo.atualizar(domain);
+
+        DUserAnexo userAnexo = buscar(domain.getCodigo());
+
+        if (domain.getBytes() != null) {
+            DBinario binario = userAnexo.getAnexo().getBinario();
+            binario.setBytes(domain.getBytes());
+            binarioService.atualizar(binario);
+        }
+
+        DAnexo anexo = userAnexo.getAnexo();
+        anexo.setNome(domain.getName());
+        anexo.setMimeType(domain.getMimeType());
+        anexoService.atualizar(anexo);
+
+        return crudUserAnexo.atualizar(DUserAnexo.builder()
+                .codigo(domain.getCodigo())
+                .user(domain.getUser())
+                .anexo(anexo)
+                .build());
     }
 
     @Override

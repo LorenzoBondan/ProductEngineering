@@ -5,5 +5,5 @@ import br.com.todeschini.domain.business.publico.user.DUser;
 public interface AuthMethods {
 
     DUser authenticated();
-    void validateSelfOrAdmin(Long userId);
+    void validateSelfOrAdmin(Integer userId);
 }

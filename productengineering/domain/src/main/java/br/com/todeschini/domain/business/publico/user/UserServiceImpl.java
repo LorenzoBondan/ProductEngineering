@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DUser buscar(Integer id) {
-        authService.validateSelfOrAdmin(Long.valueOf(id));
+        authService.validateSelfOrAdmin(id);
         return crudUser.buscar(id);
     }
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     public DUser buscar(String email) {
         DUser user = crudUser.findByEmail(email).stream().findFirst().orElse(null);
         if(user != null) {
-            authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
+            authService.validateSelfOrAdmin(user.getId());
             return user;
         }
         return null;
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DUser atualizar(DUser domain) {
-        authService.validateSelfOrAdmin(Long.valueOf(domain.getId()));
+        authService.validateSelfOrAdmin(domain.getId());
         domain.validate();
         validarRegistroDuplicado(domain);
         return crudUser.atualizar(domain);
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(String newPassword, String oldPassword) {
         DUser user = authService.authenticated();
-        authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
+        authService.validateSelfOrAdmin(user.getId());
         crudUser.updatePassword(newPassword, oldPassword, user);
     }
 
@@ -84,14 +84,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void inativar(Integer id) {
         DUser user = authService.authenticated();
-        authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
+        authService.validateSelfOrAdmin(user.getId());
         crudUser.inativar(id);
     }
 
     @Override
     public void excluir(Integer id) {
         DUser user = authService.authenticated();
-        authService.validateSelfOrAdmin(Long.valueOf(user.getId()));
+        authService.validateSelfOrAdmin(user.getId());
         crudUser.remover(id);
     }
 

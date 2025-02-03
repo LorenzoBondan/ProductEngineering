@@ -2,5 +2,5 @@ package br.com.todeschini.domain.business.auth.authservice.api;
 
 public interface ValidateSelfOrAdmin {
 
-    void validateSelfOrAdmin(Long userId);
+    void validateSelfOrAdmin(Integer userId);
 }

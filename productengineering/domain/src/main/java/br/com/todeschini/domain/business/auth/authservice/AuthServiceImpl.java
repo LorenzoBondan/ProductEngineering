@@ -20,7 +20,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void validateSelfOrAdmin(Long userId) {
+    public void validateSelfOrAdmin(Integer userId) {
         authMethods.validateSelfOrAdmin(userId);
     }
 }
