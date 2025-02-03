@@ -19,8 +19,8 @@ import PublicPage from './routes/Operator/HomeBaseMaterials/MainComponents/Publi
 import HomeItems from './routes/Operator/HomeItems';
 import HomeStruct from './routes/Operator/HomeStructs';
 import Sheets from './routes/CRUDs/MDP/Sheet';
-import List from './routes/CRUDs/MDP/Sheet/List';
-import Form from './routes/CRUDs/MDP/Sheet/Form';
+import SheetForm from './routes/CRUDs/MDP/Sheet/SheetForm';
+import SheetList from './routes/CRUDs/MDP/Sheet/SheetList';
 
 export default function App() {
 
@@ -56,8 +56,8 @@ export default function App() {
               <Route path="homebasematerials/public" element={<PublicPage />} />
 
               <Route path="sheets" element={<Sheets />}>
-                <Route index element={<List />} />
-                <Route path=":sheetId" element={<Form />} />
+                <Route index element={<SheetList />} />
+                <Route path=":sheetId" element={<SheetForm />} />
               </Route>
             </Route>
 

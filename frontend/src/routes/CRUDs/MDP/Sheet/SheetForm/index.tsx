@@ -11,7 +11,7 @@ import * as corService from '../../../../../services/corService';
 import { DCor } from '../../../../../models/cor';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 
-export default function Form() {
+export default function SheetForm() {
 
     const params = useParams();
 

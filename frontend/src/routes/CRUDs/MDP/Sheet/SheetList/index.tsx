@@ -15,7 +15,7 @@ type QueryParams = {
     descricao: string;
 }
 
-export default function List() {
+export default function SheetList() {
 
     const navigate = useNavigate();
 
