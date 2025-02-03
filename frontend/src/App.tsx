@@ -57,6 +57,9 @@ import MoldingForm from './routes/CRUDs/Aluminium/Molding/MoldingForm';
 import Accessories from './routes/CRUDs/Aluminium/Accessory';
 import AccessoryList from './routes/CRUDs/Aluminium/Accessory/AccessoryList';
 import AccessoryForm from './routes/CRUDs/Aluminium/Accessory/AccessoryForm';
+import MachineGroups from './routes/CRUDs/Guides/MachineGroup';
+import MachineGroupList from './routes/CRUDs/Guides/MachineGroup/MachineGroupList';
+import MachineGroupForm from './routes/CRUDs/Guides/MachineGroup/MachineGroupForm';
 
 export default function App() {
 
@@ -154,6 +157,11 @@ export default function App() {
               <Route path="accessories" element={<Accessories />}>
                 <Route index element={<AccessoryList />} />
                 <Route path=":accessoryId" element={<AccessoryForm />} />
+              </Route>
+
+              <Route path="machinegroups" element={<MachineGroups />}>
+                <Route index element={<MachineGroupList />} />
+                <Route path=":machineGroupId" element={<MachineGroupForm />} />
               </Route>
 
             </Route>
