@@ -24,6 +24,9 @@ import SheetList from './routes/CRUDs/MDP/Sheet/SheetList';
 import Glues from './routes/CRUDs/MDP/Glue';
 import GlueList from './routes/CRUDs/MDP/Glue/GlueList';
 import GlueForm from './routes/CRUDs/MDP/Glue/GlueForm';
+import EdgeBandings from './routes/CRUDs/MDP/EdgeBanding';
+import EdgeBandingList from './routes/CRUDs/MDP/EdgeBanding/EdgeBandingList';
+import EdgeBandingForm from './routes/CRUDs/MDP/EdgeBanding/EdgeBandingForm';
 
 export default function App() {
 
@@ -63,13 +66,17 @@ export default function App() {
                 <Route path=":sheetId" element={<SheetForm />} />
               </Route>
 
+              <Route path="edgebandings" element={<EdgeBandings />}>
+                <Route index element={<EdgeBandingList />} />
+                <Route path=":edgeBandingId" element={<EdgeBandingForm />} />
+              </Route>
+
               <Route path="glues" element={<Glues />}>
                 <Route index element={<GlueList />} />
                 <Route path=":glueId" element={<GlueForm />} />
               </Route>
 
             </Route>
-
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

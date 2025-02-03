@@ -6,16 +6,20 @@ import Flatpickr from "react-flatpickr";
 import FormInput from '../../../../../components/FormInput';
 import FormSelect from '../../../../../components/FormSelect';
 import * as forms from '../../../../../utils/forms';
-import * as colaService from '../../../../../services/colaService';
+import * as fitaBordaService from '../../../../../services/fitaBordaService';
+import * as corService from '../../../../../services/corService';
+import { DCor } from '../../../../../models/cor';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 
-export default function GlueForm() {
+export default function EdgeBandingForm() {
 
     const params = useParams();
 
     const navigate = useNavigate();
 
-    const isEditing = params.glueId !== 'create';
+    const isEditing = params.edgeBandingId !== 'create';
+
+    const [cores, setCores] = useState<DCor[]>([]);
 
     const [formData, setFormData] = useState<any>({
         descricao: {
@@ -65,22 +69,46 @@ export default function GlueForm() {
             },
             message: "Valor não pode ser negativo"
         },
-        gramatura: {
+        cor: {
             value: null,
-            id: "gramatura",
-            name: "gramatura",
+            id: "cor",
+            name: "cor",
+            placeholder: "Cor"
+        },
+        espessura: {
+            value: null,
+            id: "espessura",
+            name: "espessura",
             type: "number",
-            placeholder: "Gramatura",
+            placeholder: "Espessura",
             validation: function (value: any) {
                 return value === "" || value === null || Number(value) >= 0;
             },
-            message: "Gramatura não pode ser negativa"
+            message: "Espessura não pode ser negativa"
         },    
+        altura: {
+            value: null,
+            id: "altura",
+            name: "altura",
+            type: "number",
+            placeholder: "Altura",
+            validation: function (value: any) {
+                return value === "" || value === null || Number(value) >= 0;
+            },
+            message: "Altura não pode ser negativa"
+        },
     });
 
     useEffect(() => {
+        corService.pesquisarTodos("", "", "")
+            .then(response => {
+                setCores(response.data.content);
+            });
+    }, []);
+
+    useEffect(() => {
         if (isEditing) {
-            colaService.pesquisarPorId(Number(params.glueId))
+            fitaBordaService.pesquisarPorId(Number(params.sheetId))
                 .then(response => {
                     const newFormData = forms.updateAll(formData, response.data);
                     
@@ -122,23 +150,23 @@ export default function GlueForm() {
         requestBody.tipoMaterial = formData.tipoMaterial.value.value;
 
         // nullable fields
-        ['implantacao'].forEach((field) => {
+        ['cor', 'implantacao'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
         });
 
         if (isEditing) {
-            requestBody.codigo = Number(params.glueId);
+            requestBody.codigo = Number(params.sheetId);
         }
 
         const request = isEditing
-            ? colaService.atualizar(requestBody)
-            : colaService.criar(requestBody);
+            ? fitaBordaService.atualizar(requestBody)
+            : fitaBordaService.criar(requestBody);
 
         request
             .then(() => {
-                navigate("/glues");
+                navigate("/edgebandings");
             })
             .catch(error => {
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
@@ -168,7 +196,7 @@ export default function GlueForm() {
             <section id="form-section" className="container">
                 <div className="form-container">
                     <form className="card form" onSubmit={handleSubmit}>
-                        <h2>Cola</h2>
+                        <h2>Fita Borda</h2>
                         <div className="form-controls-container">
                             <div>
                                 <label htmlFor="">Descrição</label>
@@ -198,6 +226,27 @@ export default function GlueForm() {
                                     onTurnDirty={handleTurnDirty}
                                 />
                                 <div className="form-error">{formData.tipoMaterial.message}</div>
+                            </div>
+                            <div>
+                                <label htmlFor="">Cor</label>
+                                <FormSelect
+                                    {...formData.cor}
+                                    className="form-control form-select-container"
+                                    options={cores}
+                                    value={formData.cor.value}
+                                    onChange={(selectedOption: any) => {
+                                        const newFormData = forms.updateAndValidate(
+                                            formData,
+                                            "cor",
+                                            selectedOption
+                                        );
+                                        setFormData(newFormData);
+                                    }}
+                                    onTurnDirty={handleTurnDirty}
+                                    getOptionLabel={(obj: any) => obj.descricao}
+                                    getOptionValue={(obj: any) => String(obj.id)}
+                                />
+                                <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
                                 <label htmlFor="">Valor</label>
@@ -234,18 +283,28 @@ export default function GlueForm() {
                                 />
                           </div>
                           <div>
-                                <label htmlFor="">Gramatura</label>
+                                <label htmlFor="">Espessura</label>
                                 <FormInput
-                                    {...formData.gramatura}
+                                    {...formData.espessura}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.gramatura.message}</div>
+                                <div className="form-error">{formData.espessura.message}</div>
+                            </div>
+                            <div>
+                                <label htmlFor="">Altura</label>
+                                <FormInput
+                                    {...formData.altura}
+                                    className="form-control"
+                                    onTurnDirty={handleTurnDirty}
+                                    onChange={handleInputChange}
+                                />
+                                <div className="form-error">{formData.altura.message}</div>
                             </div>
                         </div>
                         <div className="form-buttons">
-                            <Link to="/glues">
+                            <Link to="/edgebandings">
                                 <button type="reset" className="btn btn-white">Cancelar</button>
                             </Link>
                             <button type="submit" className="btn btn-primary">Salvar</button>
