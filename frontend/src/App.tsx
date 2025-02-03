@@ -48,6 +48,9 @@ import NonwovenFabricForm from './routes/CRUDs/Packaging/NonwovenFabric/Nonwoven
 import Plastics from './routes/CRUDs/Packaging/Plastic';
 import PlasticList from './routes/CRUDs/Packaging/Plastic/PlasticList';
 import PlasticForm from './routes/CRUDs/Packaging/Plastic/PlasticForm';
+import Polyethylenes from './routes/CRUDs/Packaging/Polyethylene';
+import PolyethyleneList from './routes/CRUDs/Packaging/Polyethylene/PolyethyleneList';
+import PolyethyleneForm from './routes/CRUDs/Packaging/Polyethylene/PolyethyleneForm';
 
 export default function App() {
 
@@ -125,6 +128,11 @@ export default function App() {
               <Route path="plastics" element={<Plastics />}>
                 <Route index element={<PlasticList />} />
                 <Route path=":plasticId" element={<PlasticForm />} />
+              </Route>
+
+              <Route path="polyethylenes" element={<Polyethylenes />}>
+                <Route index element={<PolyethyleneList />} />
+                <Route path=":polyethyleneId" element={<PolyethyleneForm />} />
               </Route>
 
               <Route path="colors" element={<Colors />}>
