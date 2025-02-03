@@ -27,6 +27,9 @@ import GlueForm from './routes/CRUDs/MDP/Glue/GlueForm';
 import EdgeBandings from './routes/CRUDs/MDP/EdgeBanding';
 import EdgeBandingList from './routes/CRUDs/MDP/EdgeBanding/EdgeBandingList';
 import EdgeBandingForm from './routes/CRUDs/MDP/EdgeBanding/EdgeBandingForm';
+import Paintings from './routes/CRUDs/MDF/Painting';
+import PaintingList from './routes/CRUDs/MDF/Painting/PaintingList';
+import PaintingForm from './routes/CRUDs/MDF/Painting/PaintingForm';
 
 export default function App() {
 
@@ -74,6 +77,11 @@ export default function App() {
               <Route path="glues" element={<Glues />}>
                 <Route index element={<GlueList />} />
                 <Route path=":glueId" element={<GlueForm />} />
+              </Route>
+
+              <Route path="paintings" element={<Paintings />}>
+                <Route index element={<PaintingList />} />
+                <Route path=":paintingsId" element={<PaintingForm />} />
               </Route>
 
             </Route>
