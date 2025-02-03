@@ -122,7 +122,7 @@ export default function SheetList() {
                                 <tr key={chapa.codigo}>
                                     <td className="tb576">{chapa.codigo}</td>
                                     <td className="txt-left">{chapa.descricao}</td>
-                                    <td className="txt-left">{chapa.cor.descricao}</td>
+                                    {chapa.cor && <td className="txt-left">{chapa.cor.descricao}</td>}
                                     <td className="txt-left">{chapa.espessura}</td>
                                     <td className="txt-left">{chapa.faces}</td>
                                     <td><img onClick={() => handleUpdateClick(chapa.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>

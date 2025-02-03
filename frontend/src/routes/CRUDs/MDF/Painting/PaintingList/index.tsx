@@ -122,7 +122,7 @@ export default function PaintingList() {
                                 <tr key={pintura.codigo}>
                                     <td className="tb576">{pintura.codigo}</td>
                                     <td className="txt-left">{pintura.descricao}</td>
-                                    <td className="txt-left">{pintura.cor.descricao}</td>
+                                    {pintura.cor && <td className="txt-left">{pintura.cor.descricao}</td>}
                                     <td className="txt-left">{getLabel(pintura.tipoPintura)}</td>
                                     <td><img onClick={() => handleUpdateClick(pintura.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
                                     <td><img onClick={() => handleDeleteClick(pintura.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
