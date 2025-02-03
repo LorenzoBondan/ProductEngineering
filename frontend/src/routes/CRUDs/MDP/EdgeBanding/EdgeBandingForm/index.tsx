@@ -10,6 +10,7 @@ import * as fitaBordaService from '../../../../../services/fitaBordaService';
 import * as corService from '../../../../../services/corService';
 import { DCor } from '../../../../../models/cor';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
+import FormLabel from '../../../../../components/FormLabel';
 
 export default function EdgeBandingForm() {
 
@@ -73,7 +74,9 @@ export default function EdgeBandingForm() {
             value: null,
             id: "cor",
             name: "cor",
-            placeholder: "Cor"
+            placeholder: "Cor",
+            validation: (value: any) => value !== null,
+            message: "Cor é obrigatória"
         },
         espessura: {
             value: null,
@@ -150,7 +153,7 @@ export default function EdgeBandingForm() {
         requestBody.tipoMaterial = formData.tipoMaterial.value.value;
 
         // nullable fields
-        ['cor', 'implantacao'].forEach((field) => {
+        ['implantacao'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
@@ -199,7 +202,7 @@ export default function EdgeBandingForm() {
                         <h2>Fita Borda</h2>
                         <div className="form-controls-container">
                             <div>
-                                <label htmlFor="">Descrição</label>
+                                <FormLabel text="Descrição" isRequired />
                                 <FormInput
                                     {...formData.descricao}
                                     className="form-control"
@@ -209,7 +212,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.descricao.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Tipo de Material</label>
+                                <FormLabel text="Tipo de Material" isRequired />
                                 <FormSelect
                                     {...formData.tipoMaterial}
                                     className="form-control form-select-container"
@@ -228,7 +231,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.tipoMaterial.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Cor</label>
+                                <FormLabel text="Cor" isRequired />
                                 <FormSelect
                                     {...formData.cor}
                                     className="form-control form-select-container"
@@ -249,7 +252,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Valor (R$)</label>
+                                <FormLabel text="Valor (R$)" isRequired />
                                 <FormInput
                                     {...formData.valor}
                                     className="form-control"
@@ -259,7 +262,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.valor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Porcentagem de Perda (%)</label>
+                                <FormLabel text="Porcentagem de Perda (%)" isRequired />
                                 <FormInput
                                     {...formData.porcentagemPerda}
                                     className="form-control"
@@ -269,7 +272,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.porcentagemPerda.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Implantação</label>
+                                <FormLabel text="Implantação" />
                                 <Flatpickr
                                     id="implantacao"
                                     name="implantacao"
@@ -283,7 +286,7 @@ export default function EdgeBandingForm() {
                                 />
                           </div>
                           <div>
-                                <label htmlFor="">Espessura (mm)</label>
+                                <FormLabel text="Espessura (mm)" isRequired />
                                 <FormInput
                                     {...formData.espessura}
                                     className="form-control"
@@ -293,7 +296,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.espessura.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Altura (mm)</label>
+                                <FormLabel text="Altura (mm)" isRequired />
                                 <FormInput
                                     {...formData.altura}
                                     className="form-control"

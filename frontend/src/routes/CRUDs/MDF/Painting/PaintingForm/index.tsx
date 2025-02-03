@@ -11,6 +11,7 @@ import * as corService from '../../../../../services/corService';
 import { DCor } from '../../../../../models/cor';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import { DTipoPinturaEnum } from '../../../../../models/enums/tipoPintura';
+import FormLabel from '../../../../../components/FormLabel';
 
 export default function PaintingForm() {
 
@@ -74,7 +75,9 @@ export default function PaintingForm() {
             value: null,
             id: "cor",
             name: "cor",
-            placeholder: "Cor"
+            placeholder: "Cor",
+            validation: (value: any) => value !== null,
+            message: "Cor é obrigatória",
         },
         tipoPintura: {
             value: null,
@@ -141,7 +144,7 @@ export default function PaintingForm() {
         requestBody.tipoPintura = formData.tipoPintura.value.value;
 
         // nullable fields
-        ['cor', 'implantacao'].forEach((field) => {
+        ['implantacao'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
@@ -195,7 +198,7 @@ export default function PaintingForm() {
                         <h2>Pintura</h2>
                         <div className="form-controls-container">
                             <div>
-                                <label htmlFor="">Descrição</label>
+                                <FormLabel text="Descrição" isRequired />
                                 <FormInput
                                     {...formData.descricao}
                                     className="form-control"
@@ -205,7 +208,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.descricao.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Tipo de Material</label>
+                                <FormLabel text="Tipo de Material" isRequired />
                                 <FormSelect
                                     {...formData.tipoMaterial}
                                     className="form-control form-select-container"
@@ -224,7 +227,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.tipoMaterial.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Cor</label>
+                                <FormLabel text="Cor" isRequired/>
                                 <FormSelect
                                     {...formData.cor}
                                     className="form-control form-select-container"
@@ -245,7 +248,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Valor (R$)</label>
+                                <FormLabel text="Valor (R$)" isRequired />
                                 <FormInput
                                     {...formData.valor}
                                     className="form-control"
@@ -255,7 +258,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.valor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Porcentagem de Perda (%)</label>
+                                <FormLabel text="Porcentagem de Perda (%)" isRequired />
                                 <FormInput
                                     {...formData.porcentagemPerda}
                                     className="form-control"
@@ -265,7 +268,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.porcentagemPerda.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Implantação</label>
+                                <FormLabel text="Implantação" />
                                 <Flatpickr
                                     id="implantacao"
                                     name="implantacao"
@@ -279,7 +282,7 @@ export default function PaintingForm() {
                                 />
                           </div>
                           <div>
-                            <label htmlFor="">Tipo de Pintura</label>
+                            <FormLabel text="Tipo de Pintura" isRequired />    
                                 <FormSelect
                                     {...formData.tipoPintura}
                                     className="form-control form-select-container"

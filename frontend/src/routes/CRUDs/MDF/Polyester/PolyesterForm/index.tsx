@@ -8,6 +8,7 @@ import FormSelect from '../../../../../components/FormSelect';
 import * as forms from '../../../../../utils/forms';
 import * as poliesterService from '../../../../../services/poliesterService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
+import FormLabel from '../../../../../components/FormLabel';
 
 export default function PolyesterForm() {
 
@@ -160,7 +161,7 @@ export default function PolyesterForm() {
                         <h2>Poliéster</h2>
                         <div className="form-controls-container">
                             <div>
-                                <label htmlFor="">Descrição</label>
+                                <FormLabel text="Descrição" isRequired />
                                 <FormInput
                                     {...formData.descricao}
                                     className="form-control"
@@ -170,7 +171,7 @@ export default function PolyesterForm() {
                                 <div className="form-error">{formData.descricao.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Tipo de Material</label>
+                                <FormLabel text="Tipo de Material" isRequired />
                                 <FormSelect
                                     {...formData.tipoMaterial}
                                     className="form-control form-select-container"
@@ -189,7 +190,7 @@ export default function PolyesterForm() {
                                 <div className="form-error">{formData.tipoMaterial.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Valor (R$)</label>
+                                <FormLabel text="Valor (R$)" isRequired />
                                 <FormInput
                                     {...formData.valor}
                                     className="form-control"
@@ -199,7 +200,7 @@ export default function PolyesterForm() {
                                 <div className="form-error">{formData.valor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Porcentagem de Perda (%)</label>
+                                <FormLabel text="Porcentagem de Perda (%)" isRequired />
                                 <FormInput
                                     {...formData.porcentagemPerda}
                                     className="form-control"
@@ -209,7 +210,7 @@ export default function PolyesterForm() {
                                 <div className="form-error">{formData.porcentagemPerda.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Implantação</label>
+                                <FormLabel text="Implantação" />
                                 <Flatpickr
                                     id="implantacao"
                                     name="implantacao"
