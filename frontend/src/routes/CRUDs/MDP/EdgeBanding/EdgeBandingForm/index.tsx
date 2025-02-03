@@ -249,7 +249,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Valor</label>
+                                <label htmlFor="">Valor (R$)</label>
                                 <FormInput
                                     {...formData.valor}
                                     className="form-control"
@@ -259,7 +259,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.valor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Porcentagem de Perda</label>
+                                <label htmlFor="">Porcentagem de Perda (%)</label>
                                 <FormInput
                                     {...formData.porcentagemPerda}
                                     className="form-control"
@@ -283,7 +283,7 @@ export default function EdgeBandingForm() {
                                 />
                           </div>
                           <div>
-                                <label htmlFor="">Espessura</label>
+                                <label htmlFor="">Espessura (mm)</label>
                                 <FormInput
                                     {...formData.espessura}
                                     className="form-control"
@@ -293,7 +293,7 @@ export default function EdgeBandingForm() {
                                 <div className="form-error">{formData.espessura.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Altura</label>
+                                <label htmlFor="">Altura (mm)</label>
                                 <FormInput
                                     {...formData.altura}
                                     className="form-control"

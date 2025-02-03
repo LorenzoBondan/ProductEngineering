@@ -81,7 +81,7 @@ export default function App() {
 
               <Route path="paintings" element={<Paintings />}>
                 <Route index element={<PaintingList />} />
-                <Route path=":paintingsId" element={<PaintingForm />} />
+                <Route path=":paintingId" element={<PaintingForm />} />
               </Route>
 
             </Route>

@@ -245,7 +245,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.cor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Valor</label>
+                                <label htmlFor="">Valor (R$)</label>
                                 <FormInput
                                     {...formData.valor}
                                     className="form-control"
@@ -255,7 +255,7 @@ export default function PaintingForm() {
                                 <div className="form-error">{formData.valor.message}</div>
                             </div>
                             <div>
-                                <label htmlFor="">Porcentagem de Perda</label>
+                                <label htmlFor="">Porcentagem de Perda (%)</label>
                                 <FormInput
                                     {...formData.porcentagemPerda}
                                     className="form-control"
