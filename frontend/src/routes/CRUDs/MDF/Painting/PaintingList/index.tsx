@@ -9,6 +9,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPintura } from '../../../../../models/pintura';
+import { getLabel } from '../../../../../models/enums/tipoPintura';
 
 type QueryParams = {
     page: number;
@@ -122,7 +123,7 @@ export default function PaintingList() {
                                     <td className="tb576">{pintura.codigo}</td>
                                     <td className="txt-left">{pintura.descricao}</td>
                                     <td className="txt-left">{pintura.cor.descricao}</td>
-                                    <td className="txt-left">{pintura.tipoPintura}</td>
+                                    <td className="txt-left">{getLabel(pintura.tipoPintura)}</td>
                                     <td><img onClick={() => handleUpdateClick(pintura.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
                                     <td><img onClick={() => handleDeleteClick(pintura.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                                 </tr>

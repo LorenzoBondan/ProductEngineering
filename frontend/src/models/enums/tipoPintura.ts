@@ -3,3 +3,7 @@ export const DTipoPinturaEnum = {
     ALTO_BRILHO: { name: "ALTO_BRILHO", value: 2, label: "Alto Brilho" },
     ACETINADA_VIDRO: { name: "ACETINADA_VIDRO", value: 3, label: "Acetinada Vidro" },
 } as const;
+
+export const getLabel = (name: string): string | undefined => {
+    return Object.values(DTipoPinturaEnum).find(item => item.name === name)?.label;
+};

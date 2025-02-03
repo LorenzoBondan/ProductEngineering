@@ -4,3 +4,7 @@ export const DTipoFilhoEnum = {
     ALUMINIO: { name: "ALUMINIO", value: 3, label: "Alumínio" },
     FUNDO: { name: "FUNDO", value: 4, label: "Fundo" },
 } as const;
+
+export const getLabel = (name: string): string | undefined => {
+    return Object.values(DTipoFilhoEnum).find(item => item.name === name)?.label;
+};

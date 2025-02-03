@@ -12,3 +12,7 @@ export const DTipoMaterialEnum = {
     POLIESTER: { name: "POLIESTER", value: 11, label: "Poliéster" },
     BAGUETE: { name: "BAGUETE", value: 12, label: "Baguete" },
 } as const;
+
+export const getLabel = (name: string): string | undefined => {
+    return Object.values(DTipoMaterialEnum).find(item => item.name === name)?.label;
+};
