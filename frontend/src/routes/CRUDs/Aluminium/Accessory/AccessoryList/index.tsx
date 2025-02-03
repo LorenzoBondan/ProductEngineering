@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import editIcon from '../../../../../assets/images/edit.svg';
 import deleteIcon from '../../../../../assets/images/delete.svg';
-import * as pinturaBordaFundoService from '../../../../../services/pinturaBordaFundoService';
+import * as acessorioService from '../../../../../services/acessorioService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
 import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
-import { DPinturaBordaFundo } from '../../../../../models/pinturaBordaFundo';
+import { DAcessorio } from '../../../../../models/acessorio';
 
 type QueryParams = {
     page: number;
     descricao: string;
 }
 
-export default function PaintingBorderBackgroundList() {
+export default function AccessoryList() {
 
     const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ export default function PaintingBorderBackgroundList() {
 
     const [isLastPage, setIsLastPage] = useState(false);
 
-    const [pinturaBordaFundos, setPinturaBordaFundos] = useState<DPinturaBordaFundo[]>([]);
+    const [acessorios, setAcessorios] = useState<DAcessorio[]>([]);
 
     const [queryParams, setQueryParam] = useState<QueryParams>({
         page: 0,
@@ -40,20 +40,20 @@ export default function PaintingBorderBackgroundList() {
     });
 
     useEffect(() => {
-        pinturaBordaFundoService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
+        acessorioService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
             .then(response => {
                 const nextPage = response.data.content;
-                setPinturaBordaFundos(pinturaBordaFundos.concat(nextPage));
+                setAcessorios(acessorios.concat(nextPage));
                 setIsLastPage(response.data.last);
             });
     }, [queryParams]);
 
     function handleNewChallengeClick() {
-        navigate("/paintingborderbackgrounds/create");
+        navigate("/accessories/create");
     }
 
     function handleSearch(searchText: string) {
-        setPinturaBordaFundos([]);
+        setAcessorios([]);
         setQueryParam({ ...queryParams, page: 0, descricao: searchText });
     }
 
@@ -65,19 +65,19 @@ export default function PaintingBorderBackgroundList() {
         setDialogInfoData({ ...dialogInfoData, visible: false });
     }
 
-    function handleUpdateClick(paintingBorderBackgroundId: number) {
-        navigate(`/paintingborderbackgrounds/${paintingBorderBackgroundId}`);
+    function handleUpdateClick(accessoryId: number) {
+        navigate(`/accessories/${accessoryId}`);
     }
 
-    function handleDeleteClick(paintingBorderBackgroundId: number) {
-        setDialogConfirmationData({ ...dialogConfirmationData, id: paintingBorderBackgroundId, visible: true });
+    function handleDeleteClick(accessoryId: number) {
+        setDialogConfirmationData({ ...dialogConfirmationData, id: accessoryId, visible: true });
     }
 
-    function handleDialogConfirmationAnswer(answer: boolean, paintingBorderBackgroundId: number[]) {
+    function handleDialogConfirmationAnswer(answer: boolean, accessoryId: number[]) {
         if (answer) {
-            pinturaBordaFundoService.remover(paintingBorderBackgroundId)
+            acessorioService.remover(accessoryId)
                 .then(() => {
-                    setPinturaBordaFundos([]);
+                    setAcessorios([]);
                     setQueryParam({ ...queryParams, page: 0 });
                 })
                 .catch(error => {
@@ -94,7 +94,7 @@ export default function PaintingBorderBackgroundList() {
     return(
         <main>
             <section id="listing-section" className="container">
-                <h2 className="section-title mb20">Cadastro de Pintura de Borda de Fundo</h2>
+                <h2 className="section-title mb20">Cadastro de Acessórios</h2>
 
                 <div className="btn-page-container mb20">
                     <div onClick={handleNewChallengeClick}>
@@ -110,19 +110,25 @@ export default function PaintingBorderBackgroundList() {
                             <th className="tb576">Código</th>
                             <th className="txt-left">Descrição</th>
                             <th className="txt-left">Cor</th>
+                            <th className="txt-left">Altura</th>
+                            <th className="txt-left">Largura</th>
+                            <th className="txt-left">Espessura</th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            pinturaBordaFundos.map(pintura => (
-                                <tr key={pintura.codigo}>
-                                    <td className="tb576">{pintura.codigo}</td>
-                                    <td className="txt-left">{pintura.descricao}</td>
-                                    {pintura.cor ? <td className="txt-left">{pintura.cor.descricao}</td> : <td className="txt-left"></td>}
-                                    <td><img onClick={() => handleUpdateClick(pintura.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(pintura.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                            acessorios.map(acessorio => (
+                                <tr key={acessorio.codigo}>
+                                    <td className="tb576">{acessorio.codigo}</td>
+                                    <td className="txt-left">{acessorio.descricao}</td>
+                                    {acessorio.cor ? <td className="txt-left">{acessorio.cor.descricao}</td> : <td className="txt-left"></td>}
+                                    {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.altura}</td> : <td className="txt-left"></td>}
+                                    {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.largura}</td> : <td className="txt-left"></td>}
+                                    {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.espessura}</td> : <td className="txt-left"></td>}
+                                    <td><img onClick={() => handleUpdateClick(acessorio.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
+                                    <td><img onClick={() => handleDeleteClick(acessorio.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                                 </tr>
                             ))
                         }

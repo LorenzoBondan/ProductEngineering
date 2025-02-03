@@ -122,7 +122,7 @@ export default function EdgeBandingList() {
                                 <tr key={fitaBorda.codigo}>
                                     <td className="tb576">{fitaBorda.codigo}</td>
                                     <td className="txt-left">{fitaBorda.descricao}</td>
-                                    {fitaBorda.cor && <td className="txt-left">{fitaBorda.cor.descricao}</td>}
+                                    {fitaBorda.cor ? <td className="txt-left">{fitaBorda.cor.descricao}</td> : <td className="txt-left"></td>}
                                     <td className="txt-left">{fitaBorda.espessura}</td>
                                     <td className="txt-left">{fitaBorda.altura}</td>
                                     <td><img onClick={() => handleUpdateClick(fitaBorda.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>

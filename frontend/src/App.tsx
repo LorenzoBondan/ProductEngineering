@@ -51,6 +51,9 @@ import PlasticForm from './routes/CRUDs/Packaging/Plastic/PlasticForm';
 import Polyethylenes from './routes/CRUDs/Packaging/Polyethylene';
 import PolyethyleneList from './routes/CRUDs/Packaging/Polyethylene/PolyethyleneList';
 import PolyethyleneForm from './routes/CRUDs/Packaging/Polyethylene/PolyethyleneForm';
+import Moldings from './routes/CRUDs/Aluminium/Molding';
+import MoldingList from './routes/CRUDs/Aluminium/Molding/MoldingList';
+import MoldingForm from './routes/CRUDs/Aluminium/Molding/MoldingForm';
 
 export default function App() {
 
@@ -138,6 +141,11 @@ export default function App() {
               <Route path="colors" element={<Colors />}>
                 <Route index element={<ColorList />} />
                 <Route path=":colorId" element={<ColorForm />} />
+              </Route>
+
+              <Route path="moldings" element={<Moldings />}>
+                <Route index element={<MoldingList />} />
+                <Route path=":moldingId" element={<MoldingForm />} />
               </Route>
 
             </Route>
