@@ -42,6 +42,9 @@ import ColorForm from './routes/CRUDs/Public/Color/ColorForm';
 import CornerBrackets from './routes/CRUDs/Packaging/CornerBracket';
 import CornerBracketList from './routes/CRUDs/Packaging/CornerBracket/CornerBracketList';
 import CornerBracketForm from './routes/CRUDs/Packaging/CornerBracket/CornerBracketForm';
+import NonwovenFabrics from './routes/CRUDs/Packaging/NonwovenFabric';
+import NonwovenFabricList from './routes/CRUDs/Packaging/NonwovenFabric/NonwovenFabricList';
+import NonwovenFabricForm from './routes/CRUDs/Packaging/NonwovenFabric/NonwovenFabricForm';
 
 export default function App() {
 
@@ -109,6 +112,11 @@ export default function App() {
               <Route path="cornerbrackets" element={<CornerBrackets />}>
                 <Route index element={<CornerBracketList />} />
                 <Route path=":cornerBracketId" element={<CornerBracketForm />} />
+              </Route>
+
+              <Route path="nonwovenfabrics" element={<NonwovenFabrics />}>
+                <Route index element={<NonwovenFabricList />} />
+                <Route path=":nonwovenFabricId" element={<NonwovenFabricForm />} />
               </Route>
 
               <Route path="colors" element={<Colors />}>
