@@ -36,6 +36,9 @@ import PaintingBorderBackgroundList from './routes/CRUDs/MDF/PaintingBorderBackg
 import Polyesters from './routes/CRUDs/MDF/Polyester';
 import PolyesterList from './routes/CRUDs/MDF/Polyester/PolyesterList';
 import PolyesterForm from './routes/CRUDs/MDF/Polyester/PolyesterForm';
+import Colors from './routes/CRUDs/Public/Color';
+import ColorList from './routes/CRUDs/Public/Color/ColorList';
+import ColorForm from './routes/CRUDs/Public/Color/ColorForm';
 
 export default function App() {
 
@@ -98,6 +101,11 @@ export default function App() {
               <Route path="polyesters" element={<Polyesters />}>
                 <Route index element={<PolyesterList />} />
                 <Route path=":polyesterId" element={<PolyesterForm />} />
+              </Route>
+
+              <Route path="colors" element={<Colors />}>
+                <Route index element={<ColorList />} />
+                <Route path=":colorId" element={<ColorForm />} />
               </Route>
 
             </Route>
