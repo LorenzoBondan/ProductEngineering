@@ -8,6 +8,7 @@ import br.com.todeschini.domain.business.publico.history.api.HistoryService;
 import br.com.todeschini.domain.business.publico.material.DMaterial;
 import br.com.todeschini.domain.business.publico.material.spi.CrudMaterial;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
+import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.persistence.entities.publico.Material;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
@@ -121,6 +122,9 @@ public class CrudMaterialImpl implements CrudMaterial {
     @Override
     public void inativar(Integer id) {
         Material entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
+        if (entity.getSituacao() == SituacaoEnum.LIXEIRA) {
+            throw new ValidationException("Não é possível ativar/inativar um registro excluído.");
+        }
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
         entity.setSituacao(situacao);
         repository.save(entity);

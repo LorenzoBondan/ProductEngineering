@@ -137,6 +137,9 @@ public class CrudUserImpl implements CrudUser {
     @Override
     public void inativar(Integer id) {
         User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
+        if (entity.getSituacao() == SituacaoEnum.LIXEIRA) {
+            throw new ValidationException("Não é possível ativar/inativar um registro excluído.");
+        }
         SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
         entity.setSituacao(situacao);
         repository.save(entity);
