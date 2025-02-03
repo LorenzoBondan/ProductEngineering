@@ -106,6 +106,28 @@ public class MedidasController {
         return ResponseEntity.ok(service.buscar(id));
     }
 
+    @Operation(summary = "Pesquisar uma Medidas por id", method = "GET", description = "Pesquisa um objeto por id, independente da sua situação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
+    @GetMapping(value = "/pesquisarpormedidas")
+    public ResponseEntity<?> pesquisarPorAlturaELarguraEEspessura(@RequestParam("altura") Integer altura,
+                                                                  @RequestParam("largura") Integer largura,
+                                                                  @RequestParam("espessura") Integer espessura){
+        return ResponseEntity.ok(
+                service.buscarPorAlturaELarguraEEspessura(altura, largura, espessura).iterator().hasNext()
+                        ?
+                        service.buscarPorAlturaELarguraEEspessura(altura, largura, espessura).iterator().next()
+                        :
+                        null
+        );
+    }
+
     /**
      * @param codigo representa o ID da Medidas a ser pesquisada
      */
