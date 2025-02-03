@@ -86,6 +86,16 @@ public class PaiServiceImpl implements PaiService {
     }
 
     @Override
+    public List<DPai> buscarPorModelo(Integer cdmodelo) {
+        return crudPai.buscarPorModelo(cdmodelo);
+    }
+
+    @Override
+    public List<DPai> buscarPorCategoriaComponente(Integer cdcategoriaComponente) {
+        return crudPai.buscarPorCategoriaComponente(cdcategoriaComponente);
+    }
+
+    @Override
     public DPai buscar(Integer id) {
         return crudPai.buscar(id);
     }

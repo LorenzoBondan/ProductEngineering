@@ -2,9 +2,13 @@ package br.com.todeschini.domain.business.publico.modelo;
 
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.publico.filho.DFilho;
+import br.com.todeschini.domain.business.publico.filho.api.FilhoService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.modelo.api.ModeloService;
 import br.com.todeschini.domain.business.publico.modelo.spi.CrudModelo;
+import br.com.todeschini.domain.business.publico.pai.DPai;
+import br.com.todeschini.domain.business.publico.pai.api.PaiService;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
 import br.com.todeschini.domain.metadata.DomainService;
 
@@ -15,9 +19,13 @@ import java.util.Optional;
 public class ModeloServiceImpl implements ModeloService {
 
     private final CrudModelo crudModelo;
+    private final PaiService paiService;
+    private final FilhoService filhoService;
 
-    public ModeloServiceImpl(CrudModelo crudModelo) {
+    public ModeloServiceImpl(CrudModelo crudModelo, PaiService paiService, FilhoService filhoService) {
         this.crudModelo = crudModelo;
+        this.paiService = paiService;
+        this.filhoService = filhoService;
     }
 
     @Override
@@ -46,7 +54,38 @@ public class ModeloServiceImpl implements ModeloService {
     public DModelo atualizar(DModelo domain) {
         validarRegistroDuplicado(domain);
         domain.validar();
-        return crudModelo.atualizar(domain);
+
+        String descricaoAntiga = buscar(domain.getCodigo()).getDescricao();
+        String descricaoNova = domain.getDescricao();
+
+        DModelo obj = crudModelo.atualizar(domain);
+
+        if(!descricaoAntiga.equals(descricaoNova)){
+            List<DPai> pais = paiService.buscarPorModelo(domain.getCodigo());
+
+            for(DPai pai : pais){
+                if(pai.getDescricao().contains(descricaoAntiga)){
+                    pai.setDescricao(pai.getDescricao().replace(descricaoAntiga, descricaoNova));
+                    paiService.atualizar(pai);
+                }
+
+                for(DFilho filho : pai.getFilhos()) {
+                    if(filho.getDescricao().contains(descricaoAntiga)){
+                        filho.setDescricao(filho.getDescricao().replace(descricaoAntiga, descricaoNova));
+                        filhoService.atualizar(filho);
+                    }
+
+                    for(DFilho filhoFilho : filho.getFilhos()) {
+                        if(filhoFilho.getDescricao().contains(descricaoAntiga)){
+                            filhoFilho.setDescricao(filhoFilho.getDescricao().replace(descricaoAntiga, descricaoNova));
+                            filhoService.atualizar(filhoFilho);
+                        }
+                    }
+                }
+            }
+        }
+
+        return obj;
     }
 
     @Override

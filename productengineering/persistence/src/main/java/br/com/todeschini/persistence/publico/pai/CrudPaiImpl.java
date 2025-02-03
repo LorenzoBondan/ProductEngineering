@@ -3,50 +3,22 @@ package br.com.todeschini.persistence.publico.pai;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
 import br.com.todeschini.domain.PagedBuilder;
-import br.com.todeschini.domain.business.enums.DSituacaoEnum;
-import br.com.todeschini.domain.business.enums.DTipoFilhoEnum;
-import br.com.todeschini.domain.business.publico.acessorio.api.AcessorioService;
-import br.com.todeschini.domain.business.publico.acessoriousado.DAcessorioUsado;
-import br.com.todeschini.domain.business.publico.acessoriousado.api.AcessorioUsadoService;
-import br.com.todeschini.domain.business.publico.categoriacomponente.api.CategoriaComponenteService;
-import br.com.todeschini.domain.business.publico.cor.DCor;
-import br.com.todeschini.domain.business.publico.cor.api.CorService;
-import br.com.todeschini.domain.business.publico.filho.DFilho;
-import br.com.todeschini.domain.business.publico.filho.api.FilhoService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.history.api.HistoryService;
-import br.com.todeschini.domain.business.publico.maquina.DMaquina;
-import br.com.todeschini.domain.business.publico.maquina.api.MaquinaService;
-import br.com.todeschini.domain.business.publico.material.DMaterial;
-import br.com.todeschini.domain.business.publico.material.api.MaterialService;
-import br.com.todeschini.domain.business.publico.materialusado.api.MaterialUsadoService;
-import br.com.todeschini.domain.business.publico.medidas.DMedidas;
-import br.com.todeschini.domain.business.publico.medidas.api.MedidasService;
-import br.com.todeschini.domain.business.publico.modelo.api.ModeloService;
 import br.com.todeschini.domain.business.publico.pai.DPai;
-import br.com.todeschini.domain.business.publico.pai.montadores.DAcessorioQuantidade;
-import br.com.todeschini.domain.business.publico.pai.montadores.DItemModulacao;
-import br.com.todeschini.domain.business.publico.pai.montadores.DMontadorEstruturaPai;
-import br.com.todeschini.domain.business.publico.pai.montadores.DMontadorEstruturaPaiModulacao;
 import br.com.todeschini.domain.business.publico.pai.spi.CrudPai;
-import br.com.todeschini.domain.business.publico.roteiro.DRoteiro;
-import br.com.todeschini.domain.business.publico.roteiro.api.RoteiroService;
-import br.com.todeschini.domain.business.publico.roteiromaquina.DRoteiroMaquina;
-import br.com.todeschini.domain.business.publico.roteiromaquina.api.RoteiroMaquinaService;
 import br.com.todeschini.domain.exceptions.ResourceNotFoundException;
 import br.com.todeschini.domain.exceptions.ValidationException;
 import br.com.todeschini.persistence.entities.enums.SituacaoEnum;
-import br.com.todeschini.persistence.entities.enums.TipoMaterialEnum;
 import br.com.todeschini.persistence.entities.publico.Pai;
 import br.com.todeschini.persistence.filters.SituacaoFilter;
-import br.com.todeschini.domain.business.processadores.MaterialProcessador;
-import br.com.todeschini.persistence.processadores.MaterialProcessadorFactoryImpl;
 import br.com.todeschini.persistence.util.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -95,6 +67,16 @@ public class CrudPaiImpl implements CrudPai {
     @Override
     public Collection<DPai> pesquisarPorDescricao(String descricao) {
         return queryRepository.findByDescricaoIgnoreCase(descricao).stream().map(adapter::toDomain).toList();
+    }
+
+    @Override
+    public List<DPai> buscarPorModelo(Integer cdmodelo) {
+        return queryRepository.findByModelo_Cdmodelo(cdmodelo).stream().map(adapter::toDomain).toList();
+    }
+
+    @Override
+    public List<DPai> buscarPorCategoriaComponente(Integer cdcategoriaComponente) {
+        return queryRepository.findByCategoriaComponente_CdcategoriaComponente(cdcategoriaComponente).stream().map(adapter::toDomain).toList();
     }
 
     @Override
