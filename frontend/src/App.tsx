@@ -21,6 +21,9 @@ import HomeStruct from './routes/Operator/HomeStructs';
 import Sheets from './routes/CRUDs/MDP/Sheet';
 import SheetForm from './routes/CRUDs/MDP/Sheet/SheetForm';
 import SheetList from './routes/CRUDs/MDP/Sheet/SheetList';
+import Glues from './routes/CRUDs/MDP/Glue';
+import GlueList from './routes/CRUDs/MDP/Glue/GlueList';
+import GlueForm from './routes/CRUDs/MDP/Glue/GlueForm';
 
 export default function App() {
 
@@ -59,6 +62,12 @@ export default function App() {
                 <Route index element={<SheetList />} />
                 <Route path=":sheetId" element={<SheetForm />} />
               </Route>
+
+              <Route path="glues" element={<Glues />}>
+                <Route index element={<GlueList />} />
+                <Route path=":glueId" element={<GlueForm />} />
+              </Route>
+
             </Route>
 
 
