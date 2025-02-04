@@ -66,6 +66,9 @@ import ModelForm from './routes/CRUDs/Public/Model/ModelForm';
 import ComponentCategories from './routes/CRUDs/Public/ComponentCategory';
 import ComponentCategoryList from './routes/CRUDs/Public/ComponentCategory/ComponentCategoryList';
 import ComponentCategoryForm from './routes/CRUDs/Public/ComponentCategory/ComponentCategoryForm';
+import Machines from './routes/CRUDs/Guides/Machines';
+import MachineList from './routes/CRUDs/Guides/Machines/MachineList';
+import MachineForm from './routes/CRUDs/Guides/Machines/MachineForm';
 
 export default function App() {
 
@@ -178,6 +181,11 @@ export default function App() {
               <Route path="machinegroups" element={<MachineGroups />}>
                 <Route index element={<MachineGroupList />} />
                 <Route path=":machineGroupId" element={<MachineGroupForm />} />
+              </Route>
+
+              <Route path="machines" element={<Machines />}>
+                <Route index element={<MachineList />} />
+                <Route path=":machineId" element={<MachineForm />} />
               </Route>
 
             </Route>
