@@ -83,6 +83,8 @@ import MeasureList from './routes/CRUDs/Public/Measures/MeasureList';
 import MeasureForm from './routes/CRUDs/Public/Measures/MeasureForm';
 import FatherDetails from './routes/Operator/Details/FatherDetails';
 import SonDetails from './routes/Operator/Details/SonDetails';
+import UsedMaterials from './routes/CRUDs/Used/UsedMaterial';
+import UsedMaterialForm from './routes/CRUDs/Used/UsedMaterial/UsedMaterialForm';
 
 export default function App() {
 
@@ -222,6 +224,11 @@ export default function App() {
               <Route path="guides" element={<Guides />}>
                 <Route index element={<GuideList />} />
                 <Route path=":guideId" element={<GuideForm />} />
+              </Route>
+
+              <Route path="usedMaterials" element={<UsedMaterials />}>
+                <Route index element={<UsedMaterialForm />} />
+                <Route path=":usedMaterialId" element={<UsedMaterialForm />} />
               </Route>
 
             </Route>

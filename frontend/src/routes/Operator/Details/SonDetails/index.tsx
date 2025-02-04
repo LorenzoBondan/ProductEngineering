@@ -90,7 +90,11 @@ export default function SonDetails() {
             </thead>
             <tbody>
               {filho?.materiaisUsados.map((materialUsado) => (
-                <tr>
+                <tr
+                    key={materialUsado.codigo}
+                    onClick={() => (window.location.href = `/usedMaterials/${materialUsado.codigo}`)}
+                    style={{ cursor: "pointer" }}
+                >
                   <td>{materialUsado.material.codigo}</td>
                   <td>{materialUsado.material.descricao}</td>
                   <td>{materialUsado.quantidadeLiquida} {materialUsado.unidadeMedida}</td>
