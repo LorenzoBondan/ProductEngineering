@@ -79,6 +79,10 @@ main {
   margin: 0 auto;
 }
 
+#details-section {
+  padding: 20px 0;
+}
+
 .mb20 {
   margin-bottom: 20px;
 }
@@ -308,6 +312,13 @@ nav a {
 
 .edit-btn, .delete-btn {
   height: 20px;
+  width: auto;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.visualize-btn {
+  height: 30px;
   width: auto;
   cursor: pointer;
   margin: 5px;

@@ -81,6 +81,7 @@ import GuideForm from './routes/CRUDs/Items/Guides/GuideForm';
 import Measures from './routes/CRUDs/Public/Measures';
 import MeasureList from './routes/CRUDs/Public/Measures/MeasureList';
 import MeasureForm from './routes/CRUDs/Public/Measures/MeasureForm';
+import FatherDetails from './routes/Operator/Details/FatherDetails';
 
 export default function App() {
 
@@ -208,6 +209,7 @@ export default function App() {
               <Route path="fathers" element={<Fathers />}>
                 <Route index element={<FatherList />} />
                 <Route path=":fatherId" element={<FatherForm />} />
+                <Route path="details/:fatherId" element={<FatherDetails />} />
               </Route>
 
               <Route path="sons" element={<Sons />}>
