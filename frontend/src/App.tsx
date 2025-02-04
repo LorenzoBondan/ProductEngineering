@@ -63,6 +63,9 @@ import MachineGroupForm from './routes/CRUDs/Guides/MachineGroup/MachineGroupFor
 import Models from './routes/CRUDs/Public/Model';
 import ModelList from './routes/CRUDs/Public/Model/ModelList';
 import ModelForm from './routes/CRUDs/Public/Model/ModelForm';
+import ComponentCategories from './routes/CRUDs/Public/ComponentCategory';
+import ComponentCategoryList from './routes/CRUDs/Public/ComponentCategory/ComponentCategoryList';
+import ComponentCategoryForm from './routes/CRUDs/Public/ComponentCategory/ComponentCategoryForm';
 
 export default function App() {
 
@@ -155,6 +158,11 @@ export default function App() {
               <Route path="models" element={<Models />}>
                 <Route index element={<ModelList />} />
                 <Route path=":modelId" element={<ModelForm />} />
+              </Route>
+
+              <Route path="componentcategories" element={<ComponentCategories />}>
+                <Route index element={<ComponentCategoryList />} />
+                <Route path=":componentCategoryId" element={<ComponentCategoryForm />} />
               </Route>
 
               <Route path="moldings" element={<Moldings />}>
