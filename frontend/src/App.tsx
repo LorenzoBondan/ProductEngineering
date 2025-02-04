@@ -72,6 +72,9 @@ import MachineForm from './routes/CRUDs/Guides/Machines/MachineForm';
 import Fathers from './routes/CRUDs/Items/Father';
 import FatherList from './routes/CRUDs/Items/Father/FatherList';
 import FatherForm from './routes/CRUDs/Items/Father/FatherForm';
+import Sons from './routes/CRUDs/Items/Son';
+import SonList from './routes/CRUDs/Items/Son/SonList';
+import SonForm from './routes/CRUDs/Items/Son/SonForm';
 
 export default function App() {
 
@@ -194,6 +197,11 @@ export default function App() {
               <Route path="fathers" element={<Fathers />}>
                 <Route index element={<FatherList />} />
                 <Route path=":fatherId" element={<FatherForm />} />
+              </Route>
+
+              <Route path="sons" element={<Sons />}>
+                <Route index element={<SonList />} />
+                <Route path=":sonId" element={<SonForm />} />
               </Route>
 
             </Route>
