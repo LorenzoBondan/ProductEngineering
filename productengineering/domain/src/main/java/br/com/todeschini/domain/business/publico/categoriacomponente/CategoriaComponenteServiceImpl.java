@@ -4,11 +4,7 @@ import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
 import br.com.todeschini.domain.business.publico.categoriacomponente.api.CategoriaComponenteService;
 import br.com.todeschini.domain.business.publico.categoriacomponente.spi.CrudCategoriaComponente;
-import br.com.todeschini.domain.business.publico.filho.DFilho;
-import br.com.todeschini.domain.business.publico.filho.api.FilhoService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
-import br.com.todeschini.domain.business.publico.pai.DPai;
-import br.com.todeschini.domain.business.publico.pai.api.PaiService;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
 import br.com.todeschini.domain.metadata.DomainService;
 
@@ -19,13 +15,9 @@ import java.util.Optional;
 public class CategoriaComponenteServiceImpl implements CategoriaComponenteService {
 
     private final CrudCategoriaComponente crudCategoriaComponente;
-    private final PaiService paiService;
-    private final FilhoService filhoService;
 
-    public CategoriaComponenteServiceImpl(CrudCategoriaComponente crudCategoriaComponente, PaiService paiService, FilhoService filhoService) {
+    public CategoriaComponenteServiceImpl(CrudCategoriaComponente crudCategoriaComponente) {
         this.crudCategoriaComponente = crudCategoriaComponente;
-        this.paiService = paiService;
-        this.filhoService = filhoService;
     }
 
     @Override
@@ -54,38 +46,7 @@ public class CategoriaComponenteServiceImpl implements CategoriaComponenteServic
     public DCategoriaComponente atualizar(DCategoriaComponente domain) {
         validarRegistroDuplicado(domain);
         domain.validar();
-
-        String descricaoAntiga = buscar(domain.getCodigo()).getDescricao();
-        String descricaoNova = domain.getDescricao();
-
-        DCategoriaComponente obj = crudCategoriaComponente.atualizar(domain);
-
-        if(!descricaoAntiga.equals(descricaoNova)){
-            List<DPai> pais = paiService.buscarPorModelo(domain.getCodigo());
-
-            for(DPai pai : pais){
-                if(pai.getDescricao().contains(descricaoAntiga)){
-                    pai.setDescricao(pai.getDescricao().replace(descricaoAntiga, descricaoNova));
-                    paiService.atualizar(pai);
-                }
-
-                for(DFilho filho : pai.getFilhos()) {
-                    if(filho.getDescricao().contains(descricaoAntiga)){
-                        filho.setDescricao(filho.getDescricao().replace(descricaoAntiga, descricaoNova));
-                        filhoService.atualizar(filho);
-                    }
-
-                    for(DFilho filhoFilho : filho.getFilhos()) {
-                        if(filhoFilho.getDescricao().contains(descricaoAntiga)){
-                            filhoFilho.setDescricao(filhoFilho.getDescricao().replace(descricaoAntiga, descricaoNova));
-                            filhoService.atualizar(filhoFilho);
-                        }
-                    }
-                }
-            }
-        }
-
-        return obj;
+        return crudCategoriaComponente.atualizar(domain);
     }
 
     @Override
