@@ -82,6 +82,7 @@ import Measures from './routes/CRUDs/Public/Measures';
 import MeasureList from './routes/CRUDs/Public/Measures/MeasureList';
 import MeasureForm from './routes/CRUDs/Public/Measures/MeasureForm';
 import FatherDetails from './routes/Operator/Details/FatherDetails';
+import SonDetails from './routes/Operator/Details/SonDetails';
 
 export default function App() {
 
@@ -215,6 +216,7 @@ export default function App() {
               <Route path="sons" element={<Sons />}>
                 <Route index element={<SonList />} />
                 <Route path=":sonId" element={<SonForm />} />
+                <Route path="details/:sonId" element={<SonDetails />} />
               </Route>
 
               <Route path="guides" element={<Guides />}>
