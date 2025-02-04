@@ -75,6 +75,9 @@ import FatherForm from './routes/CRUDs/Items/Father/FatherForm';
 import Sons from './routes/CRUDs/Items/Son';
 import SonList from './routes/CRUDs/Items/Son/SonList';
 import SonForm from './routes/CRUDs/Items/Son/SonForm';
+import Guides from './routes/CRUDs/Items/Guides';
+import GuideList from './routes/CRUDs/Items/Guides/GuideList';
+import GuideForm from './routes/CRUDs/Items/Guides/GuideForm';
 
 export default function App() {
 
@@ -202,6 +205,11 @@ export default function App() {
               <Route path="sons" element={<Sons />}>
                 <Route index element={<SonList />} />
                 <Route path=":sonId" element={<SonForm />} />
+              </Route>
+
+              <Route path="guides" element={<Guides />}>
+                <Route index element={<GuideList />} />
+                <Route path=":guideId" element={<GuideForm />} />
               </Route>
 
             </Route>
