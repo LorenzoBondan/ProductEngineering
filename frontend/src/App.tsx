@@ -69,6 +69,9 @@ import ComponentCategoryForm from './routes/CRUDs/Public/ComponentCategory/Compo
 import Machines from './routes/CRUDs/Guides/Machines';
 import MachineList from './routes/CRUDs/Guides/Machines/MachineList';
 import MachineForm from './routes/CRUDs/Guides/Machines/MachineForm';
+import Fathers from './routes/CRUDs/Items/Father';
+import FatherList from './routes/CRUDs/Items/Father/FatherList';
+import FatherForm from './routes/CRUDs/Items/Father/FatherForm';
 
 export default function App() {
 
@@ -186,6 +189,11 @@ export default function App() {
               <Route path="machines" element={<Machines />}>
                 <Route index element={<MachineList />} />
                 <Route path=":machineId" element={<MachineForm />} />
+              </Route>
+
+              <Route path="fathers" element={<Fathers />}>
+                <Route index element={<FatherList />} />
+                <Route path=":fatherId" element={<FatherForm />} />
               </Route>
 
             </Route>
