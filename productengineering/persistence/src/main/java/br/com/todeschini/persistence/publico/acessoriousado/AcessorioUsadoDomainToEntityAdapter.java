@@ -8,6 +8,8 @@ import br.com.todeschini.domain.metadata.EntityAdapter;
 import br.com.todeschini.persistence.entities.publico.AcessorioUsado;
 import br.com.todeschini.persistence.entities.publico.Filho;
 import br.com.todeschini.persistence.publico.acessorio.AcessorioDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.cor.CorDomainToEntityAdapter;
+import br.com.todeschini.persistence.publico.medidas.MedidasDomainToEntityAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,10 @@ public class AcessorioUsadoDomainToEntityAdapter implements Convertable<Acessori
 
     @Autowired
     private AcessorioDomainToEntityAdapter acessorioDomainToEntityAdapter;
+    @Autowired
+    private CorDomainToEntityAdapter corDomainToEntityAdapter;
+    @Autowired
+    private MedidasDomainToEntityAdapter medidasDomainToEntityAdapter;
 
     @Override
     public AcessorioUsado toEntity(DAcessorioUsado domain) {
@@ -44,7 +50,12 @@ public class AcessorioUsadoDomainToEntityAdapter implements Convertable<Acessori
                         .map(acessorioDomainToEntityAdapter::toDomain)
                         .orElse(null))
                 .filho(Optional.ofNullable(entity.getFilho())
-                        .map(filho -> new DFilho(filho.getCdfilho()))
+                        .map(filho -> new DFilho(
+                                filho.getCdfilho(),
+                                filho.getDescricao(),
+                                corDomainToEntityAdapter.toDomain(entity.getFilho().getCor()),
+                                medidasDomainToEntityAdapter.toDomain(entity.getFilho().getMedidas())
+                        )) // para não gerar stackoverflow
                         .orElse(null))
                 .quantidade(entity.getQuantidade())
                 .valor(entity.getValor())
