@@ -119,7 +119,11 @@ export default function SonDetails() {
             </thead>
             <tbody>
               {filho?.acessoriosUsados.map((acessorioUsado) => (
-                <tr>
+                <tr
+                    key={acessorioUsado.codigo}
+                    onClick={() => (window.location.href = `/usedAccessories/${acessorioUsado.codigo}`)}
+                    style={{ cursor: "pointer" }}
+                >
                   <td>{acessorioUsado.acessorio.codigo}</td>
                   <td>{acessorioUsado.acessorio.descricao}</td>
                   <td>{acessorioUsado.quantidade} {acessorioUsado.unidadeMedida}</td>

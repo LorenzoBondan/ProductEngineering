@@ -85,6 +85,8 @@ import FatherDetails from './routes/Operator/Details/FatherDetails';
 import SonDetails from './routes/Operator/Details/SonDetails';
 import UsedMaterials from './routes/CRUDs/Used/UsedMaterial';
 import UsedMaterialForm from './routes/CRUDs/Used/UsedMaterial/UsedMaterialForm';
+import UsedAccessories from './routes/CRUDs/Used/UsedAccessory';
+import UsedAccessoryForm from './routes/CRUDs/Used/UsedAccessory/UsedAccessoryForm';
 
 export default function App() {
 
@@ -229,6 +231,11 @@ export default function App() {
               <Route path="usedMaterials" element={<UsedMaterials />}>
                 <Route index element={<UsedMaterialForm />} />
                 <Route path=":usedMaterialId" element={<UsedMaterialForm />} />
+              </Route>
+
+              <Route path="usedAccessories" element={<UsedAccessories />}>
+                <Route index element={<UsedAccessoryForm />} />
+                <Route path=":usedAccessoryId" element={<UsedAccessoryForm />} />
               </Route>
 
             </Route>
