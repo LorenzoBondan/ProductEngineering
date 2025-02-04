@@ -1,4 +1,5 @@
 import { DSituacaoEnum } from "./enums/situacao";
+import { DRoteiroMaquina } from "./roteiroMaquina";
 
 export type DRoteiro = {
     codigo: number;
@@ -7,4 +8,6 @@ export type DRoteiro = {
     dataFinal: Date;
     valor: number;
     situacao: keyof typeof DSituacaoEnum;
+
+    roteiroMaquinas: DRoteiroMaquina[];
 };

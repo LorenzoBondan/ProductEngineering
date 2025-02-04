@@ -89,6 +89,7 @@ import UsedAccessories from './routes/CRUDs/Used/UsedAccessory';
 import UsedAccessoryForm from './routes/CRUDs/Used/UsedAccessory/UsedAccessoryForm';
 import GuideMachines from './routes/CRUDs/Guides/GuideMachine';
 import GuideMachineForm from './routes/CRUDs/Guides/GuideMachine/GuideMachineForm';
+import GuideDetails from './routes/Operator/Details/GuideDetails';
 
 export default function App() {
 
@@ -228,6 +229,7 @@ export default function App() {
               <Route path="guides" element={<Guides />}>
                 <Route index element={<GuideList />} />
                 <Route path=":guideId" element={<GuideForm />} />
+                <Route path="details/:guideId" element={<GuideDetails />} />
               </Route>
 
               <Route path="usedMaterials" element={<UsedMaterials />}>

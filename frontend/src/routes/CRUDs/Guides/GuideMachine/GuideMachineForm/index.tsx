@@ -28,17 +28,6 @@ export default function GuideMachineForm() {
     const [maquinas, setMaquinas] = useState<DMaquina[]>([]);
 
     const [formData, setFormData] = useState<any>({
-        valor: {
-            value: null,
-            id: "valor",
-            name: "valor",
-            type: "number",
-            placeholder: "Valor",
-            validation: function (value: any) {
-                return Number(value) >= 0;
-            },
-            message: "Valor não pode ser negativo"
-        },
         roteiro: {
             value: null,
             id: "roteiro",
@@ -123,7 +112,7 @@ export default function GuideMachineForm() {
         const requestBody = forms.toValues(formData);
 
         // nullable fields
-        ['valor', 'tempoHomem', 'tempoMaquina'].forEach((field) => {
+        ['tempoHomem', 'tempoMaquina'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
@@ -215,16 +204,6 @@ export default function GuideMachineForm() {
                                     onChange={handleInputChange}
                                 />
                                 <div className="form-error">{formData.tempoMaquina.message}</div>
-                            </div>
-                            <div>
-                                <FormLabel text="Valor (R$)" />
-                                <FormInput
-                                    {...formData.valor}
-                                    className="form-control"
-                                    onTurnDirty={handleTurnDirty}
-                                    onChange={handleInputChange}
-                                />
-                                <div className="form-error">{formData.valor.message}</div>
                             </div>
                         </div>
                         <div className="form-buttons">
