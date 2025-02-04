@@ -78,6 +78,9 @@ import SonForm from './routes/CRUDs/Items/Son/SonForm';
 import Guides from './routes/CRUDs/Items/Guides';
 import GuideList from './routes/CRUDs/Items/Guides/GuideList';
 import GuideForm from './routes/CRUDs/Items/Guides/GuideForm';
+import Measures from './routes/CRUDs/Public/Measures';
+import MeasureList from './routes/CRUDs/Public/Measures/MeasureList';
+import MeasureForm from './routes/CRUDs/Public/Measures/MeasureForm';
 
 export default function App() {
 
@@ -175,6 +178,11 @@ export default function App() {
               <Route path="componentcategories" element={<ComponentCategories />}>
                 <Route index element={<ComponentCategoryList />} />
                 <Route path=":componentCategoryId" element={<ComponentCategoryForm />} />
+              </Route>
+
+              <Route path="measures" element={<Measures />}>
+                <Route index element={<MeasureList />} />
+                <Route path=":measureId" element={<MeasureForm />} />
               </Route>
 
               <Route path="moldings" element={<Moldings />}>

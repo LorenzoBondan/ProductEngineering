@@ -81,7 +81,7 @@ export default function ModelForm() {
             <section id="form-section" className="container">
                 <div className="form-container">
                     <form className="card form" onSubmit={handleSubmit}>
-                        <h2>Cor</h2>
+                        <h2>Modelo</h2>
                         <div className="form-controls-container">
                             <div>
                                 <FormLabel text="Descrição" isRequired />

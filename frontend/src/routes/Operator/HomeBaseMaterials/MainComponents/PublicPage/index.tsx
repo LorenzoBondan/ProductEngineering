@@ -20,6 +20,11 @@ const PublicPage = () => {
                         <ItemCard title='Categorias de Componentes'/>
                     </Link>
                 </div>
+                <div className="base-container-item">
+                    <Link to="/measures">
+                        <ItemCard title='Medidas'/>
+                    </Link>
+                </div>
             </div>
         </div>
     );
