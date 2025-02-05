@@ -62,7 +62,7 @@ export default function SonDetails() {
               <strong>Espessura:</strong> {filho?.medidas ? filho?.medidas.espessura : "Não especificada"} mm
             </div>
             <div className="info-item">
-              <strong>Roteiro:</strong> {filho?.roteiro ? <p onClick={() => (window.location.href = `/guideMachines/${filho?.roteiro.codigo}`)}
+              <strong>Roteiro:</strong> {filho?.roteiro ? <p onClick={() => (window.location.href = `/guides/details/${filho?.roteiro.codigo}`)}
                   style={{ cursor: "pointer" }}>{filho?.roteiro.descricao}</p> : "Não especificado"}
             </div>
             <div className="info-item">

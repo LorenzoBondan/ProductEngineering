@@ -72,7 +72,7 @@ export default function Login() {
                 <div className="login-form-container">
                     <form className="card form" onSubmit={handleSubmit}>
                         <h2>Login</h2>
-                        <div className="form-controls-container">
+                        <div className="login-form-controls-container">
                             <div>
                                 <FormInput
                                     {...formData.username}

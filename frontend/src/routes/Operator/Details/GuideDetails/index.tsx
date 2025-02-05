@@ -53,7 +53,7 @@ export default function GuideDetails() {
               <strong>Data final:</strong> {roteiro?.dataFinal ? formatDate(roteiro?.dataFinal.toString()) : "Não especificado"}
             </div>
             <div className="info-item">
-              <strong>Valor:</strong> {roteiro?.valor || "Não especificado"} mm
+              <strong>Valor:</strong> {roteiro?.valor || "Não especificado"}
             </div>
           </div>
         </div>

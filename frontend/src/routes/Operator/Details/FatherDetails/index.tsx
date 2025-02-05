@@ -33,7 +33,7 @@ export default function FatherDetails() {
 
   return (
     <main className="father-details-main">
-      <section className="container">
+      <section className="container father-container">
         <div className="card father-card">
           <div className="father-header">
             <h1 className="father-title">
