@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import eyeIcon from '../../../../../assets/images/eye.svg';
 import editIcon from '../../../../../assets/images/edit.svg';
 import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as roteiroService from '../../../../../services/roteiroService';
@@ -10,6 +11,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DRoteiro } from '../../../../../models/roteiro';
 import { formatDate } from '../../../../../utils/formatters';
+import { Link } from 'react-router-dom';
 
 type QueryParams = {
     page: number;
@@ -114,6 +116,7 @@ export default function GuideList() {
                             <th className="txt-left">Data Final</th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,6 +127,7 @@ export default function GuideList() {
                                     <td className="txt-left">{roteiro.descricao}</td>
                                     <td className="txt-left">{formatDate(roteiro.implantacao.toString())}</td>
                                     <td className="txt-left">{formatDate(roteiro.dataFinal.toString())}</td>
+                                    <td><Link to={`/guides/details/${roteiro.codigo}`}><img className="visualize-btn" src={eyeIcon} alt="" /></Link></td>
                                     <td><img onClick={() => handleUpdateClick(roteiro.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
                                     <td><img onClick={() => handleDeleteClick(roteiro.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                                 </tr>
