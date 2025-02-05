@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import * as authService from '../../services/authService';
 import minilogo from '../../assets/images/todeschini-heart.png';
 import struct from '../../assets/images/struct.png';
@@ -25,8 +25,6 @@ export default function Navbar() {
     }
 
     const [isExpanded, setExpendState] = useState(false);
-
-    useEffect(() => console.log(contextTokenPayload && contextTokenPayload.username));
 
     return (
         <nav className={isExpanded ? 'admin-nav-container' : 'admin-nav-container-expanded'}>
