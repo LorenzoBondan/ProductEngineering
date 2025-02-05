@@ -90,6 +90,20 @@ export default function AccessoryList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        acessorioService.inativar(id)
+        .then(() => {
+            setAcessorios([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -129,7 +143,7 @@ export default function AccessoryList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(acessorio.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([acessorio.codigo])}
                                             onDelete={() => handleDeleteClick(acessorio.codigo)}
                                         />
                                     </td>

@@ -90,6 +90,20 @@ export default function PaintingBorderBackgroundList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        pinturaBordaFundoService.inativar(id)
+        .then(() => {
+            setPinturaBordaFundos([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -123,7 +137,7 @@ export default function PaintingBorderBackgroundList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(pintura.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([pintura.codigo])}
                                             onDelete={() => handleDeleteClick(pintura.codigo)}
                                         />
                                     </td>

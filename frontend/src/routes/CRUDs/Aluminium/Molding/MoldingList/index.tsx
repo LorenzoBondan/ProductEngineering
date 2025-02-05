@@ -90,6 +90,20 @@ export default function MoldingList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        bagueteService.inativar(id)
+        .then(() => {
+            setBaguetes([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -121,7 +135,7 @@ export default function MoldingList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(baguete.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([baguete.codigo])}
                                             onDelete={() => handleDeleteClick(baguete.codigo)}
                                         />
                                     </td>

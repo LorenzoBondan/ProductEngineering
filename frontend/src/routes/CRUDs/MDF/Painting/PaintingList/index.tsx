@@ -91,6 +91,20 @@ export default function PaintingList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        pinturaService.inativar(id)
+        .then(() => {
+            setPinturas([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -126,7 +140,7 @@ export default function PaintingList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(pintura.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([pintura.codigo])}
                                             onDelete={() => handleDeleteClick(pintura.codigo)}
                                         />
                                     </td>

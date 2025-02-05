@@ -90,6 +90,20 @@ export default function ModelList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        modeloService.inativar(id)
+        .then(() => {
+            setModelos([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -121,7 +135,7 @@ export default function ModelList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(modelo.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([modelo.codigo])}
                                             onDelete={() => handleDeleteClick(modelo.codigo)}
                                         />
                                     </td>

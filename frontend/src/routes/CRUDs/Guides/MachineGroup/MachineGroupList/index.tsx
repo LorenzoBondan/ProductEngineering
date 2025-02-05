@@ -90,6 +90,20 @@ export default function MachineGroupList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        grupoMaquinaService.inativar(id)
+        .then(() => {
+            setGruposMaquinas([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -122,7 +136,7 @@ export default function MachineGroupList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(grupoMaquina.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([grupoMaquina.codigo])}
                                             onDelete={() => handleDeleteClick(grupoMaquina.codigo)}
                                         />
                                     </td>

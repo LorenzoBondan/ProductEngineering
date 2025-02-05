@@ -90,6 +90,20 @@ export default function CornerBracketList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        cantoneiraService.inativar(id)
+        .then(() => {
+            setCantoneiras([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -122,7 +136,7 @@ export default function CornerBracketList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(cantoneira.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([cantoneira.codigo])}
                                             onDelete={() => handleDeleteClick(cantoneira.codigo)}
                                         />
                                     </td>

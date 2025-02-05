@@ -90,6 +90,20 @@ export default function PlasticList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        plasticoService.inativar(id)
+        .then(() => {
+            setPlasticos([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -123,7 +137,7 @@ export default function PlasticList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(plastico.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([plastico.codigo])}
                                             onDelete={() => handleDeleteClick(plastico.codigo)}
                                         />
                                     </td>

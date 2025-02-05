@@ -90,6 +90,20 @@ export default function MeasureList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        medidasService.inativar(id)
+        .then(() => {
+            setMedidas([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -125,7 +139,7 @@ export default function MeasureList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(medida.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([medida.codigo])}
                                             onDelete={() => handleDeleteClick(medida.codigo)}
                                         />
                                     </td>

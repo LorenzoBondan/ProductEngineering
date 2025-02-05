@@ -90,6 +90,20 @@ export default function MachineList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        maquinaService.inativar(id)
+        .then(() => {
+            setMaquinas([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -124,7 +138,7 @@ export default function MachineList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(maquina.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([maquina.codigo])}
                                             onDelete={() => handleDeleteClick(maquina.codigo)}
                                         />
                                     </td>

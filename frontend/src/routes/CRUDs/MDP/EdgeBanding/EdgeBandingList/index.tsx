@@ -90,6 +90,20 @@ export default function EdgeBandingList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        fitaBordaService.inativar(id)
+        .then(() => {
+            setFitasBorda([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -127,7 +141,7 @@ export default function EdgeBandingList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(fitaBorda.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([fitaBorda.codigo])}
                                             onDelete={() => handleDeleteClick(fitaBorda.codigo)}
                                         />
                                     </td>

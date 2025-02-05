@@ -78,6 +78,17 @@ export default function FatherDetails() {
     setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
   }
 
+  function handleInactivate(id: number[]) {
+    filhoService.inativar(id)
+    .then(() => findFatherById())
+    .catch(error => {
+      setDialogInfoData({
+        visible: true,
+        message: error.response.data.error
+      });
+    });
+  }
+
   return (
     <main className="father-details-main">
       <section className="container father-container">
@@ -141,7 +152,7 @@ export default function FatherDetails() {
                   <td>
                     <DropdownMenu
                       onEdit={() => handleUpdateClick(filho.codigo)}
-                      onInactivate={() => console.log()}
+                      onInactivate={() => handleInactivate([filho.codigo])}
                       onDelete={() => handleDeleteClick(filho.codigo)}
                     />
                   </td>

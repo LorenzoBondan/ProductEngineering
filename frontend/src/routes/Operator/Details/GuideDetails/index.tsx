@@ -75,6 +75,17 @@ export default function GuideDetails() {
     setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
   }
 
+  function handleInactivate(id: number[]) {
+    roteiroMaquinaService.inativar(id)
+    .then(() => findGuideById())
+    .catch(error => {
+      setDialogInfoData({
+        visible: true,
+        message: error.response.data.error
+      });
+    });
+  }
+
   return (
     <main className="father-details-main">
       <section className="container">
@@ -123,7 +134,7 @@ export default function GuideDetails() {
                   <td>
                     <DropdownMenu
                       onEdit={() => handleUpdateClick(roteiroMaquina.codigo)}
-                      onInactivate={() => console.log()}
+                      onInactivate={() => handleInactivate([roteiroMaquina.codigo])}
                       onDelete={() => handleDeleteClick(roteiroMaquina.codigo)}
                     />
                   </td>

@@ -6,8 +6,8 @@ import SearchBar from '../../../../../components/SearchBar';
 import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
-import { DModelo } from '../../../../../models/modelo';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { DCategoriaComponente } from '../../../../../models/categoriaComponente';
 
 type QueryParams = {
     page: number;
@@ -31,7 +31,7 @@ export default function ComponentCategoryList() {
 
     const [isLastPage, setIsLastPage] = useState(false);
 
-    const [modelos, setModelos] = useState<DModelo[]>([]);
+    const [categoriaComponentes, setCategoriaComponentes] = useState<DCategoriaComponente[]>([]);
 
     const [queryParams, setQueryParam] = useState<QueryParams>({
         page: 0,
@@ -42,7 +42,7 @@ export default function ComponentCategoryList() {
         categoriaComponenteService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
             .then(response => {
                 const nextPage = response.data.content;
-                setModelos(modelos.concat(nextPage));
+                setCategoriaComponentes(categoriaComponentes.concat(nextPage));
                 setIsLastPage(response.data.last);
             });
     }, [queryParams]);
@@ -52,7 +52,7 @@ export default function ComponentCategoryList() {
     }
 
     function handleSearch(searchText: string) {
-        setModelos([]);
+        setCategoriaComponentes([]);
         setQueryParam({ ...queryParams, page: 0, descricao: searchText });
     }
 
@@ -76,7 +76,7 @@ export default function ComponentCategoryList() {
         if (answer) {
             categoriaComponenteService.remover(componentCategoryId)
                 .then(() => {
-                    setModelos([]);
+                    setCategoriaComponentes([]);
                     setQueryParam({ ...queryParams, page: 0 });
                 })
                 .catch(error => {
@@ -88,6 +88,20 @@ export default function ComponentCategoryList() {
         }
 
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
+    }
+
+    function handleInactivate(id: number[]) {
+        categoriaComponenteService.inativar(id)
+        .then(() => {
+            setCategoriaComponentes([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
     }
 
     return(
@@ -113,16 +127,16 @@ export default function ComponentCategoryList() {
                     </thead>
                     <tbody>
                         {
-                            modelos.filter(obj => obj.situacao !== 'LIXEIRA')
-                            .map(modelo => (
-                                <tr key={modelo.codigo} className={`situacao-${modelo.situacao.toLowerCase()}`}>
-                                    <td className="tb576">{modelo.codigo}</td>
-                                    <td className="txt-left">{modelo.descricao}</td>
+                            categoriaComponentes.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(categoriaComponente => (
+                                <tr key={categoriaComponente.codigo} className={`situacao-${categoriaComponente.situacao.toLowerCase()}`}>
+                                    <td className="tb576">{categoriaComponente.codigo}</td>
+                                    <td className="txt-left">{categoriaComponente.descricao}</td>
                                     <td>
                                         <DropdownMenu
-                                            onEdit={() => handleUpdateClick(modelo.codigo)}
-                                            onInactivate={() => console.log()}
-                                            onDelete={() => handleDeleteClick(modelo.codigo)}
+                                            onEdit={() => handleUpdateClick(categoriaComponente.codigo)}
+                                            onInactivate={() => handleInactivate([categoriaComponente.codigo])}
+                                            onDelete={() => handleDeleteClick(categoriaComponente.codigo)}
                                         />
                                     </td>
                                 </tr>

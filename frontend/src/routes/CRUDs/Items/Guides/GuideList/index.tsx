@@ -93,6 +93,20 @@ export default function GuideList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        roteiroService.inativar(id)
+        .then(() => {
+            setRoteiros([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -130,7 +144,7 @@ export default function GuideList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(roteiro.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([roteiro.codigo])}
                                             onDelete={() => handleDeleteClick(roteiro.codigo)}
                                         />
                                     </td>

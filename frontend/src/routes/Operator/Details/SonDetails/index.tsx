@@ -50,6 +50,39 @@ export default function SonDetails() {
     type: ""
   });
 
+  function handleAccessoryInactivate(id: number[]) {
+    acessorioUsadoService.inativar(id)
+    .then(() => findSonById())
+    .catch(error => {
+      setDialogInfoData({
+        visible: true,
+        message: error.response.data.error
+      });
+    });
+  }
+
+  function handleMaterialInactivate(id: number[]) {
+    materialUsadoService.inativar(id)
+    .then(() => findSonById())
+    .catch(error => {
+      setDialogInfoData({
+        visible: true,
+        message: error.response.data.error
+      });
+    });
+  }
+
+  function handleSonInactivate(id: number[]) {
+    filhoService.inativar(id)
+    .then(() => findSonById())
+    .catch(error => {
+      setDialogInfoData({
+        visible: true,
+        message: error.response.data.error
+      });
+    });
+  }
+
   function handleDialogInfoClose() {
     setDialogInfoData({ ...dialogInfoData, visible: false });
   }
@@ -191,7 +224,7 @@ export default function SonDetails() {
                   <td>
                     <DropdownMenu
                       onEdit={() => handleMaterialUpdateClick(materialUsado.codigo)}
-                      onInactivate={() => console.log()}
+                      onInactivate={() => handleMaterialInactivate([materialUsado.codigo])}
                       onDelete={() => handleMaterialDeleteClick(materialUsado.codigo)}
                     />
                   </td>
@@ -224,7 +257,7 @@ export default function SonDetails() {
                   <td>
                     <DropdownMenu
                       onEdit={() => handleAccessoryUpdateClick(acessorioUsado.codigo)}
-                      onInactivate={() => console.log()}
+                      onInactivate={() => handleAccessoryInactivate([acessorioUsado.codigo])}
                       onDelete={() => handleAccessoryDeleteClick(acessorioUsado.codigo)}
                     />
                   </td>
@@ -261,7 +294,7 @@ export default function SonDetails() {
                   <td>
                     <DropdownMenu
                       onEdit={() => handleSonUpdateClick(filho.codigo)}
-                      onInactivate={() => console.log()}
+                      onInactivate={() => handleSonInactivate([filho.codigo])}
                       onDelete={() => handleSonDeleteClick(filho.codigo)}
                     />
                   </td>

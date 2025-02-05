@@ -90,6 +90,20 @@ export default function GlueList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        colaService.inativar(id)
+        .then(() => {
+            setColas([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -123,7 +137,7 @@ export default function GlueList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(cola.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([cola.codigo])}
                                             onDelete={() => handleDeleteClick(cola.codigo)}
                                         />
                                     </td>

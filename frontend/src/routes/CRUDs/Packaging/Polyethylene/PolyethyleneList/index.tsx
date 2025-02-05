@@ -90,6 +90,20 @@ export default function PolyethyleneList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        polietilenoService.inativar(id)
+        .then(() => {
+            setPolietilenos([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -121,7 +135,7 @@ export default function PolyethyleneList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(polietileno.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([polietileno.codigo])}
                                             onDelete={() => handleDeleteClick(polietileno.codigo)}
                                         />
                                     </td>

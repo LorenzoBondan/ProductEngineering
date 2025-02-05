@@ -90,6 +90,20 @@ export default function ColorList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        corService.inativar(id)
+        .then(() => {
+            setCores([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -137,7 +151,7 @@ export default function ColorList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(cor.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([cor.codigo])}
                                             onDelete={() => handleDeleteClick(cor.codigo)}
                                         />
                                     </td>

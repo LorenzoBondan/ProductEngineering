@@ -92,6 +92,20 @@ export default function SonList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        filhoService.inativar(id)
+        .then(() => {
+            setFilhos([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -132,7 +146,7 @@ export default function SonList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(filho.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([filho.codigo])}
                                             onDelete={() => handleDeleteClick(filho.codigo)}
                                         />
                                     </td>

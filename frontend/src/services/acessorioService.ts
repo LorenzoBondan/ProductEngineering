@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/requests";
 import { DAcessorio } from "../models/acessorio";
+import qs from "qs";
 
 const route = "/api/acessorio";
 
@@ -109,7 +110,8 @@ export function inativar(codigo: number[]) {
         withCredentials: true,
         params: {
             codigo
-        }
+        },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" })
     }
 
     return requestBackend(config);

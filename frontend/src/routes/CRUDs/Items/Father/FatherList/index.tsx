@@ -92,6 +92,20 @@ export default function FatherList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        paiService.inativar(id)
+        .then(() => {
+            setPais([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -129,7 +143,7 @@ export default function FatherList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(pai.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([pai.codigo])}
                                             onDelete={() => handleDeleteClick(pai.codigo)}
                                         />
                                     </td>

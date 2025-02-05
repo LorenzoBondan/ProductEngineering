@@ -90,6 +90,20 @@ export default function NonwovenFabricList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        tntService.inativar(id)
+        .then(() => {
+            setTnts([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -122,7 +136,7 @@ export default function NonwovenFabricList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(tnt.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([tnt.codigo])}
                                             onDelete={() => handleDeleteClick(tnt.codigo)}
                                         />
                                     </td>

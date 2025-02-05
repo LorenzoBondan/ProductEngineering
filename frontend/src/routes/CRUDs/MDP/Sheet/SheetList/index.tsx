@@ -90,6 +90,20 @@ export default function SheetList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        chapaService.inativar(id)
+        .then(() => {
+            setChapas([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -127,7 +141,7 @@ export default function SheetList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(chapa.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([chapa.codigo])}
                                             onDelete={() => handleDeleteClick(chapa.codigo)}
                                         />
                                     </td>

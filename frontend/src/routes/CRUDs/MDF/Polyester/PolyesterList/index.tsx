@@ -90,6 +90,20 @@ export default function PolyesterList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
+    function handleInactivate(id: number[]) {
+        poliesterService.inativar(id)
+        .then(() => {
+            setPoliesters([]);
+            setQueryParam({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+            setDialogInfoData({
+                visible: true,
+                message: error.response.data.error
+            });
+        });
+    }
+
     return(
         <main>
             <section id="listing-section" className="container">
@@ -121,7 +135,7 @@ export default function PolyesterList() {
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(poliester.codigo)}
-                                            onInactivate={() => console.log()}
+                                            onInactivate={() => handleInactivate([poliester.codigo])}
                                             onDelete={() => handleDeleteClick(poliester.codigo)}
                                         />
                                     </td>
