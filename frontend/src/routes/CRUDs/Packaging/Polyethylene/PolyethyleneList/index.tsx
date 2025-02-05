@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPolietileno } from '../../../../../models/polietileno';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -132,13 +133,15 @@ export default function PolyethyleneList() {
                                 <tr key={polietileno.codigo} className={`situacao-${polietileno.situacao.toLowerCase()}`}>
                                     <td className="tb576">{polietileno.codigo}</td>
                                     <td className="txt-left">{polietileno.descricao}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(polietileno.codigo)}
-                                            onInactivate={() => handleInactivate([polietileno.codigo])}
-                                            onDelete={() => handleDeleteClick(polietileno.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(polietileno.codigo)}
+                                                onInactivate={() => handleInactivate([polietileno.codigo])}
+                                                onDelete={() => handleDeleteClick(polietileno.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

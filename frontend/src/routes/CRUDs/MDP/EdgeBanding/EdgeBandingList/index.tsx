@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DFitaBorda } from '../../../../../models/fitaBorda';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -138,13 +139,15 @@ export default function EdgeBandingList() {
                                     {fitaBorda.cor ? <td className="txt-left">{fitaBorda.cor.descricao}</td> : <td className="txt-left"></td>}
                                     <td className="txt-left">{fitaBorda.espessura}</td>
                                     <td className="txt-left">{fitaBorda.altura}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(fitaBorda.codigo)}
-                                            onInactivate={() => handleInactivate([fitaBorda.codigo])}
-                                            onDelete={() => handleDeleteClick(fitaBorda.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(fitaBorda.codigo)}
+                                                onInactivate={() => handleInactivate([fitaBorda.codigo])}
+                                                onDelete={() => handleDeleteClick(fitaBorda.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

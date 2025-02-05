@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPlastico } from '../../../../../models/plastico';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -134,13 +135,15 @@ export default function PlasticList() {
                                     <td className="tb576">{plastico.codigo}</td>
                                     <td className="txt-left">{plastico.descricao}</td>
                                     <td className="txt-left">{plastico.gramatura}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(plastico.codigo)}
-                                            onInactivate={() => handleInactivate([plastico.codigo])}
-                                            onDelete={() => handleDeleteClick(plastico.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(plastico.codigo)}
+                                                onInactivate={() => handleInactivate([plastico.codigo])}
+                                                onDelete={() => handleDeleteClick(plastico.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

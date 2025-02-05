@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DCor } from '../../../../../models/cor';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -148,13 +149,15 @@ export default function ColorList() {
                                             )}
                                         </div>
                                     </td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(cor.codigo)}
-                                            onInactivate={() => handleInactivate([cor.codigo])}
-                                            onDelete={() => handleDeleteClick(cor.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(cor.codigo)}
+                                                onInactivate={() => handleInactivate([cor.codigo])}
+                                                onDelete={() => handleDeleteClick(cor.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

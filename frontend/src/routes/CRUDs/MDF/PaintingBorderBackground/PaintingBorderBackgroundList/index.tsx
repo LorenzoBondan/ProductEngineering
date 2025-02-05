@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPinturaBordaFundo } from '../../../../../models/pinturaBordaFundo';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -134,13 +135,15 @@ export default function PaintingBorderBackgroundList() {
                                     <td className="tb576">{pintura.codigo}</td>
                                     <td className="txt-left">{pintura.descricao}</td>
                                     {pintura.cor ? <td className="txt-left">{pintura.cor.descricao}</td> : <td className="txt-left"></td>}
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(pintura.codigo)}
-                                            onInactivate={() => handleInactivate([pintura.codigo])}
-                                            onDelete={() => handleDeleteClick(pintura.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(pintura.codigo)}
+                                                onInactivate={() => handleInactivate([pintura.codigo])}
+                                                onDelete={() => handleDeleteClick(pintura.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

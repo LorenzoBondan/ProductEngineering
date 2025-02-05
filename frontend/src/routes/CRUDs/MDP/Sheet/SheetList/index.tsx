@@ -8,6 +8,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -138,13 +139,15 @@ export default function SheetList() {
                                     {chapa.cor ? <td className="txt-left">{chapa.cor.descricao}</td> : <td className="txt-left"></td>}
                                     <td className="txt-left">{chapa.espessura}</td>
                                     <td className="txt-left">{chapa.faces}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(chapa.codigo)}
-                                            onInactivate={() => handleInactivate([chapa.codigo])}
-                                            onDelete={() => handleDeleteClick(chapa.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(chapa.codigo)}
+                                                onInactivate={() => handleInactivate([chapa.codigo])}
+                                                onDelete={() => handleDeleteClick(chapa.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

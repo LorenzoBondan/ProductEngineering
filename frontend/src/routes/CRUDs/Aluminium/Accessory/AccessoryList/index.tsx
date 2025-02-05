@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DAcessorio } from '../../../../../models/acessorio';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -140,13 +141,15 @@ export default function AccessoryList() {
                                     {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.altura}</td> : <td className="txt-left"></td>}
                                     {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.largura}</td> : <td className="txt-left"></td>}
                                     {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.espessura}</td> : <td className="txt-left"></td>}
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(acessorio.codigo)}
-                                            onInactivate={() => handleInactivate([acessorio.codigo])}
-                                            onDelete={() => handleDeleteClick(acessorio.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(acessorio.codigo)}
+                                                onInactivate={() => handleInactivate([acessorio.codigo])}
+                                                onDelete={() => handleDeleteClick(acessorio.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

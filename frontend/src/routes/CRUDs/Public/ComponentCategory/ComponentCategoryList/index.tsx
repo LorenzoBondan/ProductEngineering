@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import DropdownMenu from '../../../../../components/DropdownMenu';
 import { DCategoriaComponente } from '../../../../../models/categoriaComponente';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -132,13 +133,15 @@ export default function ComponentCategoryList() {
                                 <tr key={categoriaComponente.codigo} className={`situacao-${categoriaComponente.situacao.toLowerCase()}`}>
                                     <td className="tb576">{categoriaComponente.codigo}</td>
                                     <td className="txt-left">{categoriaComponente.descricao}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(categoriaComponente.codigo)}
-                                            onInactivate={() => handleInactivate([categoriaComponente.codigo])}
-                                            onDelete={() => handleDeleteClick(categoriaComponente.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(categoriaComponente.codigo)}
+                                                onInactivate={() => handleInactivate([categoriaComponente.codigo])}
+                                                onDelete={() => handleDeleteClick(categoriaComponente.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

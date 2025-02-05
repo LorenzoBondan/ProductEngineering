@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DBaguete } from '../../../../../models/baguete';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -132,13 +133,15 @@ export default function MoldingList() {
                                 <tr key={baguete.codigo} className={`situacao-${baguete.situacao.toLowerCase()}`}>
                                     <td className="tb576">{baguete.codigo}</td>
                                     <td className="txt-left">{baguete.descricao}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(baguete.codigo)}
-                                            onInactivate={() => handleInactivate([baguete.codigo])}
-                                            onDelete={() => handleDeleteClick(baguete.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(baguete.codigo)}
+                                                onInactivate={() => handleInactivate([baguete.codigo])}
+                                                onDelete={() => handleDeleteClick(baguete.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

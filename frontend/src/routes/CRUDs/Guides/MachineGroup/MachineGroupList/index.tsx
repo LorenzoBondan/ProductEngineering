@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DGrupoMaquina } from '../../../../../models/grupoMaquina';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -133,13 +134,15 @@ export default function MachineGroupList() {
                                 <tr key={grupoMaquina.codigo} className={`situacao-${grupoMaquina.situacao.toLowerCase()}`}>
                                     <td className="tb576">{grupoMaquina.codigo}</td>
                                     <td className="txt-left">{grupoMaquina.nome}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(grupoMaquina.codigo)}
-                                            onInactivate={() => handleInactivate([grupoMaquina.codigo])}
-                                            onDelete={() => handleDeleteClick(grupoMaquina.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(grupoMaquina.codigo)}
+                                                onInactivate={() => handleInactivate([grupoMaquina.codigo])}
+                                                onDelete={() => handleDeleteClick(grupoMaquina.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

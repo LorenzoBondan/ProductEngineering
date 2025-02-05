@@ -9,6 +9,7 @@ import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPintura } from '../../../../../models/pintura';
 import { getLabel } from '../../../../../models/enums/tipoPintura';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -137,13 +138,15 @@ export default function PaintingList() {
                                     <td className="txt-left">{pintura.descricao}</td>
                                     {pintura.cor ? <td className="txt-left">{pintura.cor.descricao}</td> : <td className="txt-left"></td>}
                                     <td className="txt-left">{getLabel(pintura.tipoPintura)}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(pintura.codigo)}
-                                            onInactivate={() => handleInactivate([pintura.codigo])}
-                                            onDelete={() => handleDeleteClick(pintura.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(pintura.codigo)}
+                                                onInactivate={() => handleInactivate([pintura.codigo])}
+                                                onDelete={() => handleDeleteClick(pintura.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DTnt } from '../../../../../models/tnt';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -133,13 +134,15 @@ export default function NonwovenFabricList() {
                                 <tr key={tnt.codigo} className={`situacao-${tnt.situacao.toLowerCase()}`}>
                                     <td className="tb576">{tnt.codigo}</td>
                                     <td className="txt-left">{tnt.descricao}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(tnt.codigo)}
-                                            onInactivate={() => handleInactivate([tnt.codigo])}
-                                            onDelete={() => handleDeleteClick(tnt.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(tnt.codigo)}
+                                                onInactivate={() => handleInactivate([tnt.codigo])}
+                                                onDelete={() => handleDeleteClick(tnt.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

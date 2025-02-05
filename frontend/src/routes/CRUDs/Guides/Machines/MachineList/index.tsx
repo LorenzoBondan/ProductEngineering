@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DMaquina } from '../../../../../models/maquina';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -124,7 +125,6 @@ export default function MachineList() {
                             <th className="txt-left">Nome</th>
                             <th className="txt-left">Grupo Máquina</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,13 +135,15 @@ export default function MachineList() {
                                     <td className="tb576">{maquina.codigo}</td>
                                     <td className="txt-left">{maquina.nome}</td>
                                     <td className="txt-left">{maquina.grupoMaquina.nome}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(maquina.codigo)}
-                                            onInactivate={() => handleInactivate([maquina.codigo])}
-                                            onDelete={() => handleDeleteClick(maquina.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(maquina.codigo)}
+                                                onInactivate={() => handleInactivate([maquina.codigo])}
+                                                onDelete={() => handleDeleteClick(maquina.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

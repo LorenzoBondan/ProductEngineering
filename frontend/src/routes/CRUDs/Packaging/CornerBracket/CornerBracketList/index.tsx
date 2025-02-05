@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DCantoneira } from '../../../../../models/cantoneira';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -133,13 +134,15 @@ export default function CornerBracketList() {
                                 <tr key={cantoneira.codigo} className={`situacao-${cantoneira.situacao.toLowerCase()}`}>
                                     <td className="tb576">{cantoneira.codigo}</td>
                                     <td className="txt-left">{cantoneira.descricao}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(cantoneira.codigo)}
-                                            onInactivate={() => handleInactivate([cantoneira.codigo])}
-                                            onDelete={() => handleDeleteClick(cantoneira.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(cantoneira.codigo)}
+                                                onInactivate={() => handleInactivate([cantoneira.codigo])}
+                                                onDelete={() => handleDeleteClick(cantoneira.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

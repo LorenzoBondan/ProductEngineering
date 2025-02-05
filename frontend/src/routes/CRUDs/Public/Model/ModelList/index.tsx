@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DModelo } from '../../../../../models/modelo';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -132,13 +133,15 @@ export default function ModelList() {
                                 <tr key={modelo.codigo} className={`situacao-${modelo.situacao.toLowerCase()}`}>
                                     <td className="tb576">{modelo.codigo}</td>
                                     <td className="txt-left">{modelo.descricao}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(modelo.codigo)}
-                                            onInactivate={() => handleInactivate([modelo.codigo])}
-                                            onDelete={() => handleDeleteClick(modelo.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(modelo.codigo)}
+                                                onInactivate={() => handleInactivate([modelo.codigo])}
+                                                onDelete={() => handleDeleteClick(modelo.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }

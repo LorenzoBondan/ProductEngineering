@@ -8,6 +8,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DCola } from '../../../../../models/cola';
 import DropdownMenu from '../../../../../components/DropdownMenu';
+import { hasAnyRoles } from '../../../../../services/authService';
 
 type QueryParams = {
     page: number;
@@ -134,13 +135,15 @@ export default function GlueList() {
                                     <td className="tb576">{cola.codigo}</td>
                                     <td className="txt-left">{cola.descricao}</td>
                                     <td className="txt-left">{cola.gramatura}</td>
-                                    <td>
-                                        <DropdownMenu
-                                            onEdit={() => handleUpdateClick(cola.codigo)}
-                                            onInactivate={() => handleInactivate([cola.codigo])}
-                                            onDelete={() => handleDeleteClick(cola.codigo)}
-                                        />
-                                    </td>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
+                                        <td>
+                                            <DropdownMenu
+                                                onEdit={() => handleUpdateClick(cola.codigo)}
+                                                onInactivate={() => handleInactivate([cola.codigo])}
+                                                onDelete={() => handleDeleteClick(cola.codigo)}
+                                            />
+                                        </td>
+                                    }
                                 </tr>
                             ))
                         }
