@@ -23,10 +23,11 @@ export function pesquisarTodos(colunas: string, operacoes: string, valores: stri
     return requestBackend(config);
 }
 
-export function recuperarPorId(id: number) {
+export function recuperarPorId(id: number, recuperarDependencias: boolean) {
     return requestBackend({ 
         url: `${route}/recuperar/${id}`,
-        withCredentials: true 
+        withCredentials: true,
+        params: {recuperarDependencias} 
     });
 }
 

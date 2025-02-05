@@ -90,6 +90,7 @@ import UsedAccessoryForm from './routes/CRUDs/Used/UsedAccessory/UsedAccessoryFo
 import GuideMachines from './routes/CRUDs/Guides/GuideMachine';
 import GuideMachineForm from './routes/CRUDs/Guides/GuideMachine/GuideMachineForm';
 import GuideDetails from './routes/Operator/Details/GuideDetails';
+import Trash from './routes/Admin/Trash';
 
 export default function App() {
 
@@ -247,6 +248,10 @@ export default function App() {
                 <Route path=":guideMachineId" element={<GuideMachineForm />} />
               </Route>
 
+            </Route>
+
+            <Route path="/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Operator /></PrivateRoute>} >
+              <Route path="trash" element={<Trash />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
