@@ -121,7 +121,8 @@ export default function SonList() {
                     </thead>
                     <tbody>
                         {
-                            filhos.map(filho => (
+                            filhos.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(filho => (
                                 <tr key={filho.codigo}>
                                     <td className="tb576">{filho.codigo}</td>
                                     <td className="txt-left">{filho.descricao}</td>

@@ -116,7 +116,8 @@ export default function GlueList() {
                     </thead>
                     <tbody>
                         {
-                            colas.map(cola => (
+                            colas.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(cola => (
                                 <tr key={cola.codigo}>
                                     <td className="tb576">{cola.codigo}</td>
                                     <td className="txt-left">{cola.descricao}</td>

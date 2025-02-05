@@ -115,7 +115,8 @@ export default function PolyethyleneList() {
                     </thead>
                     <tbody>
                         {
-                            polietilenos.map(polietileno => (
+                            polietilenos.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(polietileno => (
                                 <tr key={polietileno.codigo}>
                                     <td className="tb576">{polietileno.codigo}</td>
                                     <td className="txt-left">{polietileno.descricao}</td>

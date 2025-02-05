@@ -115,7 +115,8 @@ export default function MoldingList() {
                     </thead>
                     <tbody>
                         {
-                            baguetes.map(baguete => (
+                            baguetes.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(baguete => (
                                 <tr key={baguete.codigo}>
                                     <td className="tb576">{baguete.codigo}</td>
                                     <td className="txt-left">{baguete.descricao}</td>

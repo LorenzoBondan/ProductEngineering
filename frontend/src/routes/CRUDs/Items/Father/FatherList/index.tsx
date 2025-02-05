@@ -120,7 +120,8 @@ export default function FatherList() {
                     </thead>
                     <tbody>
                         {
-                            pais.map(pai => (
+                            pais.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(pai => (
                                 <tr key={pai.codigo}>
                                     
                                     <td className="tb576">{pai.codigo}</td>

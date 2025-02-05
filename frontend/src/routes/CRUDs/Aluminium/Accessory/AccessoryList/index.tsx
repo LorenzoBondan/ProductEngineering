@@ -119,7 +119,8 @@ export default function AccessoryList() {
                     </thead>
                     <tbody>
                         {
-                            acessorios.map(acessorio => (
+                            acessorios.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(acessorio => (
                                 <tr key={acessorio.codigo}>
                                     <td className="tb576">{acessorio.codigo}</td>
                                     <td className="txt-left">{acessorio.descricao}</td>

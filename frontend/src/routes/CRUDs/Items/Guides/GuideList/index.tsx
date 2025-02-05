@@ -121,7 +121,8 @@ export default function GuideList() {
                     </thead>
                     <tbody>
                         {
-                            roteiros.map(roteiro => (
+                            roteiros.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(roteiro => (
                                 <tr key={roteiro.codigo}>
                                     <td className="tb576">{roteiro.codigo}</td>
                                     <td className="txt-left">{roteiro.descricao}</td>

@@ -116,7 +116,8 @@ export default function ColorList() {
                     </thead>
                     <tbody>
                         {
-                            cores.map(cor => (
+                            cores.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(cor => (
                                 <tr key={cor.codigo}>
                                     <td className="tb576">{cor.codigo}</td>
                                     <td className="txt-left">{cor.descricao}</td>

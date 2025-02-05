@@ -118,7 +118,8 @@ export default function PaintingList() {
                     </thead>
                     <tbody>
                         {
-                            pinturas.map(pintura => (
+                            pinturas.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(pintura => (
                                 <tr key={pintura.codigo}>
                                     <td className="tb576">{pintura.codigo}</td>
                                     <td className="txt-left">{pintura.descricao}</td>

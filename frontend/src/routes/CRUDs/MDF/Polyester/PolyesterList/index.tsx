@@ -115,7 +115,8 @@ export default function PolyesterList() {
                     </thead>
                     <tbody>
                         {
-                            poliesters.map(poliester => (
+                            poliesters.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(poliester => (
                                 <tr key={poliester.codigo}>
                                     <td className="tb576">{poliester.codigo}</td>
                                     <td className="txt-left">{poliester.descricao}</td>

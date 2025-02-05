@@ -116,7 +116,8 @@ export default function MachineList() {
                     </thead>
                     <tbody>
                         {
-                            maquinas.map(maquina => (
+                            maquinas.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(maquina => (
                                 <tr key={maquina.codigo}>
                                     <td className="tb576">{maquina.codigo}</td>
                                     <td className="txt-left">{maquina.nome}</td>

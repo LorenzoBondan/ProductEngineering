@@ -116,7 +116,8 @@ export default function PlasticList() {
                     </thead>
                     <tbody>
                         {
-                            plasticos.map(plastico => (
+                            plasticos.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(plastico => (
                                 <tr key={plastico.codigo}>
                                     <td className="tb576">{plastico.codigo}</td>
                                     <td className="txt-left">{plastico.descricao}</td>

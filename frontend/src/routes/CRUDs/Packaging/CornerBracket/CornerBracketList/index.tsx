@@ -115,7 +115,8 @@ export default function CornerBracketList() {
                     </thead>
                     <tbody>
                         {
-                            cantoneiras.map(cantoneira => (
+                            cantoneiras.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(cantoneira => (
                                 <tr key={cantoneira.codigo}>
                                     <td className="tb576">{cantoneira.codigo}</td>
                                     <td className="txt-left">{cantoneira.descricao}</td>

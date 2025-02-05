@@ -115,7 +115,8 @@ export default function NonwovenFabricList() {
                     </thead>
                     <tbody>
                         {
-                            tnts.map(tnt => (
+                            tnts.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(tnt => (
                                 <tr key={tnt.codigo}>
                                     <td className="tb576">{tnt.codigo}</td>
                                     <td className="txt-left">{tnt.descricao}</td>

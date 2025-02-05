@@ -130,7 +130,8 @@ export default function FatherDetails() {
               </tr>
             </thead>
             <tbody>
-              {pai?.filhos.map((filho) => (
+              {pai?.filhos.filter(obj => obj.situacao !== 'LIXEIRA')
+              .map((filho) => (
                 <tr>
                   <td>{filho.codigo}</td>
                   <td>{filho.descricao}</td>

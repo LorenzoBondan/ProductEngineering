@@ -182,7 +182,7 @@ export default function SonDetails() {
               </tr>
             </thead>
             <tbody>
-              {filho?.materiaisUsados.filter(obj => obj.situacao === 'ATIVO')
+              {filho?.materiaisUsados.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((materialUsado) => (
                 <tr>
                   <td>{materialUsado.material.codigo}</td>
@@ -212,7 +212,8 @@ export default function SonDetails() {
               </tr>
             </thead>
             <tbody>
-              {filho?.acessoriosUsados.map((acessorioUsado) => (
+              {filho?.acessoriosUsados.filter(obj => obj.situacao !== 'LIXEIRA')
+              .map((acessorioUsado) => (
                 <tr>
                   <td>{acessorioUsado.acessorio.codigo}</td>
                   <td>{acessorioUsado.acessorio.descricao}</td>
@@ -241,7 +242,8 @@ export default function SonDetails() {
               </tr>
             </thead>
             <tbody>
-              {filho?.filhos.map((filho) => (
+              {filho?.filhos.filter(obj => obj.situacao !== 'LIXEIRA')
+              .map((filho) => (
                 <tr>
                   <td>{filho.codigo}</td>
                   <td>{filho.descricao}</td>

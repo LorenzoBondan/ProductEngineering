@@ -115,7 +115,8 @@ export default function ComponentCategoryList() {
                     </thead>
                     <tbody>
                         {
-                            modelos.map(modelo => (
+                            modelos.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(modelo => (
                                 <tr key={modelo.codigo}>
                                     <td className="tb576">{modelo.codigo}</td>
                                     <td className="txt-left">{modelo.descricao}</td>

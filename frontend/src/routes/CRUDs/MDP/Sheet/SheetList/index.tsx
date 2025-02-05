@@ -118,7 +118,8 @@ export default function SheetList() {
                     </thead>
                     <tbody>
                         {
-                            chapas.map(chapa => (
+                            chapas.filter(obj => obj.situacao !== 'LIXEIRA')
+                            .map(chapa => (
                                 <tr key={chapa.codigo}>
                                     <td className="tb576">{chapa.codigo}</td>
                                     <td className="txt-left">{chapa.descricao}</td>

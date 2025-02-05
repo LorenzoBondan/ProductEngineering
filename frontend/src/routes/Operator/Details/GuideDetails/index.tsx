@@ -68,7 +68,8 @@ export default function GuideDetails() {
               </tr>
             </thead>
             <tbody>
-              {roteiro?.roteiroMaquinas.map((roteiroMaquina) => (
+              {roteiro?.roteiroMaquinas.filter(obj => obj.situacao !== 'LIXEIRA')
+              .map((roteiroMaquina) => (
                 <tr
                   key={roteiroMaquina.codigo}
                   onClick={() => (window.location.href = `/guideMachines/${roteiroMaquina.codigo}`)}
