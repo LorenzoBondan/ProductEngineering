@@ -3,6 +3,7 @@ import { requestBackend } from "../utils/requests";
 import { DPai } from "../models/pai";
 import { DMontadorEstruturaPai } from "../models/montadorEstruturaPai";
 import { DMontadorEstruturaPaiModulacao } from "../models/montadorEstruturaPaiModulacao";
+import qs from "qs";
 
 const route = "/api/pai";
 
@@ -133,7 +134,8 @@ export function inativar(codigo: number[]) {
         withCredentials: true,
         params: {
             codigo
-        }
+        },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" })
     }
 
     return requestBackend(config);
@@ -146,7 +148,8 @@ export function remover(codigo: number[]) {
         withCredentials: true,
         params: {
             codigo
-        }
+        },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" })
     }
 
     return requestBackend(config);

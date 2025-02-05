@@ -124,7 +124,8 @@ export function remover(codigo: number[]) {
         withCredentials: true,
         params: {
             codigo
-        }
+        },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" })
     }
 
     return requestBackend(config);

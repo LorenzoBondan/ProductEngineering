@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/requests";
 import { DCor } from "../models/cor";
+import qs from "qs";
 
 const route = "/api/cor";
 
@@ -87,7 +88,8 @@ export function inativar(codigo: number[]) {
         withCredentials: true,
         params: {
             codigo
-        }
+        },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" })
     }
 
     return requestBackend(config);
@@ -100,7 +102,8 @@ export function remover(codigo: number[]) {
         withCredentials: true,
         params: {
             codigo
-        }
+        },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" })
     }
 
     return requestBackend(config);
