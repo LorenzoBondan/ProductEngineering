@@ -91,6 +91,11 @@ import GuideMachines from './routes/CRUDs/Guides/GuideMachine';
 import GuideMachineForm from './routes/CRUDs/Guides/GuideMachine/GuideMachineForm';
 import GuideDetails from './routes/Operator/Details/GuideDetails';
 import Trash from './routes/Admin/Trash';
+import Admin from './routes/Admin';
+import AdminHome from './routes/Admin/Home';
+import Users from './routes/Admin/User';
+import UserList from './routes/Admin/User/UserList';
+import UserForm from './routes/Admin/User/UserForm';
 
 export default function App() {
 
@@ -250,8 +255,15 @@ export default function App() {
 
             </Route>
 
-            <Route path="/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Operator /></PrivateRoute>} >
+            <Route path="/admin" element={<PrivateRoute roles={['ROLE_ADMIN']}><Admin /></PrivateRoute>} >
+              <Route index element={<AdminHome />} />
               <Route path="trash" element={<Trash />} />
+
+              <Route path="users" element={<Users />}>
+                <Route index element={<UserList />} />
+                <Route path=":userId" element={<UserForm />} />
+              </Route>
+
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />

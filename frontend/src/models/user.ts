@@ -9,4 +9,11 @@ export type DUser = {
     userAnexo: DUserAnexo;
 
     situacao: keyof typeof DSituacaoEnum;
+
+    roles: DRole[];
 };
+
+export type DRole = {
+    id: number;
+    authority: string;
+}

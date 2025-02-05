@@ -43,7 +43,7 @@ public class DUser {
                 .add(new NamedValidator<>("Senha", new ObjetoNaoNuloValidator()), this.password)
                 .add(new NamedValidator<>("Senha", new NaoBrancoValidator()), this.password)
                 .add(new NamedValidator<>("Senha", new TamanhoMinimoValidator(5)), this.password)
-                .add(new NamedValidator<>("Senha", new TamanhoMaximoValidator(50)), this.password)
+                .add(new NamedValidator<>("Senha", new TamanhoMaximoValidator(250)), this.password)
                 .add(new NamedValidator<>("Email", new ObjetoNaoNuloValidator()), this.email)
                 .add(new NamedValidator<>("Email", new EmailValidator()), this.email)
                 .add(new NamedValidator<>("Papéis", new ObjetoNaoNuloValidator()), this.roles)

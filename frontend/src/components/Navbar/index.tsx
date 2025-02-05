@@ -66,7 +66,7 @@ export default function Navbar() {
                             </li>
                             {authService.hasAnyRoles(['ROLE_ANALYST', 'ROLE_ADMIN']) && (
                                 <li>
-                                    <NavLink to="/trash" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded " + (location.pathname === "/trash" ? "active-nav-item" : "")}>
+                                    <NavLink to="/admin/trash" className={isExpanded ? "admin-nav-item" : "admin-nav-item-expanded " + (location.pathname === "/trash" ? "active-nav-item" : "")}>
                                         <img src={trash} alt="" />
                                         {isExpanded && <p>Lixeira</p>}
                                     </NavLink>

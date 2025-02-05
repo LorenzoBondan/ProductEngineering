@@ -5,21 +5,21 @@ import qs from "qs";
 
 const route = "/api/user";
 
-export function pesquisarTodos(columns: string, operations: string, values: string, page: number, pageSize = 12, sort: string) {
+export function pesquisarTodos(colunas: string, operacoes: string, valores: string, page?: number, pageSize?: number, sort?: string) {
     sort = sort || "id;d";
     
     const config : AxiosRequestConfig = {
         method: "GET",
         url: `${route}`,
         params: {
-            columns,
-            operations,
-            values,
+            colunas,
+            operacoes,
+            valores,
             sort,
             page,
             pageSize
-        }, 
-        withCredentials: true 
+        },
+        withCredentials: true
     }
 
     return requestBackend(config);

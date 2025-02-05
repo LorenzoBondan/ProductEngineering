@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as fitaBordaService from '../../../../../services/fitaBordaService';
-import ButtonInverse from '../../../../../components/ButtonInverse';
-import SearchBar from '../../../../../components/SearchBar';
-import ButtonNextPage from '../../../../../components/ButtonNextPage';
-import DialogInfo from '../../../../../components/DialogInfo';
-import DialogConfirmation from '../../../../../components/DialogConfirmation';
-import { DFitaBorda } from '../../../../../models/fitaBorda';
-import DropdownMenu from '../../../../../components/DropdownMenu';
+import * as userService from '../../../../services/userService';
+import { DUser } from '../../../../models/user';
+import ButtonInverse from '../../../../components/ButtonInverse';
+import SearchBar from '../../../../components/SearchBar';
+import DropdownMenu from '../../../../components/DropdownMenu';
+import ButtonNextPage from '../../../../components/ButtonNextPage';
+import DialogInfo from '../../../../components/DialogInfo';
+import DialogConfirmation from '../../../../components/DialogConfirmation';
 
 type QueryParams = {
     page: number;
-    descricao: string;
+    name: string;
 }
 
-export default function EdgeBandingList() {
+export default function UserList() {
 
     const navigate = useNavigate();
 
@@ -31,29 +31,29 @@ export default function EdgeBandingList() {
 
     const [isLastPage, setIsLastPage] = useState(false);
 
-    const [fitasBorda, setFitasBorda] = useState<DFitaBorda[]>([]);
+    const [users, setUsers] = useState<DUser[]>([]);
 
     const [queryParams, setQueryParam] = useState<QueryParams>({
         page: 0,
-        descricao: ""
+        name: ""
     });
 
     useEffect(() => {
-        fitaBordaService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
+        userService.pesquisarTodos('name', '=', queryParams.name, queryParams.page, 8, "id;a")
             .then(response => {
                 const nextPage = response.data.content;
-                setFitasBorda(fitasBorda.concat(nextPage));
+                setUsers(users.concat(nextPage));
                 setIsLastPage(response.data.last);
             });
     }, [queryParams]);
 
     function handleNewChallengeClick() {
-        navigate("/edgebandings/create");
+        navigate("/admin/users/create");
     }
 
     function handleSearch(searchText: string) {
-        setFitasBorda([]);
-        setQueryParam({ ...queryParams, page: 0, descricao: searchText });
+        setUsers([]);
+        setQueryParam({ ...queryParams, page: 0, name: searchText });
     }
 
     function handleNextPageClick() {
@@ -64,19 +64,19 @@ export default function EdgeBandingList() {
         setDialogInfoData({ ...dialogInfoData, visible: false });
     }
 
-    function handleUpdateClick(edgeBandingId: number) {
-        navigate(`/edgebandings/${edgeBandingId}`);
+    function handleUpdateClick(userId: number) {
+        navigate(`/admin/users/${userId}`);
     }
 
-    function handleDeleteClick(edgeBandingId: number) {
-        setDialogConfirmationData({ ...dialogConfirmationData, id: edgeBandingId, visible: true });
+    function handleDeleteClick(userId: number) {
+        setDialogConfirmationData({ ...dialogConfirmationData, id: userId, visible: true });
     }
 
-    function handleDialogConfirmationAnswer(answer: boolean, edgeBandingId: number[]) {
+    function handleDialogConfirmationAnswer(answer: boolean, userId: number[]) {
         if (answer) {
-            fitaBordaService.remover(edgeBandingId)
+            userService.remover(userId)
                 .then(() => {
-                    setFitasBorda([]);
+                    setUsers([]);
                     setQueryParam({ ...queryParams, page: 0 });
                 })
                 .catch(error => {
@@ -91,9 +91,9 @@ export default function EdgeBandingList() {
     }
 
     function handleInactivate(id: number[]) {
-        fitaBordaService.inativar(id)
+        userService.inativar(id)
         .then(() => {
-            setFitasBorda([]);
+            setUsers([]);
             setQueryParam({ ...queryParams, page: 0 });
         })
         .catch(error => {
@@ -107,7 +107,7 @@ export default function EdgeBandingList() {
     return(
         <main>
             <section id="listing-section" className="container">
-                <h2 className="section-title mb20">Cadastro de Fita Borda</h2>
+                <h2 className="section-title mb20">Cadastro de Usuários</h2>
 
                 <div className="btn-page-container mb20">
                     <div onClick={handleNewChallengeClick}>
@@ -121,28 +121,26 @@ export default function EdgeBandingList() {
                     <thead>
                         <tr>
                             <th className="tb576">Código</th>
-                            <th className="txt-left">Descrição</th>
-                            <th className="txt-left">Cor</th>
-                            <th className="txt-left">Espessura</th>
-                            <th className="txt-left">Altura</th>
+                            <th className="txt-left">Nome</th>
+                            <th className="txt-left">Email</th>
+                            <th className="txt-left">Papéis</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            fitasBorda.filter(obj => obj.situacao !== 'LIXEIRA')
-                            .map(fitaBorda => (
-                                <tr key={fitaBorda.codigo} className={`situacao-${fitaBorda.situacao.toLowerCase()}`}>
-                                    <td className="tb576">{fitaBorda.codigo}</td>
-                                    <td className="txt-left">{fitaBorda.descricao}</td>
-                                    {fitaBorda.cor ? <td className="txt-left">{fitaBorda.cor.descricao}</td> : <td className="txt-left"></td>}
-                                    <td className="txt-left">{fitaBorda.espessura}</td>
-                                    <td className="txt-left">{fitaBorda.altura}</td>
+                            users
+                            .map(user => (
+                                <tr key={user.id} className={`situacao-${user.situacao.toLowerCase()}`}>
+                                    <td className="tb576">{user.id}</td>
+                                    <td className="txt-left">{user.name}</td>
+                                    <td className="txt-left">{user.email}</td>
+                                    <td className="txt-left">{user.roles.map(role => role.authority).join(", ")}</td>
                                     <td>
                                         <DropdownMenu
-                                            onEdit={() => handleUpdateClick(fitaBorda.codigo)}
-                                            onInactivate={() => handleInactivate([fitaBorda.codigo])}
-                                            onDelete={() => handleDeleteClick(fitaBorda.codigo)}
+                                            onEdit={() => handleUpdateClick(user.id)}
+                                            onInactivate={() => handleInactivate([user.id])}
+                                            onDelete={() => handleDeleteClick(user.id)}
                                         />
                                     </td>
                                 </tr>

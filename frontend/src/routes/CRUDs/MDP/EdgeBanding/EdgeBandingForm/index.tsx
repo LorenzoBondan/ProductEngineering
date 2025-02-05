@@ -111,7 +111,7 @@ export default function EdgeBandingForm() {
 
     useEffect(() => {
         if (isEditing) {
-            fitaBordaService.pesquisarPorId(Number(params.sheetId))
+            fitaBordaService.pesquisarPorId(Number(params.edgeBandingId))
                 .then(response => {
                     const newFormData = forms.updateAll(formData, response.data);
                     
@@ -160,7 +160,7 @@ export default function EdgeBandingForm() {
         });
 
         if (isEditing) {
-            requestBody.codigo = Number(params.sheetId);
+            requestBody.codigo = Number(params.edgeBandingId);
         }
 
         const request = isEditing
