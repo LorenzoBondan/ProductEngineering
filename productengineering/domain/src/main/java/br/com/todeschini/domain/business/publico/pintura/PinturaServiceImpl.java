@@ -4,6 +4,7 @@ import br.com.todeschini.domain.ConversaoValores;
 import br.com.todeschini.domain.Convertable;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.pintura.api.PinturaService;
 import br.com.todeschini.domain.business.publico.pintura.spi.CrudPintura;
@@ -14,6 +15,7 @@ import br.com.todeschini.domain.metadata.DomainService;
 import br.com.todeschini.domain.metadata.Entidade;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,10 +128,18 @@ public class PinturaServiceImpl implements PinturaService {
     }
 
     private void validarRegistroDuplicado(DPintura domain){
-        if(crudPintura.pesquisarPorTipoPinturaECor(domain.getTipoPintura().getValue(), domain.getCor().getCodigo())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de tipo pintura e cor.");
+        Collection<DPintura> registrosExistentes = crudPintura.pesquisarPorTipoPinturaECor(domain.getTipoPintura().getValue(), domain.getCor().getCodigo());
+
+        for (DPintura existente : registrosExistentes) {
+            if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new UniqueConstraintViolationException("Registro duplicado para a combinação de tipo pintura e cor.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new UniqueConstraintViolationException("Já existe um registro inativo com essa combinação de tipo pintura e cor. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new UniqueConstraintViolationException("Já existe um registro com essa combinação de tipo pintura e cor na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 }

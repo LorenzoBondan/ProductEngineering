@@ -2,12 +2,14 @@ package br.com.todeschini.domain.business.publico.categoriacomponente;
 
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.categoriacomponente.api.CategoriaComponenteService;
 import br.com.todeschini.domain.business.publico.categoriacomponente.spi.CrudCategoriaComponente;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
 import br.com.todeschini.domain.metadata.DomainService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,10 +67,18 @@ public class CategoriaComponenteServiceImpl implements CategoriaComponenteServic
     }
 
     private void validarRegistroDuplicado(DCategoriaComponente domain){
-        if(crudCategoriaComponente.pesquisarPorDescricao(domain.getDescricao())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new RegistroDuplicadoException("Verifique o campo descrição.");
+        Collection<DCategoriaComponente> registrosExistentes = crudCategoriaComponente.pesquisarPorDescricao(domain.getDescricao());
+
+        for (DCategoriaComponente existente : registrosExistentes) {
+            if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new RegistroDuplicadoException("Verifique o campo descrição.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro inativo com essa descrição. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro com essa descrição na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 }

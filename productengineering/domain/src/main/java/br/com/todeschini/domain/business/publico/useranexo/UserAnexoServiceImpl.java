@@ -10,11 +10,9 @@ import br.com.todeschini.domain.business.publico.binario.api.BinarioService;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.useranexo.api.UserAnexoService;
 import br.com.todeschini.domain.business.publico.useranexo.spi.CrudUserAnexo;
-import br.com.todeschini.domain.exceptions.UniqueConstraintViolationException;
 import br.com.todeschini.domain.metadata.DomainService;
 
 import java.util.List;
-import java.util.Optional;
 
 @DomainService
 public class UserAnexoServiceImpl implements UserAnexoService {
@@ -96,13 +94,5 @@ public class UserAnexoServiceImpl implements UserAnexoService {
     @Override
     public void excluir(Integer id) {
         crudUserAnexo.remover(id);
-    }
-
-    private void validarRegistroDuplicado(DUserAnexo domain){
-        if(crudUserAnexo.pesquisarPorUserEAnexo(domain.getUser().getId(), domain.getAnexo().getCodigo())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Usuário e Anexo.");
-        }
     }
 }

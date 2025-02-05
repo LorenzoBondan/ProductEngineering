@@ -272,10 +272,18 @@ public class PaiServiceImpl implements PaiService {
     }
 
     private void validarRegistroDuplicado(DPai domain){
-        if(crudPai.pesquisarPorDescricao(domain.getDescricao())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new RegistroDuplicadoException("Verifique o campo descrição: " + domain.getDescricao());
+        Collection<DPai> registrosExistentes = crudPai.pesquisarPorDescricao(domain.getDescricao());
+
+        for (DPai existente : registrosExistentes) {
+            if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new RegistroDuplicadoException("Verifique o campo descrição.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro inativo com essa descrição. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro com essa descrição na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 

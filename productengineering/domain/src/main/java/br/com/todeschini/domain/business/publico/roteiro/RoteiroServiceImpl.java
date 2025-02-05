@@ -4,6 +4,7 @@ import br.com.todeschini.domain.ConversaoValores;
 import br.com.todeschini.domain.Convertable;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.roteiro.api.RoteiroService;
 import br.com.todeschini.domain.business.publico.roteiro.spi.CrudRoteiro;
@@ -137,10 +138,18 @@ public class RoteiroServiceImpl implements RoteiroService {
     }
 
     private void validarRegistroDuplicado(DRoteiro domain){
-        if(crudRoteiro.pesquisarPorDescricao(domain.getDescricao())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new RegistroDuplicadoException("Verifique o campo descrição.");
+        Collection<DRoteiro> registrosExistentes = crudRoteiro.pesquisarPorDescricao(domain.getDescricao());
+
+        for (DRoteiro existente : registrosExistentes) {
+            if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new RegistroDuplicadoException("Verifique o campo descrição.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro inativo com essa descrição. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro com essa descrição na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 }

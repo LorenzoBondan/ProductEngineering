@@ -4,6 +4,7 @@ import br.com.todeschini.domain.ConversaoValores;
 import br.com.todeschini.domain.Convertable;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.filho.api.FilhoService;
 import br.com.todeschini.domain.business.publico.filho.spi.CrudFilho;
 import br.com.todeschini.domain.business.publico.history.DHistory;
@@ -132,10 +133,20 @@ public class FilhoServiceImpl implements FilhoService {
     }
 
     private void validarRegistroDuplicado(DFilho domain){
-        if(crudFilho.pesquisarPorDescricaoECorEMedidas(domain.getDescricao(), domain.getCor().getCodigo(), domain.getMedidas().getCodigo())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Descrição e Cor e Medidas.");
+        Collection<DFilho> registrosExistentes = crudFilho.pesquisarPorDescricaoECorEMedidas(
+                domain.getDescricao(), domain.getCor().getCodigo(), domain.getMedidas().getCodigo()
+        );
+
+        for (DFilho existente : registrosExistentes) {
+            if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new UniqueConstraintViolationException("Registro duplicado para a combinação de descrição, cor e medidas.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new UniqueConstraintViolationException("Já existe um registro inativo com essa combinação de descrição, cor e medidas. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new UniqueConstraintViolationException("Já existe um registro com essa combinação de descrição, cor e medidas na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 }

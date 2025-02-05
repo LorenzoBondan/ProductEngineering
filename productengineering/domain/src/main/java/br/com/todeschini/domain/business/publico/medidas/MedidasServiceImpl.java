@@ -4,6 +4,7 @@ import br.com.todeschini.domain.ConversaoValores;
 import br.com.todeschini.domain.Convertable;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.medidas.api.MedidasService;
 import br.com.todeschini.domain.business.publico.medidas.spi.CrudMedidas;
@@ -132,10 +133,20 @@ public class MedidasServiceImpl implements MedidasService {
     }
 
     private void validarRegistroDuplicado(DMedidas domain){
-        if(crudMedidas.pesquisarPorAlturaELarguraEEspessura(domain.getAltura(), domain.getLargura(), domain.getEspessura())
-                .stream()
-                .anyMatch(t -> !t.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1)))){
-            throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Altura, Largura e Espessura.");
+        Collection<DMedidas> registrosExistentes = crudMedidas.pesquisarPorAlturaELarguraEEspessura(
+                domain.getAltura(), domain.getLargura(), domain.getEspessura()
+        );
+
+        for (DMedidas existente : registrosExistentes) {
+            if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new UniqueConstraintViolationException("Registro duplicado para a combinação de Altura, Largura e Espessura.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new UniqueConstraintViolationException("Já existe um registro inativo com essa combinação de Altura, Largura e Espessura. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new UniqueConstraintViolationException("Já existe um registro com essa combinação de de Altura, Largura e Espessura na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 }

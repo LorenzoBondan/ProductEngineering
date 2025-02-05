@@ -182,7 +182,8 @@ export default function SonDetails() {
               </tr>
             </thead>
             <tbody>
-              {filho?.materiaisUsados.map((materialUsado) => (
+              {filho?.materiaisUsados.filter(obj => obj.situacao === 'ATIVO')
+              .map((materialUsado) => (
                 <tr>
                   <td>{materialUsado.material.codigo}</td>
                   <td>{materialUsado.material.descricao}</td>

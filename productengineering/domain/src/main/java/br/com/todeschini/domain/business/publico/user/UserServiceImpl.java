@@ -3,12 +3,14 @@ package br.com.todeschini.domain.business.publico.user;
 import br.com.todeschini.domain.PageableRequest;
 import br.com.todeschini.domain.Paged;
 import br.com.todeschini.domain.business.auth.authservice.api.AuthService;
+import br.com.todeschini.domain.business.enums.DSituacaoEnum;
 import br.com.todeschini.domain.business.publico.history.DHistory;
 import br.com.todeschini.domain.business.publico.user.api.UserService;
 import br.com.todeschini.domain.business.publico.user.spi.CrudUser;
 import br.com.todeschini.domain.exceptions.RegistroDuplicadoException;
 import br.com.todeschini.domain.metadata.DomainService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,10 +98,18 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validarRegistroDuplicado(DUser domain){
-        if(crudUser.findByEmail(domain.getEmail())
-                .stream()
-                .anyMatch(t -> !t.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1)))){
-            throw new RegistroDuplicadoException("Verifique o campo email.");
+        Collection<DUser> registrosExistentes = crudUser.findByEmail(domain.getEmail());
+
+        for (DUser existente : registrosExistentes) {
+            if (!existente.getId().equals(Optional.ofNullable(domain.getId()).orElse(-1))) {
+                if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
+                    throw new RegistroDuplicadoException("Verifique o campo email.");
+                } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro inativo com esse email. Reative-o antes de criar um novo.");
+                } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
+                    throw new RegistroDuplicadoException("Já existe um registro com esse email na lixeira. Reative-o antes de criar um novo.");
+                }
+            }
         }
     }
 }
