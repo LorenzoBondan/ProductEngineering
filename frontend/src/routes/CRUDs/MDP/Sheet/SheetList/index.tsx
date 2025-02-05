@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import { DChapa } from '../../../../../models/chapa';
 import * as chapaService from '../../../../../services/chapaService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
@@ -9,6 +7,7 @@ import SearchBar from '../../../../../components/SearchBar';
 import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -113,7 +112,6 @@ export default function SheetList() {
                             <th className="txt-left">Espessura</th>
                             <th className="txt-left">Faces</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,8 +124,13 @@ export default function SheetList() {
                                     {chapa.cor ? <td className="txt-left">{chapa.cor.descricao}</td> : <td className="txt-left"></td>}
                                     <td className="txt-left">{chapa.espessura}</td>
                                     <td className="txt-left">{chapa.faces}</td>
-                                    <td><img onClick={() => handleUpdateClick(chapa.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(chapa.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(chapa.codigo)}
+                                            onDelete={() => handleDeleteClick(chapa.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }
