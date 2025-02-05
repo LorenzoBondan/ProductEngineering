@@ -96,6 +96,7 @@ import AdminHome from './routes/Admin/Home';
 import Users from './routes/Admin/User';
 import UserList from './routes/Admin/User/UserList';
 import UserForm from './routes/Admin/User/UserForm';
+import Reports from './routes/Operator/Reports';
 
 export default function App() {
 
@@ -252,6 +253,8 @@ export default function App() {
                 <Route index element={<GuideMachineForm />} />
                 <Route path=":guideMachineId" element={<GuideMachineForm />} />
               </Route>
+
+              <Route path="/reports" element={<Reports />} />
 
             </Route>
 

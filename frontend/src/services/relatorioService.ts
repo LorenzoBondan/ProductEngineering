@@ -5,6 +5,7 @@ const route = "/api/relatorio";
 export function gerarRelatorioPdf(id: number) {
     return requestBackend({ 
         url: `${route}/${id}`, 
-        withCredentials: true 
+        withCredentials: true,
+        responseType: 'blob'
     });
 }
