@@ -47,7 +47,8 @@ export default function SonDetails() {
               <strong>Descrição:</strong> {filho?.descricao}
             </div>
             <div className="info-item">
-              <strong>Pai:</strong> {filho?.pai ? filho?.pai?.descricao : "Não especificado"}
+              <strong>Pai:</strong> {filho?.pai ? <p onClick={() => (window.location.href = `/fathers/details/${filho?.pai.codigo}`)}
+                  style={{ cursor: "pointer" }}>{filho?.pai.descricao}</p> : "Não especificado"}
             </div>
             <div className="info-item">
               <strong>Cor:</strong> {filho?.cor ? filho?.cor?.descricao : "Não especificada"}

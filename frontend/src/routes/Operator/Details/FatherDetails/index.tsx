@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DPai } from "../../../../models/pai";
 import * as paiService from "../../../../services/paiService";
+import * as filhoService from "../../../../services/filhoService";
 import { getLabel } from "../../../../models/enums/tipoPintura";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import "./styles.css";
+import { Link } from "react-router-dom";
+import DialogConfirmation from "../../../../components/DialogConfirmation";
+import DialogInfo from "../../../../components/DialogInfo";
+import eyeIcon from '../../../../assets/images/eye.svg';
+import editIcon from '../../../../assets/images/edit.svg';
+import deleteIcon from '../../../../assets/images/delete.svg';
 
 export default function FatherDetails() {
   const params = useParams();
@@ -30,6 +37,47 @@ export default function FatherDetails() {
       navigate("/fathers");
     }
   };
+
+  // lista de filhos
+
+  const [dialogInfoData, setDialogInfoData] = useState({
+    visible: false,
+    message: "Sucesso!"
+  });
+
+  const [dialogConfirmationData, setDialogConfirmationData] = useState({
+    visible: false,
+    id: 0,
+    message: "Você tem certeza?"
+  });
+
+  function handleDialogInfoClose() {
+    setDialogInfoData({ ...dialogInfoData, visible: false });
+  }
+
+  function handleUpdateClick(sonId: number) {
+    navigate(`/sons/${sonId}`);
+  }
+
+  function handleDeleteClick(sonId: number) {
+    setDialogConfirmationData({ ...dialogConfirmationData, id: sonId, visible: true });
+  }
+
+  function handleDialogConfirmationAnswer(answer: boolean, sonId: number[]) {
+    if (answer) {
+      filhoService.remover(sonId)
+        .then(() => {
+          findFatherById();
+        })
+        .catch(error => {
+          setDialogInfoData({
+            visible: true,
+            message: error.response.data.error
+        })
+      });
+      }
+    setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
+  }
 
   return (
     <main className="father-details-main">
@@ -76,27 +124,46 @@ export default function FatherDetails() {
                 <th>Descrição</th>
                 <th>Cor</th>
                 <th>Medidas</th>
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {pai?.filhos.map((filho) => (
-                <tr
-                  key={filho.codigo}
-                  onClick={() => (window.location.href = `/sons/details/${filho.codigo}`)}
-                  style={{ cursor: "pointer" }}
-                >
+                <tr>
                   <td>{filho.codigo}</td>
                   <td>{filho.descricao}</td>
                   <td>{filho.cor.descricao}</td>
                   <td>
                     {filho.medidas.altura} x {filho.medidas.largura} x {filho.medidas.espessura}
                   </td>
+                  <td><Link to={`/sons/details/${filho.codigo}`}><img className="visualize-btn" src={eyeIcon} alt="" /></Link></td>
+                  <td><img onClick={() => handleUpdateClick(filho.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
+                  <td><img onClick={() => handleDeleteClick(filho.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </section>
+
+      {
+        dialogInfoData.visible &&
+          <DialogInfo
+            message={dialogInfoData.message}
+            onDialogClose={handleDialogInfoClose}
+          />
+      }
+
+      {
+        dialogConfirmationData.visible &&
+          <DialogConfirmation
+            id={dialogConfirmationData.id}
+            message={dialogConfirmationData.message}
+            onDialogAnswer={handleDialogConfirmationAnswer}
+          />
+      }
     </main>
   );
 }
