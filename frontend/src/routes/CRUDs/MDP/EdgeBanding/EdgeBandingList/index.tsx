@@ -118,7 +118,7 @@ export default function EdgeBandingList() {
                         {
                             fitasBorda.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(fitaBorda => (
-                                <tr key={fitaBorda.codigo}>
+                                <tr key={fitaBorda.codigo} className={`situacao-${fitaBorda.situacao.toLowerCase()}`}>
                                     <td className="tb576">{fitaBorda.codigo}</td>
                                     <td className="txt-left">{fitaBorda.descricao}</td>
                                     {fitaBorda.cor ? <td className="txt-left">{fitaBorda.cor.descricao}</td> : <td className="txt-left"></td>}

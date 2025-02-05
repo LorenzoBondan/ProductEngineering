@@ -116,7 +116,7 @@ export default function PlasticList() {
                         {
                             plasticos.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(plastico => (
-                                <tr key={plastico.codigo}>
+                                <tr key={plastico.codigo} className={`situacao-${plastico.situacao.toLowerCase()}`}>
                                     <td className="tb576">{plastico.codigo}</td>
                                     <td className="txt-left">{plastico.descricao}</td>
                                     <td className="txt-left">{plastico.gramatura}</td>

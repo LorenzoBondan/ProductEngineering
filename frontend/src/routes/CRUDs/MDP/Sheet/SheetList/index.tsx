@@ -118,7 +118,7 @@ export default function SheetList() {
                         {
                             chapas.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(chapa => (
-                                <tr key={chapa.codigo}>
+                                <tr key={chapa.codigo} className={`situacao-${chapa.situacao.toLowerCase()}`}>
                                     <td className="tb576">{chapa.codigo}</td>
                                     <td className="txt-left">{chapa.descricao}</td>
                                     {chapa.cor ? <td className="txt-left">{chapa.cor.descricao}</td> : <td className="txt-left"></td>}

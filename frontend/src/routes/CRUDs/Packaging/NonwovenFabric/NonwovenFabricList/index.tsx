@@ -116,7 +116,7 @@ export default function NonwovenFabricList() {
                         {
                             tnts.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(tnt => (
-                                <tr key={tnt.codigo}>
+                                <tr key={tnt.codigo} className={`situacao-${tnt.situacao.toLowerCase()}`}>
                                     <td className="tb576">{tnt.codigo}</td>
                                     <td className="txt-left">{tnt.descricao}</td>
                                     <td>

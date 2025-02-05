@@ -116,7 +116,7 @@ export default function PaintingBorderBackgroundList() {
                         {
                             pinturaBordaFundos.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(pintura => (
-                                <tr key={pintura.codigo}>
+                                <tr key={pintura.codigo} className={`situacao-${pintura.situacao.toLowerCase()}`}>
                                     <td className="tb576">{pintura.codigo}</td>
                                     <td className="txt-left">{pintura.descricao}</td>
                                     {pintura.cor ? <td className="txt-left">{pintura.cor.descricao}</td> : <td className="txt-left"></td>}

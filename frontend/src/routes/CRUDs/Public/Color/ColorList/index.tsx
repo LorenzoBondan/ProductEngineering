@@ -116,7 +116,7 @@ export default function ColorList() {
                         {
                             cores.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(cor => (
-                                <tr key={cor.codigo}>
+                                <tr key={cor.codigo} className={`situacao-${cor.situacao.toLowerCase()}`}>
                                     <td className="tb576">{cor.codigo}</td>
                                     <td className="txt-left">{cor.descricao}</td>
                                     <td className="txt-left">

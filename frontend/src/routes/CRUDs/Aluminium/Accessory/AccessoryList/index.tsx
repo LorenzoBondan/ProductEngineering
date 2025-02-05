@@ -119,7 +119,7 @@ export default function AccessoryList() {
                         {
                             acessorios.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(acessorio => (
-                                <tr key={acessorio.codigo}>
+                                <tr key={acessorio.codigo} className={`situacao-${acessorio.situacao.toLowerCase()}`}>
                                     <td className="tb576">{acessorio.codigo}</td>
                                     <td className="txt-left">{acessorio.descricao}</td>
                                     {acessorio.cor ? <td className="txt-left">{acessorio.cor.descricao}</td> : <td className="txt-left"></td>}

@@ -116,7 +116,7 @@ export default function GlueList() {
                         {
                             colas.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(cola => (
-                                <tr key={cola.codigo}>
+                                <tr key={cola.codigo} className={`situacao-${cola.situacao.toLowerCase()}`}>
                                     <td className="tb576">{cola.codigo}</td>
                                     <td className="txt-left">{cola.descricao}</td>
                                     <td className="txt-left">{cola.gramatura}</td>

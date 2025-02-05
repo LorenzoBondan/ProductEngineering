@@ -116,7 +116,7 @@ export default function CornerBracketList() {
                         {
                             cantoneiras.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(cantoneira => (
-                                <tr key={cantoneira.codigo}>
+                                <tr key={cantoneira.codigo} className={`situacao-${cantoneira.situacao.toLowerCase()}`}>
                                     <td className="tb576">{cantoneira.codigo}</td>
                                     <td className="txt-left">{cantoneira.descricao}</td>
                                     <td>

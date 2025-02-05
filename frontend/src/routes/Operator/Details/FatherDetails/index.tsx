@@ -125,13 +125,12 @@ export default function FatherDetails() {
                 <th>Medidas</th>
                 <th></th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
               {pai?.filhos.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((filho) => (
-                <tr>
+                <tr key={filho.codigo} className={`situacao-${filho.situacao.toLowerCase()}`}>
                   <td>{filho.codigo}</td>
                   <td>{filho.descricao}</td>
                   <td>{filho.cor.descricao}</td>

@@ -111,13 +111,12 @@ export default function GuideDetails() {
                 <th>Nome</th>
                 <th>Tempo</th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
               {roteiro?.roteiroMaquinas.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((roteiroMaquina) => (
-                <tr>
+                <tr key={roteiroMaquina.codigo} className={`situacao-${roteiroMaquina.situacao.toLowerCase()}`}>
                   <td>{roteiroMaquina.maquina.codigo}</td>
                   <td>{roteiroMaquina.maquina.nome}</td>
                   <td>{roteiroMaquina.tempoMaquina}</td>

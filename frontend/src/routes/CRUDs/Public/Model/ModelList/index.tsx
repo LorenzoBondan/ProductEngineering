@@ -115,7 +115,7 @@ export default function ModelList() {
                         {
                             modelos.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(modelo => (
-                                <tr key={modelo.codigo}>
+                                <tr key={modelo.codigo} className={`situacao-${modelo.situacao.toLowerCase()}`}>
                                     <td className="tb576">{modelo.codigo}</td>
                                     <td className="txt-left">{modelo.descricao}</td>
                                     <td>

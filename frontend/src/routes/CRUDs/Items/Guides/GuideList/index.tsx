@@ -121,7 +121,7 @@ export default function GuideList() {
                         {
                             roteiros.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(roteiro => (
-                                <tr key={roteiro.codigo}>
+                                <tr key={roteiro.codigo} className={`situacao-${roteiro.situacao.toLowerCase()}`}>
                                     <td className="tb576">{roteiro.codigo}</td>
                                     <td className="txt-left">{roteiro.descricao}</td>
                                     <td className="txt-left">{formatDate(roteiro.implantacao.toString())}</td>

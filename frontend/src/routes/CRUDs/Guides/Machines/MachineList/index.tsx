@@ -117,7 +117,7 @@ export default function MachineList() {
                         {
                             maquinas.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(maquina => (
-                                <tr key={maquina.codigo}>
+                                <tr key={maquina.codigo} className={`situacao-${maquina.situacao.toLowerCase()}`}>
                                     <td className="tb576">{maquina.codigo}</td>
                                     <td className="txt-left">{maquina.nome}</td>
                                     <td className="txt-left">{maquina.grupoMaquina.nome}</td>

@@ -117,7 +117,7 @@ export default function MeasureList() {
                         {
                             medidas.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(medida => (
-                                <tr key={medida.codigo}>
+                                <tr key={medida.codigo} className={`situacao-${medida.situacao.toLowerCase()}`}>
                                     <td className="tb576">{medida.codigo}</td>
                                     <td className="txt-left">{medida.altura}</td>
                                     <td className="txt-left">{medida.largura}</td>

@@ -182,7 +182,7 @@ export default function SonDetails() {
             <tbody>
               {filho?.materiaisUsados.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((materialUsado) => (
-                <tr>
+                <tr key={materialUsado.codigo} className={`situacao-${materialUsado.situacao.toLowerCase()}`}>
                   <td>{materialUsado.material.codigo}</td>
                   <td>{materialUsado.material.descricao}</td>
                   <td>{materialUsado.quantidadeLiquida} {materialUsado.unidadeMedida}</td>
@@ -216,7 +216,7 @@ export default function SonDetails() {
             <tbody>
               {filho?.acessoriosUsados.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((acessorioUsado) => (
-                <tr>
+                <tr key={acessorioUsado.codigo} className={`situacao-${acessorioUsado.situacao.toLowerCase()}`}>
                   <td>{acessorioUsado.acessorio.codigo}</td>
                   <td>{acessorioUsado.acessorio.descricao}</td>
                   <td>{acessorioUsado.quantidade} {acessorioUsado.unidadeMedida}</td>
@@ -250,7 +250,7 @@ export default function SonDetails() {
             <tbody>
               {filho?.filhos.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((filho) => (
-                <tr>
+                <tr key={filho.codigo} className={`situacao-${filho.situacao.toLowerCase()}`}>
                   <td>{filho.codigo}</td>
                   <td>{filho.descricao}</td>
                   <td>{filho.cor.descricao}</td>

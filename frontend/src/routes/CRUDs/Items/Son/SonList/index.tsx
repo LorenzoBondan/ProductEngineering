@@ -122,7 +122,7 @@ export default function SonList() {
                         {
                             filhos.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(filho => (
-                                <tr key={filho.codigo}>
+                                <tr key={filho.codigo} className={`situacao-${filho.situacao.toLowerCase()}`}>
                                     <td className="tb576">{filho.codigo}</td>
                                     <td className="txt-left">{filho.descricao}</td>
                                     <td className="txt-left">{filho.pai.descricao}</td>
