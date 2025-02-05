@@ -10,8 +10,7 @@ import { Link } from "react-router-dom";
 import DialogConfirmation from "../../../../components/DialogConfirmation";
 import DialogInfo from "../../../../components/DialogInfo";
 import eyeIcon from '../../../../assets/images/eye.svg';
-import editIcon from '../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../assets/images/delete.svg';
+import DropdownMenu from "../../../../components/DropdownMenu";
 
 export default function FatherDetails() {
   const params = useParams();
@@ -140,8 +139,13 @@ export default function FatherDetails() {
                     {filho.medidas.altura} x {filho.medidas.largura} x {filho.medidas.espessura}
                   </td>
                   <td><Link to={`/sons/details/${filho.codigo}`}><img className="visualize-btn" src={eyeIcon} alt="" /></Link></td>
-                  <td><img onClick={() => handleUpdateClick(filho.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                  <td><img onClick={() => handleDeleteClick(filho.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                  <td>
+                    <DropdownMenu
+                      onEdit={() => handleUpdateClick(filho.codigo)}
+                      onInactivate={() => console.log()}
+                      onDelete={() => handleDeleteClick(filho.codigo)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>

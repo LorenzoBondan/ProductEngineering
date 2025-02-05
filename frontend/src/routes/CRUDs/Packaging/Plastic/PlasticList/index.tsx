@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as plasticoService from '../../../../../services/plasticoService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPlastico } from '../../../../../models/plastico';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -111,7 +110,6 @@ export default function PlasticList() {
                             <th className="txt-left">Descrição</th>
                             <th className="txt-left">Gramatura</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,8 +120,13 @@ export default function PlasticList() {
                                     <td className="tb576">{plastico.codigo}</td>
                                     <td className="txt-left">{plastico.descricao}</td>
                                     <td className="txt-left">{plastico.gramatura}</td>
-                                    <td><img onClick={() => handleUpdateClick(plastico.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(plastico.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(plastico.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(plastico.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

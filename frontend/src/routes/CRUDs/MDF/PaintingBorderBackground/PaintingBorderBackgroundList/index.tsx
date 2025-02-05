@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as pinturaBordaFundoService from '../../../../../services/pinturaBordaFundoService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPinturaBordaFundo } from '../../../../../models/pinturaBordaFundo';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -111,7 +110,6 @@ export default function PaintingBorderBackgroundList() {
                             <th className="txt-left">Descrição</th>
                             <th className="txt-left">Cor</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,8 +120,13 @@ export default function PaintingBorderBackgroundList() {
                                     <td className="tb576">{pintura.codigo}</td>
                                     <td className="txt-left">{pintura.descricao}</td>
                                     {pintura.cor ? <td className="txt-left">{pintura.cor.descricao}</td> : <td className="txt-left"></td>}
-                                    <td><img onClick={() => handleUpdateClick(pintura.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(pintura.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(pintura.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(pintura.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

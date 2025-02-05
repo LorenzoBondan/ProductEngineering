@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as grupoMaquinaService from '../../../../../services/grupoMaquinaService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DGrupoMaquina } from '../../../../../models/grupoMaquina';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -120,8 +119,13 @@ export default function MachineGroupList() {
                                 <tr key={grupoMaquina.codigo}>
                                     <td className="tb576">{grupoMaquina.codigo}</td>
                                     <td className="txt-left">{grupoMaquina.nome}</td>
-                                    <td><img onClick={() => handleUpdateClick(grupoMaquina.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(grupoMaquina.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(grupoMaquina.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(grupoMaquina.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

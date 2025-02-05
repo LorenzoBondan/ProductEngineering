@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as colaService from '../../../../../services/colaService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DCola } from '../../../../../models/cola';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -111,7 +110,6 @@ export default function GlueList() {
                             <th className="txt-left">Descrição</th>
                             <th className="txt-left">Gramatura</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,8 +120,13 @@ export default function GlueList() {
                                     <td className="tb576">{cola.codigo}</td>
                                     <td className="txt-left">{cola.descricao}</td>
                                     <td className="txt-left">{cola.gramatura}</td>
-                                    <td><img onClick={() => handleUpdateClick(cola.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(cola.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(cola.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(cola.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

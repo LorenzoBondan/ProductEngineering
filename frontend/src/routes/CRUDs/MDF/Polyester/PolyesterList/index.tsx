@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as poliesterService from '../../../../../services/poliesterService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DPoliester } from '../../../../../models/poliester';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -110,7 +109,6 @@ export default function PolyesterList() {
                             <th className="tb576">Código</th>
                             <th className="txt-left">Descrição</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,8 +118,13 @@ export default function PolyesterList() {
                                 <tr key={poliester.codigo}>
                                     <td className="tb576">{poliester.codigo}</td>
                                     <td className="txt-left">{poliester.descricao}</td>
-                                    <td><img onClick={() => handleUpdateClick(poliester.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(poliester.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(poliester.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(poliester.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

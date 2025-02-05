@@ -10,8 +10,7 @@ import DialogConfirmation from "../../../../components/DialogConfirmation";
 import DialogInfo from "../../../../components/DialogInfo";
 import { Link } from "react-router-dom";
 import eyeIcon from '../../../../assets/images/eye.svg';
-import editIcon from '../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../assets/images/delete.svg';
+import DropdownMenu from "../../../../components/DropdownMenu";
 
 export default function SonDetails() {
 
@@ -178,7 +177,6 @@ export default function SonDetails() {
                 <th>Quantidade Bruta</th>
                 <th>Valor (R$)</th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -190,8 +188,13 @@ export default function SonDetails() {
                   <td>{materialUsado.quantidadeLiquida} {materialUsado.unidadeMedida}</td>
                   <td>{materialUsado.quantidadeBruta} {materialUsado.unidadeMedida}</td>
                   <td>{materialUsado.valor}</td>
-                  <td><img onClick={() => handleMaterialUpdateClick(materialUsado.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                  <td><img onClick={() => handleMaterialDeleteClick(materialUsado.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                  <td>
+                    <DropdownMenu
+                      onEdit={() => handleMaterialUpdateClick(materialUsado.codigo)}
+                      onInactivate={() => console.log()}
+                      onDelete={() => handleMaterialDeleteClick(materialUsado.codigo)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -208,7 +211,6 @@ export default function SonDetails() {
                 <th>Quantidade</th>
                 <th>Valor (R$)</th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -219,8 +221,13 @@ export default function SonDetails() {
                   <td>{acessorioUsado.acessorio.descricao}</td>
                   <td>{acessorioUsado.quantidade} {acessorioUsado.unidadeMedida}</td>
                   <td>{acessorioUsado.valor}</td>
-                  <td><img onClick={() => handleAccessoryUpdateClick(acessorioUsado.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                  <td><img onClick={() => handleAccessoryDeleteClick(acessorioUsado.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                  <td>
+                    <DropdownMenu
+                      onEdit={() => handleAccessoryUpdateClick(acessorioUsado.codigo)}
+                      onInactivate={() => console.log()}
+                      onDelete={() => handleAccessoryDeleteClick(acessorioUsado.codigo)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -238,7 +245,6 @@ export default function SonDetails() {
                 <th>Medidas</th>
                 <th></th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -252,8 +258,13 @@ export default function SonDetails() {
                     {filho.medidas.altura} x {filho.medidas.largura} x {filho.medidas.espessura}
                   </td>
                   <td><Link to={`/sons/details/${filho.codigo}`}><img className="visualize-btn" src={eyeIcon} alt="" /></Link></td>
-                  <td><img onClick={() => handleSonUpdateClick(filho.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                  <td><img onClick={() => handleSonDeleteClick(filho.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                  <td>
+                    <DropdownMenu
+                      onEdit={() => handleSonUpdateClick(filho.codigo)}
+                      onInactivate={() => console.log()}
+                      onDelete={() => handleSonDeleteClick(filho.codigo)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>

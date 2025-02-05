@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as modeloService from '../../../../../services/modeloService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DModelo } from '../../../../../models/modelo';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -110,7 +109,6 @@ export default function ModelList() {
                             <th className="tb576">Código</th>
                             <th className="txt-left">Descrição</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,8 +118,13 @@ export default function ModelList() {
                                 <tr key={modelo.codigo}>
                                     <td className="tb576">{modelo.codigo}</td>
                                     <td className="txt-left">{modelo.descricao}</td>
-                                    <td><img onClick={() => handleUpdateClick(modelo.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(modelo.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(modelo.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(modelo.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

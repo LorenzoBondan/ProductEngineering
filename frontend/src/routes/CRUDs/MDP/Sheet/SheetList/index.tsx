@@ -124,10 +124,10 @@ export default function SheetList() {
                                     {chapa.cor ? <td className="txt-left">{chapa.cor.descricao}</td> : <td className="txt-left"></td>}
                                     <td className="txt-left">{chapa.espessura}</td>
                                     <td className="txt-left">{chapa.faces}</td>
-
                                     <td>
                                         <DropdownMenu
                                             onEdit={() => handleUpdateClick(chapa.codigo)}
+                                            onInactivate={() => console.log()}
                                             onDelete={() => handleDeleteClick(chapa.codigo)}
                                         />
                                     </td>

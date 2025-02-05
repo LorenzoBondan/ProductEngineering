@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as roteiroService from "../../../../services/roteiroService";
+import * as roteiroMaquinaService from "../../../../services/roteiroMaquinaService";
 import { DRoteiro } from "../../../../models/roteiro";
 import { formatDate } from "../../../../utils/formatters";
+import DropdownMenu from "../../../../components/DropdownMenu";
+import DialogConfirmation from "../../../../components/DialogConfirmation";
+import DialogInfo from "../../../../components/DialogInfo";
 
 export default function GuideDetails() {
 
@@ -29,6 +33,47 @@ export default function GuideDetails() {
       navigate("/guides");
     }
   };
+
+  // lista de máquinas
+
+  const [dialogInfoData, setDialogInfoData] = useState({
+    visible: false,
+    message: "Sucesso!"
+  });
+
+  const [dialogConfirmationData, setDialogConfirmationData] = useState({
+    visible: false,
+    id: 0,
+    message: "Você tem certeza?"
+  });
+
+  function handleDialogInfoClose() {
+    setDialogInfoData({ ...dialogInfoData, visible: false });
+  }
+
+  function handleUpdateClick(guideMachineId: number) {
+    navigate(`/guideMachines/${guideMachineId}`);
+  }
+
+  function handleDeleteClick(guideMachineId: number) {
+    setDialogConfirmationData({ ...dialogConfirmationData, id: guideMachineId, visible: true });
+  }
+
+  function handleDialogConfirmationAnswer(answer: boolean, guideMachineId: number[]) {
+    if (answer) {
+      roteiroMaquinaService.remover(guideMachineId)
+        .then(() => {
+          findGuideById();
+        })
+        .catch(error => {
+          setDialogInfoData({
+            visible: true,
+            message: error.response.data.error
+        })
+      });
+      }
+    setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
+  }
 
   return (
     <main className="father-details-main">
@@ -65,25 +110,46 @@ export default function GuideDetails() {
                 <th>Código</th>
                 <th>Nome</th>
                 <th>Tempo</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {roteiro?.roteiroMaquinas.filter(obj => obj.situacao !== 'LIXEIRA')
               .map((roteiroMaquina) => (
-                <tr
-                  key={roteiroMaquina.codigo}
-                  onClick={() => (window.location.href = `/guideMachines/${roteiroMaquina.codigo}`)}
-                  style={{ cursor: "pointer" }}
-                >
+                <tr>
                   <td>{roteiroMaquina.maquina.codigo}</td>
                   <td>{roteiroMaquina.maquina.nome}</td>
                   <td>{roteiroMaquina.tempoMaquina}</td>
+                  <td>
+                    <DropdownMenu
+                      onEdit={() => handleUpdateClick(roteiroMaquina.codigo)}
+                      onInactivate={() => console.log()}
+                      onDelete={() => handleDeleteClick(roteiroMaquina.codigo)}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </section>
+       {
+          dialogInfoData.visible &&
+            <DialogInfo
+              message={dialogInfoData.message}
+              onDialogClose={handleDialogInfoClose}
+            />
+        }
+      
+        {
+          dialogConfirmationData.visible &&
+            <DialogConfirmation
+              id={dialogConfirmationData.id}
+              message={dialogConfirmationData.message}
+              onDialogAnswer={handleDialogConfirmationAnswer}
+            />
+        }
     </main>
   );
 }

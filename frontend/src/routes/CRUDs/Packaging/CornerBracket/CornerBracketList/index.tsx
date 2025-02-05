@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as cantoneiraService from '../../../../../services/cantoneiraService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DCantoneira } from '../../../../../models/cantoneira';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -120,8 +119,13 @@ export default function CornerBracketList() {
                                 <tr key={cantoneira.codigo}>
                                     <td className="tb576">{cantoneira.codigo}</td>
                                     <td className="txt-left">{cantoneira.descricao}</td>
-                                    <td><img onClick={() => handleUpdateClick(cantoneira.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(cantoneira.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(cantoneira.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(cantoneira.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

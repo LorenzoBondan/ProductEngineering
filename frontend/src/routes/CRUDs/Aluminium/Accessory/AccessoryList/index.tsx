@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as acessorioService from '../../../../../services/acessorioService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DAcessorio } from '../../../../../models/acessorio';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -114,7 +113,6 @@ export default function AccessoryList() {
                             <th className="txt-left">Largura</th>
                             <th className="txt-left">Espessura</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,8 +126,13 @@ export default function AccessoryList() {
                                     {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.altura}</td> : <td className="txt-left"></td>}
                                     {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.largura}</td> : <td className="txt-left"></td>}
                                     {acessorio.medidas ? <td className="txt-left">{acessorio.medidas.espessura}</td> : <td className="txt-left"></td>}
-                                    <td><img onClick={() => handleUpdateClick(acessorio.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(acessorio.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(acessorio.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(acessorio.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import * as medidasService from '../../../../../services/medidasService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
 import SearchBar from '../../../../../components/SearchBar';
@@ -9,6 +7,7 @@ import ButtonNextPage from '../../../../../components/ButtonNextPage';
 import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DMedidas } from '../../../../../models/medidas';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -112,7 +111,6 @@ export default function MeasureList() {
                             <th className="txt-left">Largura</th>
                             <th className="txt-left">Espessura</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,8 +122,13 @@ export default function MeasureList() {
                                     <td className="txt-left">{medida.altura}</td>
                                     <td className="txt-left">{medida.largura}</td>
                                     <td className="txt-left">{medida.espessura}</td>
-                                    <td><img onClick={() => handleUpdateClick(medida.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(medida.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(medida.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(medida.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }

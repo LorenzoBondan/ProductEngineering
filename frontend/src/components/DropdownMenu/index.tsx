@@ -3,10 +3,11 @@ import "./styles.css";
 
 interface DropdownMenuProps {
     onEdit: () => void;
+    onInactivate: () => void;
     onDelete: () => void;
 }
 
-export default function DropdownMenu({ onEdit, onDelete }: DropdownMenuProps) {
+export default function DropdownMenu({ onEdit, onInactivate, onDelete }: DropdownMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +34,7 @@ export default function DropdownMenu({ onEdit, onDelete }: DropdownMenuProps) {
             {isOpen && (
                 <div className="dropdown-menu">
                     <button className="dropdown-item" onClick={onEdit}>Editar</button>
+                    <button className="dropdown-item" onClick={onInactivate}>Inativar</button>
                     <button className="dropdown-item" onClick={onDelete}>Excluir</button>
                 </div>
             )}

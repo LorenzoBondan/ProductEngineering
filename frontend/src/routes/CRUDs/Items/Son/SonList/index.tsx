@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import editIcon from '../../../../../assets/images/edit.svg';
-import deleteIcon from '../../../../../assets/images/delete.svg';
 import eyeIcon from '../../../../../assets/images/eye.svg';
 import * as filhoService from '../../../../../services/filhoService';
 import ButtonInverse from '../../../../../components/ButtonInverse';
@@ -11,6 +9,7 @@ import DialogInfo from '../../../../../components/DialogInfo';
 import DialogConfirmation from '../../../../../components/DialogConfirmation';
 import { DFilho } from '../../../../../models/filho';
 import { Link } from 'react-router-dom';
+import DropdownMenu from '../../../../../components/DropdownMenu';
 
 type QueryParams = {
     page: number;
@@ -130,8 +129,13 @@ export default function SonList() {
                                     <td className="txt-left">{filho.cor.descricao}</td>
                                     <td className="txt-left">{filho.medidas.altura}X{filho.medidas.largura}X{filho.medidas.espessura}</td>
                                     <td><Link to={`/sons/details/${filho.codigo}`}><img className="visualize-btn" src={eyeIcon} alt="" /></Link></td>
-                                    <td><img onClick={() => handleUpdateClick(filho.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
-                                    <td><img onClick={() => handleDeleteClick(filho.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
+                                    <td>
+                                        <DropdownMenu
+                                            onEdit={() => handleUpdateClick(filho.codigo)}
+                                            onInactivate={() => console.log()}
+                                            onDelete={() => handleDeleteClick(filho.codigo)}
+                                        />
+                                    </td>
                                 </tr>
                             ))
                         }
