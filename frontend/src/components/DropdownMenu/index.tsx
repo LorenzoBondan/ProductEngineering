@@ -21,6 +21,11 @@ export default function DropdownMenu({ onEdit, onInactivate, onDelete }: Dropdow
         }
     };
 
+    const handleAction = (action: () => void) => {
+        action();
+        setIsOpen(false);
+    };
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -33,9 +38,9 @@ export default function DropdownMenu({ onEdit, onInactivate, onDelete }: Dropdow
             <button className="dropdown-toggle" onClick={toggleMenu}>⋮</button>
             {isOpen && (
                 <div className="dropdown-menu">
-                    <button className="dropdown-item" onClick={onEdit}>Editar</button>
-                    <button className="dropdown-item" onClick={onInactivate}>Inativar</button>
-                    <button className="dropdown-item" onClick={onDelete}>Excluir</button>
+                    <button className="dropdown-item" onClick={() => handleAction(onEdit)}>Editar</button>
+                    <button className="dropdown-item" onClick={() => handleAction(onInactivate)}>Inativar</button>
+                    <button className="dropdown-item" onClick={() => handleAction(onDelete)}>Excluir</button>
                 </div>
             )}
         </div>
