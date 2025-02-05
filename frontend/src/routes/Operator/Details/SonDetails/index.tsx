@@ -1,20 +1,29 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as filhoService from "../../../../services/filhoService";
+import * as acessorioUsadoService from "../../../../services/acessorioUsadoService";
+import * as materialUsadoService from "../../../../services/materialUsadoService";
 import { getLabel } from "../../../../models/enums/tipoFilho";
 import { DFilho } from "../../../../models/filho";
 import { formatDate } from "../../../../utils/formatters";
+import DialogConfirmation from "../../../../components/DialogConfirmation";
+import DialogInfo from "../../../../components/DialogInfo";
+import { Link } from "react-router-dom";
+import eyeIcon from '../../../../assets/images/eye.svg';
+import editIcon from '../../../../assets/images/edit.svg';
+import deleteIcon from '../../../../assets/images/delete.svg';
 
 export default function SonDetails() {
+
   const params = useParams();
   const navigate = useNavigate();
   const [filho, setFilho] = useState<DFilho>();
 
   useEffect(() => {
-    findFatherById();
+    findSonById();
   }, [params.sonId]);
 
-  const findFatherById = () => {
+  const findSonById = () => {
     const sonId = Number(params.sonId);
     if (!isNaN(sonId)) {
       filhoService
@@ -29,6 +38,86 @@ export default function SonDetails() {
       navigate("/sons");
     }
   };
+
+  const [dialogInfoData, setDialogInfoData] = useState({
+    visible: false,
+    message: "Sucesso!"
+  });
+
+  const [dialogConfirmationData, setDialogConfirmationData] = useState({
+    visible: false,
+    id: 0,
+    message: "Você tem certeza?",
+    type: ""
+  });
+
+  function handleDialogInfoClose() {
+    setDialogInfoData({ ...dialogInfoData, visible: false });
+  }
+
+  function handleDialogConfirmationAnswer(answer: boolean, id: number[]) {
+    if (answer) {
+      if (dialogConfirmationData.type === "accessory") {
+        acessorioUsadoService.remover(id)
+          .then(() => findSonById())
+          .catch(error => {
+            setDialogInfoData({
+              visible: true,
+              message: error.response.data.error
+            });
+          });
+      } else if (dialogConfirmationData.type === "material") {
+        materialUsadoService.remover(id)
+          .then(() => findSonById())
+          .catch(error => {
+            setDialogInfoData({
+              visible: true,
+              message: error.response.data.error
+            });
+          });
+      } else if (dialogConfirmationData.type === "son") {
+        filhoService.remover(id)
+          .then(() => findSonById())
+          .catch(error => {
+            setDialogInfoData({
+              visible: true,
+              message: error.response.data.error
+            });
+          });
+      }
+    }
+    setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
+  } 
+
+  // lista de acessorios usados
+
+  function handleAccessoryUpdateClick(usedAccessoryId: number) {
+    navigate(`/usedAccessories/${usedAccessoryId}`);
+  }
+
+  function handleAccessoryDeleteClick(usedAccessoryId: number) {
+    setDialogConfirmationData({ ...dialogConfirmationData, id: usedAccessoryId, visible: true, type: "accessory" });
+  }
+
+  // lista de materiais usados
+
+  function handleMaterialUpdateClick(usedMaterialId: number) {
+    navigate(`/usedMaterials/${usedMaterialId}`);
+  }
+
+  function handleMaterialDeleteClick(usedMaterialId: number) {
+    setDialogConfirmationData({ ...dialogConfirmationData, id: usedMaterialId, visible: true, type: "material" });
+  }
+
+  // lista de filhos
+
+  function handleSonUpdateClick(sonId: number) {
+    navigate(`/sons/${sonId}`);
+  }
+
+  function handleSonDeleteClick(sonId: number) {
+    setDialogConfirmationData({ ...dialogConfirmationData, id: sonId, visible: true, type: "son" });
+  }
 
   return (
     <main className="father-details-main">
@@ -88,20 +177,20 @@ export default function SonDetails() {
                 <th>Quantidade Líquida</th>
                 <th>Quantidade Bruta</th>
                 <th>Valor (R$)</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {filho?.materiaisUsados.map((materialUsado) => (
-                <tr
-                    key={materialUsado.codigo}
-                    onClick={() => (window.location.href = `/usedMaterials/${materialUsado.codigo}`)}
-                    style={{ cursor: "pointer" }}
-                >
+                <tr>
                   <td>{materialUsado.material.codigo}</td>
                   <td>{materialUsado.material.descricao}</td>
                   <td>{materialUsado.quantidadeLiquida} {materialUsado.unidadeMedida}</td>
                   <td>{materialUsado.quantidadeBruta} {materialUsado.unidadeMedida}</td>
                   <td>{materialUsado.valor}</td>
+                  <td><img onClick={() => handleMaterialUpdateClick(materialUsado.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
+                  <td><img onClick={() => handleMaterialDeleteClick(materialUsado.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                 </tr>
               ))}
             </tbody>
@@ -117,19 +206,19 @@ export default function SonDetails() {
                 <th>Descrição</th>
                 <th>Quantidade</th>
                 <th>Valor (R$)</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {filho?.acessoriosUsados.map((acessorioUsado) => (
-                <tr
-                    key={acessorioUsado.codigo}
-                    onClick={() => (window.location.href = `/usedAccessories/${acessorioUsado.codigo}`)}
-                    style={{ cursor: "pointer" }}
-                >
+                <tr>
                   <td>{acessorioUsado.acessorio.codigo}</td>
                   <td>{acessorioUsado.acessorio.descricao}</td>
                   <td>{acessorioUsado.quantidade} {acessorioUsado.unidadeMedida}</td>
                   <td>{acessorioUsado.valor}</td>
+                  <td><img onClick={() => handleAccessoryUpdateClick(acessorioUsado.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
+                  <td><img onClick={() => handleAccessoryDeleteClick(acessorioUsado.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                 </tr>
               ))}
             </tbody>
@@ -145,27 +234,47 @@ export default function SonDetails() {
                 <th>Descrição</th>
                 <th>Cor</th>
                 <th>Medidas</th>
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {filho?.filhos.map((filho) => (
-                <tr
-                  key={filho.codigo}
-                  onClick={() => (window.location.href = `/sons/details/${filho.codigo}`)}
-                  style={{ cursor: "pointer" }}
-                >
+                <tr>
                   <td>{filho.codigo}</td>
                   <td>{filho.descricao}</td>
                   <td>{filho.cor.descricao}</td>
                   <td>
                     {filho.medidas.altura} x {filho.medidas.largura} x {filho.medidas.espessura}
                   </td>
+                  <td><Link to={`/sons/details/${filho.codigo}`}><img className="visualize-btn" src={eyeIcon} alt="" /></Link></td>
+                  <td><img onClick={() => handleSonUpdateClick(filho.codigo)} className="edit-btn" src={editIcon} alt="Editar" /></td>
+                  <td><img onClick={() => handleSonDeleteClick(filho.codigo)} className="delete-btn" src={deleteIcon} alt="Deletar" /></td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </section>
+
+      {
+        dialogInfoData.visible &&
+          <DialogInfo
+            message={dialogInfoData.message}
+            onDialogClose={handleDialogInfoClose}
+          />
+      }
+      
+      {
+        dialogConfirmationData.visible &&
+          <DialogConfirmation
+            id={dialogConfirmationData.id}
+            message={dialogConfirmationData.message}
+            onDialogAnswer={handleDialogConfirmationAnswer}
+          />
+      }
+      
     </main>
   );
 }
