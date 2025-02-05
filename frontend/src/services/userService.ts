@@ -114,26 +114,26 @@ export function substituirVersao(codigoRegistro: number, codigoVersao: number) {
     return requestBackend(config);
 }
 
-export function inativar(id: number[]) {
+export function inativar(codigo: number[]) {
     const config : AxiosRequestConfig = {
         method: "PATCH",
         url: `${route}/inativar`,
         withCredentials: true,
         params: {
-            id
+            codigo
         }
     }
 
     return requestBackend(config);
 }
 
-export function remover(id: number[]) {
+export function remover(codigo: number[]) {
     const config : AxiosRequestConfig = {
         method: "DELETE",
         url: `${route}`,
         withCredentials: true,
         params: {
-            id
+            codigo
         }
     }
 
