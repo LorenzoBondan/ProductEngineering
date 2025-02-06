@@ -53,8 +53,12 @@ public class AcessorioUsadoDomainToEntityAdapter implements Convertable<Acessori
                         .map(filho -> new DFilho(
                                 filho.getCdfilho(),
                                 filho.getDescricao(),
-                                corDomainToEntityAdapter.toDomain(entity.getFilho().getCor()),
-                                medidasDomainToEntityAdapter.toDomain(entity.getFilho().getMedidas())
+                                Optional.ofNullable(filho.getCor())
+                                        .map(corDomainToEntityAdapter::toDomain)
+                                        .orElse(null),
+                                Optional.ofNullable(filho.getMedidas())
+                                        .map(medidasDomainToEntityAdapter::toDomain)
+                                        .orElse(null)
                         )) // para não gerar stackoverflow
                         .orElse(null))
                 .quantidade(entity.getQuantidade())
