@@ -38,6 +38,8 @@ axios.interceptors.response.use(
     }
     if (error.response.status === 403) {
       history.push("/catalog");
+    } else{
+      console.log(error.response.message);
     }
     return Promise.reject(error);
   }

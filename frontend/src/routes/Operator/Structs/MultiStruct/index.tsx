@@ -23,6 +23,8 @@ import 'flatpickr/dist/themes/material_red.css';
 import Flatpickr from "react-flatpickr";
 import { Link } from 'react-router-dom';
 import { DAcessorio } from '../../../../models/acessorio';
+import { DMontadorEstruturaPaiModulacao } from '../../../../models/montadorEstruturaPaiModulacao';
+import { DTipoPinturaEnum } from '../../../../models/enums/tipoPintura';
 
 export default function MultiStruct() {
 
@@ -96,14 +98,14 @@ export default function MultiStruct() {
             message: "Escolha ao menos uma cor"
         },
         medidasPaiPrincipal: {
-            value: [],
+            value: null,
             id: "medidasPaiPrincipal",
             name: "medidasPaiPrincipal",
             placeholder: "Medidas",
-            validation: function (value: DMedidas[]) {
-                return value.length > 0;
+            validation: function (value: DMedidas) {
+                return value !== null;
             },
-            message: "Escolha ao menos uma medida"
+            message: "Medidas são obrigatórias"
         },
         materiais: {
             value: [],
@@ -133,8 +135,8 @@ export default function MultiStruct() {
         },
         bordasComprimentoPaiPrincipal: {
             value: null,
-            id: "bordasComprimento",
-            name: "bordasComprimento",
+            id: "bordasComprimentoPaiPrincipal",
+            name: "bordasComprimentoPaiPrincipal",
             type: "number",
             placeholder: "Bordas no Comprimento",
             validation: function (value: any) {
@@ -144,8 +146,8 @@ export default function MultiStruct() {
         },
         bordasLarguraPaiPrincipal: {
             value: null,
-            id: "bordasLargura",
-            name: "bordasLargura",
+            id: "bordasLarguraPaiPrincipal",
+            name: "bordasLarguraPaiPrincipal",
             type: "number",
             placeholder: "Bordas na Largura",
             validation: function (value: any) {
@@ -155,8 +157,8 @@ export default function MultiStruct() {
         },
         numeroCantoneirasPaiPrincipal: {
             value: null,
-            id: "numeroCantoneiras",
-            name: "numeroCantoneiras",
+            id: "numeroCantoneirasPaiPrincipal",
+            name: "numeroCantoneirasPaiPrincipal",
             type: "number",
             placeholder: "Número de Cantoneiras",
             validation: function (value: any) {
@@ -166,8 +168,8 @@ export default function MultiStruct() {
         },
         tntUmaFacePaiPrincipal: {
             value: false,
-            id: "tntUmaFace",
-            name: "tntUmaFace",
+            id: "tntUmaFacePaiPrincipal",
+            name: "tntUmaFacePaiPrincipal",
             type: "boolean",
             placeholder: "Tnt uma Face",
             validation: (value: any) => value !== null,
@@ -175,8 +177,8 @@ export default function MultiStruct() {
         },
         plasticoAcimaPaiPrincipal: {
             value: false,
-            id: "plasticoAcima",
-            name: "plasticoAcima",
+            id: "plasticoAcimaPaiPrincipal",
+            name: "plasticoAcimaPaiPrincipal",
             type: "boolean",
             placeholder: "Plástico Acima",
             validation: (value: any) => value !== null,
@@ -184,8 +186,8 @@ export default function MultiStruct() {
         },
         plasticoAdicionalPaiPrincipal: {
             value: null,
-            id: "plasticoAdicional",
-            name: "plasticoAdicional",
+            id: "plasticoAdicionalPaiPrincipal",
+            name: "plasticoAdicionalPaiPrincipal",
             type: "number",
             placeholder: "Plástico Adicional",
             validation: function (value: any) {
@@ -195,8 +197,8 @@ export default function MultiStruct() {
         },
         larguraPlasticoPaiPrincipal: {
             value: null,
-            id: "larguraPlastico",
-            name: "larguraPlastico",
+            id: "larguraPlasticoPaiPrincipal",
+            name: "larguraPlasticoPaiPrincipal",
             type: "number",
             placeholder: "Largura Plástico",
             validation: function (value: any) {
@@ -206,8 +208,8 @@ export default function MultiStruct() {
         },
         facesPaiPrincipal: {
             value: null,
-            id: "faces",
-            name: "faces",
+            id: "facesPaiPrincipal",
+            name: "facesPaiPrincipal",
             type: "number",
             placeholder: "Faces",
             validation: function (value: any) {
@@ -215,13 +217,8 @@ export default function MultiStruct() {
             },
             message: "Faces não pode ser negativo"
         },
-        paisSecundarios:[],
-        acessoriosQuantidades: {
-            value: [],
-            id: "acessoriosQuantidades",
-            name: "acessoriosQuantidades",
-            placeholder: "Acessórios Quantidades"
-        },
+        paisSecundarios: [],
+        acessoriosQuantidades: [],
     });
 
     function handleInputChange(event: any) {
@@ -234,54 +231,58 @@ export default function MultiStruct() {
 
     function handleSubmit(event: any) {
         event.preventDefault();
-
-        const formDataValidated = forms.dirtyAndValidateAll(formData);
-        if (forms.hasAnyInvalid(formDataValidated)) {
-            setFormData(formDataValidated);
-            return;
-        }
-
-        const requestBody = forms.toValues(formData);
-
-        requestBody.paiPrincipal = {
-            modelo: {
-                codigo: formData.modeloPaiPrincipal
+    
+        const requestBody: any = {
+            paiPrincipal: {
+                codigo: 0,
+                descricao: "",
+                modelo: formData.modeloPaiPrincipal.value,
+                categoriaComponente: formData.categoriaComponentePaiPrincipal.value,
+                bordasComprimento: formData.bordasComprimentoPaiPrincipal.value,
+                bordasLargura: formData.bordasLarguraPaiPrincipal.value,
+                numeroCantoneiras: formData.numeroCantoneirasPaiPrincipal.value,
+                tntUmaFace: formData.tntUmaFacePaiPrincipal.value,
+                plasticoAcima: formData.plasticoAcimaPaiPrincipal.value,
+                plasticoAdicional: formData.plasticoAdicionalPaiPrincipal.value,
+                larguraPlastico: formData.larguraPlasticoPaiPrincipal.value,
+                faces: formData.facesPaiPrincipal.value,
+                especial: false, 
+                tipoPintura: 'ACETINADA', 
+                situacao: 'ATIVO',
+                filhos: []
             },
-            categoriaComponente: {
-                codigo: formData.categoriaComponentePaiPrincipal
-            },
-            bordasComprimento: formData.bordasComprimentoPaiPrincipal,
-            bordasLargura: formData.bordasLarguraPaiPrincipal,
-            numeroCantoneiras: formData.numeroCantoneirasPaiPrincipal,
-            tntUmaFace: formData.tntUmaFacePaiPrincipal,
-            plasticoAcima: formData.plasticoAcimaPaiPrincipal,
-            plasticoAdicional: formData.plasticoAdicionalPaiPrincipal,
-            larguraPlastico: formData.larguraPlasticoPaiPrincipal,
-            faces: formData.facesPaiPrincipal
+            medidasPaiPrincipal: formData.medidasPaiPrincipal.value,
+            paisSecundarios: formData.paisSecundarios.map((obj: any) => ({
+                pai: {
+                    modelo: obj.pai.modelo,
+                    categoriaComponente:obj.pai.categoriaComponente,
+                    bordasComprimento: obj.pai.bordasComprimento,
+                    bordasLargura: obj.pai.bordasLargura,
+                    numeroCantoneiras: obj.pai.numeroCantoneiras,
+                    tntUmaFace: obj.pai.tntUmaFace,
+                    plasticoAcima: obj.pai.plasticoAcima,
+                    plasticoAdicional: obj.pai.plasticoAdicional,
+                    larguraPlastico: obj.pai.larguraPlastico,
+                    faces: obj.pai.faces
+                },
+                medidas: obj.medidas,
+                maquinas: obj.maquinas.map((m: any) => ({ codigo: m.codigo }))
+            })),
+            cores: formData.cores.value.map((cor: any) => ({ codigo: cor.codigo })),
+            materiais: formData.materiais.value.map((mat: any) => ({ codigo: mat.codigo })),
+            implantacao: dateTimeStart,
+            acessoriosQuantidades: formData.acessoriosQuantidades.map((acc: any) => ({
+                acessorio: { codigo: acc.acessorio.codigo }, 
+                quantidade: acc.quantidade
+            }))
+            
         };
 
-        // date format
-        requestBody.implantacao = dateTimeStart;
-
-        // nullable fields
-        ['paisSecundarios', 'materiais', 'acessoriosQuantidades', 'implantacao'].forEach((field) => {
-            if (requestBody[field] === "") {
-                requestBody[field] = null;
-            }
-        });
-
-        const request = paiService.criarEstrutura(requestBody);
-
-        request
-            .then(() => {
-                navigate("/fathers");
-            })
-            .catch(error => {
-                const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
-                setFormData(newInputs);
-            });
+        console.log(formData.acessoriosQuantidades);
+    
+        paiService.criarEstruturaModulacao(requestBody);
     }
-
+    
     const handleDateTimeStartChange = (selectedDateTime: string | Date[]) => {
         if (Array.isArray(selectedDateTime) && selectedDateTime.length > 0) {
             const selectedDate = selectedDateTime[0] as Date;
@@ -306,18 +307,20 @@ export default function MultiStruct() {
     const handleAddPaiSecundario = () => {
         const novoPaiSecundario = {
             id: Date.now(), // Um ID único
-            modelo: null,
-            categoriaComponente: null,
+            pai: {
+                modelo: null,
+                categoriaComponente: null,
+                bordasComprimento: "",
+                bordasLargura: "",
+                numeroCantoneiras: "",
+                plasticoAdicional: "",
+                larguraPlastico: "",
+                faces: "",
+                plasticoAcima: false,
+                tntUmaFace: false
+            },
             medidas: [],
             maquinas: [],
-            bordasComprimento: "",
-            bordasLargura: "",
-            numeroCantoneiras: "",
-            plasticoAdicional: "",
-            larguraPlastico: "",
-            faces: "",
-            plasticoAcima: false,
-            tntUmaFace: false
         };
     
         setFormData((prevState: any) => ({
@@ -326,6 +329,18 @@ export default function MultiStruct() {
         }));
     };
     
+    const handleAddAcessorioQuantidade = () => {
+        const novoAcessorioQuantidade = {
+            id: Date.now(), // Um ID único
+            acessorio: null,
+            quantidade: ""
+        };
+    
+        setFormData((prevState: any) => ({
+            ...prevState,
+            acessoriosQuantidades: [...prevState.acessoriosQuantidades, novoAcessorioQuantidade]
+        }));
+    };
 
     return(
         <main>
@@ -401,13 +416,17 @@ export default function MultiStruct() {
                                     {...formData.medidasPaiPrincipal}
                                     className="form-control form-select-container"
                                     options={selectMedidas}
-                                    onChange={(obj: any) => {
-                                        const newFormData = forms.updateAndValidate(formData, "medidasPaiPrincipal", obj);
+                                    value={formData.medidasPaiPrincipal.value}
+                                    onChange={(selectedOption: any) => {
+                                        const newFormData = forms.updateAndValidate(
+                                            formData,
+                                            "medidasPaiPrincipal",
+                                            selectedOption
+                                        );
                                         setFormData(newFormData);
                                     }}
                                     onTurnDirty={handleTurnDirty}
-                                    isMulti
-                                    getOptionLabel={(obj: any) => `${obj.altura}X${obj.largura}X${obj.espessura}` }
+                                    getOptionLabel={(obj: any) => `${obj.altura}X${obj.largura}X${obj.espessura}`}
                                     getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.medidasPaiPrincipal.message}</div>
@@ -550,29 +569,187 @@ export default function MultiStruct() {
                             {formData.paisSecundarios.map((pai: any, index: number) => (
                                 <div key={pai.id} className="pai-secundario-container">
                                     <h4>Pai Secundário {index + 1}</h4>
+                                    <div>
+                                    <FormLabel text="Modelo" />
                                     <FormSelect
                                         placeholder="Modelo"
                                         options={selectModelos}
                                         value={pai.modelo}
                                         onChange={(selectedOption: any) => {
                                             const updatedPaisSecundarios = [...formData.paisSecundarios];
-                                            updatedPaisSecundarios[index].modelo = selectedOption;
+                                            updatedPaisSecundarios[index].pai.modelo = selectedOption;
                                             setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
                                         }}
                                         getOptionLabel={(obj: any) => obj.descricao}
                                         getOptionValue={(obj: any) => String(obj.codigo)}
                                     />
-
+                                    </div>
+                                    <div>
+                                    <FormLabel text="Categoria Componente" />
                                     <FormSelect
                                         placeholder="Categoria Componente"
                                         options={selectCategoriaComponentes}
-                                        value={pai.categoriaComponente}
+                                        value={pai.pai.categoriaComponente}
                                         onChange={(selectedOption: any) => {
                                             const updatedPaisSecundarios = [...formData.paisSecundarios];
-                                            updatedPaisSecundarios[index].categoriaComponente = selectedOption;
+                                            updatedPaisSecundarios[index].pai.categoriaComponente = selectedOption;
                                             setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
                                         }}
                                         getOptionLabel={(obj: any) => obj.descricao}
+                                        getOptionValue={(obj: any) => String(obj.codigo)}
+                                    />
+                                    </div>
+                                    <FormLabel text="Medidas" />
+                                    <FormSelect
+                                        placeholder="Medidas"
+                                        options={selectMedidas}
+                                        value={pai.medidas}
+                                        onChange={(selectedOption: any) => {
+                                            const updatedPaisSecundarios = [...formData.paisSecundarios];
+                                            updatedPaisSecundarios[index].medidas = selectedOption;
+                                            setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
+                                        }}
+                                        getOptionLabel={(obj: any) => `${obj.altura}X${obj.largura}X${obj.espessura}`}
+                                        getOptionValue={(obj: any) => String(obj.codigo)}
+                                    />
+
+                                    <FormLabel text="Bordas Comprimento" />
+                                    <FormInput
+                                        className="form-control"
+                                        //onTurnDirty={handleTurnDirty}
+                                        value={pai.pai.bordasComprimento}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, bordasComprimento: Number(value) } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }}
+                                                                               
+                                    />
+
+                                    <FormLabel text="Bordas Largura" />
+                                    <FormInput
+                                        className="form-control"
+                                        //onTurnDirty={handleTurnDirty}
+                                        value={pai.pai.bordasLargura}
+                                        onChange={(e: any) => {
+                                            const updatedPaisSecundarios = [...formData.paisSecundarios];
+                                            updatedPaisSecundarios[index].pai.bordasLargura = Number(e.target.value);
+                                            setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
+                                        }} 
+                                    />
+
+                                    <FormLabel text="Número Cantoneiras" />
+                                    <FormInput
+                                        className="form-control"
+                                        //onTurnDirty={handleTurnDirty}
+                                        value={pai.pai.numeroCantoneiras}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, numeroCantoneiras: value } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }} 
+                                    />
+
+                                    <FormCheckbox
+                                        id={pai.id}
+                                        name={pai.name}
+                                        label="Tnt uma Face"
+                                        checked={pai.pai.tntUmaFace.value}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, tntUmaFace: value } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }} 
+                                    />
+
+                                    <FormCheckbox
+                                        id={pai.id}
+                                        name={pai.name}
+                                        label="Plástico Acima"
+                                        checked={pai.pai.plasticoAcima.value}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, plasticoAcima: value } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }} 
+                                    />
+
+                                    <FormLabel text="Plástico Adicional" />
+                                    <FormInput
+                                        className="form-control"
+                                        //onTurnDirty={handleTurnDirty}
+                                        value={pai.pai.plasticoAdicional}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, plasticoAdicional: value } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }} 
+                                    />
+
+                                    <FormLabel text="Largura Plástico" />
+                                    <FormInput
+                                        className="form-control"
+                                        //onTurnDirty={handleTurnDirty}
+                                        value={pai.pai.larguraPlastico}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, larguraPlastico: value } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }} 
+                                    />
+
+                                    <FormLabel text="Faces" />
+                                    <FormInput
+                                        className="form-control"
+                                        //onTurnDirty={handleTurnDirty}
+                                        value={pai.pai.faces}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const { value } = e.target;
+                                            setFormData((prevState: any) => {
+                                                const updatedPaisSecundarios = prevState.paisSecundarios.map((p: any, i: number) =>
+                                                    i === index ? { ...p, pai: { ...p.pai, faces: value } } : p
+                                                );
+                                                return { ...prevState, paisSecundarios: updatedPaisSecundarios };
+                                            });
+                                        }}                                       
+                                    />
+
+                                    <FormLabel text="Máquinas" />
+                                    <FormSelect
+                                        placeholder="Máquinas"
+                                        options={selectMaquinas}
+                                        value={pai.maquinas}
+                                        onChange={(selectedOption: any) => {
+                                            const updatedPaisSecundarios = [...formData.paisSecundarios];
+                                            updatedPaisSecundarios[index].maquinas = selectedOption;
+                                            setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
+                                        }}
+                                        isMulti
+                                        getOptionLabel={(obj: any) => obj.nome}
                                         getOptionValue={(obj: any) => String(obj.codigo)}
                                     />
 
@@ -585,6 +762,59 @@ export default function MultiStruct() {
                                         }}
                                     >
                                         Remover Pai Secundário
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="form-controls-container">
+                            <h3>Acessórios</h3>
+                            <button type="button" className="btn btn-primary" onClick={handleAddAcessorioQuantidade}>
+                                Adicionar Acessório
+                            </button>
+
+                            {formData.acessoriosQuantidades.map((pai: any, index: number) => (
+                                <div key={pai.id} className="pai-secundario-container">
+                                    <h4>Acessório {index + 1}</h4>
+                                    <FormSelect
+                                        placeholder="Acessório"
+                                        options={selectAcessorios}
+                                        value={pai.acessorio}
+                                        onChange={(selectedOption: any) => {
+                                            const updatedacessoriosQuantidades = [...formData.acessoriosQuantidades];
+                                            updatedacessoriosQuantidades[index].acessorio = selectedOption;
+                                            setFormData({ ...formData, acessoriosQuantidades: updatedacessoriosQuantidades });
+                                        }}
+                                        getOptionLabel={(obj: any) => obj.descricao}
+                                        getOptionValue={(obj: any) => String(obj.codigo)}
+                                    />
+
+                                    <FormLabel text="Quantidade" />
+                                    <FormInput
+                                        className="form-control"
+                                        value={pai.quantidade} // 🔹 Mantendo como atributo direto
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            const value = Number(e.target.value); // 🔹 Converte para número
+                                            setFormData((prevState: any) => {
+                                                const updatedAcessoriosQuantidades = prevState.acessoriosQuantidades.map((p: any, i: number) =>
+                                                    i === index ? { ...p, quantidade: value } : p // 🔹 Atualiza corretamente
+                                                );
+                                                return { ...prevState, acessoriosQuantidades: updatedAcessoriosQuantidades };
+                                            });
+                                        }}                                       
+                                    />
+
+
+                                    
+                                    <button
+                                        type="button"
+                                        className="btn btn-inverse"
+                                        onClick={() => {
+                                            const updatedacessoriosQuantidades = formData.acessoriosQuantidades.filter((_ : any, i : any) => i !== index);
+                                            setFormData({ ...formData, acessoriosQuantidades: updatedacessoriosQuantidades });
+                                        }}
+                                    >
+                                        Remover Acessório
                                     </button>
                                 </div>
                             ))}
