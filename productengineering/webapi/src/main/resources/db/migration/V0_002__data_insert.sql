@@ -42,7 +42,10 @@ SELECT setval('tb_cor_cdcor_seq', 4);
 
 -- Inserir medidas
 INSERT INTO tb_medidas (cdmedidas, altura, largura, espessura) OVERRIDING SYSTEM VALUE VALUES (1,1,1,1);
-SELECT setval('tb_medidas_cdmedidas_seq', 1);
+INSERT INTO tb_medidas (cdmedidas, altura, largura, espessura) OVERRIDING SYSTEM VALUE VALUES (2,353,120,300);
+INSERT INTO tb_medidas (cdmedidas, altura, largura, espessura) OVERRIDING SYSTEM VALUE VALUES (3,300,120,18);
+INSERT INTO tb_medidas (cdmedidas, altura, largura, espessura) OVERRIDING SYSTEM VALUE VALUES (4,307,104,18);
+SELECT setval('tb_medidas_cdmedidas_seq', 4);
 
 -- Inserir grupos de máquinas
 INSERT INTO tb_grupo_maquina (cdgrupo_maquina, nome) OVERRIDING SYSTEM VALUE VALUES (1, 'CNCs');
