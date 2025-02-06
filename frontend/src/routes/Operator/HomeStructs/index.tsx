@@ -13,7 +13,7 @@ const HomeStruct = () => {
                 <NavLink to="/singlestruct">
                     <ModuleCard title='Estrutura MDP/MDF' imgUrl={mdpImage}/>
                 </NavLink>
-                <NavLink to="/modulationstruct">
+                <NavLink to="/multistruct">
                     <ModuleCard title='Estrutura Modulação/Alumínios' imgUrl={modulationImage}/>
                 </NavLink>
             </div>

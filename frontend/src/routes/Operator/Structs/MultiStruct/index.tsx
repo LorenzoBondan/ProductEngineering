@@ -5,6 +5,7 @@ import * as corService from '../../../../services/corService';
 import * as medidasService from '../../../../services/medidasService';
 import * as materialService from '../../../../services/materialService';
 import * as maquinaService from '../../../../services/maquinaService';
+import * as acessorioService from '../../../../services/acessorioService';
 import * as forms from '../../../../utils/forms';
 import { useEffect, useState } from 'react';
 import { DModelo } from '../../../../models/modelo';
@@ -13,8 +14,6 @@ import { DMedidas } from '../../../../models/medidas';
 import { DMaterial } from '../../../../models/material';
 import { DMaquina } from '../../../../models/maquina';
 import { DCategoriaComponente } from '../../../../models/categoriaComponente';
-import { DTipoPinturaEnum } from '../../../../models/enums/tipoPintura';
-import { DTipoFilhoEnum } from '../../../../models/enums/tipoFilho';
 import { useNavigate } from 'react-router-dom';
 import FormLabel from '../../../../components/FormLabel';
 import FormInput from '../../../../components/FormInput';
@@ -23,8 +22,9 @@ import FormCheckbox from '../../../../components/FormCheckBox';
 import 'flatpickr/dist/themes/material_red.css';
 import Flatpickr from "react-flatpickr";
 import { Link } from 'react-router-dom';
+import { DAcessorio } from '../../../../models/acessorio';
 
-export default function SingleStruct() {
+export default function MultiStruct() {
 
     const navigate = useNavigate();
 
@@ -34,6 +34,7 @@ export default function SingleStruct() {
     const [selectMaquinas, setSelectMaquinas] = useState<DMaquina[]>([]);
     const [selectModelos, setSelectModelos] = useState<DModelo[]>([]);
     const [selectCategoriaComponentes, setSelectCategoriaComponentes] = useState<DCategoriaComponente[]>([]);
+    const [selectAcessorios, setSelectAcessorios] = useState<DAcessorio[]>([]);
     const [dateTimeStart, setDateTimeStart] = useState('');
 
     useEffect(() => {
@@ -60,22 +61,26 @@ export default function SingleStruct() {
         categoriaComponenteService.pesquisarTodos("situacao", "=", "ATIVO")
             .then(response => {
                 setSelectCategoriaComponentes(response.data.content);
-            });         
+            });
+        acessorioService.pesquisarTodos("situacao", "=", "ATIVO")
+            .then(response => {
+                setSelectAcessorios(response.data.content);
+            });          
     }, []);
 
     const [formData, setFormData] = useState<any>({
-        modelo: {
+        modeloPaiPrincipal: {
             value: null,
-            id: "modelo",
-            name: "modelo",
+            id: "modeloPaiPrincipal",
+            name: "modeloPaiPrincipal",
             placeholder: "Modelo",
             validation: (value: any) => value !== null,
             message: "Modelo é obrigatório",
         },
-        categoriaComponente: {
+        categoriaComponentePaiPrincipal: {
             value: null,
-            id: "categoriaComponente",
-            name: "categoriaComponente",
+            id: "categoriaComponentePaiPrincipal",
+            name: "categoriaComponentePaiPrincipal",
             placeholder: "Categoria Componente",
             validation: (value: any) => value !== null,
             message: "Categoria Componente é obrigatória",
@@ -90,10 +95,10 @@ export default function SingleStruct() {
             },
             message: "Escolha ao menos uma cor"
         },
-        medidas: {
+        medidasPaiPrincipal: {
             value: [],
-            id: "medidas",
-            name: "medidas",
+            id: "medidasPaiPrincipal",
+            name: "medidasPaiPrincipal",
             placeholder: "Medidas",
             validation: function (value: DMedidas[]) {
                 return value.length > 0;
@@ -126,15 +131,7 @@ export default function SingleStruct() {
             name: "implantacao",
             placeholder: "Implantação"
         },
-        tipoFilho: {
-            value: null,
-            id: "tipoFilho",
-            name: "tipoFilho",
-            placeholder: "Tipo de Filho",
-            validation: (value: any) => value !== null,
-            message: "Tipo de Filho é obrigatório",
-        },
-        bordasComprimento: {
+        bordasComprimentoPaiPrincipal: {
             value: null,
             id: "bordasComprimento",
             name: "bordasComprimento",
@@ -145,7 +142,7 @@ export default function SingleStruct() {
             },
             message: "Bordas no Comprimento não pode ser negativa"
         },
-        bordasLargura: {
+        bordasLarguraPaiPrincipal: {
             value: null,
             id: "bordasLargura",
             name: "bordasLargura",
@@ -156,7 +153,7 @@ export default function SingleStruct() {
             },
             message: "Bordas na Largura não pode ser negativa"
         },
-        numeroCantoneiras: {
+        numeroCantoneirasPaiPrincipal: {
             value: null,
             id: "numeroCantoneiras",
             name: "numeroCantoneiras",
@@ -167,7 +164,7 @@ export default function SingleStruct() {
             },
             message: "Número de Cantoneiras não pode ser negativo"
         },
-        tntUmaFace: {
+        tntUmaFacePaiPrincipal: {
             value: false,
             id: "tntUmaFace",
             name: "tntUmaFace",
@@ -176,7 +173,7 @@ export default function SingleStruct() {
             validation: (value: any) => value !== null,
             message: "Tnt um face é obrigatório",
         },
-        plasticoAcima: {
+        plasticoAcimaPaiPrincipal: {
             value: false,
             id: "plasticoAcima",
             name: "plasticoAcima",
@@ -185,7 +182,7 @@ export default function SingleStruct() {
             validation: (value: any) => value !== null,
             message: "Plástico acima é obrigatório",
         },
-        plasticoAdicional: {
+        plasticoAdicionalPaiPrincipal: {
             value: null,
             id: "plasticoAdicional",
             name: "plasticoAdicional",
@@ -196,7 +193,7 @@ export default function SingleStruct() {
             },
             message: "Plástico Adicional não pode ser negativo"
         },
-        larguraPlastico: {
+        larguraPlasticoPaiPrincipal: {
             value: null,
             id: "larguraPlastico",
             name: "larguraPlastico",
@@ -207,7 +204,7 @@ export default function SingleStruct() {
             },
             message: "Largura Plástico não pode ser negativo"
         },
-        faces: {
+        facesPaiPrincipal: {
             value: null,
             id: "faces",
             name: "faces",
@@ -218,18 +215,12 @@ export default function SingleStruct() {
             },
             message: "Faces não pode ser negativo"
         },
-        especial: {
-            value: false,
-            id: "especial",
-            name: "especial",
-            type: "boolean",
-            placeholder: "Especial"
-        },
-        tipoPintura: {
-            value: null,
-            id: "tipoPintura",
-            name: "tipoPintura",
-            placeholder: "Tipo de Pintura"
+        paisSecundarios:[],
+        acessoriosQuantidades: {
+            value: [],
+            id: "acessoriosQuantidades",
+            name: "acessoriosQuantidades",
+            placeholder: "Acessórios Quantidades"
         },
     });
 
@@ -252,17 +243,28 @@ export default function SingleStruct() {
 
         const requestBody = forms.toValues(formData);
 
+        requestBody.paiPrincipal = {
+            modelo: {
+                codigo: formData.modeloPaiPrincipal
+            },
+            categoriaComponente: {
+                codigo: formData.categoriaComponentePaiPrincipal
+            },
+            bordasComprimento: formData.bordasComprimentoPaiPrincipal,
+            bordasLargura: formData.bordasLarguraPaiPrincipal,
+            numeroCantoneiras: formData.numeroCantoneirasPaiPrincipal,
+            tntUmaFace: formData.tntUmaFacePaiPrincipal,
+            plasticoAcima: formData.plasticoAcimaPaiPrincipal,
+            plasticoAdicional: formData.plasticoAdicionalPaiPrincipal,
+            larguraPlastico: formData.larguraPlasticoPaiPrincipal,
+            faces: formData.facesPaiPrincipal
+        };
+
         // date format
         requestBody.implantacao = dateTimeStart;
 
-        // enum format
-        if(requestBody.tipoPintura !== null){
-            requestBody.tipoPintura = formData.tipoPintura.value.value;
-        }
-        requestBody.tipoFilho = formData.tipoFilho.value.value;
-
         // nullable fields
-        ['bordasComprimento', 'bordasLargura'].forEach((field) => {
+        ['paisSecundarios', 'materiais', 'acessoriosQuantidades', 'implantacao'].forEach((field) => {
             if (requestBody[field] === "") {
                 requestBody[field] = null;
             }
@@ -279,16 +281,6 @@ export default function SingleStruct() {
                 setFormData(newInputs);
             });
     }
-
-    const tipoFilhoOptions = Object.values(DTipoFilhoEnum).map((item) => ({
-        value: item.name,
-        label: item.label,
-    }));
-
-    const tipoPinturaOptions = Object.values(DTipoPinturaEnum).map((item) => ({
-        value: item.name,
-        label: item.label,
-    }));
 
     const handleDateTimeStartChange = (selectedDateTime: string | Date[]) => {
         if (Array.isArray(selectedDateTime) && selectedDateTime.length > 0) {
@@ -311,24 +303,49 @@ export default function SingleStruct() {
         }));
     };
 
+    const handleAddPaiSecundario = () => {
+        const novoPaiSecundario = {
+            id: Date.now(), // Um ID único
+            modelo: null,
+            categoriaComponente: null,
+            medidas: [],
+            maquinas: [],
+            bordasComprimento: "",
+            bordasLargura: "",
+            numeroCantoneiras: "",
+            plasticoAdicional: "",
+            larguraPlastico: "",
+            faces: "",
+            plasticoAcima: false,
+            tntUmaFace: false
+        };
+    
+        setFormData((prevState: any) => ({
+            ...prevState,
+            paisSecundarios: [...prevState.paisSecundarios, novoPaiSecundario]
+        }));
+    };
+    
+
     return(
         <main>
             <section id="form-section" className="container">
                 <div className="form-container">
                     <form className="card form" onSubmit={handleSubmit}>
-                        <h2>Estrutura MDP/MDF</h2>
+                        <h2>Estrutura Modulação/Alumínios</h2>
                         <div className="form-controls-container">
+                            <h3>Pai Principal</h3>
                             <div>
                                 <FormLabel text="Modelo" isRequired/>
                                 <FormSelect
-                                    {...formData.modelo}
+                                    {...formData.modeloPaiPrincipal}
                                     className="form-control form-select-container"
                                     options={selectModelos}
-                                    value={formData.modelo.value}
+                                    value={formData.modeloPaiPrincipal.value}
                                     onChange={(selectedOption: any) => {
                                         const newFormData = forms.updateAndValidate(
                                             formData,
-                                            "modelo",
+                                            "modeloPaiPrincipal",
                                             selectedOption
                                         );
                                         setFormData(newFormData);
@@ -337,19 +354,19 @@ export default function SingleStruct() {
                                     getOptionLabel={(obj: any) => obj.descricao}
                                     getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
-                                <div className="form-error">{formData.modelo.message}</div>
+                                <div className="form-error">{formData.modeloPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Categoria Componente" isRequired/>
                                 <FormSelect
-                                    {...formData.categoriaComponente}
+                                    {...formData.categoriaComponentePaiPrincipal}
                                     className="form-control form-select-container"
                                     options={selectCategoriaComponentes}
-                                    value={formData.categoriaComponente.value}
+                                    value={formData.categoriaComponentePaiPrincipal.value}
                                     onChange={(selectedOption: any) => {
                                         const newFormData = forms.updateAndValidate(
                                             formData,
-                                            "categoriaComponente",
+                                            "categoriaComponentePaiPrincipal",
                                             selectedOption
                                         );
                                         setFormData(newFormData);
@@ -358,7 +375,7 @@ export default function SingleStruct() {
                                     getOptionLabel={(obj: any) => obj.descricao}
                                     getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
-                                <div className="form-error">{formData.categoriaComponente.message}</div>
+                                <div className="form-error">{formData.categoriaComponentePaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Cores" isRequired/>
@@ -381,11 +398,11 @@ export default function SingleStruct() {
                             <div>
                                 <FormLabel text="Medidas" isRequired/>
                                 <FormSelect
-                                    {...formData.medidas}
+                                    {...formData.medidasPaiPrincipal}
                                     className="form-control form-select-container"
                                     options={selectMedidas}
                                     onChange={(obj: any) => {
-                                        const newFormData = forms.updateAndValidate(formData, "medidas", obj);
+                                        const newFormData = forms.updateAndValidate(formData, "medidasPaiPrincipal", obj);
                                         setFormData(newFormData);
                                     }}
                                     onTurnDirty={handleTurnDirty}
@@ -393,10 +410,10 @@ export default function SingleStruct() {
                                     getOptionLabel={(obj: any) => `${obj.altura}X${obj.largura}X${obj.espessura}` }
                                     getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
-                                <div className="form-error">{formData.medidas.message}</div>
+                                <div className="form-error">{formData.medidasPaiPrincipal.message}</div>
                             </div>
                             <div>
-                                <FormLabel text="Materiais" isRequired/>
+                                <FormLabel text="Materiais"/>
                                 <FormSelect
                                     {...formData.materiais}
                                     className="form-control form-select-container"
@@ -429,103 +446,66 @@ export default function SingleStruct() {
                                 />
                                 <div className="form-error">{formData.maquinas.message}</div>
                             </div>
+                            
                             <div>
                                 <FormLabel text="Bordas Comprimento" />
                                 <FormInput
-                                    {...formData.bordasComprimento}
+                                    {...formData.bordasComprimentoPaiPrincipal}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.bordasComprimento.message}</div>
+                                <div className="form-error">{formData.bordasComprimentoPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Bordas Largura" />
                                 <FormInput
-                                    {...formData.bordasLargura}
+                                    {...formData.bordasLarguraPaiPrincipal}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.bordasLargura.message}</div>
+                                <div className="form-error">{formData.bordasLarguraPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Número Cantoneiras" isRequired/>
                                 <FormInput
-                                    {...formData.numeroCantoneiras}
+                                    {...formData.numeroCantoneirasPaiPrincipal}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.numeroCantoneiras.message}</div>
+                                <div className="form-error">{formData.numeroCantoneirasPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Plástico Adicional" isRequired/>
                                 <FormInput
-                                    {...formData.plasticoAdicional}
+                                    {...formData.plasticoAdicionalPaiPrincipal}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.plasticoAdicional.message}</div>
+                                <div className="form-error">{formData.plasticoAdicionalPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Largura Plastico" isRequired/>
                                 <FormInput
-                                    {...formData.larguraPlastico}
+                                    {...formData.larguraPlasticoPaiPrincipal}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.larguraPlastico.message}</div>
+                                <div className="form-error">{formData.larguraPlasticoPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Faces" />
                                 <FormInput
-                                    {...formData.faces}
+                                    {...formData.facesPaiPrincipal}
                                     className="form-control"
                                     onTurnDirty={handleTurnDirty}
                                     onChange={handleInputChange}
                                 />
-                                <div className="form-error">{formData.faces.message}</div>
-                            </div>
-                            <div>
-                                <FormLabel text="Tipo de Filho" isRequired />    
-                                <FormSelect
-                                    {...formData.tipoFilho}
-                                    className="form-control form-select-container"
-                                    options={tipoFilhoOptions}
-                                    value={formData.tipoFilho.value}
-                                    onChange={(selectedOption: any) => {
-                                        const newFormData = forms.updateAndValidate(
-                                            formData,
-                                            "tipoFilho",
-                                            selectedOption
-                                        );
-                                        setFormData(newFormData);
-                                    }}
-                                    onTurnDirty={handleTurnDirty}
-                                />
-                                <div className="form-error">{formData.tipoFilho.message}</div>
-                            </div>
-                            <div>
-                                <FormLabel text="Tipo de Pintura" />    
-                                <FormSelect
-                                    {...formData.tipoPintura}
-                                    className="form-control form-select-container"
-                                    options={tipoPinturaOptions}
-                                    value={formData.tipoPintura.value}
-                                    onChange={(selectedOption: any) => {
-                                        const newFormData = forms.updateAndValidate(
-                                            formData,
-                                            "tipoPintura",
-                                            selectedOption
-                                        );
-                                        setFormData(newFormData);
-                                    }}
-                                    onTurnDirty={handleTurnDirty}
-                                />
-                                <div className="form-error">{formData.tipoPintura.message}</div>
+                                <div className="form-error">{formData.facesPaiPrincipal.message}</div>
                             </div>
                             <div>
                                 <FormLabel text="Implantação" />
@@ -543,32 +523,73 @@ export default function SingleStruct() {
                           </div>
                             <div>
                                 <FormCheckbox
-                                    id={formData.plasticoAcima.id}
-                                    name={formData.plasticoAcima.name}
+                                    id={formData.plasticoAcimaPaiPrincipal.id}
+                                    name={formData.plasticoAcimaPaiPrincipal.name}
                                     label="Plástico Acima"
-                                    checked={formData.plasticoAcima.value}
+                                    checked={formData.plasticoAcimaPaiPrincipal.value}
                                     onChange={handleCheckboxChange}
                                 />
                             </div>
                             <div>
                                 <FormCheckbox
-                                    id={formData.especial.id}
-                                    name={formData.especial.name}
-                                    label="Especial"
-                                    checked={formData.especial.value}
-                                    onChange={handleCheckboxChange}
-                                />
-                            </div>
-                            <div>
-                                <FormCheckbox
-                                    id={formData.tntUmaFace.id}
-                                    name={formData.tntUmaFace.name}
+                                    id={formData.tntUmaFacePaiPrincipal.id}
+                                    name={formData.tntUmaFacePaiPrincipal.name}
                                     label="Tnt uma Face"
-                                    checked={formData.tntUmaFace.value}
+                                    checked={formData.tntUmaFacePaiPrincipal.value}
                                     onChange={handleCheckboxChange}
                                 />
                             </div>
                         </div>
+
+                        <div className="form-controls-container">
+                            <h3>Pais Secundários</h3>
+                            <button type="button" className="btn btn-primary" onClick={handleAddPaiSecundario}>
+                                Adicionar Pai Secundário
+                            </button>
+
+                            {formData.paisSecundarios.map((pai: any, index: number) => (
+                                <div key={pai.id} className="pai-secundario-container">
+                                    <h4>Pai Secundário {index + 1}</h4>
+                                    <FormSelect
+                                        placeholder="Modelo"
+                                        options={selectModelos}
+                                        value={pai.modelo}
+                                        onChange={(selectedOption: any) => {
+                                            const updatedPaisSecundarios = [...formData.paisSecundarios];
+                                            updatedPaisSecundarios[index].modelo = selectedOption;
+                                            setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
+                                        }}
+                                        getOptionLabel={(obj: any) => obj.descricao}
+                                        getOptionValue={(obj: any) => String(obj.codigo)}
+                                    />
+
+                                    <FormSelect
+                                        placeholder="Categoria Componente"
+                                        options={selectCategoriaComponentes}
+                                        value={pai.categoriaComponente}
+                                        onChange={(selectedOption: any) => {
+                                            const updatedPaisSecundarios = [...formData.paisSecundarios];
+                                            updatedPaisSecundarios[index].categoriaComponente = selectedOption;
+                                            setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
+                                        }}
+                                        getOptionLabel={(obj: any) => obj.descricao}
+                                        getOptionValue={(obj: any) => String(obj.codigo)}
+                                    />
+
+                                    <button
+                                        type="button"
+                                        className="btn btn-inverse"
+                                        onClick={() => {
+                                            const updatedPaisSecundarios = formData.paisSecundarios.filter((_ : any, i : any) => i !== index);
+                                            setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
+                                        }}
+                                    >
+                                        Remover Pai Secundário
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
                         <div className="form-buttons">
                             <Link to="/fathers">
                                 <button type="reset" className="btn btn-white">Cancelar</button>
