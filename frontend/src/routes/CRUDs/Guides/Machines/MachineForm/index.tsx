@@ -163,7 +163,7 @@ export default function MachineForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.nome}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.grupoMaquina.message}</div>
                             </div>

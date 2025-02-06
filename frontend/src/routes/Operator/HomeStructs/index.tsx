@@ -10,11 +10,11 @@ const HomeStruct = () => {
         <div className='home-struct-container'>
             <h1 className='home-title'>Estruturas</h1>
             <div className="components-catalog-grid mt20 mb20 container">
-                <NavLink to="/mdpstruct">
-                    <ModuleCard title='MDP/MDF' imgUrl={mdpImage}/>
+                <NavLink to="/singlestruct">
+                    <ModuleCard title='Estrutura MDP/MDF' imgUrl={mdpImage}/>
                 </NavLink>
                 <NavLink to="/modulationstruct">
-                    <ModuleCard title='Modulação/Alumínios' imgUrl={modulationImage}/>
+                    <ModuleCard title='Estrutura Modulação/Alumínios' imgUrl={modulationImage}/>
                 </NavLink>
             </div>
         </div>

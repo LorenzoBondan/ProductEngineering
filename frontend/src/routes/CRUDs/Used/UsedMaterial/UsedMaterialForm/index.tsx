@@ -171,7 +171,7 @@ export default function UsedMaterialForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.material.message}</div>
                             </div>
@@ -192,7 +192,7 @@ export default function UsedMaterialForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.filho.message}</div>
                             </div>

@@ -247,7 +247,7 @@ export default function EdgeBandingForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.cor.message}</div>
                             </div>

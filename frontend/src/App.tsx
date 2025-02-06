@@ -97,6 +97,7 @@ import Users from './routes/Admin/User';
 import UserList from './routes/Admin/User/UserList';
 import UserForm from './routes/Admin/User/UserForm';
 import Reports from './routes/Operator/Reports';
+import SingleStruct from './routes/Operator/Structs/SingleStruct';
 
 export default function App() {
 
@@ -122,6 +123,8 @@ export default function App() {
 
               <Route path="homestructs" element={<HomeStruct />} />
               <Route path="homeitems" element={<HomeItems />} />
+
+              <Route path="singlestruct" element={<SingleStruct />} />
 
               <Route path="homebasematerials" element={<HomeBaseMaterials />} />
               <Route path="homebasematerials/mdp" element={<MDPPage />} />

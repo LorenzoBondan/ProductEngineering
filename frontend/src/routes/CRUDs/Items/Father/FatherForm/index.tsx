@@ -253,7 +253,7 @@ export default function FatherForm() {
                         <h2>Pai</h2>
                         <div className="form-controls-container">
                             <div>
-                                <FormLabel text="descricao" isRequired />
+                                <FormLabel text="Descrição" isRequired />
                                 <FormInput
                                     {...formData.descricao}
                                     className="form-control"
@@ -279,7 +279,7 @@ export default function FatherForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.modelo.message}</div>
                             </div>
@@ -300,7 +300,7 @@ export default function FatherForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.categoriaComponente.message}</div>
                             </div>

@@ -160,7 +160,7 @@ export default function GuideMachineForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.roteiro.message}</div>
                             </div>
@@ -181,7 +181,7 @@ export default function GuideMachineForm() {
                                     }}
                                     onTurnDirty={handleTurnDirty}
                                     getOptionLabel={(obj: any) => obj.descricao}
-                                    getOptionValue={(obj: any) => String(obj.id)}
+                                    getOptionValue={(obj: any) => String(obj.codigo)}
                                 />
                                 <div className="form-error">{formData.maquina.message}</div>
                             </div>

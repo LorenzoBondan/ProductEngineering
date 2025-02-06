@@ -112,7 +112,10 @@ export default function FatherDetails() {
               <strong>Categoria Componente:</strong> {pai?.categoriaComponente?.descricao || "Não especificada"}
             </div>
             <div className="info-item">
-              <strong>Bordas - Comprimento:</strong> {pai?.bordasComprimento || "Não especificado"} mm
+              <strong>Bordas - Comprimento:</strong> {pai?.bordasComprimento || "Não especificado"}
+            </div>
+            <div className="info-item">
+              <strong>Bordas - Largura:</strong> {pai?.bordasLargura || "Não especificado"}
             </div>
             <div className="info-item">
               <strong>TNT Uma Face:</strong> {pai?.tntUmaFace ? <FaCheckCircle className="icon success" /> : <FaTimesCircle className="icon error" />}
