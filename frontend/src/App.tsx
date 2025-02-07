@@ -100,6 +100,7 @@ import Reports from './routes/Operator/Reports';
 import SingleStruct from './routes/Operator/Structs/SingleStruct';
 import MultiStruct from './routes/Operator/Structs/MultiStruct';
 import { ToastContainer } from 'react-toastify';
+import Profile from './routes/Operator/Profile';
 
 export default function App() {
 
@@ -261,6 +262,7 @@ export default function App() {
               </Route>
 
               <Route path="/reports" element={<Reports />} />
+              <Route path="/profile" element={<Profile />} />
 
             </Route>
 
