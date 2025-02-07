@@ -9,6 +9,7 @@ import * as forms from '../../../../../utils/forms';
 import * as cantoneiraService from '../../../../../services/cantoneiraService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function CornerBracketForm() {
 
@@ -98,6 +99,8 @@ export default function CornerBracketForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Cantoneira editada!' : 'Cantoneira Inserida!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -129,9 +132,11 @@ export default function CornerBracketForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/cornerbrackets");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

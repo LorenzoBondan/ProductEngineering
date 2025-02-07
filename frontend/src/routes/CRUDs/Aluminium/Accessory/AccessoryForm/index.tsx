@@ -12,6 +12,7 @@ import * as medidasService from '../../../../../services/medidasService';
 import { DCor } from '../../../../../models/cor';
 import FormLabel from '../../../../../components/FormLabel';
 import { DMedidas } from '../../../../../models/medidas';
+import { toast } from 'react-toastify';
 
 export default function AccessoryForm() {
 
@@ -151,6 +152,8 @@ export default function AccessoryForm() {
     }    
     
     async function handleSubmit(event: any) {
+        const successMessage = isEditing ? 'Acessório editado!' : 'Acessório Inserido!';
+
         event.preventDefault();
     
         const formDataValidated = forms.dirtyAndValidateAll(formData);
@@ -190,8 +193,12 @@ export default function AccessoryForm() {
             : acessorioService.criar(requestBody);
     
         request
-            .then(() => navigate("/accessories"))
+            .then(() => {
+                toast.success(successMessage);
+                navigate("/accessories");
+            })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

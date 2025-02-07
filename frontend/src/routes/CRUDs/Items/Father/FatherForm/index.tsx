@@ -13,6 +13,7 @@ import { DModelo } from '../../../../../models/modelo';
 import { DCategoriaComponente } from '../../../../../models/categoriaComponente';
 import { DTipoPinturaEnum } from '../../../../../models/enums/tipoPintura';
 import FormCheckbox from '../../../../../components/FormCheckBox';
+import { toast } from 'react-toastify';
 
 export default function FatherForm() {
 
@@ -190,6 +191,8 @@ export default function FatherForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Pai editado!' : 'Pai Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -221,9 +224,11 @@ export default function FatherForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/fathers");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

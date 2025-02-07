@@ -8,6 +8,7 @@ import { DRole } from '../../../../models/user';
 import FormLabel from '../../../../components/FormLabel';
 import FormInput from '../../../../components/FormInput';
 import FormSelect from '../../../../components/FormSelect';
+import { toast } from 'react-toastify';
 
 export default function UserForm() {
 
@@ -94,6 +95,8 @@ export default function UserForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Usuário editado!' : 'Usuário Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -112,9 +115,11 @@ export default function UserForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/admin/users");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

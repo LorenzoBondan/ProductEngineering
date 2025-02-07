@@ -6,6 +6,7 @@ import FormInput from '../../../../../components/FormInput';
 import * as forms from '../../../../../utils/forms';
 import * as corService from '../../../../../services/corService';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function ColorForm() {
 
@@ -61,6 +62,8 @@ export default function ColorForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Cor editada!' : 'Cor Inserida!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -86,9 +89,11 @@ export default function ColorForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/colors");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

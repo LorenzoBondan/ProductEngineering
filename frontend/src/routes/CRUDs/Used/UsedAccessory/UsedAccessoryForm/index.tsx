@@ -10,6 +10,7 @@ import { DFilho } from '../../../../../models/filho';
 import FormLabel from '../../../../../components/FormLabel';
 import FormInput from '../../../../../components/FormInput';
 import FormSelect from '../../../../../components/FormSelect';
+import { toast } from 'react-toastify';
 
 export default function UsedAccessoryForm() {
 
@@ -104,6 +105,8 @@ export default function UsedAccessoryForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Acessório usado editado!' : 'Acessório usado Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -129,9 +132,11 @@ export default function UsedAccessoryForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate(previousPath);
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

@@ -9,6 +9,7 @@ import * as forms from '../../../../../utils/forms';
 import * as poliesterService from '../../../../../services/poliesterService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function PolyesterForm() {
 
@@ -97,6 +98,8 @@ export default function PolyesterForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Poliéster editado!' : 'Poliéster Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -128,9 +131,11 @@ export default function PolyesterForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/polyesters");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

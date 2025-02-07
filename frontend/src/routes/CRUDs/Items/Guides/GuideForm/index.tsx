@@ -7,6 +7,7 @@ import FormInput from '../../../../../components/FormInput';
 import * as forms from '../../../../../utils/forms';
 import * as roteiroService from '../../../../../services/roteiroService';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function GuideForm() {
 
@@ -82,6 +83,8 @@ export default function GuideForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Roteiro editado!' : 'Roteiro Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -111,9 +114,11 @@ export default function GuideForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/guides");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

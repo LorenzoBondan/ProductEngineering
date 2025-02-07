@@ -9,6 +9,7 @@ import * as forms from '../../../../../utils/forms';
 import * as polietilenoService from '../../../../../services/polietilenoService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function PolyethyleneForm() {
 
@@ -98,6 +99,8 @@ export default function PolyethyleneForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Polietileno editado!' : 'Polietileno Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -129,9 +132,11 @@ export default function PolyethyleneForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/polyethylenes");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

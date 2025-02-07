@@ -10,6 +10,7 @@ import * as grupoMaquinaService from '../../../../../services/grupoMaquinaServic
 import FormLabel from '../../../../../components/FormLabel';
 import { DGrupoMaquina } from '../../../../../models/grupoMaquina';
 import FormTextArea from '../../../../../components/FormTextArea';
+import { toast } from 'react-toastify';
 
 export default function MachineForm() {
 
@@ -93,6 +94,8 @@ export default function MachineForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Máquina editada!' : 'Máquina Inserida!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -111,9 +114,11 @@ export default function MachineForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/machines");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

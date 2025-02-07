@@ -9,6 +9,7 @@ import * as forms from '../../../../../utils/forms';
 import * as plasticoService from '../../../../../services/plasticoService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function PlasticForm() {
 
@@ -108,6 +109,8 @@ export default function PlasticForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Plástico editado!' : 'Plástico Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -139,9 +142,11 @@ export default function PlasticForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/plastics");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

@@ -11,6 +11,7 @@ import * as corService from '../../../../../services/corService';
 import { DCor } from '../../../../../models/cor';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function PaintingBorderBackgroundForm() {
 
@@ -114,6 +115,8 @@ export default function PaintingBorderBackgroundForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Pintura de borda de fundo editada!' : 'Pintura de borda de fundo Inserida!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -145,9 +148,11 @@ export default function PaintingBorderBackgroundForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/paintingborderbackgrounds");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

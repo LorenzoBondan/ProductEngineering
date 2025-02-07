@@ -10,6 +10,7 @@ import { DFilho } from '../../../../../models/filho';
 import FormLabel from '../../../../../components/FormLabel';
 import FormInput from '../../../../../components/FormInput';
 import FormSelect from '../../../../../components/FormSelect';
+import { toast } from 'react-toastify';
 
 export default function UsedMaterialForm() {
 
@@ -114,6 +115,8 @@ export default function UsedMaterialForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Material usado editado!' : 'Material usado Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -139,9 +142,11 @@ export default function UsedMaterialForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate(previousPath);
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

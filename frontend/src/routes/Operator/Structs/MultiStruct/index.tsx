@@ -23,6 +23,7 @@ import 'flatpickr/dist/themes/material_red.css';
 import Flatpickr from "react-flatpickr";
 import { Link } from 'react-router-dom';
 import { DAcessorio } from '../../../../models/acessorio';
+import { toast } from 'react-toastify';
 
 export default function MultiStruct() {
 
@@ -280,9 +281,11 @@ export default function MultiStruct() {
 
         request
             .then(() => {
+                toast.success('Estrutura criada com sucesso!');
                 navigate("/fathers");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

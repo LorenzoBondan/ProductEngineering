@@ -23,6 +23,7 @@ import FormCheckbox from '../../../../components/FormCheckBox';
 import 'flatpickr/dist/themes/material_red.css';
 import Flatpickr from "react-flatpickr";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SingleStruct() {
 
@@ -272,9 +273,11 @@ export default function SingleStruct() {
 
         request
             .then(() => {
+                toast.success('Estrutura criada com sucesso!');
                 navigate("/fathers");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

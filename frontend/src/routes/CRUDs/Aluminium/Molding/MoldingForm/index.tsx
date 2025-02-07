@@ -9,6 +9,7 @@ import * as forms from '../../../../../utils/forms';
 import * as bagueteService from '../../../../../services/bagueteService';
 import { DTipoMaterialEnum } from '../../../../../models/enums/tipoMaterial';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function MoldingForm() {
 
@@ -98,6 +99,8 @@ export default function MoldingForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Baguete editado!' : 'Baguete Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -129,9 +132,11 @@ export default function MoldingForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/moldings");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

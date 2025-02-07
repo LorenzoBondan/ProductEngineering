@@ -6,6 +6,7 @@ import FormInput from '../../../../../components/FormInput';
 import * as forms from '../../../../../utils/forms';
 import * as modeloService from '../../../../../services/modeloService';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function ModelForm() {
 
@@ -50,6 +51,8 @@ export default function ModelForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Modelo editado!' : 'Modelo Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -68,9 +71,11 @@ export default function ModelForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/models");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

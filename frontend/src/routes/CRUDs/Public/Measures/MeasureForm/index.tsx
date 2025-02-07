@@ -6,6 +6,7 @@ import FormInput from '../../../../../components/FormInput';
 import * as forms from '../../../../../utils/forms';
 import * as medidasService from '../../../../../services/medidasService';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function MeasureForm() {
 
@@ -72,6 +73,8 @@ export default function MeasureForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Medidas editadas!' : 'Medidas Inseridas!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -90,9 +93,11 @@ export default function MeasureForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/measures");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

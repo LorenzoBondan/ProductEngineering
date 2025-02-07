@@ -6,6 +6,7 @@ import FormInput from '../../../../../components/FormInput';
 import * as forms from '../../../../../utils/forms';
 import * as grupoMaquinaService from '../../../../../services/grupoMaquinaService';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function MachineGroupForm() {
 
@@ -50,6 +51,8 @@ export default function MachineGroupForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Grupo de Máquina editado!' : 'Grupo de Máquina Inserido!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -68,9 +71,11 @@ export default function MachineGroupForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/machinegroups");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

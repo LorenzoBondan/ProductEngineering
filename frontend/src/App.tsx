@@ -99,6 +99,7 @@ import UserForm from './routes/Admin/User/UserForm';
 import Reports from './routes/Operator/Reports';
 import SingleStruct from './routes/Operator/Structs/SingleStruct';
 import MultiStruct from './routes/Operator/Structs/MultiStruct';
+import { ToastContainer } from 'react-toastify';
 
 export default function App() {
 
@@ -275,7 +276,9 @@ export default function App() {
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
+
           </Routes>
+          <ToastContainer/>
         </HistoryRouter>
     </ContextToken.Provider>
   );

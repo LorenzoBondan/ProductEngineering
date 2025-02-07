@@ -17,6 +17,7 @@ import { DMedidas } from '../../../../../models/medidas';
 import { DPai } from '../../../../../models/pai';
 import { DRoteiro } from '../../../../../models/roteiro';
 import { DTipoFilhoEnum } from '../../../../../models/enums/tipoFilho';
+import { toast } from 'react-toastify';
 
 export default function SonForm() {
 
@@ -199,6 +200,8 @@ export default function SonForm() {
     
     async function handleSubmit(event: any) {
         event.preventDefault();
+
+        const successMessage = isEditing ? 'Filho editado!' : 'Filho Inserido!';
     
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
@@ -240,8 +243,12 @@ export default function SonForm() {
             : filhoService.criar(requestBody);
     
         request
-            .then(() => navigate("/sons"))
+            .then(() => {
+                toast.success(successMessage);
+                navigate("/sons");
+            })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });

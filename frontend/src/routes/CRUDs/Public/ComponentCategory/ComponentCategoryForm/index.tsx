@@ -6,6 +6,7 @@ import FormInput from '../../../../../components/FormInput';
 import * as forms from '../../../../../utils/forms';
 import * as categoriaComponenteService from '../../../../../services/categoriaComponenteService';
 import FormLabel from '../../../../../components/FormLabel';
+import { toast } from 'react-toastify';
 
 export default function ComponentCategoryForm() {
 
@@ -50,6 +51,8 @@ export default function ComponentCategoryForm() {
     function handleSubmit(event: any) {
         event.preventDefault();
 
+        const successMessage = isEditing ? 'Categoria de componente editada!' : 'Categoria de componente Inserida!';
+
         const formDataValidated = forms.dirtyAndValidateAll(formData);
         if (forms.hasAnyInvalid(formDataValidated)) {
             setFormData(formDataValidated);
@@ -68,9 +71,11 @@ export default function ComponentCategoryForm() {
 
         request
             .then(() => {
+                toast.success(successMessage);
                 navigate("/componentcategories");
             })
             .catch(error => {
+                toast.error(error.response.data.error);
                 const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
                 setFormData(newInputs);
             });
