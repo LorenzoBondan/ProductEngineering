@@ -227,6 +227,13 @@ nav a {
   width: 100%;
 }
 
+.btn-inverse {
+  border: none;
+  color: var(--color-btn-primary);
+  background-color: var(--color-btn-inverse);
+  width: 100%;
+}
+
 /*--------------------------------------------*/
 /* form styles */
 
@@ -514,4 +521,19 @@ nav a {
 
 .table tr.situacao-lixeira {
   border-left: 4px solid var(--color-btn-primary);
+}
+
+.pai-secundario-container{
+  padding: 10px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 5px;
+  width: 100%;
+}
+
+.pai-secundario-container h4{
+  margin-bottom: 15px;
+}
+
+.pai-secundario-container .form-control, .pai-secundario-container .checkbox-container{
+  margin-bottom: 10px;
 }

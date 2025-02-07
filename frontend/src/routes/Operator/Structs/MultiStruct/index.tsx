@@ -23,8 +23,6 @@ import 'flatpickr/dist/themes/material_red.css';
 import Flatpickr from "react-flatpickr";
 import { Link } from 'react-router-dom';
 import { DAcessorio } from '../../../../models/acessorio';
-import { DMontadorEstruturaPaiModulacao } from '../../../../models/montadorEstruturaPaiModulacao';
-import { DTipoPinturaEnum } from '../../../../models/enums/tipoPintura';
 
 export default function MultiStruct() {
 
@@ -278,9 +276,16 @@ export default function MultiStruct() {
             
         };
 
-        console.log(formData.acessoriosQuantidades);
-    
-        paiService.criarEstruturaModulacao(requestBody);
+        const request = paiService.criarEstruturaModulacao(requestBody);
+
+        request
+            .then(() => {
+                navigate("/fathers");
+            })
+            .catch(error => {
+                const newInputs = forms.setBackendErrors(formData, error.response.data.errors);
+                setFormData(newInputs);
+            });
     }
     
     const handleDateTimeStartChange = (selectedDateTime: string | Date[]) => {
@@ -465,7 +470,6 @@ export default function MultiStruct() {
                                 />
                                 <div className="form-error">{formData.maquinas.message}</div>
                             </div>
-                            
                             <div>
                                 <FormLabel text="Bordas Comprimento" />
                                 <FormInput
@@ -559,13 +563,11 @@ export default function MultiStruct() {
                                 />
                             </div>
                         </div>
-
                         <div className="form-controls-container">
                             <h3>Pais Secundários</h3>
                             <button type="button" className="btn btn-primary" onClick={handleAddPaiSecundario}>
                                 Adicionar Pai Secundário
                             </button>
-
                             {formData.paisSecundarios.map((pai: any, index: number) => (
                                 <div key={pai.id} className="pai-secundario-container">
                                     <h4>Pai Secundário {index + 1}</h4>
@@ -573,6 +575,7 @@ export default function MultiStruct() {
                                     <FormLabel text="Modelo" />
                                     <FormSelect
                                         placeholder="Modelo"
+                                        className="form-control form-select-container"
                                         options={selectModelos}
                                         value={pai.modelo}
                                         onChange={(selectedOption: any) => {
@@ -589,6 +592,7 @@ export default function MultiStruct() {
                                     <FormSelect
                                         placeholder="Categoria Componente"
                                         options={selectCategoriaComponentes}
+                                        className="form-control form-select-container"
                                         value={pai.pai.categoriaComponente}
                                         onChange={(selectedOption: any) => {
                                             const updatedPaisSecundarios = [...formData.paisSecundarios];
@@ -603,6 +607,7 @@ export default function MultiStruct() {
                                     <FormSelect
                                         placeholder="Medidas"
                                         options={selectMedidas}
+                                        className="form-control form-select-container"
                                         value={pai.medidas}
                                         onChange={(selectedOption: any) => {
                                             const updatedPaisSecundarios = [...formData.paisSecundarios];
@@ -612,7 +617,6 @@ export default function MultiStruct() {
                                         getOptionLabel={(obj: any) => `${obj.altura}X${obj.largura}X${obj.espessura}`}
                                         getOptionValue={(obj: any) => String(obj.codigo)}
                                     />
-
                                     <FormLabel text="Bordas Comprimento" />
                                     <FormInput
                                         className="form-control"
@@ -626,10 +630,8 @@ export default function MultiStruct() {
                                                 );
                                                 return { ...prevState, paisSecundarios: updatedPaisSecundarios };
                                             });
-                                        }}
-                                                                               
+                                        }}                                      
                                     />
-
                                     <FormLabel text="Bordas Largura" />
                                     <FormInput
                                         className="form-control"
@@ -641,7 +643,6 @@ export default function MultiStruct() {
                                             setFormData({ ...formData, paisSecundarios: updatedPaisSecundarios });
                                         }} 
                                     />
-
                                     <FormLabel text="Número Cantoneiras" />
                                     <FormInput
                                         className="form-control"
@@ -657,7 +658,6 @@ export default function MultiStruct() {
                                             });
                                         }} 
                                     />
-
                                     <FormCheckbox
                                         id={pai.id}
                                         name={pai.name}
@@ -673,7 +673,6 @@ export default function MultiStruct() {
                                             });
                                         }} 
                                     />
-
                                     <FormCheckbox
                                         id={pai.id}
                                         name={pai.name}
@@ -689,7 +688,6 @@ export default function MultiStruct() {
                                             });
                                         }} 
                                     />
-
                                     <FormLabel text="Plástico Adicional" />
                                     <FormInput
                                         className="form-control"
@@ -705,7 +703,6 @@ export default function MultiStruct() {
                                             });
                                         }} 
                                     />
-
                                     <FormLabel text="Largura Plástico" />
                                     <FormInput
                                         className="form-control"
@@ -721,7 +718,6 @@ export default function MultiStruct() {
                                             });
                                         }} 
                                     />
-
                                     <FormLabel text="Faces" />
                                     <FormInput
                                         className="form-control"
@@ -737,10 +733,10 @@ export default function MultiStruct() {
                                             });
                                         }}                                       
                                     />
-
                                     <FormLabel text="Máquinas" />
                                     <FormSelect
                                         placeholder="Máquinas"
+                                        className="form-control form-select-container"
                                         options={selectMaquinas}
                                         value={pai.maquinas}
                                         onChange={(selectedOption: any) => {
@@ -752,7 +748,6 @@ export default function MultiStruct() {
                                         getOptionLabel={(obj: any) => obj.nome}
                                         getOptionValue={(obj: any) => String(obj.codigo)}
                                     />
-
                                     <button
                                         type="button"
                                         className="btn btn-inverse"
@@ -766,18 +761,17 @@ export default function MultiStruct() {
                                 </div>
                             ))}
                         </div>
-
                         <div className="form-controls-container">
                             <h3>Acessórios</h3>
                             <button type="button" className="btn btn-primary" onClick={handleAddAcessorioQuantidade}>
                                 Adicionar Acessório
                             </button>
-
                             {formData.acessoriosQuantidades.map((pai: any, index: number) => (
                                 <div key={pai.id} className="pai-secundario-container">
                                     <h4>Acessório {index + 1}</h4>
                                     <FormSelect
                                         placeholder="Acessório"
+                                        className="form-control form-select-container"
                                         options={selectAcessorios}
                                         value={pai.acessorio}
                                         onChange={(selectedOption: any) => {
@@ -788,24 +782,20 @@ export default function MultiStruct() {
                                         getOptionLabel={(obj: any) => obj.descricao}
                                         getOptionValue={(obj: any) => String(obj.codigo)}
                                     />
-
                                     <FormLabel text="Quantidade" />
                                     <FormInput
                                         className="form-control"
-                                        value={pai.quantidade} // 🔹 Mantendo como atributo direto
+                                        value={pai.quantidade}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            const value = Number(e.target.value); // 🔹 Converte para número
+                                            const value = Number(e.target.value); 
                                             setFormData((prevState: any) => {
                                                 const updatedAcessoriosQuantidades = prevState.acessoriosQuantidades.map((p: any, i: number) =>
-                                                    i === index ? { ...p, quantidade: value } : p // 🔹 Atualiza corretamente
+                                                    i === index ? { ...p, quantidade: value } : p 
                                                 );
                                                 return { ...prevState, acessoriosQuantidades: updatedAcessoriosQuantidades };
                                             });
                                         }}                                       
                                     />
-
-
-                                    
                                     <button
                                         type="button"
                                         className="btn btn-inverse"
@@ -819,7 +809,6 @@ export default function MultiStruct() {
                                 </div>
                             ))}
                         </div>
-
                         <div className="form-buttons">
                             <Link to="/fathers">
                                 <button type="reset" className="btn btn-white">Cancelar</button>
