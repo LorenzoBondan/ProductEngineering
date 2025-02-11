@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -212,18 +213,22 @@ public class UserAnexoController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @PatchMapping(value = "/inativar")
     public ResponseEntity<?> inativar(@RequestParam("codigo") List<Integer> codigos) {
-        List<Integer> alteradosComSucesso = new ArrayList<>(), falhas = new ArrayList<>();
+        List<Integer> alteradosComSucesso = new ArrayList<>();
+        List<Map<String, Object>> falhas = new ArrayList<>();
 
         codigos.forEach(codigo -> {
             try {
                 service.inativar(codigo);
                 alteradosComSucesso.add(codigo);
             } catch (Exception e) {
-                falhas.add(codigo);
+                Map<String, Object> erro = new HashMap<>();
+                erro.put("codigo", codigo);
+                erro.put("mensagem", e.getMessage());
+                falhas.add(erro);
             }
         });
 
-        Map<String, List<Integer>> resposta = Map.of(
+        Map<String, Object> resposta = Map.of(
                 "alteradosComSucesso", alteradosComSucesso,
                 "falhas", falhas
         );
@@ -245,19 +250,23 @@ public class UserAnexoController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST')")
     @DeleteMapping
     public ResponseEntity<?> remover(@RequestParam("codigo") List<Integer> codigos){
-        List<Integer> excluidosComSucesso = new ArrayList<>(), falhas = new ArrayList<>();
+        List<Integer> alteradosComSucesso = new ArrayList<>();
+        List<Map<String, Object>> falhas = new ArrayList<>();
 
         codigos.forEach(codigo -> {
             try {
                 service.excluir(codigo);
-                excluidosComSucesso.add(codigo);
+                alteradosComSucesso.add(codigo);
             } catch (Exception e) {
-                falhas.add(codigo);
+                Map<String, Object> erro = new HashMap<>();
+                erro.put("codigo", codigo);
+                erro.put("mensagem", e.getMessage());
+                falhas.add(erro);
             }
         });
 
-        Map<String, List<Integer>> resposta = Map.of(
-                "excluidosComSucesso", excluidosComSucesso,
+        Map<String, Object> resposta = Map.of(
+                "alteradosComSucesso", alteradosComSucesso,
                 "falhas", falhas
         );
 
