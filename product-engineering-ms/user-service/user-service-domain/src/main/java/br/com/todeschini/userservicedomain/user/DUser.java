@@ -2,6 +2,7 @@ package br.com.todeschini.userservicedomain.user;
 
 import br.com.todeschini.libvalidationhandler.validation.NamedValidator;
 import br.com.todeschini.libvalidationhandler.validation.ValidationBuilder;
+import br.com.todeschini.libvalidationhandler.validation.impl.*;
 import br.com.todeschini.userservicedomain.role.DRole;
 import lombok.*;
 
