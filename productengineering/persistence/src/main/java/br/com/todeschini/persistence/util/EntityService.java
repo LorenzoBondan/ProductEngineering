@@ -166,7 +166,7 @@ public class EntityService {
 
     //************** VALIDAR DEPENDÊNCIAS
 
-    @SneakyThrows
+    /*@SneakyThrows
     public <T> void verifyDependenciesStatus(T entity) {
         if (entity != null) {
             for (Field field : entity.getClass().getDeclaredFields()) {
@@ -177,6 +177,25 @@ public class EntityService {
                         verifyDependencyStatus(fieldValue);
                     }
                 }
+            }
+        }
+    }*/
+    @SneakyThrows
+    public <T> void verifyDependenciesStatus(T entity) {
+        if (entity != null) {
+            Class<?> currentClass = entity.getClass();
+
+            while (currentClass != Object.class) {
+                for (Field field : currentClass.getDeclaredFields()) {
+                    field.setAccessible(true);
+                    if (isManyToOneOrOneToOne(field)) {
+                        Object fieldValue = field.get(entity);
+                        if (fieldValue != null) {
+                            verifyDependencyStatus(fieldValue);
+                        }
+                    }
+                }
+                currentClass = currentClass.getSuperclass();
             }
         }
     }
