@@ -2,10 +2,10 @@ import ButtonInverse from "../ButtonInverse";
 import ButtonPrimary from "../ButtonPrimary";
 
 type Props = {
-    id: number;
+    id: number | number[];
     message: string;
-    onDialogAnswer: Function;
-}
+    onDialogAnswer: (answer: boolean, id: number | number[]) => void;
+};
 
 export default function DialogConfirmation({ id, message, onDialogAnswer }: Props) {
 

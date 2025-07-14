@@ -24,7 +24,11 @@ export default function ModelList() {
         message: "Sucesso!"
     });
 
-    const [dialogConfirmationData, setDialogConfirmationData] = useState({
+    const [dialogConfirmationData, setDialogConfirmationData] = useState<{
+        visible: boolean;
+        id: number | number[];
+        message: string;
+    }>({
         visible: false,
         id: 0,
         message: "Você tem certeza?"
@@ -39,6 +43,8 @@ export default function ModelList() {
         descricao: ""
     });
 
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
     useEffect(() => {
         modeloService.pesquisarTodos('descricao', '=', queryParams.descricao, queryParams.page, 8, "codigo;a")
             .then(response => {
@@ -47,6 +53,25 @@ export default function ModelList() {
                 setIsLastPage(response.data.last);
             });
     }, [queryParams]);
+
+    function handleSelect(id: number, checked: boolean) {
+        if (checked) {
+            setSelectedIds(prev => [...prev, id]);
+        } else {
+            setSelectedIds(prev => prev.filter(selectedId => selectedId !== id));
+        }
+    }
+
+    function handleSelectAll(checked: boolean) {
+        if (checked) {
+            const allIds = modelos
+                .filter(m => m.situacao !== 'LIXEIRA')
+                .map(m => m.codigo);
+            setSelectedIds(allIds);
+        } else {
+            setSelectedIds([]);
+        }
+    }
 
     function handleNewChallengeClick() {
         navigate("/models/create");
@@ -69,21 +94,31 @@ export default function ModelList() {
         navigate(`/models/${modelId}`);
     }
 
-    function handleDeleteClick(modelId: number) {
-        setDialogConfirmationData({ ...dialogConfirmationData, id: modelId, visible: true });
+    function handleDeleteClick(modelId: number | number[]) {
+        const ids = Array.isArray(modelId) ? modelId : [modelId];
+        const message = `Você tem certeza que deseja excluir ${ids.length} registro${ids.length > 1 ? 's' : ''}?`;
+
+        setDialogConfirmationData({
+            visible: true,
+            id: ids,
+            message
+        });
     }
 
-    function handleDialogConfirmationAnswer(answer: boolean, modelId: number[]) {
+    function handleDialogConfirmationAnswer(answer: boolean, modelId: number | number[]) {
         if (answer) {
-            modeloService.remover(modelId)
+            const ids = Array.isArray(modelId) ? modelId : [modelId];
+
+            modeloService.remover(ids)
                 .then(() => {
                     setModelos([]);
+                    setSelectedIds([]);
                     setQueryParam({ ...queryParams, page: 0 });
                 })
                 .catch(error => {
                     setDialogInfoData({
                         visible: true,
-                        message: error.response.data.error
+                        message: error.response?.data?.error || 'Erro ao excluir'
                     })
                 });
         }
@@ -91,18 +126,19 @@ export default function ModelList() {
         setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
     }
 
-    function handleInactivate(id: number[]) {
-        modeloService.inativar(id)
-        .then(() => {
-            setModelos([]);
-            setQueryParam({ ...queryParams, page: 0 });
-        })
-        .catch(error => {
-            setDialogInfoData({
-                visible: true,
-                message: error.response.data.error
+    function handleInactivate(ids: number[]) {
+        modeloService.inativar(ids)
+            .then(() => {
+                setModelos([]);
+                setSelectedIds([]);
+                setQueryParam({ ...queryParams, page: 0 });
+            })
+            .catch(error => {
+                setDialogInfoData({
+                    visible: true,
+                    message: error.response?.data?.error || 'Erro ao inativar'
+                });
             });
-        });
     }
 
     return(
@@ -118,19 +154,55 @@ export default function ModelList() {
 
                 <SearchBar onSearch={handleSearch} />
 
+                {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) && selectedIds.length > 0 && (
+                    <div className="mb10 mt20" style={{ display: 'flex', gap: '10px' }}>
+                        <ButtonInverse
+                            text={`Inativar selecionados (${selectedIds.length})`}
+                            onClick={() => handleInactivate(selectedIds)}
+                        />
+                        <ButtonInverse
+                            text={`Excluir selecionados (${selectedIds.length})`}
+                            onClick={() =>
+                                setDialogConfirmationData({
+                                    visible: true,
+                                    id: selectedIds,
+                                    message: `Você tem certeza que deseja excluir ${selectedIds.length} registro${selectedIds.length > 1 ? 's' : ''}?`
+                                })
+                            }
+                        />
+                    </div>
+                )}
+
                 <table className="table mb20 mt20">
                     <thead>
                         <tr>
+                            {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) && (
+                                <th style={{ width: '40px', textAlign: 'center' }}>
+                                    <input
+                                        type="checkbox"
+                                        onChange={(e) => handleSelectAll(e.target.checked)}
+                                        checked={selectedIds.length === modelos.filter(m => m.situacao !== 'LIXEIRA').length}
+                                    />
+                                </th>
+                            )}
                             <th className="tb576">Código</th>
                             <th className="txt-left">Descrição</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {
-                            modelos.filter(obj => obj.situacao !== 'LIXEIRA')
+                        <tbody>
+                            {modelos.filter(obj => obj.situacao !== 'LIXEIRA')
                             .map(modelo => (
                                 <tr key={modelo.codigo} className={`situacao-${modelo.situacao.toLowerCase()}`}>
+                                    {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) && (
+                                        <td style={{ textAlign: 'center' }}>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(modelo.codigo)}
+                                                onChange={(e) => handleSelect(modelo.codigo, e.target.checked)}
+                                            />
+                                        </td>
+                                    )}
                                     <td className="tb576">{modelo.codigo}</td>
                                     <td className="txt-left">{modelo.descricao}</td>
                                     {hasAnyRoles(['ROLE_ADMIN', 'ROLE_ANALYST']) &&
@@ -143,9 +215,8 @@ export default function ModelList() {
                                         </td>
                                     }
                                 </tr>
-                            ))
-                        }
-                    </tbody>
+                            ))}
+                        </tbody>
                 </table>
 
                 {
