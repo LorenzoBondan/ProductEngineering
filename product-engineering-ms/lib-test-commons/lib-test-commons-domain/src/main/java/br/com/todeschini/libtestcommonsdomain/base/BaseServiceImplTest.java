@@ -1,8 +1,8 @@
-package com.projects.libtestcommonsdomain.base;
+package br.com.todeschini.libtestcommonsdomain.base;
 
-import com.ciandt.libvalidationhandler.contracts.SimpleCrud;
-import com.ciandt.libvalidationhandler.pageable.PageableRequest;
-import com.ciandt.libvalidationhandler.pageable.Paged;
+import br.com.todeschini.libvalidationhandler.contracts.SimpleCrud;
+import br.com.todeschini.libvalidationhandler.pageable.PageableRequest;
+import br.com.todeschini.libvalidationhandler.pageable.Paged;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

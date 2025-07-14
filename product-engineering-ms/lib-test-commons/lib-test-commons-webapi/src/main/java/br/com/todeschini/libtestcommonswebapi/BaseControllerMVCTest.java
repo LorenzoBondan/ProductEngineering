@@ -1,9 +1,9 @@
-package com.projects.libtestcommonswebapi;
+package br.com.todeschini.libtestcommonswebapi;
 
-import com.ciandt.libexceptionhandler.controllers.ControllerExceptionHandler;
-import com.ciandt.libvalidationhandler.contracts.BaseService;
-import com.ciandt.libvalidationhandler.pageable.PageableRequest;
-import com.ciandt.libvalidationhandler.pageable.Paged;
+import br.com.todeschini.libexceptionhandler.controllers.ControllerExceptionHandler;
+import br.com.todeschini.libvalidationhandler.contracts.BaseService;
+import br.com.todeschini.libvalidationhandler.pageable.PageableRequest;
+import br.com.todeschini.libvalidationhandler.pageable.Paged;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;

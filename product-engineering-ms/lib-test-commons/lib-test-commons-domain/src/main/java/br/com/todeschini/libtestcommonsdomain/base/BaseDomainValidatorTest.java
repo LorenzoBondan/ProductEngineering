@@ -1,9 +1,9 @@
-package com.projects.libtestcommonsdomain.base;
+package br.com.todeschini.libtestcommonsdomain.base;
 
-import com.ciandt.libexceptionhandler.exceptions.ValidationException;
-import com.ciandt.libvalidationhandler.validation.NamedValidator;
-import com.ciandt.libvalidationhandler.validation.ValidationBuilder;
-import com.ciandt.libvalidationhandler.validation.Validator;
+import br.com.todeschini.libexceptionhandler.exceptions.ValidationException;
+import br.com.todeschini.libvalidationhandler.validation.NamedValidator;
+import br.com.todeschini.libvalidationhandler.validation.ValidationBuilder;
+import br.com.todeschini.libvalidationhandler.validation.Validator;
 import org.junit.jupiter.api.function.Executable;
 
 import java.lang.reflect.Field;

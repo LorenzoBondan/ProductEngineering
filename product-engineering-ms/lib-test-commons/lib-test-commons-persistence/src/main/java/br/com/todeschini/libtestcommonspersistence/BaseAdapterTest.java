@@ -1,6 +1,6 @@
-package com.projects.libtestcommonspersistence;
+package br.com.todeschini.libtestcommonspersistence;
 
-import com.ciandt.libvalidationhandler.contracts.Convertable;
+import br.com.todeschini.libvalidationhandler.contracts.Convertable;
 import org.junit.jupiter.api.Test;
 
 public abstract class BaseAdapterTest<E, D> {

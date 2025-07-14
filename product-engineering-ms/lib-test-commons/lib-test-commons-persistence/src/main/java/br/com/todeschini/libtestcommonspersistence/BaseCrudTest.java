@@ -1,10 +1,10 @@
-package com.projects.libtestcommonspersistence;
+package br.com.todeschini.libtestcommonspersistence;
 
-import com.ciandt.libexceptionhandler.exceptions.DatabaseException;
-import com.ciandt.libexceptionhandler.exceptions.ResourceNotFoundException;
-import com.ciandt.libvalidationhandler.contracts.SimpleCrud;
-import com.ciandt.libvalidationhandler.pageable.PageableRequest;
-import com.ciandt.libvalidationhandler.pageable.Paged;
+import br.com.todeschini.libexceptionhandler.exceptions.DatabaseException;
+import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
+import br.com.todeschini.libvalidationhandler.contracts.SimpleCrud;
+import br.com.todeschini.libvalidationhandler.pageable.PageableRequest;
+import br.com.todeschini.libvalidationhandler.pageable.Paged;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.projects.libtestcommonsdomain.utils;
+package br.com.todeschini.libtestcommonsdomain.utils;
 
 import java.time.LocalDate;
 
