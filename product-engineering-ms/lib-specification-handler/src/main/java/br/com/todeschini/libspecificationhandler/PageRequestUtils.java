@@ -1,6 +1,6 @@
-package com.projects.libspecificationhandler;
+package br.com.todeschini.libspecificationhandler;
 
-import com.ciandt.libvalidationhandler.pageable.PageableRequest;
+import br.com.todeschini.libvalidationhandler.pageable.PageableRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

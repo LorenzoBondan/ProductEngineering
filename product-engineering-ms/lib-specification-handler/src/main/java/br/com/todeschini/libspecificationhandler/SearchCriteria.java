@@ -1,4 +1,4 @@
-package com.projects.libspecificationhandler;
+package br.com.todeschini.libspecificationhandler;
 
 import lombok.*;
 

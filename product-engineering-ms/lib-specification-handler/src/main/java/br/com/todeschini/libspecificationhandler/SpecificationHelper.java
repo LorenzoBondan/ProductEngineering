@@ -1,4 +1,4 @@
-package com.projects.libspecificationhandler;
+package br.com.todeschini.libspecificationhandler;
 
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
