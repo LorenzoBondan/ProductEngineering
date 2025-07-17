@@ -51,14 +51,14 @@ public class FilhoDomainToEntityAdapter implements Convertable<Filho, DFilho> {
 
         List<MaterialUsado> materiaisUsados = Optional.ofNullable(domain.getMateriaisUsados())
                 .map(lista -> lista.stream()
-                        .map(materialUsado -> materialUsadoDomainToEntityAdapter.toEntity(materialUsado))
+                        .map(materialUsadoDomainToEntityAdapter::toEntity)
                         .collect(Collectors.toList())
                 )
                 .orElse(new ArrayList<>());
 
         List<AcessorioUsado> acessoriosUsados = Optional.ofNullable(domain.getAcessoriosUsados())
                 .map(lista -> lista.stream()
-                        .map(acessorioUsado -> acessorioUsadoDomainToEntityAdapter.toEntity(acessorioUsado))
+                        .map(acessorioUsadoDomainToEntityAdapter::toEntity)
                         .collect(Collectors.toList())
                 )
                 .orElse(new ArrayList<>());
@@ -70,10 +70,10 @@ public class FilhoDomainToEntityAdapter implements Convertable<Filho, DFilho> {
                         .map(pai -> new Pai( // criar objeto na mão para ter acesso aos atributos no criar estrutura. não injetar o adaptador (geraria stackoverflow)
                                 pai.getCodigo(),
                                 Optional.ofNullable(pai.getModelo())
-                                        .map(modelo -> modeloDomainToEntityAdapter.toEntity(modelo))
+                                        .map(modeloDomainToEntityAdapter::toEntity)
                                         .orElse(null),
                                 Optional.ofNullable(pai.getCategoriaComponente())
-                                        .map(categoriaComponente -> categoriaComponenteDomainToEntityAdapter.toEntity(categoriaComponente))
+                                        .map(categoriaComponenteDomainToEntityAdapter::toEntity)
                                         .orElse(null),
                                 pai.getDescricao(),
 
@@ -128,14 +128,14 @@ public class FilhoDomainToEntityAdapter implements Convertable<Filho, DFilho> {
 
         List<DMaterialUsado> materiaisUsados = Optional.ofNullable(entity.getMateriaisUsados())
                 .map(lista -> lista.stream()
-                        .map(materialUsado -> materialUsadoDomainToEntityAdapter.toDomain(materialUsado))
+                        .map(materialUsadoDomainToEntityAdapter::toDomain)
                         .collect(Collectors.toList())
                 )
                 .orElse(new ArrayList<>());
 
         List<DAcessorioUsado> acessoriosUsados = Optional.ofNullable(entity.getAcessoriosUsados())
                 .map(lista -> lista.stream()
-                        .map(acessorioUsado -> acessorioUsadoDomainToEntityAdapter.toDomain(acessorioUsado))
+                        .map(acessorioUsadoDomainToEntityAdapter::toDomain)
                         .collect(Collectors.toList())
                 )
                 .orElse(new ArrayList<>());
@@ -147,10 +147,10 @@ public class FilhoDomainToEntityAdapter implements Convertable<Filho, DFilho> {
                         .map(pai -> new DPai(
                                 pai.getCdpai(),
                                 Optional.ofNullable(pai.getModelo())
-                                        .map(modelo -> modeloDomainToEntityAdapter.toDomain(modelo))
+                                        .map(modeloDomainToEntityAdapter::toDomain)
                                         .orElse(null),
                                 Optional.ofNullable(pai.getCategoriaComponente())
-                                        .map(categoriaComponente -> categoriaComponenteDomainToEntityAdapter.toDomain(categoriaComponente))
+                                        .map(categoriaComponenteDomainToEntityAdapter::toDomain)
                                         .orElse(null),
                                 pai.getDescricao(),
 
@@ -182,7 +182,7 @@ public class FilhoDomainToEntityAdapter implements Convertable<Filho, DFilho> {
                 /*.roteiro(Optional.ofNullable(entity.getRoteiro())
                         .map(roteiro -> roteiroDomainToEntityAdapter.toDomain(entity.getRoteiro()))
                         .orElse(null))*/
-                .roteiroId(entity.getRoteiroId())
+                .roteiro(Optional.ofNullable(entity.getRoteiroId()).map(DRoteiro::new).orElse(null))
                 .unidadeMedida(Optional.ofNullable(entity.getUnidadeMedida()).orElse("UN"))
                 .implantacao(entity.getImplantacao())
                 .valor(entity.getValor())
