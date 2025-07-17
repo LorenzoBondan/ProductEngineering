@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -24,7 +25,7 @@ public class DynamicRepositoryFactory {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public <T, ID extends Serializable>JpaRepository<T, ID> createRepository(Class<T> entityClass) {
+    public <T, ID extends Serializable> JpaRepository<T, ID> createRepository(Class<?> entityClass) {
 
         JpaEntityInformation<T, ?> entityInformation = JpaEntityInformationSupport.getEntityInformation((Class<T>) entityClass, entityManager);
 
