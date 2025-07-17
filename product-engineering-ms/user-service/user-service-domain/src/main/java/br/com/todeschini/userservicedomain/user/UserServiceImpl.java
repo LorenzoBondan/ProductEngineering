@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     private final AuthService authService;
 
     @Override
-    public DUser find(Integer id) {
+    public DUser buscar(Integer id) {
         authService.validateSelfOrAdmin(id);
-        return crudUser.find(id);
+        return crudUser.buscar(id);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Paged<DUser> findAll(PageableRequest request) {
-        return crudUser.findAll(request);
+    public Paged<DUser> buscar(PageableRequest request) {
+        return crudUser.buscar(request);
     }
 
     @Override
@@ -48,18 +48,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DUser create(DUser domain) {
+    public DUser incluir(DUser domain) {
         domain.validate();
         validateDuplicatedResource(domain);
-        return crudUser.insert(domain);
+        return crudUser.incluir(domain);
     }
 
     @Override
-    public DUser update(DUser domain) {
+    public DUser atualizar(DUser domain) {
         authService.validateSelfOrAdmin(domain.getId());
         domain.validate();
         validateDuplicatedResource(domain);
-        return crudUser.update(domain);
+        return crudUser.atualizar(domain);
+    }
+
+    @Override
+    public void inativar(Integer id) {
+
     }
 
     @Override
@@ -70,10 +75,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void excluir(Integer id) {
         DUser user = convertToDUser(authService.authenticated());
         authService.validateSelfOrAdmin(user.getId());
-        crudUser.delete(id);
+        crudUser.excluir(id);
     }
 
     private void validateDuplicatedResource(DUser domain){

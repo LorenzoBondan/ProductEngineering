@@ -16,26 +16,31 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Paged<DRole> findAll(PageableRequest request) {
-        return crudRole.findAll(request);
+    public Paged<DRole> buscar(PageableRequest request) {
+        return crudRole.buscar(request);
     }
 
     @Override
-    public DRole find(Integer id) {
-        return crudRole.find(id);
+    public DRole buscar(Integer id) {
+        return crudRole.buscar(id);
     }
 
     @Override
-    public DRole create(DRole obj) {
+    public DRole incluir(DRole obj) {
         return null;
     }
 
     @Override
-    public DRole update(DRole obj) {
+    public DRole atualizar(DRole obj) {
         return null;
     }
 
     @Override
-    public void delete(Integer id) {
+    public void inativar(Integer id) {
+
+    }
+
+    @Override
+    public void excluir(Integer id) {
     }
 }

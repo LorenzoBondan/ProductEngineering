@@ -10,13 +10,15 @@ import br.com.todeschini.libvalidationhandler.pageable.Paged;
  */
 public interface SimpleCrud<T, J>{
 
-    Paged<T> findAll(PageableRequest request);
+    Paged<T> buscar(PageableRequest request);
 
-    T find(J obj);
+    T buscar(J obj);
 
-    T insert(T obj);
+    T incluir(T obj);
 
-    T update(T obj);
+    T atualizar(T obj);
 
-    void delete(J obj);
+    void inativar(J obj);
+
+    void excluir(J obj);
 }

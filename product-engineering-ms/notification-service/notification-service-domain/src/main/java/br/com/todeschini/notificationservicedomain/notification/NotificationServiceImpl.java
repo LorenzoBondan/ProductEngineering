@@ -47,6 +47,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public void inactivate(Integer id) {
+
+    }
+
+    @Override
     public void delete(Integer id) {
     }
 }

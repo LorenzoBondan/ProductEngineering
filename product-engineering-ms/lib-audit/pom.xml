@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>lib-audit-domain</module>
         <module>lib-audit-persistence</module>
         <module>lib-audit-webapi</module>
     </modules>

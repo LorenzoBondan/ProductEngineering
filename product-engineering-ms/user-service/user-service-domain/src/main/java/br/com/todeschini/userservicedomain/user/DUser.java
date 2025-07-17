@@ -37,18 +37,18 @@ public class DUser {
 
     public void validate(){
         new ValidationBuilder()
-                .add(new NamedValidator<>("Name", new NotNullValidator()), this.name)
-                .add(new NamedValidator<>("Name", new NotBlankValidator()), this.name)
-                .add(new NamedValidator<>("Name", new SpecialCharactersValidator()), this.name)
-                .add(new NamedValidator<>("Name", new MinLengthValidator(3)), this.name)
-                .add(new NamedValidator<>("Name", new MaxLengthValidator(50)), this.name)
-                .add(new NamedValidator<>("Password", new NotNullValidator()), this.password)
-                .add(new NamedValidator<>("Password", new NotBlankValidator()), this.password)
-                .add(new NamedValidator<>("Password", new MinLengthValidator(5)), this.password)
-                .add(new NamedValidator<>("Password", new MaxLengthValidator(50)), this.password)
-                .add(new NamedValidator<>("Email", new NotNullValidator()), this.email)
+                .add(new NamedValidator<>("Name", new ObjetoNaoNuloValidator()), this.name)
+                .add(new NamedValidator<>("Name", new NaoBrancoValidator()), this.name)
+                .add(new NamedValidator<>("Name", new CaracteresEspeciaisValidator()), this.name)
+                .add(new NamedValidator<>("Name", new TamanhoMinimoValidator(3)), this.name)
+                .add(new NamedValidator<>("Name", new TamanhoMaximoValidator(50)), this.name)
+                .add(new NamedValidator<>("Password", new ObjetoNaoNuloValidator()), this.password)
+                .add(new NamedValidator<>("Password", new NaoBrancoValidator()), this.password)
+                .add(new NamedValidator<>("Password", new TamanhoMinimoValidator(5)), this.password)
+                .add(new NamedValidator<>("Password", new TamanhoMaximoValidator(50)), this.password)
+                .add(new NamedValidator<>("Email", new ObjetoNaoNuloValidator()), this.email)
                 .add(new NamedValidator<>("Email", new EmailValidator()), this.email)
-                .add(new NamedValidator<>("Roles", new NotNullValidator()), this.roles)
+                .add(new NamedValidator<>("Roles", new ObjetoNaoNuloValidator()), this.roles)
                 .validate();
     }
 }

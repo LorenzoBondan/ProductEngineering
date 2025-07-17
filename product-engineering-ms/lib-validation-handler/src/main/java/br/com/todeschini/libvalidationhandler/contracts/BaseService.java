@@ -9,13 +9,15 @@ import br.com.todeschini.libvalidationhandler.pageable.Paged;
  */
 public interface BaseService<T>{
 
-    Paged<T> findAll(PageableRequest request);
+    Paged<T> buscar(PageableRequest request);
 
-    T find(Integer id);
+    T buscar(Integer id);
 
-    T create(T obj);
+    T incluir(T obj);
 
-    T update(T obj);
+    T atualizar(T obj);
 
-    void delete(Integer id);
+    void inativar(Integer id);
+
+    void excluir(Integer id);
 }
