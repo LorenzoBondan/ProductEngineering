@@ -19,5 +19,5 @@ public interface BaseService<T>{
 
     void inativar(Integer id);
 
-    void excluir(Integer id);
+    void excluir(Integer id) throws IllegalAccessException;
 }

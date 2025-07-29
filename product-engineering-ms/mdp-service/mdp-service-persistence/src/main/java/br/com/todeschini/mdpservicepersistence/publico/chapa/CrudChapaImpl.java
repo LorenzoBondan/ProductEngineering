@@ -93,7 +93,7 @@ public class CrudChapaImpl implements CrudChapa {
     }
 
     @Override
-    public void excluir(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), DSituacaoEnum.LIXEIRA);
+    public void excluir(Integer id) throws IllegalAccessException{
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 }

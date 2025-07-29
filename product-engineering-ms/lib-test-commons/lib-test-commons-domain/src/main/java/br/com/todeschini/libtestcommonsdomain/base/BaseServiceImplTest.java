@@ -137,7 +137,7 @@ public abstract class BaseServiceImplTest<T, ID> {
     }
 
     @Test
-    void delete_shouldCallCrud() {
+    void delete_shouldCallCrud() throws IllegalAccessException {
         doNothing().when(crud).excluir(getExistingId());
 
         invokeDelete(getExistingId());

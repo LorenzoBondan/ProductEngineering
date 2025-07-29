@@ -54,7 +54,7 @@ public class MedidasServiceImpl implements MedidasService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudMedidas.excluir(id);
     }
 

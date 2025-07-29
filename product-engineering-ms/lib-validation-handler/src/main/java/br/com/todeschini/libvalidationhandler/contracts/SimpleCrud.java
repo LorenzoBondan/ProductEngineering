@@ -20,5 +20,5 @@ public interface SimpleCrud<T, J>{
 
     void inativar(J obj);
 
-    void excluir(J obj);
+    void excluir(J obj) throws IllegalAccessException;
 }

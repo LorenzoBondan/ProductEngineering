@@ -48,7 +48,7 @@ public class ModeloServiceImpl implements ModeloService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudModelo.excluir(id);
     }
 

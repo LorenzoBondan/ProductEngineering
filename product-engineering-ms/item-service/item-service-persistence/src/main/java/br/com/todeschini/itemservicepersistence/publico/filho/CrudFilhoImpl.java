@@ -3,7 +3,6 @@ package br.com.todeschini.itemservicepersistence.publico.filho;
 import br.com.todeschini.itemservicedomain.filho.DFilho;
 import br.com.todeschini.itemservicedomain.filho.spi.CrudFilho;
 import br.com.todeschini.itemservicepersistence.entities.Filho;
-import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.services.AuditoriaService;
 import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
@@ -98,7 +97,7 @@ public class CrudFilhoImpl implements CrudFilho {
     }
 
     @Override
-    public void excluir(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), DSituacaoEnum.LIXEIRA);
+    public void excluir(Integer id) throws IllegalAccessException {
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 }

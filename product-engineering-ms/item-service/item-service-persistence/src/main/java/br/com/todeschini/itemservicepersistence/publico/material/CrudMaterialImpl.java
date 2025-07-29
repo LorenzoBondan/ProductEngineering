@@ -3,7 +3,6 @@ package br.com.todeschini.itemservicepersistence.publico.material;
 import br.com.todeschini.itemservicedomain.material.DMaterial;
 import br.com.todeschini.itemservicedomain.material.spi.CrudMaterial;
 import br.com.todeschini.itemservicepersistence.entities.Material;
-import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.services.AuditoriaService;
 import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
@@ -93,7 +92,7 @@ public class CrudMaterialImpl implements CrudMaterial {
     }
 
     @Override
-    public void excluir(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), DSituacaoEnum.LIXEIRA);
+    public void excluir(Integer id) throws IllegalAccessException{
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
     }
 }

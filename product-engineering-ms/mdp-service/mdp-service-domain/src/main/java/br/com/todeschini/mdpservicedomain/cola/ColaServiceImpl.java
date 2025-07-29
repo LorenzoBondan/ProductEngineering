@@ -48,7 +48,7 @@ public class ColaServiceImpl implements ColaService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudCola.excluir(id);
     }
 

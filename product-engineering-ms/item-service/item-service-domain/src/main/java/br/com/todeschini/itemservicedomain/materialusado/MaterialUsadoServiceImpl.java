@@ -48,7 +48,7 @@ public class MaterialUsadoServiceImpl implements MaterialUsadoService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudMaterialUsado.excluir(id);
     }
 

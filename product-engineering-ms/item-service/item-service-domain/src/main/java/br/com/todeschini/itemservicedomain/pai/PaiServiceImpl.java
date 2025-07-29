@@ -93,7 +93,7 @@ public class PaiServiceImpl implements PaiService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudPai.excluir(id);
     }
 

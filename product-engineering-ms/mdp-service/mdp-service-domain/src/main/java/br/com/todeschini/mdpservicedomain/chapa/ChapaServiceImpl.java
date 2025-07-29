@@ -48,7 +48,7 @@ public class ChapaServiceImpl implements ChapaService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudChapa.excluir(id);
     }
 

@@ -48,7 +48,7 @@ public class CategoriaComponenteServiceImpl implements CategoriaComponenteServic
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudCategoriaComponente.excluir(id);
     }
 

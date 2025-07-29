@@ -48,7 +48,7 @@ public class FitaBordaServiceImpl implements FitaBordaService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudFitaBorda.excluir(id);
     }
 

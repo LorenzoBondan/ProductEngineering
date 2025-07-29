@@ -53,7 +53,7 @@ public class FilhoServiceImpl implements FilhoService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudFilho.excluir(id);
     }
 

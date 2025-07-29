@@ -67,7 +67,7 @@ public class LixeiraOperationsImpl implements LixeiraOperations {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public <T> void incluir(T entity) throws IllegalAccessException {
         Map<String, Object> entidadeIdMap = new HashMap<>();
 
@@ -94,21 +94,27 @@ public class LixeiraOperationsImpl implements LixeiraOperations {
             lixeira.setSituacao(SituacaoEnum.LIXEIRA);
             repository.save(lixeira);
         } else{
-            repository.save(Lixeira.builder()
-                    .data(LocalDateTime.now())
-                    .nometabela(entity.getClass().getSimpleName())
-                    .tabela(String.valueOf(entity.getClass()))
-                    .usuario(loggedUser)
-                    .situacao(SituacaoEnum.LIXEIRA)
-                    .entidadeid(entidadeIdMap)
-                    .build()
-            );
+            try {
+                Lixeira entityToSave = Lixeira.builder()
+                        .data(LocalDateTime.now())
+                        .nometabela(entity.getClass().getSimpleName())
+                        .tabela(String.valueOf(entity.getClass()))
+                        .usuario(loggedUser)
+                        .situacao(SituacaoEnum.LIXEIRA)
+                        .entidadeid(entidadeIdMap)
+                        .build();
+                repository.save(entityToSave);
+            } catch (Exception e) {
+                System.out.println("Erro ao salvar na lixeira: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     @Override
-    @Transactional
-    public <T> void recuperar(Integer id, Boolean recuperarDependencias) {
+    //@Transactional
+    public <T> void recuperar(Integer id, Boolean recuperarDependencias) throws IllegalAccessException {
         if(repository.existsById(id)){
             Lixeira lixeira = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
             String entityClassName = lixeira.getTabela().replace("class ", "");
@@ -134,7 +140,7 @@ public class LixeiraOperationsImpl implements LixeiraOperations {
 
     @Override
     @Transactional
-    public <T> void recuperarPorEntidadeId(Map<String, Object> entidadeid, Boolean recuperarDependencias) {
+    public <T> void recuperarPorEntidadeId(Map<String, Object> entidadeid, Boolean recuperarDependencias) throws IllegalAccessException {
         DLixeira lixeira = Optional.ofNullable(repository.findByEntidadeid(entidadeid))
                 .map(adapter::toDomain)
                 .orElseThrow(() -> new ResourceNotFoundException("Entidade com o código: " + entidadeid + " especificado não encontrada na lixeira"));

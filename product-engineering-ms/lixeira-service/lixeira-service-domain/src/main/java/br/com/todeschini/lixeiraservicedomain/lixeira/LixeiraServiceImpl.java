@@ -26,12 +26,12 @@ public class LixeiraServiceImpl implements LixeiraService {
     }
 
     @Override
-    public <T> void recuperar(Integer id, Boolean recuperarDependencias) {
+    public <T> void recuperar(Integer id, Boolean recuperarDependencias) throws IllegalAccessException {
         lixeiraOperations.recuperar(id, recuperarDependencias);
     }
 
     @Override
-    public <T> void recuperarPorEntidadeId(Map<String, Object> entidadeid, Boolean recuperarDependencias) {
+    public <T> void recuperarPorEntidadeId(Map<String, Object> entidadeid, Boolean recuperarDependencias) throws IllegalAccessException {
         lixeiraOperations.recuperarPorEntidadeId(entidadeid, recuperarDependencias);
     }
 

@@ -48,7 +48,7 @@ public class AcessorioUsadoServiceImpl implements AcessorioUsadoService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudAcessorioUsado.excluir(id);
     }
 

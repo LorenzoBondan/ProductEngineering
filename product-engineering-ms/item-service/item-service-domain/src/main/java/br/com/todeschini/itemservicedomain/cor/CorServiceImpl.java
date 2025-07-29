@@ -48,7 +48,7 @@ public class CorServiceImpl implements CorService {
     }
 
     @Override
-    public void excluir(Integer id) {
+    public void excluir(Integer id) throws IllegalAccessException {
         crudCor.excluir(id);
     }
 

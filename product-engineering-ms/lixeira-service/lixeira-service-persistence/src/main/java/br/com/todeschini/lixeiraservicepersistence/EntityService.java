@@ -29,15 +29,14 @@ public class EntityService implements StatusUpdater {
     private final ApplicationEventPublisher publisher;
 
     @Transactional
-    @SneakyThrows
-    public <T> void changeStatusToOther(T entity, DSituacaoEnum situacaoEnum) {
-        updateStatusOtherRecursively(entity, situacaoEnum, new HashSet<>());
+    public <T> void changeStatusToOther(T entity, SituacaoEnum situacaoEnum) throws IllegalAccessException {
+        DSituacaoEnum newStatus = DSituacaoEnum.valueOf(situacaoEnum.name());
+        updateStatusOtherRecursively(entity, newStatus, new HashSet<>());
         saveEntity(entity);
     }
 
-    @SneakyThrows
     @Override
-    public <T> void updateStatusAtivoRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) {
+    public <T> void updateStatusAtivoRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) throws IllegalAccessException {
         if (entity != null && !processedEntities.contains(entity)) {
             processedEntities.add(entity); // Adiciona o objeto atual ao conjunto de objetos processados
 
@@ -53,7 +52,13 @@ public class EntityService implements StatusUpdater {
                     Object fieldValue = field.get(entity);
                     if (fieldValue instanceof Collection<?> collection) {
                         if(retrieveDependencies){
-                            collection.forEach(subEntity -> updateStatusAtivoRecursively(subEntity, newStatus, new HashSet<>(processedEntities), true)); // listas (dependentes)
+                            collection.forEach(subEntity -> {
+                                try {
+                                    updateStatusAtivoRecursively(subEntity, newStatus, new HashSet<>(processedEntities), true);
+                                } catch (IllegalAccessException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }); // listas (dependentes)
                         }
 
                     } else {
@@ -63,7 +68,13 @@ public class EntityService implements StatusUpdater {
                     Object fieldValue2 = field.get(entity);
                     if (fieldValue2 instanceof Collection<?> collection) {
                         if(retrieveDependencies){
-                            collection.forEach(subEntity -> updateStatusAtivoRecursively(subEntity, newStatus, new HashSet<>(processedEntities), true));
+                            collection.forEach(subEntity -> {
+                                try {
+                                    updateStatusAtivoRecursively(subEntity, newStatus, new HashSet<>(processedEntities), true);
+                                } catch (IllegalAccessException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
                         }
 
                     }
@@ -73,8 +84,7 @@ public class EntityService implements StatusUpdater {
         }
     }
 
-    @SneakyThrows
-    private <T> void updateStatus(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities) {
+    private <T> void updateStatus(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities) throws IllegalAccessException {
         if (entity != null && !processedEntities.contains(entity)) {
             // Adiciona a entidade ao conjunto de processadas
             processedEntities.add(entity);
@@ -102,8 +112,7 @@ public class EntityService implements StatusUpdater {
         }
     }
 
-    @SneakyThrows
-    private <T> void updateStatusOtherRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities) {
+    private <T> void updateStatusOtherRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities) throws IllegalAccessException {
         if (entity != null && !processedEntities.contains(entity)) {
             processedEntities.add(entity); // Adiciona o objeto atual ao conjunto de objetos processados
 
@@ -122,12 +131,24 @@ public class EntityService implements StatusUpdater {
                 if (isAssociationField(field)) {
                     Object fieldValue = field.get(entity);
                     if (fieldValue instanceof Collection<?> collection) {
-                        collection.forEach(subEntity -> updateStatusOtherRecursively(subEntity, newStatus, new HashSet<>(processedEntities))); // listas (dependentes)
+                        collection.forEach(subEntity -> {
+                            try {
+                                updateStatusOtherRecursively(subEntity, newStatus, new HashSet<>(processedEntities));
+                            } catch (IllegalAccessException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }); // listas (dependentes)
                     }
                 } else if (isManyToManyAssociationField(field)) {
                     Object fieldValue = field.get(entity);
                     if (fieldValue instanceof Collection<?> collection) {
-                        collection.forEach(subEntity -> updateStatusOtherRecursively(subEntity, newStatus, new HashSet<>(processedEntities)));
+                        collection.forEach(subEntity -> {
+                            try {
+                                updateStatusOtherRecursively(subEntity, newStatus, new HashSet<>(processedEntities));
+                            } catch (IllegalAccessException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
                     }
                 }
             }

@@ -6,6 +6,6 @@ import java.util.Set;
 
 public interface StatusUpdater {
 
-    <T> void updateStatusAtivoRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities, Boolean retrieveDependencies);
+    <T> void updateStatusAtivoRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) throws IllegalAccessException;
 }
 
