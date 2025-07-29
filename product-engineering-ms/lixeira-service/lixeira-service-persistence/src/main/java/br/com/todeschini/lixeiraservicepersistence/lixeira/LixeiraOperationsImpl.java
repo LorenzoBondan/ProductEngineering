@@ -1,6 +1,6 @@
 package br.com.todeschini.lixeiraservicepersistence.lixeira;
 
-import br.com.todeschini.lixeiraservicepersistence.EntityService;
+import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.repositories.DynamicRepositoryFactory;
 import br.com.todeschini.libauthservicewebapi.utils.CustomUserUtil;
@@ -12,8 +12,10 @@ import br.com.todeschini.libvalidationhandler.pageable.Paged;
 import br.com.todeschini.libvalidationhandler.pageable.PagedBuilder;
 import br.com.todeschini.lixeiraservicedomain.lixeira.DLixeira;
 import br.com.todeschini.lixeiraservicedomain.lixeira.spi.LixeiraOperations;
+import br.com.todeschini.lixeiraservicepersistence.EntityService;
 import br.com.todeschini.lixeiraservicepersistence.entities.Lixeira;
 import jakarta.persistence.Id;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.CrudRepository;
@@ -32,6 +34,7 @@ import java.util.Optional;
  * Esta classe gerencia as operações relacionadas a Lixeira
  */
 @Component
+@RequiredArgsConstructor
 public class LixeiraOperationsImpl implements LixeiraOperations {
 
     private final LixeiraRepository repository;
@@ -42,16 +45,6 @@ public class LixeiraOperationsImpl implements LixeiraOperations {
     private final EntityService entityService;
     private final DynamicRepositoryFactory dynamicRepositoryFactory;
     private final CustomUserUtil customUserUtil;
-
-    public LixeiraOperationsImpl(LixeiraRepository repository, LixeiraQueryRepository queryRepository, LixeiraDomainToEntityAdapter adapter, PageRequestUtils pageRequestUtils, EntityService entityService, DynamicRepositoryFactory dynamicRepositoryFactory, CustomUserUtil customUserUtil) {
-        this.repository = repository;
-        this.queryRepository = queryRepository;
-        this.adapter = adapter;
-        this.pageRequestUtils = pageRequestUtils;
-        this.entityService = entityService;
-        this.dynamicRepositoryFactory = dynamicRepositoryFactory;
-        this.customUserUtil = customUserUtil;
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -134,7 +127,7 @@ public class LixeiraOperationsImpl implements LixeiraOperations {
                 Integer entityId = fieldValue instanceof Integer ? ((Integer) fieldValue).intValue() : (Integer) fieldValue;
                 T entity = repository.findById(entityId).orElseThrow(() -> new ResourceNotFoundException("Entidade não encontrada com ID: " + entityId));
 
-                entityService.updateStatusAtivoRecursively(entity, SituacaoEnum.ATIVO, new HashSet<>(), recuperarDependencias);
+                entityService.updateStatusAtivoRecursively(entity, DSituacaoEnum.ATIVO, new HashSet<>(), recuperarDependencias);
             }
         }
     }

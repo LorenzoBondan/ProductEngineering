@@ -18,6 +18,9 @@ import br.com.todeschini.itemservicedomain.filho.spi.CrudFilho;
 import br.com.todeschini.itemservicedomain.material.MaterialServiceImpl;
 import br.com.todeschini.itemservicedomain.material.api.MaterialService;
 import br.com.todeschini.itemservicedomain.material.spi.CrudMaterial;
+import br.com.todeschini.itemservicedomain.materialusado.MaterialUsadoServiceImpl;
+import br.com.todeschini.itemservicedomain.materialusado.api.MaterialUsadoService;
+import br.com.todeschini.itemservicedomain.materialusado.spi.CrudMaterialUsado;
 import br.com.todeschini.itemservicedomain.medidas.MedidasServiceImpl;
 import br.com.todeschini.itemservicedomain.medidas.api.MedidasService;
 import br.com.todeschini.itemservicedomain.medidas.spi.CrudMedidas;
@@ -28,6 +31,17 @@ import br.com.todeschini.itemservicedomain.pai.PaiServiceImpl;
 import br.com.todeschini.itemservicedomain.pai.api.PaiService;
 import br.com.todeschini.itemservicedomain.pai.spi.CrudPai;
 import br.com.todeschini.itemservicedomain.processadores.MaterialProcessadorFactory;
+import br.com.todeschini.libauditpersistence.repositories.DynamicRepositoryFactory;
+import br.com.todeschini.libauthservicewebapi.utils.CustomUserUtil;
+import br.com.todeschini.libspecificationhandler.PageRequestUtils;
+import br.com.todeschini.lixeiraservicedomain.lixeira.LixeiraServiceImpl;
+import br.com.todeschini.lixeiraservicedomain.lixeira.api.LixeiraService;
+import br.com.todeschini.lixeiraservicedomain.lixeira.spi.LixeiraOperations;
+import br.com.todeschini.lixeiraservicepersistence.EntityService;
+import br.com.todeschini.lixeiraservicepersistence.lixeira.LixeiraDomainToEntityAdapter;
+import br.com.todeschini.lixeiraservicepersistence.lixeira.LixeiraOperationsImpl;
+import br.com.todeschini.lixeiraservicepersistence.lixeira.LixeiraQueryRepository;
+import br.com.todeschini.lixeiraservicepersistence.lixeira.LixeiraRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -65,6 +79,11 @@ public class BeansConfig {
     }
 
     @Bean
+    public MaterialUsadoService materialUsadoService(CrudMaterialUsado crudMaterialUsado) {
+        return new MaterialUsadoServiceImpl(crudMaterialUsado);
+    }
+
+    @Bean
     public MedidasService medidasService(CrudMedidas crudMedidas) {
         return new MedidasServiceImpl(crudMedidas);
     }
@@ -81,5 +100,18 @@ public class BeansConfig {
                                  MaterialProcessadorFactory materialProcessadorFactory) {
         return new PaiServiceImpl(crudPai, modeloService, categoriaComponenteService, filhoService, medidasService, materialService
         , corService, acessorioService, acessorioUsadoService, materialProcessadorFactory);
+    }
+
+    /*@Bean
+    public LixeiraOperations lixeiraOperations(LixeiraRepository lixeiraRepository, LixeiraQueryRepository lixeiraQueryRepository,
+                                               LixeiraDomainToEntityAdapter lixeiraDomainToEntityAdapter, PageRequestUtils pageRequestUtils,
+                                               EntityService entityService, DynamicRepositoryFactory dynamicRepositoryFactory, CustomUserUtil customUserUtil) {
+        return new LixeiraOperationsImpl(lixeiraRepository, lixeiraQueryRepository, lixeiraDomainToEntityAdapter, pageRequestUtils, entityService,
+                dynamicRepositoryFactory, customUserUtil);
+    }*/
+
+    @Bean
+    public LixeiraService lixeiraService(LixeiraOperations lixeiraOperations) {
+        return new LixeiraServiceImpl(lixeiraOperations);
     }
 }

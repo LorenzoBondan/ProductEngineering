@@ -1,13 +1,13 @@
 package br.com.todeschini.lixeiraservicepersistence;
 
-import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
+import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.repositories.DynamicRepositoryFactory;
 import br.com.todeschini.libexceptionhandler.exceptions.ValidationException;
-import br.com.todeschini.lixeiraservicedomain.lixeira.api.LixeiraService;
+import br.com.todeschini.lixeiraservicedomain.events.LixeiraIncluirEvent;
+import br.com.todeschini.lixeiraservicedomain.statusupdater.StatusUpdater;
 import jakarta.persistence.*;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -15,26 +15,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.context.ApplicationEventPublisher;
 
 @Service
-public class EntityService {
+@RequiredArgsConstructor
+public class EntityService implements StatusUpdater {
 
-    @Autowired
-    private DynamicRepositoryFactory dynamicRepositoryFactory;
-    @Autowired
-    @Lazy
-    private LixeiraService lixeiraService;
+    private final DynamicRepositoryFactory dynamicRepositoryFactory;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional
     @SneakyThrows
-    public <T> void changeStatusToOther(T entity, SituacaoEnum situacaoEnum) {
+    public <T> void changeStatusToOther(T entity, DSituacaoEnum situacaoEnum) {
         updateStatusOtherRecursively(entity, situacaoEnum, new HashSet<>());
         saveEntity(entity);
     }
 
     @SneakyThrows
-    public <T> void updateStatusAtivoRecursively(T entity, SituacaoEnum newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) {
+    @Override
+    public <T> void updateStatusAtivoRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities, Boolean retrieveDependencies) {
         if (entity != null && !processedEntities.contains(entity)) {
             processedEntities.add(entity); // Adiciona o objeto atual ao conjunto de objetos processados
 
@@ -66,12 +69,12 @@ public class EntityService {
                     }
                 }
             }
-            lixeiraService.remover(entity);
+            publisher.publishEvent(new LixeiraIncluirEvent<>(entity));
         }
     }
 
     @SneakyThrows
-    private <T> void updateStatus(T entity, SituacaoEnum newStatus, Set<Object> processedEntities) {
+    private <T> void updateStatus(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities) {
         if (entity != null && !processedEntities.contains(entity)) {
             // Adiciona a entidade ao conjunto de processadas
             processedEntities.add(entity);
@@ -93,19 +96,19 @@ public class EntityService {
             }
 
             // Remove da lixeira, se aplicável
-            if (newStatus.equals(SituacaoEnum.ATIVO)) {
-                lixeiraService.remover(entity);
+            if (newStatus.equals(DSituacaoEnum.ATIVO)) {
+                publisher.publishEvent(new LixeiraIncluirEvent<>(entity));
             }
         }
     }
 
     @SneakyThrows
-    private <T> void updateStatusOtherRecursively(T entity, SituacaoEnum newStatus, Set<Object> processedEntities) {
+    private <T> void updateStatusOtherRecursively(T entity, DSituacaoEnum newStatus, Set<Object> processedEntities) {
         if (entity != null && !processedEntities.contains(entity)) {
             processedEntities.add(entity); // Adiciona o objeto atual ao conjunto de objetos processados
 
-            if (newStatus.equals(SituacaoEnum.LIXEIRA)) {
-                lixeiraService.incluir(entity);
+            if (newStatus.equals(DSituacaoEnum.LIXEIRA)) {
+                publisher.publishEvent(new LixeiraIncluirEvent<>(entity));
             }
 
             Class<?> currentClass = entity.getClass();
@@ -141,7 +144,7 @@ public class EntityService {
     }
 
     @SneakyThrows
-    private <T> void updateAuditFields(T entity, SituacaoEnum newStatus, Class<?> currentClass) {
+    private <T> void updateAuditFields(T entity, DSituacaoEnum newStatus, Class<?> currentClass) {
         Field statusField = getFieldByName(currentClass);
         if (statusField != null) {
             statusField.setAccessible(true);
@@ -222,7 +225,7 @@ public class EntityService {
     }
 
     private boolean isValidSituacao(Object situacaoValue) {
-        return situacaoValue.equals(SituacaoEnum.ATIVO) || situacaoValue.equals(SituacaoEnum.INATIVO);
+        return situacaoValue.equals(DSituacaoEnum.ATIVO) || situacaoValue.equals(DSituacaoEnum.INATIVO);
     }
 
     private boolean isManyToOneOrOneToOne(Field field) {

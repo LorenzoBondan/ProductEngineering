@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"br.com.todeschini"})
-@EnableJpaRepositories("br.com.todeschini.itemservicepersistence.*")
+@EnableJpaRepositories({"br.com.todeschini.itemservicepersistence.*", "br.com.todeschini.lixeiraservicepersistence.*"})
 @EnableFeignClients(basePackages = "br.com.todeschini")
-@EntityScan("br.com.todeschini.itemservicepersistence.*")
+@EntityScan({"br.com.todeschini.itemservicepersistence.*", "br.com.todeschini.auditpersistence.entities.*", "br.com.todeschini.lixeiraservicepersistence.*"})
 @OpenAPIDefinition(info = @Info(title = "Item API", version = "1"))
 public class ItemServiceWebapiApplication {
 
