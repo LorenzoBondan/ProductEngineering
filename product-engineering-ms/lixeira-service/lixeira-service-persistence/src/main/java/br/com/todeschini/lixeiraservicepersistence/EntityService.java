@@ -1,6 +1,7 @@
 package br.com.todeschini.lixeiraservicepersistence;
 
 import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
+import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.repositories.DynamicRepositoryFactory;
 import br.com.todeschini.libexceptionhandler.exceptions.ValidationException;
 import br.com.todeschini.lixeiraservicedomain.events.LixeiraIncluirEvent;
@@ -8,6 +9,7 @@ import br.com.todeschini.lixeiraservicedomain.statusupdater.StatusUpdater;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -18,8 +20,6 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.context.ApplicationEventPublisher;
 
 @Service
 @RequiredArgsConstructor
@@ -225,7 +225,7 @@ public class EntityService implements StatusUpdater {
     }
 
     private boolean isValidSituacao(Object situacaoValue) {
-        return situacaoValue.equals(DSituacaoEnum.ATIVO) || situacaoValue.equals(DSituacaoEnum.INATIVO);
+        return situacaoValue.equals(SituacaoEnum.ATIVO) || situacaoValue.equals(SituacaoEnum.INATIVO);
     }
 
     private boolean isManyToOneOrOneToOne(Field field) {
