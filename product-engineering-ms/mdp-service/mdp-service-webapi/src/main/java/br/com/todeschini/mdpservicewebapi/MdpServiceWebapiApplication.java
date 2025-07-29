@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"br.com.todeschini"})
-@EnableJpaRepositories("br.com.todeschini.mdpservicepersistence.*")
+@EnableJpaRepositories({"br.com.todeschini.mdpservicepersistence.*", "br.com.todeschini.lixeiraservicepersistence.*", "br.com.todeschini.itemservicepersistence.*"})
 @EnableFeignClients(basePackages = "br.com.todeschini")
-@EntityScan("br.com.todeschini.mdpservicepersistence.*")
+@EntityScan({"br.com.todeschini.mdpservicepersistence.*", "br.com.todeschini.auditpersistence.entities.*", "br.com.todeschini.lixeiraservicepersistence.*", "br.com.todeschini.itemservicepersistence.*"})
 @OpenAPIDefinition(info = @Info(title = "MDP API", version = "1"))
 public class MdpServiceWebapiApplication {
 
