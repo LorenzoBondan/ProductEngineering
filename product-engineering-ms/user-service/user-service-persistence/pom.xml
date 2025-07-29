@@ -27,6 +27,11 @@
             <artifactId>lib-specification-handler</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>br.com.todeschini</groupId>
+            <artifactId>lib-audit-persistence</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

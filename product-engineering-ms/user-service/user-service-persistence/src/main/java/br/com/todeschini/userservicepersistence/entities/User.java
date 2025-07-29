@@ -1,5 +1,6 @@
 package br.com.todeschini.userservicepersistence.entities;
 
+import br.com.todeschini.libauditpersistence.entities.AuditoriaInfo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,10 +12,10 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class User extends AuditoriaInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

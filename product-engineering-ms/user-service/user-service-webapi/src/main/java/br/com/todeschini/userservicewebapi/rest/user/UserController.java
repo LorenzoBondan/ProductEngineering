@@ -70,7 +70,7 @@ public class UserController {
         }
 
         return ResponseEntity.ok(
-                service.findAll(PageableRequest.builder()
+                service.buscar(PageableRequest.builder()
                         .page(page)
                         .pageSize(pageSize)
                         .sort(sort.toArray(String[]::new))
@@ -100,7 +100,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> searchById(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(service.find(id));
+        return ResponseEntity.ok(service.buscar(id));
     }
 
     /**
@@ -163,7 +163,7 @@ public class UserController {
                     """
             )
             DUser dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.incluir(dto));
     }
 
     /**
@@ -197,7 +197,7 @@ public class UserController {
                     """
             )
             DUser dto){
-        return ResponseEntity.ok(service.update(dto));
+        return ResponseEntity.ok(service.atualizar(dto));
     }
 
     /**
@@ -221,6 +221,39 @@ public class UserController {
     /**
      * @param codes list of Users codes to be deleted
      */
+    @Operation(summary = "Inactivate a list of Users", method = "DELETE", description = "The status of the objects is changed to 'Inactive'")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "206", description = "Partial content"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYST', 'ROLE_OPERATOR')")
+    @PatchMapping
+    public ResponseEntity<?> inactivate(@RequestParam("id") List<Integer> codes){
+        List<Integer> successfullyDeleted = new ArrayList<>(), failures = new ArrayList<>();
+
+        codes.forEach(code -> {
+            try {
+                service.inativar(code);
+                successfullyDeleted.add(code);
+            } catch (Exception e) {
+                failures.add(code);
+            }
+        });
+
+        Map<String, List<Integer>> response = Map.of(
+                "successfullyInactivated", successfullyDeleted,
+                "failures", failures
+        );
+
+        return failures.isEmpty() ? ResponseEntity.ok(response) : ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(response);
+    }
+
+    /**
+     * @param codes list of Users codes to be deleted
+     */
     @Operation(summary = "Delete a list of Users", method = "DELETE", description = "The status of the objects is changed to 'Trash'")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
@@ -236,7 +269,7 @@ public class UserController {
 
         codes.forEach(code -> {
             try {
-                service.delete(code);
+                service.excluir(code);
                 successfullyDeleted.add(code);
             } catch (Exception e) {
                 failures.add(code);

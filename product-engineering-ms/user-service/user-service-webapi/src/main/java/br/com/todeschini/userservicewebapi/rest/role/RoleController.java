@@ -69,7 +69,7 @@ public class RoleController {
         }
 
         return ResponseEntity.ok(
-                service.findAll(PageableRequest.builder()
+                service.buscar(PageableRequest.builder()
                         .page(page)
                         .pageSize(pageSize)
                         .sort(sort.toArray(String[]::new))
@@ -98,6 +98,6 @@ public class RoleController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> searchById(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(service.find(id));
+        return ResponseEntity.ok(service.buscar(id));
     }
 }

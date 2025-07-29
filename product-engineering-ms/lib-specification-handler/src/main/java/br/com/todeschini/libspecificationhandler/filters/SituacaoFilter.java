@@ -1,6 +1,5 @@
 package br.com.todeschini.libspecificationhandler.filters;
 
-import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class SituacaoFilter<T> {
 
     private static final String SITUACAO = "situacao";
-    private static final SituacaoEnum EXCLUIR_SITUACAO = SituacaoEnum.LIXEIRA;
+    private static final String EXCLUIR_SITUACAO = "LIXEIRA";
 
     /**
      * Modifica a Specification recebida adicionando a condição
