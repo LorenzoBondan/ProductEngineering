@@ -70,7 +70,7 @@ public abstract class BaseServiceImplTest<T, ID> {
 
     @Test
     void find_shouldReturn_whenExists() {
-        when(crud.find(getExistingId())).thenReturn(sample);
+        when(crud.buscar(getExistingId())).thenReturn(sample);
 
         T result = invokeFind(getExistingId());
 
@@ -84,7 +84,7 @@ public abstract class BaseServiceImplTest<T, ID> {
         Paged<T> paged = new Paged<>();
         paged.setContent(singletonList(sample));
 
-        when(crud.findAll(request)).thenReturn(paged);
+        when(crud.buscar(request)).thenReturn(paged);
 
         Paged<T> result = invokeFindAll(request);
 
@@ -95,12 +95,12 @@ public abstract class BaseServiceImplTest<T, ID> {
     @Test
     void create_shouldSucceed_whenNotDuplicated() {
         whenDuplicateCheck(null); // Optional: clear mocks
-        when(crud.insert(sample)).thenReturn(sample);
+        when(crud.incluir(sample)).thenReturn(sample);
 
         T result = invokeCreate(sample);
 
         assertNotNull(result);
-        verify(crud).insert(sample);
+        verify(crud).incluir(sample);
     }
 
     @Test
@@ -111,18 +111,18 @@ public abstract class BaseServiceImplTest<T, ID> {
         assertTrue(isDuplicated.test(sample));
 
         assertThrows(expectedDuplicateException, () -> invokeCreate(sample));
-        verify(crud, never()).insert(any());
+        verify(crud, never()).incluir(any());
     }
 
     @Test
     void update_shouldSucceed_whenNotDuplicated() {
         whenDuplicateCheck(null);
-        when(crud.update(sample)).thenReturn(sample);
+        when(crud.atualizar(sample)).thenReturn(sample);
 
         T result = invokeUpdate(sample);
 
         assertNotNull(result);
-        verify(crud).update(sample);
+        verify(crud).atualizar(sample);
     }
 
     @Test
@@ -133,16 +133,16 @@ public abstract class BaseServiceImplTest<T, ID> {
         assertTrue(isDuplicated.test(sample));
 
         assertThrows(expectedDuplicateException, () -> invokeCreate(sample));
-        verify(crud, never()).update(any());
+        verify(crud, never()).atualizar(any());
     }
 
     @Test
     void delete_shouldCallCrud() {
-        doNothing().when(crud).delete(getExistingId());
+        doNothing().when(crud).excluir(getExistingId());
 
         invokeDelete(getExistingId());
 
-        verify(crud).delete(getExistingId());
+        verify(crud).excluir(getExistingId());
     }
 
     protected abstract T invokeFind(ID id);

@@ -49,7 +49,7 @@ public abstract class BaseControllerMVCTest<T, S extends BaseService<T>> {
     protected void performFindAll(List<T> list) throws Exception {
         Paged<T> pagedItems = new Paged<>();
         pagedItems.setContent(list);
-        when(service.findAll(any(PageableRequest.class))).thenReturn(pagedItems);
+        when(service.buscar(any(PageableRequest.class))).thenReturn(pagedItems);
 
         mockMvc.perform(get(getRoute())
                         .param("columns", "")
@@ -63,17 +63,17 @@ public abstract class BaseControllerMVCTest<T, S extends BaseService<T>> {
     }
 
     protected void performFindById(Integer id) throws Exception {
-        when(service.find(id)).thenReturn(domain);
+        when(service.buscar(id)).thenReturn(domain);
 
         mockMvc.perform(get(getRoute() + "/" + id))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id));
 
-        verify(service).find(id);
+        verify(service).buscar(id);
     }
 
     protected void performCreate(T domain) throws Exception {
-        when(service.create(any())).thenReturn(domain);
+        when(service.incluir(any())).thenReturn(domain);
 
         String jsonRequest = objectMapper.writeValueAsString(domain);
 
@@ -85,7 +85,7 @@ public abstract class BaseControllerMVCTest<T, S extends BaseService<T>> {
     }
 
     protected void performUpdate(T domain, String attributeName, String attributeValue) throws Exception {
-        when(service.update(any())).thenReturn(domain);
+        when(service.atualizar(any())).thenReturn(domain);
 
         String jsonRequest = objectMapper.writeValueAsString(domain);
 
@@ -98,7 +98,7 @@ public abstract class BaseControllerMVCTest<T, S extends BaseService<T>> {
     }
 
     protected void performDelete(List<Integer> ids) throws Exception {
-        doNothing().when(service).delete(anyInt());
+        doNothing().when(service).excluir(anyInt());
 
         for (Integer id : ids) {
             mockMvc.perform(delete(getRoute())
@@ -106,6 +106,6 @@ public abstract class BaseControllerMVCTest<T, S extends BaseService<T>> {
                     .andExpect(MockMvcResultMatchers.status().isOk());
         }
 
-        verify(service, times(ids.size())).delete(anyInt());
+        verify(service, times(ids.size())).excluir(anyInt());
     }
 }

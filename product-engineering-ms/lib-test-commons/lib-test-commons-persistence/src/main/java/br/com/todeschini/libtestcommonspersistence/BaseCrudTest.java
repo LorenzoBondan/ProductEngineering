@@ -30,7 +30,7 @@ public abstract class BaseCrudTest<T, ID> {
     void findAll_shouldReturnPagedResult() {
         mockFindAll();
         PageableRequest request = createPageableRequest();
-        Paged<T> result = getCrud().findAll(request);
+        Paged<T> result = getCrud().buscar(request);
         assertNotNull(result);
         assertFalse(result.getContent().isEmpty());
     }
@@ -39,7 +39,7 @@ public abstract class BaseCrudTest<T, ID> {
     void find_shouldReturnEntity_whenIdExists() {
         ID id = getExistingId();
         mockFindById(id);
-        T result = getCrud().find(getExistingId());
+        T result = getCrud().buscar(getExistingId());
         assertNotNull(result);
     }
 
@@ -47,14 +47,14 @@ public abstract class BaseCrudTest<T, ID> {
     void find_shouldThrow_whenIdNotFound() {
         ID id = getNonExistingId();
         mockFindByIdNotFound(id);
-        assertThrows(ResourceNotFoundException.class, () -> getCrud().find(id));
+        assertThrows(ResourceNotFoundException.class, () -> getCrud().buscar(id));
     }
 
     @Test
     void insert_shouldReturnInsertedEntity() {
         T entity = createSample();
         mockInsert(entity);
-        T inserted = getCrud().insert(entity);
+        T inserted = getCrud().incluir(entity);
         assertNotNull(inserted);
     }
 
@@ -62,7 +62,7 @@ public abstract class BaseCrudTest<T, ID> {
     void update_shouldReturnUpdatedEntity() {
         T entity = createSample();
         mockUpdate(entity);
-        T updated = getCrud().update(entity);
+        T updated = getCrud().atualizar(entity);
         assertNotNull(updated);
     }
 
@@ -70,27 +70,27 @@ public abstract class BaseCrudTest<T, ID> {
     void update_shouldThrow_whenIdNotFound() {
         T entity = createSample();
         mockUpdateNotFound(entity);
-        assertThrows(ResourceNotFoundException.class, () -> getCrud().update(entity));
+        assertThrows(ResourceNotFoundException.class, () -> getCrud().atualizar(entity));
     }
 
     @Test
     void delete_shouldSucceed_whenIdExists() {
         ID id = getExistingId();
         mockDelete(id);
-        assertDoesNotThrow(() -> getCrud().delete(id));
+        assertDoesNotThrow(() -> getCrud().excluir(id));
     }
 
     @Test
     void delete_shouldThrow_whenIdNotFound() {
         ID id = getNonExistingId();
         mockDeleteNotFound(id);
-        assertThrows(ResourceNotFoundException.class, () -> getCrud().delete(id));
+        assertThrows(ResourceNotFoundException.class, () -> getCrud().excluir(id));
     }
 
     @Test
     void delete_shouldThrow_whenDatabaseViolationOccurs() {
         ID id = getExistingId();
         mockDeleteWithViolation(id);
-        assertThrows(DatabaseException.class, () -> getCrud().delete(id));
+        assertThrows(DatabaseException.class, () -> getCrud().excluir(id));
     }
 }
