@@ -28,14 +28,14 @@ public class RoleController {
     }
 
     /**
-     * @param columns represent the columns of the table to be searched
-     * @param operations represent whether the comparisons will be equality, greater than, less than, or not equal to
-     * @param values represent the values to be used as search parameters
+     * @param colunas represent the colunas of the table to be searched
+     * @param operacoes represent whether the comparisons will be equality, greater than, less than, or not equal to
+     * @param valores represent the valores to be used as search parameters
      * @param page pagination attribute, represents the page number of the search
      * @param pageSize pagination attribute, represents the total number of elements per page
      * @param sort pagination attribute, represents the sorting order
      */
-    @Operation(summary = "Search all Roles by columns, operations, and values", method = "GET")
+    @Operation(summary = "Search all Roles by colunas, operacoes, and valores", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json", schema = @Schema(
                     example = """
@@ -57,15 +57,15 @@ public class RoleController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<?> search(
-            @RequestParam(value = "columns") List<String> columns,
-            @RequestParam(value = "operations", required = false, defaultValue = "=") List<String> operations,
-            @RequestParam(value = "values", required = false) List<String> values,
+            @RequestParam(value = "colunas") List<String> colunas,
+            @RequestParam(value = "operacoes", required = false, defaultValue = "=") List<String> operacoes,
+            @RequestParam(value = "valores", required = false) List<String> valores,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
             @RequestParam(value = "sort") List<String> sort) {
 
-        if (values == null || values.isEmpty()) {
-            values = List.of("");
+        if (valores == null || valores.isEmpty()) {
+            valores = List.of("");
         }
 
         return ResponseEntity.ok(
@@ -73,9 +73,9 @@ public class RoleController {
                         .page(page)
                         .pageSize(pageSize)
                         .sort(sort.toArray(String[]::new))
-                        .columns(columns)
-                        .operations(operations)
-                        .values(values)
+                        .columns(colunas)
+                        .operations(operacoes)
+                        .values(valores)
                         .columnMap(Map.of(
                                 "id", "id",
                                 "authority", "authority"
