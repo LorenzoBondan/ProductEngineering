@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = {"br.com.todeschini"})
 @EnableJpaRepositories("br.com.todeschini.userservicepersistence.*")
 @EnableFeignClients(basePackages = "br.com.todeschini")
-@EntityScan("br.com.todeschini.userservicepersistence.*")
+@EntityScan({"br.com.todeschini.userservicepersistence.*", "br.com.todeschini.libauditpersistence.entities.*"})
 @OpenAPIDefinition(info = @Info(title = "User API", version = "1"))
 public class UserServiceWebapiApplication {
 
