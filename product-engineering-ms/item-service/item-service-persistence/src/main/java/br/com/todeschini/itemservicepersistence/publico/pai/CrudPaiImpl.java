@@ -3,6 +3,7 @@ package br.com.todeschini.itemservicepersistence.publico.pai;
 import br.com.todeschini.itemservicedomain.pai.DPai;
 import br.com.todeschini.itemservicedomain.pai.spi.CrudPai;
 import br.com.todeschini.itemservicepersistence.entities.Pai;
+import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.services.AuditoriaService;
 import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
@@ -104,6 +105,6 @@ public class CrudPaiImpl implements CrudPai {
 
     @Override
     public void excluir(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), DSituacaoEnum.LIXEIRA);
     }
 }

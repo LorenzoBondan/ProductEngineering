@@ -1,5 +1,6 @@
 package br.com.todeschini.userservicepersistence.publico.user;
 
+import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libexceptionhandler.exceptions.DatabaseException;
 import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
 import br.com.todeschini.libexceptionhandler.exceptions.ValidationException;
@@ -31,7 +32,7 @@ public class CrudUserImpl implements CrudUser {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Paged<DUser> findAll(PageableRequest request) {
+    public Paged<DUser> buscar(PageableRequest request) {
         SpecificationHelper<User> helper = new SpecificationHelper<>();
         Specification<User> specification = helper.buildSpecification(request.getColumns(), request.getOperations(), request.getValues());
 
@@ -55,18 +56,18 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    public DUser find(Integer id) {
+    public DUser buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id)));
     }
 
     @Override
-    public DUser insert(DUser obj) {
+    public DUser incluir(DUser obj) {
         obj.setPassword(passwordEncoder.encode(obj.getPassword()));
         return adapter.toDomain(repository.save(adapter.toEntity(obj)));
     }
 
     @Override
-    public DUser update(DUser obj) {
+    public DUser atualizar(DUser obj) {
         if(!repository.existsById(obj.getId())){
             throw new ResourceNotFoundException("Id not found: " + obj.getId());
         }
@@ -78,6 +79,17 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
+    public void inativar(Integer id) {
+        User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id));
+        if (entity.getSituacao() == SituacaoEnum.LIXEIRA) {
+            throw new ValidationException("Não é possível ativar/inativar um registro excluído.");
+        }
+        SituacaoEnum situacao = entity.getSituacao() == SituacaoEnum.ATIVO ? SituacaoEnum.INATIVO : SituacaoEnum.ATIVO;
+        entity.setSituacao(situacao);
+        repository.save(entity);
+    }
+
+    @Override
     public void updatePassword(String newPassword, String oldPassword, DUser user) {
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new ValidationException("Incorrect old password");
@@ -86,7 +98,7 @@ public class CrudUserImpl implements CrudUser {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void excluir(Integer id) {
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Id not found: " + id);
         }

@@ -5,6 +5,7 @@ import br.com.todeschini.itemservicedomain.material.api.MaterialService;
 import br.com.todeschini.itemservicedomain.materialusado.DMaterialUsado;
 import br.com.todeschini.itemservicedomain.materialusado.spi.CrudMaterialUsado;
 import br.com.todeschini.itemservicepersistence.entities.MaterialUsado;
+import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.services.AuditoriaService;
 import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
@@ -20,10 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -103,6 +102,6 @@ public class CrudMaterialUsadoImpl implements CrudMaterialUsado {
 
     @Override
     public void excluir(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), DSituacaoEnum.LIXEIRA);
     }
 }

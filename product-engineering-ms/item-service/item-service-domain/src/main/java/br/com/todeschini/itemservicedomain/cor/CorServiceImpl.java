@@ -3,6 +3,8 @@ package br.com.todeschini.itemservicedomain.cor;
 import br.com.todeschini.itemservicedomain.cor.api.CorService;
 import br.com.todeschini.itemservicedomain.cor.spi.CrudCor;
 import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
+import br.com.todeschini.libexceptionhandler.exceptions.DuplicatedResourceException;
+import br.com.todeschini.libvalidationhandler.metadata.DomainService;
 import br.com.todeschini.libvalidationhandler.pageable.PageableRequest;
 import br.com.todeschini.libvalidationhandler.pageable.Paged;
 import lombok.RequiredArgsConstructor;
@@ -56,11 +58,11 @@ public class CorServiceImpl implements CorService {
         for (DCor existente : registrosExistentes) {
             if (!existente.getCodigo().equals(Optional.ofNullable(domain.getCodigo()).orElse(-1))) {
                 if (DSituacaoEnum.ATIVO.equals(existente.getSituacao())) {
-                    throw new RegistroDuplicadoException("Verifique o campo descrição.");
+                    throw new DuplicatedResourceException("Verifique o campo descrição.");
                 } else if (DSituacaoEnum.INATIVO.equals(existente.getSituacao())){
-                    throw new RegistroDuplicadoException("Já existe um registro inativo com essa descrição. Reative-o antes de criar um novo.");
+                    throw new DuplicatedResourceException("Já existe um registro inativo com essa descrição. Reative-o antes de criar um novo.");
                 } else if (DSituacaoEnum.LIXEIRA.equals(existente.getSituacao())){
-                    throw new RegistroDuplicadoException("Já existe um registro com essa descrição na lixeira. Reative-o antes de criar um novo.");
+                    throw new DuplicatedResourceException("Já existe um registro com essa descrição na lixeira. Reative-o antes de criar um novo.");
                 }
             }
         }

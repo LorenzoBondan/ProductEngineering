@@ -9,12 +9,14 @@ import br.com.todeschini.libvalidationhandler.pageable.PagedBuilder;
 import br.com.todeschini.userservicedomain.role.DRole;
 import br.com.todeschini.userservicedomain.role.spi.CrudRole;
 import br.com.todeschini.userservicepersistence.entities.Role;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class CrudRoleImpl implements CrudRole {
 
     private final RoleRepository repository;
@@ -22,15 +24,8 @@ public class CrudRoleImpl implements CrudRole {
     private final RoleDomainToEntityAdapter adapter;
     private final PageRequestUtils pageRequestUtils;
 
-    public CrudRoleImpl(RoleRepository repository, RoleQueryRepository queryRepository, RoleDomainToEntityAdapter adapter, PageRequestUtils pageRequestUtils) {
-        this.repository = repository;
-        this.queryRepository = queryRepository;
-        this.adapter = adapter;
-        this.pageRequestUtils = pageRequestUtils;
-    }
-
     @Override
-    public Paged<DRole> findAll(PageableRequest request) {
+    public Paged<DRole> buscar(PageableRequest request) {
         SpecificationHelper<Role> helper = new SpecificationHelper<>();
         Specification<Role> specification = helper.buildSpecification(request.getColumns(), request.getOperations(), request.getValues());
         
@@ -49,21 +44,25 @@ public class CrudRoleImpl implements CrudRole {
     }
 
     @Override
-    public DRole find(Integer id) {
+    public DRole buscar(Integer id) {
         return adapter.toDomain(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id)));
     }
 
     @Override
-    public DRole insert(DRole obj) {
+    public DRole incluir(DRole obj) {
         return null;
     }
 
     @Override
-    public DRole update(DRole obj) {
+    public DRole atualizar(DRole obj) {
         return null;
     }
 
     @Override
-    public void delete(Integer obj) {
+    public void inativar(Integer obj) {
+    }
+
+    @Override
+    public void excluir(Integer obj) {
     }
 }

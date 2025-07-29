@@ -3,6 +3,7 @@ package br.com.todeschini.itemservicepersistence.publico.categoriacomponente;
 import br.com.todeschini.itemservicedomain.categoriacomponente.DCategoriaComponente;
 import br.com.todeschini.itemservicedomain.categoriacomponente.spi.CrudCategoriaComponente;
 import br.com.todeschini.itemservicepersistence.entities.CategoriaComponente;
+import br.com.todeschini.libauditdomain.enums.DSituacaoEnum;
 import br.com.todeschini.libauditpersistence.entities.enums.SituacaoEnum;
 import br.com.todeschini.libauditpersistence.services.AuditoriaService;
 import br.com.todeschini.libexceptionhandler.exceptions.ResourceNotFoundException;
@@ -93,6 +94,6 @@ public class CrudCategoriaComponenteImpl implements CrudCategoriaComponente {
 
     @Override
     public void excluir(Integer id) {
-        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), SituacaoEnum.LIXEIRA);
+        entityService.changeStatusToOther(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Código não encontrado: " + id)), DSituacaoEnum.LIXEIRA);
     }
 }
